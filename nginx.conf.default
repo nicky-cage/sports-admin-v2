@@ -1,0 +1,39 @@
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+server {
+    
+    listen 80;                      # 默认端口
+    server_name www.yobetnew.com;   # 设置域名
+    root ROOT;                      # 设置目录
+    index   index.html;
+
+    location /static/ {
+        #root ROOT/public;           # 设置静态文件目录, 一般指定到public目录即可
+        proxy_pass  http://shipu-develop-static.dixao.com/backend/static/; # 暂时把静态文件导到此地址,便于将来做CDN
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8818/;
+        proxy_set_header    Host             $host;
+        proxy_set_header    X-Real-IP        $remote_addr;
+        proxy_set_header    X-Forwarded-For  $proxy_add_x_forwarded_for;
+        proxy_set_header    HTTP_X_FORWARDED_FOR $remote_addr; 
+        proxy_redirect      default;
+    }
+
+    location /ws {
+        proxy_pass http://127.0.0.1:8818;
+        proxy_read_timeout 300s;
+        proxy_send_timeout 300s;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        # 升级http1.1到 websocket协议
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection  $connection_upgrade;
+    }
+}
