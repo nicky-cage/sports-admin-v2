@@ -1,0 +1,79 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding-top: 10px;">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100" />
+                        <col />
+                        <col width="100" />
+                        <col width="50" />
+                        <col width="300" />
+                        <col width="130" />
+                        <col width="300" />
+                        <col width="130" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>用户编号</th>
+                        <th>用户名称</th>
+                        <th>真实姓名</th>
+                        <th>状态</th>
+                        <th>注册IP</th>
+                        <th>注册时间</th>
+                        <th>最后登录IP</th>
+                        <th>最后登录时间</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    {%for r in rows%}
+                    <tr>
+                        <td>{{r.Id}}</td>
+                        <td><a href="#" class="sp-open-link" rid="{{r.Id}}" url="/users/detail" area="98%,98%">{{r.Username}}</a></td>
+                        <td>{{r.Realname}}</td>
+                        <td>{%if r.Status == 2 -%}<span style="color: green">正常</span>
+                            {%elif r.Status == 1 -%}<span style="color: red">已禁用</span>
+                            {%else -%}异常
+                            {%endif -%}
+                        </td>
+                        <td>
+                            <span {%if ip != "" && ip == r.RegisterIp -%}style="color:red"{%endif-%}>{{r.RegisterIp}}</span> -
+                            <span style="color:blue">{{r.RegisterIp|ip_area}}</span>
+                        </td>
+                        <td>{{r.Created|datetime}}</td>
+                        <td>
+                            <span {%if ip != "" && ip == r.LastLoginIp -%}style="color:red"{%endif-%}>{{r.LastLoginIp}}</span> -
+                            <span style="color:blue">{{r.LastLoginIp|ip_area}}</span>
+                        </td>
+                        <td>{{r.LastLoginAt|datetime}}</td>
+                    </tr>
+                    {%endfor%}
+                    {%if ip != "" -%}
+                    <tr>
+                        <td colspan="2">小计</td>
+                        <td>{{rowsCount}}</td>
+                        <td colspan="2">{{registerCount}}</td>
+                        <td colspan="2">{{lastLoginCount}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">总计</td>
+                        <td>{{rowsCount}}</td>
+                        <td colspan="4">{{totalCount}}</td>
+                    </tr>
+                    {%endif -%}
+                    {%if realName != "" -%}
+                    <tr>
+                        <td colspan="2">总计</td>
+                        <td>{{realNameCount}}</td>
+                        <td colspan="4"></td>
+                    </tr>
+                    {%endif -%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

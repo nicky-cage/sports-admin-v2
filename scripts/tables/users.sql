@@ -1,0 +1,1 @@
+alter table users add column account_id int unsigned not null default 0 comment '账号编号';

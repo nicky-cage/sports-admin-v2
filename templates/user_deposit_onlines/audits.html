@@ -1,0 +1,228 @@
+<!-- 搜索框 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline" style="width: 395px">
+                            <label class="layui-form-label">订单时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" style="width: 330px" id="created_deposits" />
+                            </div>
+                        </div>
+                        <!--<div class="layui-inline">
+                            <label class="layui-form-label" style="width: 170px;">订单金额 Order Amount</label>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" name="money_min" placeholder="￥" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" name="money_max" placeholder="￥" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>-->
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="bill_no" placeholder="请输入订单号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员等级</label>
+                            <div class="layui-input-inline">
+                                <select name="vip">
+                                    <option value="">请选择VIP等级</option>
+                                    {%for v in vipLevels %}
+                                    <option value="{{v.Id}}">{{v.Name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">申请人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="applicant" placeholder="请输入申请人" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <!--<div class="layui-inline">
+                            <label class="layui-form-label" style="width: 170px;">审核结果</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option value="">全部状态</option>
+                                    <option value="2">通过</option>
+                                    <option value="3">拒绝</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 170px;">审核人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="finance_admin" placeholder="请输入审核人" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>-->
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="150" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="120" />
+                        <col />
+                        <col width="130" />
+                        <col width="100" />
+                        <col width="120" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>订单编号</th>
+                            <th>会员账号</th>
+                            <th>会员等级</th>
+                            <th>订单金额</th>
+                            <th>到账金额</th>
+                            <th>优惠金额</th>
+                            <th>会员标签</th>
+                            <th>申请备注</th>
+                            <th>申请时间</th>
+                            <th>申请人</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/user_deposit_audits"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let $ = layui.$;
+        let form = layui.form;
+        var laydate = layui.laydate;
+        let get_user_info = function (that) {
+            //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $('td:eq(0)', tr).text();
+            return { id: id };
+        };
+        $(document).off('click', '.agree');
+        $(document).on('click', '.agree', function () {
+            let that = $(this),
+                info = get_user_info(that),
+                uid = that.attr('uid');
+            layer.confirm('您确定要通过吗？\n', { icon: 3 }, function (index) {
+                let sub = { id: info.id };
+                $('.layui-layer-btn0').addClass('layui-btn-disabled').attr('disabled', 'disabled').html('正在处理');
+                $.ajax({
+                    url: '/user_deposit_audits/agree?uid=' + uid,
+                    type: 'post',
+                    data: JSON.stringify(sub),
+                    success: function (result) {
+                        $('.layui-layer-btn0').removeClass('layui-btn-disabled').removeAttr('disabled').html('确定');
+                        if (result.errcode === 0) {
+                            layui.layer.msg(result.message, { icon: 1, timeout: 1000 }, function () {
+                                let tab_index = sp.getQuery('tab');
+                                sp.loadTab(tab_index, $(parent.document), function () {
+                                    sp.closeWin();
+                                });
+                                location.reload();
+                            });
+                        } else {
+                            layui.layer.msg(result.message, { icon: 5, timeout: 1000 }, function () {
+                                let tab_index = sp.getQuery('tab');
+                                sp.loadTab(tab_index, $(parent.document), function () {
+                                    sp.closeWin();
+                                });
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function () {
+                        $('.layui-layer-btn0').removeClass('layui-btn-disabled').removeAttr('disabled').html('确定');
+                        layui.layer.msg('提交异常', { icon: 5, timeout: 1000 }, function () {
+                            let tab_index = sp.getQuery('tab');
+                            sp.loadTab(tab_index, $(parent.document), function () {
+                                sp.closeWin();
+                            });
+                            location.reload();
+                        });
+                    },
+                });
+            });
+            return false;
+        });
+        $(document).off('click', '.refuse');
+        $(document).on('click', '.refuse', function () {
+            let that = $(this),
+                info = get_user_info(that),
+                uid = that.attr('uid');
+            layer.confirm('您确定要拒绝吗？\n', { icon: 3 }, function (index) {
+                let sub = { id: info.id };
+                $('.layui-layer-btn0').addClass('layui-btn-disabled').attr('disabled', 'disabled').html('正在处理');
+                $.ajax({
+                    url: '/user_deposit_audits/refuse?uid=' + uid,
+                    type: 'post',
+                    data: JSON.stringify(sub),
+                    success: function (result) {
+                        $('.layui-layer-btn0').removeClass('layui-btn-disabled').removeAttr('disabled').html('确定');
+                        if (result.errcode === 0) {
+                            layui.layer.msg(result.message, { icon: 1, timeout: 1000 }, function () {
+                                let tab_index = sp.getQuery('tab');
+                                sp.loadTab(tab_index, $(parent.document), function () {
+                                    sp.closeWin();
+                                });
+                                location.reload();
+                            });
+                        } else {
+                            layui.layer.msg(result.message, { icon: 5, timeout: 1000 }, function () {
+                                let tab_index = sp.getQuery('tab');
+                                sp.loadTab(tab_index, $(parent.document), function () {
+                                    sp.closeWin();
+                                });
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function () {
+                        $('.layui-layer-btn0').removeClass('layui-btn-disabled').removeAttr('disabled').html('确定');
+                        layui.layer.msg('提交异常', { icon: 5, timeout: 1000 }, function () {
+                            let tab_index = sp.getQuery('tab');
+                            sp.loadTab(tab_index, $(parent.document), function () {
+                                sp.closeWin();
+                            });
+                            location.reload();
+                        });
+                    },
+                });
+            });
+            return false;
+        });
+    });
+</script>

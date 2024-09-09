@@ -1,0 +1,45 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px;">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="120" />
+                        <col width="120" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>场馆名称</th>
+                        <th>场馆类型</th>
+                        <th>投注单数</th>
+                        <th>输赢情况(元)</th>
+                        <th>下注金额(元)</th>
+                        <th>有效下注(元)</th>
+
+                    </tr>
+                    </thead>
+                    <tbody  id="sp-loaded-table_wins"  url="/user_detail/wins">
+                    {%for r in rows%}
+                    <tr>
+                        <td>{{r.GameName}}</td>
+                        <td>{{r.GameType|game_venue_type}}</td>
+                        <td>{{r.BetNums}}</td>
+                        <td>{{r.NetMoney|stringformat:"%.2f"}}</td>
+                        <td>{{r.BetMoney|stringformat:"%.2f"}}</td>
+                        <td>{{r.ValidMoney|stringformat:"%.2f"}}</td>
+                    </tr>
+                    {%endfor%}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

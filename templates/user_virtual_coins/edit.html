@@ -1,0 +1,43 @@
+{% extends "../layouts/edit.html" %} {% block body %}
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/user_virtual_coins/save?user_id={{r.UserId}}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">币种</label>
+        <div class="layui-input-inline">
+            <select name="kind">
+                <option value="1">USDT</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">协议类型</label>
+        <div class="layui-input-inline">
+            <select name="wallet_type">
+                <option value="1">USDT - ERC20</option>
+                <option value="2" {%if r.WalletType == 2 -%}selected="selected"{%endif-%}>USDT - TRC20</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名称</label>
+        <div class="layui-input-inline">
+            <input name="user_name" lay-verify="required" placeholder="请输入用户编号" autocomplete="off" class="layui-input"
+                   value="{{r.UserName}}" {%if r.UserName != ""-%}readonly="readonly"{%endif-%} />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">付款地址</label>
+        <div class="layui-input-inline" style="width: 500px">
+            <input name="wallet_address" lay-verify="required" placeholder="请输入虚拟货币付款地址" autocomplete="off" class="layui-input"
+                   value="{{r.WalletAddress}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <textarea name="remark" class="layui-textarea" style="width: 500px; height: 100px" lay-verify="required"
+                      placeholder="请输入相关备注">{{r.Remark}}</textarea>
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

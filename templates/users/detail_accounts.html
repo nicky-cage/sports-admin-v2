@@ -1,0 +1,188 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-form">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <button class="layui-btn" type="button" id="btnAccounts"><i class="layui-icon layui-icon-refresh"></i>刷新中心钱包余额</button>
+                    <button class="layui-btn" type="button" id="btnAccounts-games"><i class="layui-icon layui-icon-refresh"></i>同步三方游戏余额</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row" style="height: auto">
+    <div class="layui-col-md6">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="120" />
+                        <col />
+                        <col width="150" />
+                        <col width="150" />
+                        <col width="150" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>游戏钱包</th>
+                            <th>三方平台游戏账号名称</th>
+                            <th>钱包余额</th>
+                            <th>游戏账号创建时间</th>
+                            <th>最后更新余额时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for g in gameAccounts -%}
+                        <tr>
+                            <td>{%if g.GameCode == "CENTERWALLET"-%}<strong>中心钱包</strong>{%else-%}{{g.GameCode}}{%endif-%}</td>
+                            <td>{{g.PlayName}}</td>
+                            <td id="wallet-{{g.GameCode}}">
+                                {%if g.Money > 0.0 -%}<span style="color: red">{{g.Money|stringformat:'%.2f'}}</span> {%else -%} <del style="color: grey">{{g.Money|stringformat:'%.2f'}}</del>
+                                {%endif -%}
+                            </td>
+                            <td>{{g.Created|datetime}}</td>
+                            <td id="updated-{{g.GameCode}}">{{g.Updated|datetime}}</td>
+                        </tr>
+                        {%endfor -%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md1">&nbsp;</div>
+    <div class="layui-col-md5">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px">
+                <form class="layui-form" mehtod="post" action="/user_detail/accounts/transfer_out">
+                    <div class="layui-form-item">
+                        <!--<button class="layui-btn all-money" type="button">全部</button>-->
+                        <button class="layui-btn user-recovery" type="button">一键回收所有场馆</button>
+                        <button class="layui-btn layui-bg-red" id="user-force" type="button">一键强制回收</button>
+                    </div>
+                    <div class="layui-form-item" style="margin-top: 50px">
+                        <label class="layui-form-label" style="width: 120px">请选择转出场馆</label>
+                        <div class="layui-input-inline">
+                            <select name="code" lay-verify="required">
+                                <option>请选择场馆</option>
+                                {%for r in gameAccounts%}
+                                <option value="{{r.GameCode}}">{{r.GameCode}}</option>
+                                {%endfor -%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 120px">转出金额</label>
+                        <div class="layui-input-inline">
+                            <input name="money" lay-verify="required" placeholder="请输入转出金额" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="hidden" name="id" value="{{userId}}" />
+                        <button class="layui-btn" lay-submit lay-filter="sp-save">提交转出</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{{STATIC_URL}}/js/date-range-util.js"></script>
+<script>
+    layui.use(['jquery', 'form', 'layer'], function () {
+        let $ = layui.jquery,
+            form = layui.form,
+            layer = layui.layer;
+        form.render('select');
+        let setWalletMoney = function (game_code, money) {
+            if (money > 0) {
+                $('#wallet-' + game_code).html("<span style='color:red'>" + money + '</span>');
+            } else {
+                $('#wallet-' + game_code).html(money);
+            }
+            let currentTime = function () {
+                let now = new Date();
+                let current = dateRangeUtil.formatDatetime(now);
+                return current;
+            };
+            $('#updated-' + game_code).html(currentTime());
+        };
+
+        // 中心钱包余额
+        $('#btnAccounts').on('click', function () {
+            sp.get('/user_detail/account_async?id={{userId}}', function (result) {
+                if (result.errcode == 0) {
+                    let accounts = result.data;
+                    setWalletMoney('CENTERWALLET', accounts);
+                }
+            });
+        });
+
+        // 同步游戏场馆余额
+        $('#btnAccounts-games').on('click', function () {
+            sp.get('/user_detail/account_async?id={{userId}}&code=game', function (result) {
+                if (result.errcode == 0) {
+                    let accounts = result.data;
+                    for (let i = 0; i < accounts.length; i++) {
+                        let item = accounts[i];
+                        setWalletMoney(item.code, item.account);
+                    }
+                }
+            });
+        });
+
+        // 场馆单个转出
+        $('.all-money').click(function () {
+            let code = $("select[name='code'] option:selected").attr('value');
+            if (code == undefined) {
+                layer.msg('请选择场馆', {icon: 2, timeout: 1000});
+            } else {
+                $("input[name='money']").val($('.txt' + code).html());
+            }
+        });
+
+        // 一键回收所有场馆
+        $('.user-recovery').click(function () {
+            let id = $("input[name='id']").val();
+            $.ajax({
+                url: '/user_detail/accounts_recovery',
+                type: 'get',
+                data: {id: id},
+                success: function (data) {
+                    if (data.errcode == 0) {
+                        layer.msg('回收成功', {icon: 1, timeout: 1000}, function () {
+                            parent.location.reload();
+                        });
+                    } else {
+                        layer.msg('回收失败', {icon: 2, timeout: 1000});
+                    }
+                },
+            });
+        });
+
+        // 一键强制回收
+        $(document).on('click', '#user-force', function () {
+            let message = '警告: <br />此功能用于强制回收所有问题钱包<br />此功能限系统升级/维护出现问题时使用<br />请务必谨慎确认执行此项操作!<br /><br />' + '你确定要执行此项操作么?';
+            let userId = $("input[name='id']").val();
+            sp.confirm(
+                message,
+                function () {
+                    $.ajax({
+                        url: '/user_detail/accounts_recovery',
+                        type: 'get',
+                        data: {id: userId, code: 'force', index: 0},
+                        success: function (data) {
+                            if (data.errcode == 0) {
+                                layer.msg('回收成功', {icon: 1, timeout: 1000}, function () {
+                                    parent.location.reload();
+                                });
+                            } else {
+                                layer.msg('回收失败', {icon: 2, timeout: 1000});
+                            }
+                        },
+                    });
+                },
+                '重要提醒 - 一键强制回收'
+            );
+        });
+    });
+</script>

@@ -1,0 +1,24 @@
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Month}}</td>
+    <td>{{r.TopName}}</td>
+    <td>{{r.LowerNum}}</td>
+    <td>{{r.ActiveNum}}</td>
+    <td>{{r.Deposit|stringformat:"%.2f"}}</td>
+    <td>{{r.Withdraws|stringformat:"%.2f"}}</td>
+    <td>{{r.FinalWinLose|stringformat:"%.2f"}}</td>
+    <td>{{r.GameVenueCost|stringformat:"%.2f"}}</td>
+    <td>{{r.Dividends|stringformat:"%.2f"}}</td>
+    <td>{{r.Rebate|stringformat:"%.2f"}}</td>
+    <td>{{r.WinLoseAdjust|stringformat:"%.2f"}}</td>
+    <td>{{r.NetProfit|stringformat:"%.2f"}}</td>
+    <td>{{r.LastBalance|stringformat:"%.2f"}}</td>
+    <td>{{r.WashedWin|stringformat:"%.2f"}}</td>
+    <td>{{r.Rate}}</td>
+    <td>{{r.CommissionAdjust|stringformat:"%.2f"}}</td>
+    <td>{{r.Balance|stringformat:"%.2f"}}</td>
+    <td>{{r.RiskAdmin}}</td>
+    <td>{{r.RiskProcessAt}}</td>
+
+</tr>
+{%endfor%}

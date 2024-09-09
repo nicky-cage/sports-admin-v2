@@ -1,0 +1,104 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" method="post" action="/user_account_audits/save_do" lay-filter="component-form-element">
+                <div class="layui-card-header" style="color: blue">订单信息</div>
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px">订单号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="bill_no" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.bill_no}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px">会员账号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="username" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.username}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px">会员等级</label>
+                        <div class="layui-input-inline">
+                            <input
+                                type="text"
+                                name="vip"
+                                lay-verify="required"
+                                placeholder=""
+                                autocomplete="off"
+                                disabled
+                                class="layui-input layui-disabled"
+                                value="{%if r.vip==''%}{% else %}VIP{{r.vip-1}}{% endif %}"
+                            />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px">操作金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="money" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.money}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px">类型</label>
+                        <div class="layui-input-inline">
+                            <input
+                                type="text"
+                                name="type"
+                                lay-verify="required"
+                                placeholder=""
+                                autocomplete="off"
+                                disabled
+                                class="layui-input layui-disabled"
+                                value="{% if r.type=='1' %}上分{% else %}下分{% endif %}"
+                            />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px">原因</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="reason" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.reason}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px">申请人</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="applicant" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.applicant}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px">申请时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="created" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.created}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text" style="margin-left: 10px">
+                        <label class="layui-form-label">申请备注</label>
+                        <div class="layui-input-inline">
+                            <textarea name="applicant_remark" placeholder="自动填充已选择的拒绝原因,可在此基础上编辑" disabled class="layui-textarea layui-disabled">{{r.applicant_remark}}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card-header" style="color: blue">拒绝备注</div>
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item layui-form-text" style="margin-left: 10px">
+                        <label class="layui-form-label">拒绝备注</label>
+                        <div class="layui-input-inline">
+                            <textarea name="audit_remark" lay-verify="required" placeholder="自动填充已选择的拒绝原因,可在此基础上编辑" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <input type="hidden" value="{{r.id}}" name="id" />
+                    <input type="hidden" value="{{r.user_id}}" name="uid" />
+                    <input type="hidden" value="3" name="status" />
+                    <input type="hidden" value="{{r.vip}}" name="user_vip" />
+                    <div class="layui-input-inline" style="margin-left: 135px; margin-bottom: 10px; margin-top: 10px; width: 300px">
+                        <button class="layui-btn" lay-submit lay-filter="sp-save">提交</button>
+                        <button class="layui-btn layui-btn-primary sp-btn-cancel">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

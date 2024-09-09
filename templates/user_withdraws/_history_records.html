@@ -1,0 +1,93 @@
+{% if rows -%}
+{% for r in rows %}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.Vip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.TransactionFee|stringformat:"%.2f"}}</td>
+    <td>{%if r.WithdrawCost > 0 -%}<span style="color: red">{{r.WithdrawCost|stringformat:"%.2f"}}</span>
+        {%else -%}{{r.WithdrawCost|stringformat:"%.2f"}}
+        {%endif -%}
+    </td>
+    {% set actual_money = r.Money - r.WithdrawCost %}
+    <td>{{actual_money|float|stringformat:"%.2f"}}</td>
+    <td>
+        {%if r.Status != 2 && r.Status != 1 %}<del>{{r.ActualMoney|stringformat:"%.2f"}}</del>
+        {%elif r.ActualMoney > actual_money %}<span class="red">{{r.ActualMoney|stringformat:"%.2f"}}</span>
+        {%elif r.ActualMoney == actual_money %}<span class="green">{{r.ActualMoney|stringformat:"%.2f"}}</span>
+        {%elif r.ActualMoney < actual_money %}<span class="layui-bg-orange"> {{r.ActualMoney|stringformat:"%.2f"}} </span>
+            {%else%}{{r.ActualMoney|stringformat:"%.2f"}}
+            {%endif%}
+    </td>
+    <td>{{r.Label|platform_wrap:PLATFORM|user_labels|safe}}</td>
+    <td>{{r.BankRealname}}/{{r.BankName}}/{{r.BankCard}}/{{r.BankAddress}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>
+        {%if r.BusinessType == 0 %}否{%elif r.BusinessType == 1 %}是{%else%}未知{%endif%}
+    </td>
+    <td>{{r.RiskProcessAt}}</td>
+    <td>{{r.RiskAdmin}}</td>
+    <td>{{r.FinanceProcessAt}}</td>
+    <td>{{r.FinanceAdmin}}</td>
+    <td style="word-wrap: break-word; word-break: break-word; ">{{r.CardNumber}}
+        {%if r.BusinessType == 1 %}
+        <br />shipu代付
+        {%else%}
+        {%endif%}
+    </td>
+    <td>{{r.Remark}}</td>
+    <td>
+        {%if r.Status == 1 %}处理中
+        {%elif r.Status == 2 %}<span class="green">成功</span>
+        {%else%}<span class="red">失败</span>{%endif%}
+    </td>
+    <td>
+        <button class="layui-btn layuiadmin-btn-list alog" url="/user_withdraw_logs?uid={{r.UserId}}" uid="{{r.UserId}}" area="600px,500px" tab="0" data-type="add">日志</button>
+    </td>
+</tr>
+{% endfor %}
+<tr>
+    <td colspan="2"><span style="color: red;">小计(当前页面)</span></td>
+    <td colspan="2">{{total_page.Total}}</td>
+    <td><span style="color: red;">{{total_page.Order|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: blue;">{{total_page.Fee|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: green;">{{total_page.Cost|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red;">{{total_page.Real|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red;">{{total_page.Withdraw|stringformat:"%.2f"}}</span></td>
+    <td colspan="12">
+        总计: <span style="color: red">{{total_page.Order|stringformat:'%.2f'}}</span> 元 /
+        实际出款: <span style="color: red">{{total_page.Withdraw|stringformat:'%.2f'}}</span> 元 /
+        成功率: <span style="color: green">{{total_page.Rate|stringformat:'%.2f'}}%</span>
+    </td>
+</tr>
+<tr>
+    <td colspan="2"><span style="color: red;">小计(本次查询)</span></td>
+    <td colspan="2">{{total_query.Total}}</td>
+    <td><span style="color: red;">{{total_query.Order|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: blue">{{total_query.Fee|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: green;">{{total_query.Cost|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red;">{{total_query.Real|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red;">{{total_query.Withdraw|stringformat:"%.2f"}}</span></td>
+    <td colspan="12">
+        总计: <span style="color: red">{{total_query.Order|stringformat:'%.2f'}}</span> 元 /
+        实际出款: <span style="color: red">{{total_query.Withdraw|stringformat:'%.2f'}}</span> 元 /
+        成功率: <span style="color: green">{{total_query.Rate|stringformat:'%.2f'}}%</span>
+    </td>
+</tr>
+<tr>
+    <td colspan="2"><span style="color: red;">总计</span></td>
+    <td colspan="2">{{total_all.Total}}</td>
+    <td><span style="color: red;">{{total_all.Order|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: blue;">{{total_all.Fee|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: green;">{{total_all.Cost|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red;">{{total_all.Real|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red;">{{total_all.Withdraw|stringformat:"%.2f"}}</span></td>
+    <td colspan="12">
+        总计: <span style="color: red">{{total_all.Order|stringformat:'%.2f'}}</span> 元 /
+        实际出款: <span style="color: red">{{total_all.Withdraw|stringformat:'%.2f'}}</span> 元 /
+        成功率: <span style="color: green">{{total_all.Rate|stringformat:'%.2f'}}%</span>
+    </td>
+</tr>
+{% endif -%}

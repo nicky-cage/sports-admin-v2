@@ -1,0 +1,88 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form" method="post" action="/commission_levels/save_do" lay-filter="component-form-element">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;">每日最高返水</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="day_max_water" lay-verify="required" value="{{day_max_water}}" placeholder="请输入金额" autocomplete="off" class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-brief">
+                            <ul class="layui-tab-title">
+                                {% for r in venue %}
+                                <li {% if r.id=="1" %} class="layui-this" {% endif %}>{{r.name}}</li>
+                                {% endfor %}
+                            </ul>
+                            <div class="layui-tab-content">
+                                {% for r in venue %}
+                                <div class="layui-tab-item {% if r.name=='AG真人' %}layui-show{% endif %}">
+                                    <div class="layui-row layui-col-space15">
+                                        <div class="layui-col-md12">
+                                            <div class="layui-card">
+                                                <table class="layui-table">
+                                                    <colgroup>
+                                                        <col width="100">
+                                                        <col width="100">
+                                                        <col width="100">
+                                                        <col>
+                                                    </colgroup>
+                                                    <thead>
+                                                    <tr style="color: black;">
+                                                        <th>序号</th>
+                                                        <th>名称</th>
+                                                        <th>返水比例(%)</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for p in child %}
+                                                    {% if p.type_id==r.id %}
+                                                    <tr>
+                                                        <td>{{p.id}}</td>
+                                                        <td>{{p.name}}</td>
+                                                        <td>{{p.ratio}}</td>
+                                                    </tr>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['form'], function() {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+        $(function(){
+            $(".layui-this").click();
+            {% for r in venue %}
+            $("button[rel='{{r.id}}']").on('click',function(){
+                let v=$("input[name='batch_settings_{{r.id}}']").val();
+                $("input[rel='{{r.id}}']").attr("value",v);
+                return false;
+            });
+            {% endfor %}
+        })
+    });
+</script>
+{% endblock body %}

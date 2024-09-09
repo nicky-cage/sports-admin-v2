@@ -1,0 +1,117 @@
+
+<div class="layui-row" >
+    <div class="layui-col-md12">
+        <div class="layui-card">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 100px;">客服系统切换</label>
+                        <div class="layui-input-inline">
+                            <select  name="customer_service">
+                                <option></option>
+                                {%for k,c in customer_list-%}
+                                <option value="{{k}}"  {%if k==r.CustomerService%}selected{%endif%}>{{c}}</option>
+                                {%endfor-%}
+                            </select>
+                        </div>
+                        <div class="layui-input-inline"><button class="layui-btn popular-sub-f">确定</button></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 100px;">短信通道切换</label>
+                        <div class="layui-input-inline">
+                            <select  name="message_channel">
+                                <option></option>
+                                {%for k,c in channel_list-%}
+                                <option value="{{k}}" {%if k==r.MessageChannel%}selected{%endif%}>{{c}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="layui-input-inline"><button class="layui-btn popular-sub-s">确定</button></div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 100px;">客服</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="customer_service_url"  placeholder="请输入客服地址" autocomplete="off" class="layui-input" value="{{t.CustomerServiceUrl}}" />
+                        </div>
+                        <div class="layui-input-inline"><button class="layui-btn ser-sub-f">确定</button></div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form', 'jquery', 'layer'],function() {
+        let $ = layui.$;
+        let form = layui.form;
+        $(".popular-sub-s").click(function(){
+            a=$("select[name='message_channel'] option:checked").val()
+           $.ajax({
+               url:"/popular/save",
+               type:"post",
+               data:JSON.stringify({"message_channel":a,"id":1}),
+               success:function(data){
+                   if (data.errcode==0){
+                       layui.layer.msg("操作成功", {icon: 1, time: 1500},function() {
+                           window.location.reload();
+                       })
+                   }else{
+                       layui.layer.msg("操作失败", {icon: 2, time: 1500},function() {
+                       })
+                   }
+               }
+           })
+        });
+
+
+        $(".popular-sub-f").click(function(){
+            a=$("select[name='customer_service'] option:checked").val()
+            $.ajax({
+                url:"/popular/save",
+                type:"post",
+                data:JSON.stringify({"customer_service":a,"id":1}),
+                success:function(data){
+                    if (data.errcode==0){
+                        layui.layer.msg("操作成功", {icon: 1, time: 1500},function() {
+                            window.location.reload();
+                        })
+                    }else{
+                        layui.layer.msg("操作失败", {icon: 2, time: 1500},function() {
+                        })
+                    }
+                }
+            })
+        });
+
+        $(".ser-sub-f").click(function(){
+
+          let  url=$("input[name='customer_service_url']").val();
+
+
+            if (url.search("http")==0||url.search("https")==0){
+                $.ajax({
+                    url:"/popular/save",
+                    type:"post",
+                    data:JSON.stringify({"customer_service_url":url,"id":1}),
+                    success:function(data){
+                        if (data.errcode==0){
+                            layui.layer.msg("操作成功", {icon: 1, time: 1500},function() {
+                                window.location.reload();
+                            })
+                        }else{
+                            layui.layer.msg("操作失败", {icon: 2, time: 1500},function() {
+                            })
+                        }
+                    }
+                })
+            }else{
+                layer.open({
+                    title:"温馨提示",
+                    content:"请输入带http地址",
+                });
+                return false
+            }
+
+        });
+    })
+    </script>

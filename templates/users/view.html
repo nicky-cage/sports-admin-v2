@@ -1,0 +1,70 @@
+<div class="layui-row" style="overflow: auto">
+    <div class="layui-col-md12">
+        <div class="layui-tab" lay-filter="sp-lazy-load">
+            <ul class="layui-tab-title">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/detail", 4) -%}
+                <li class="layui-this" style="padding: 0px 15px; margin: 0px">基本信息</li>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/accounts", 6) -%}
+                <li style="padding: 0px 15px; margin: 0px">账户信息</li>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/wins", 6) -%}
+                <li style="padding: 0px 15px; margin: 0px">输赢信息</li>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/deposits", 6) -%}
+                <li style="padding: 0px 15px; margin: 0px">存款信息</li>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/withdraws", 6) -%}
+                <li style="padding: 0px 15px; margin: 0px">提款信息</li>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/dividends", 6) -%}
+                <li style="padding: 0px 15px; margin: 0px">红利信息</li>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/commissions", 6) -%}
+                <li style="padding: 0px 15px; margin: 0px">返水信息</li>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/transfers", 6) -%}
+                <li style="padding: 0px 15px; margin: 0px">平台转账</li>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/resets", 6) -%}
+                <li style="padding: 0px 15px; margin: 0px">账户调整</li>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/changes", 6) -%}
+                <li style="padding: 0px 15px; margin: 0px">账变记录</li>
+                {%endif -%}
+            </ul>
+            <div class="layui-tab-content" style="padding: 15px 0px">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/detail", 4) -%}
+                <div class="layui-tab-item sp-tab-body layui-show" style="overflow: auto; overflow-x: hidden;">{% include "detail_profile.html" %}</div>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/accounts", 6) -%}
+                <div class="layui-tab-item sp-tab-body" url="/user_detail/accounts?id={{user.Id}}" style="overflow: auto"></div>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/wins", 6) -%}
+                <div class="layui-tab-item sp-tab-body" url="/user_detail/wins?id={{user.Id}}" style="overflow: auto"></div>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/deposits", 6) -%}
+                <div class="layui-tab-item sp-tab-body" url="/user_detail/deposits?id={{user.Id}}" tab="4" style="overflow: auto"></div>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/withdraws", 6) -%}
+                <div class="layui-tab-item sp-tab-body" url="/user_detail/withdraws?id={{user.Id}}" tab="5" style="overflow: auto"></div>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/dividends", 6) -%}
+                <div class="layui-tab-item sp-tab-body" url="/user_detail/dividends?id={{user.Id}}" style="overflow: auto; overflow-x: hidden;"></div>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/commissions", 6) -%}
+                <div class="layui-tab-item sp-tab-body" url="/user_detail/commissions?id={{user.Id}}" style="overflow: auto"></div>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/transfers", 6) -%}
+                <div class="layui-tab-item sp-tab-body" url="/user_detail/transfers?id={{user.Id}}" style="overflow: auto; overflow-x: hidden;"></div>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/resets", 6) -%}
+                <div class="layui-tab-item sp-tab-body" url="/user_detail/resets?id={{user.Id}}" style="overflow: auto"></div>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/changes", 6) -%}
+                <div class="layui-tab-item sp-tab-body" url="/user_detail/changes?id={{user.Id}}" tab="10" style="overflow: auto"></div>
+                {%endif -%}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;">监控时间周期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="fullname" disabled  value="{{r.monitor_times}}" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;">支付冻结时间</label>
+                            <div class="layui-input-inline">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;">按支付总数</label>
+                            <div class="layui-input-inline">
+                                <input type="text" disabled name="fullname" lay-verify="required" value="{{r.counts_frozen_time}}" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;">按支付方式</label>
+                            <div class="layui-input-inline">
+                                <input type="text" disabled name="fullname" lay-verify="required" value="{{r.mehtod_frozen_time}}" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;">提醒提示语</label>
+                            <div class="layui-input-inline">
+                                <textarea name="remark" disabled placeholder="如有需要经填写，不超过500个字" class="layui-textarea">{{r.remind_context}}</textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;">冻结提示语</label>
+                            <div class="layui-input-inline">
+                                <textarea name="remark" disabled  placeholder="如有需要经填写，不超过500个字" class="layui-textarea">{{r.forzen_context}}</textarea>
+                            </div>
+                        </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form'], function() {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+        $(document).on("click", ".cancel", function() {
+            let index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+            parent.layer.close(index);
+        });
+    });
+</script>
+{% endblock body %}

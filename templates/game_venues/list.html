@@ -1,0 +1,28 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-col-md12">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-tab" lay-filter="sp-lazy-load">
+                <ul class="layui-tab-title">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/game_venues", 4) -%}
+                    <li class="layui-this">场馆钱包列表</li>
+                    {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/game_venues/games", 4) -%}
+                    <li>场馆游戏列表</li>
+                    {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/games", 4) -%}
+                    <li>电子游戏列表</li>
+                    {%endif -%}
+                </ul>
+                <div class="layui-tab-content">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/game_venues", 4) -%}
+                    <div class="layui-tab-item layui-show" url="/game_venues">{% include "i_list.html" %}</div>
+                    {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/game_venues/games", 4) -%}
+                    <div class="layui-tab-item" url="/game_venues/games">{% include "games.html" %}</div>
+                    {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/games", 4) -%}
+                    <div class="layui-tab-item" url="/games">{% include "../games/list.html" %}</div>
+                    {%endif -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

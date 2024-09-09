@@ -1,0 +1,95 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="2">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员名称" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">回复人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="admin" placeholder="请输入回复人" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">消息类型</label>
+                            <div class="layui-input-inline">
+                                <select name="message_type">
+                                    <option>{{messageType}}</option>
+                                    {%for k,r in messageType-%}
+                                    <option value="{{k}}">{{r}}</option>
+                                    {%endfor-%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登录类型</label>
+                            <div class="layui-input-inline">
+                                <select name="login_id">
+                                    <option></option>
+                                    <option value="2">H5</option>
+                                    <option value="3">App</option>
+                                    <option value="1">Web</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">时间范围</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="created_cards" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col />
+                        <col width="100" />
+                        <col width="165" />
+                        <col width="125" />
+                        <col width="115" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>会员名称</th>
+                            <th>消息类型</th>
+                            <th>登录类型</th>
+                            <th>玩家评论</th>
+                            <th>官方回复</th>
+                            <th>回复人</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="feedback-tbody">
+                        {%include "_list.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

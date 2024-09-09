@@ -1,0 +1,50 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<p><strong>|- 基本信息</strong></p>
+<table class="layui-table" lay-size="sm" style="border: 1px solid black;">
+    <colgroup>
+        <col width="120" />
+        <col />
+    </colgroup>
+    <tr> <td>订单号</td> <td>{{r.bill_no}}</td> </tr>
+    <tr> <td>会员账号</td> <td>{{r.username}}</td> </tr>
+    <tr> <td>会员等级</td> <td>VIP{{r.vip}}</td> </tr>
+    <tr> <td>提款人姓名</td> <td>{{r.bank_real_name}}</td> </tr>
+    <tr> <td>提款金额</td> <td>{{r.money|float|stringformat:"%.2f"}}</td> </tr>
+    <tr> <td>行政费用</td> <td>{{r.withdraw_cost|float|stringformat:"%.2f"}}</td> </tr>
+    {% set actual_money = r.money - r.withdraw_cost%}
+    <tr> <td>实需出款</td> <td>{{actual_money|float|stringformat:"%.2f"}} &nbsp;(提款金额 - 行政费用)</td> </tr>
+    <tr> <td>手续费用</td> <td>{{r.transaction_fee|float|stringformat:"%.2f"}}</td> </tr>
+    <tr> <td>实已出款</td> <td>{{r.actual_money|float|stringformat:"%.2f"}}</td> </tr>
+    <tr> <td>提款银行卡信息</td> <td>{{r.bank_name}}|{{r.bank_real_name}}|{{r.bank_card}}|{{r.address}}</td> </tr>
+    <tr> <td>上笔存款金额</td> <td>{{r.last_money|float|stringformat:"%.2f"}}</td> </tr>
+    <tr> <td>订单状态</td> <td>{%if r.w_status=="1"%}待处理{%elif r.w_status=="2"%}出款成功{%else%}出款失败{%endif%}</td> </tr>
+    <tr> <td>申请时间</td> <td>{{r.created|time_type_chang}}</td> </tr>
+</table>
+
+<p><strong>|- 风控审核信息</strong></p>
+<table class="layui-table" lay-size="sm" style="border: 1px solid black;">
+    <colgroup>
+        <col width="120" />
+        <col/>
+    </colgroup>
+    <tr> <td>系统审核结果</td> <td>{{r.sys_result}}</td> </tr>
+    <tr> <td>风控审核人</td> <td>{{r.risk_admin}}</td> </tr>
+    <tr> <td>审核备注</td> <td>{{r.remark}}</td> </tr>
+    <tr> <td>风控审核时间</td> <td>{{r.risk_process_at|time_type_chang}}</td> </tr>
+</table>
+
+<p><strong>|- 财务审核信息</strong></p>
+<table class="layui-table" lay-size="sm" style="border: 1px solid black;">
+    <colgroup>
+        <col width="120" />
+        <col />
+    </colgroup>
+    <tr> <td>财务操作人员</td> <td>{{r.finance_admin}}</td> </tr>
+    <tr> <td>财务分配人</td> <td>{%if r.finance_admin!=""%}{{r.risk_admin}}{%endif%}</td> </tr>
+    <tr> <td>出款类型</td> <td>{%if r.business_type=="0"%}银行卡出款{%else%}ShiPu代付{%endif%}</td> </tr>
+    <tr> <td>出款卡号</td> <td>{%if r.finance_admin!=""%}{{r.card_number}}{%endif%}</td> </tr>
+    <tr> <td>财务备注</td> <td>{%if r.finance_admin!=""%}{{r.f_remark}}{%endif%}</td> </tr>
+    <tr> <td>财务审核时间</td> <td>{%if r.finance_admin!=""%}{{r.finance_process_at}}{%endif%}</td> </tr>
+</table>
+{% endblock body %}

@@ -1,0 +1,52 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" style="margin-bottom: 80px;">
+    <div class="layui-form-item" style="margin-bottom: 80px;">
+        <div id="menu-tree"></div>
+    </div>
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.use(['tree', 'layer', 'util', 'jquery', 'form'], function() { 
+        let tree = layui.tree, layer = layui.layer, util = layui.util, $ = layui.jquery, form = layui.form;
+        let data = [
+            {%for v1 in menus -%}
+            {%if forloop.Counter > 1 -%},{%endif%}{title: '{{v1.Name}}', id: {{v1.Id}}, field: 'menu_{{v1.Id}}', checked: true, spread: true, children: [
+                {%for v2 in v1.Children -%}
+                {%if forloop.Counter > 1 -%},{%endif%}{title: '{{v2.Name}}', id: {{v2.Id}}, field: 'menu_{{v2.Id}}', checked:true, spread: true, children: [
+                    {%for v3 in v2.Children -%}
+                    {%if forloop.Counter > 1 -%},{%endif%}{title: '{{v3.Name}}', id: {{v3.Id}}, field: '', children: [
+                        {% for v4 in v3.Children -%}
+                        {%if forloop.Counter > 1 -%},{%endif%}{title: '{{v4.Name}}', id: {{v4.Id}}, field: '', children: [
+                            {%for v5 in v4.Children -%}
+                            {%if forloop.Counter > 1 -%},{%endif%}{title: '{{v5.Name}}', id: {{v5.Id}}, field: '', children: [
+                                {%for v6 in v5.Children -%}
+                                {%if forloop.Counter > 1 -%},{%endif%}{title: '{{v6.Name}}', id: {{v6.Id}}, field: ''}
+                                {%endfor -%}
+                            ]}
+                            {%endfor -%}
+                        ]}
+                        {%endfor -%}
+                    ]}
+                    {%endfor -%}
+                ]}
+                {%endfor -%}
+            ]}
+            {%endfor -%}
+        ];
+
+        tree.render({
+            elem: "#menu-tree",
+            data: data,
+            showCheckbox: true,  //是否显示复选框
+            click: function(obj) { 
+
+            }
+        });
+        
+        form.on("checkbox()", function(data) { 
+
+        });
+    });
+</script>
+{%endblock%}

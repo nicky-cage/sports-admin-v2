@@ -1,0 +1,63 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/version/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">App-设备类型</label>
+        <div class="layui-input-inline">
+            <select name="app_type">
+                <option></option>
+                <option value="1" {%if r.AppType==1%}selected{%endif%}>安卓</option>
+                <option value="2" {%if r.AppType==2%}selected{%endif%}>苹果</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">App类型名称</label>
+        <div class="layui-input-inline">
+            <select name="game_type">
+                <option></option>
+                <option value="0" {%if r.GameType==0%}selected{%endif%}>会员</option>
+                <option value="1" {%if r.GameType==1%}selected{%endif%}>代理</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">版本号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="versions" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Versions}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">升级号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="promotion" lay-verify="" placeholder="" autocomplete="off" class="layui-input" value="{{r.Promotion}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">URL</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="text" name="updated_url" lay-verify="" placeholder="" autocomplete="off" class="layui-input" value="{{r.UpdatedUrl}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备用url</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="text" name="spare_url" lay-verify="" placeholder="" autocomplete="off" class="layui-input" value="{{r.SpareUrl}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">更新日志</label>
+        <div class="layui-input-inline" style="width: 380px;" >
+            <textarea name="updated_log" placeholder="" class="layui-textarea">{{r.UpdatedLog}}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否强制更新</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="must" value="1" title="不强制" {%if r.Must==1%}checked{%endif%}>
+            <input type="radio" name="must" value="2" title="强制"  {%if r.Must==2%}checked{%endif%}>
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

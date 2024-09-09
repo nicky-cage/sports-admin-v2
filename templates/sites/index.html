@@ -1,0 +1,58 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="sp-lazy-load">
+                    <ul class="layui-tab-title">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/helps", 4) -%}
+                        <li class="layui-this">帮助中心</li>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/site_maintains", 3) -%}
+                        <li>维护设置</li>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/parameter_groups", 4) -%}
+                        <li>通用配置</li>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/deposit_limits", 4) -%}
+                        <li>存款限制</li>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/banks", 4) -%}
+                        <li>银行列表</li>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/versions", 4) -%}
+                        <li>版本配置</li>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/source_materials", 4) -%}
+                        <li>推广素材</li>
+                        {%endif -%}
+                        <!--<li class="layui-this">基本信息</li>-->
+                        <!--<li>PC底部信息</li>-->
+                    </ul>
+                    <div class="layui-tab-content">
+                        <!--<div class="layui-tab-item layui-show">{# include "../configs/edit.html" #}</div>-->
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/helps", 4) -%}
+                        <div class="layui-tab-item layui-show" url="/helps">{% include "../helps/list.html" %}</div>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/site_maintains", 3) -%}
+                        <div class="layui-tab-item" url="/site_maintains">
+                            {% include "../site_maintains/list.html" %}
+                        </div>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/parameter_groups", 4) -%}
+                        <div class="layui-tab-item" url="/parameter_groups">
+                            {% include "../parameter_groups/list.html" %}
+                        </div>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/deposit_limits", 4) -%}
+                        <div class="layui-tab-item" url="deposit_limits">
+                            {% include "../deposit_limits/index.html" %}
+                        </div>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/banks", 4) -%}
+                        <div class="layui-tab-item" url="/banks">{% include "../banks/list.html" %}</div>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/versions", 4) -%}
+                        <div class="layui-tab-item" url="/versions">{% include "../site_versions/list.html" %}</div>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/source_materials", 4) -%}
+                        <div class="layui-tab-item" url="/source_materials">
+                            {% include "../source_materials/list.html" %}
+                        </div>
+                        {%endif -%}
+                        <!--<div class="layui-tab-item" url="/site_bottoms">{# include "../site_bottoms/list.html" #}</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

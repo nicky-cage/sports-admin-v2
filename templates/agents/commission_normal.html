@@ -1,0 +1,163 @@
+
+    <table  class="layui-table"  >
+        <colgroup>
+            <col width="80" />
+            <col width="80" />
+            <col width="80" />
+            <col width="80"/>
+            <col width="80" />
+        </colgroup>
+        <tr id="tb1">
+            <td>佣金等级</td>
+            <td>等级名称</td>
+            <td>活跃会员</td>
+            <td>总输赢</td>
+            <td>佣金比例%</td>
+        </tr>
+        <tbody id="pl-to">
+        <tr><td>1</td><td>一星代理</td><td><input type="text" name="f-a" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" name="f-f" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td>
+        </tr>
+        <tr><td>2</td><td>二星代理</td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td>
+        </tr>
+        <tr><td>3</td><td>三星代理</td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td>
+        </tr>
+        <tr><td>4</td><td>四星代理</td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td>
+        </tr>
+        <tr><td>5</td><td>五星代理</td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td>
+        </tr>
+        <tr><td>6</td><td>六星代理</td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td><td><input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>举例说明：</p>
+    <p>1、活跃会员数量：一星代理要求活跃会员数大于等于5，小于10；总输赢一星代理要求输赢大于等于1.00，小于50000.00；即大于等于1星填写的数值，小于二星填写的数值；</p>
+    <p>2、后续星级的数值一定要大于前面星级，如果填写有误，保存时候，无法保存，框内红色字体提示</p>
+    <p> 3、如只填写1星，其他星级为空，则该方案就1个佣金比例配置</p>
+    <p>4、默认为6个星级，点击下面的新增佣金等级按钮，则会增加1个新的星级；</p>
+    <p>5、点击编辑/保存，则保存本方案；</p>
+    <p>6、方案名必填，最大10个汉字长度</p>
+
+    <div class="layui-layout-admin com-sub" style="margin:0 150px;">
+        <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+            <button type="button" class="layui-btn le-ap">新增佣金等级</button>
+            <button type="button" class="layui-btn layui-btn-primary co-sa" >保存</button>
+        </div>
+    </div>
+
+<script>
+    layui.use(['form', 'jquery', 'layer'], function() {
+        let $ = layui.$
+        let layer = layui.layer;
+        let form=layui.form;
+        form.render('select')
+        let i=1;
+        let arr =["七星代理","八星代理","九星代理","十星代理"]
+        $(".le-ap").click(function(){
+            let b= $("#pl-to tr").length
+            let html="";
+            html =html+"<tr>";
+            html =html+"<td>"+(b+1)+"</td>";
+            html =html+"<td>"+arr[b-6]+"</td>";
+            html =html+"<td><input type='text' style='border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;'></td>";
+            html =html+"<td><input type='text' style='border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;'></td>";
+            html =html+"<td><input type='text' style='border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;'></td>";
+            $("#pl-to").append(html)
+        });
+
+        $(".co-sa").click(function(){
+            let plan=$("input[name='agent_commission']").val()
+            if (plan=="" || plan.length>10){
+                layer.open({
+                    title:"温馨提示",
+                    content:"请填写正确的方案名"
+                })
+                return false;
+            }
+
+            let a=$("input[name='f-f']").val()
+            let c=$("input[name='f-a']").val()
+
+            if (c<1 || c>10){
+                layer.open({
+                    title:"温馨提示",
+                    content:"一星代理要求活跃会员数大于等于1，小于10；"
+                })
+                return false;
+            }
+            if (a<1 ||a>50000){
+                layer.open({
+                    title:"温馨提示",
+                    content:"总输赢一星代理要求输赢大于等于1.00，小于50000.00；"
+                })
+                return false;
+            }
+            let b= $("#pl-to tr").length
+
+
+            var arraylist={};
+            let se=["","level_id", "level","active_num","negative_profit","rate"];
+            for (let i=1;i<=b;i++){
+                var arr={};
+                for(let v=1;v<=5;v++){
+                    if (v>2){
+
+                        let a =$("#pl-to tr:nth-child("+i+") td:nth-child("+v+") input").val()
+                        if(i>=2){
+                            if (parseInt(arraylist[i-2][se[v]])>parseInt(a) && a!=""){
+
+                                $("#pl-to tr:nth-child("+i+") td:nth-child("+v+") input").css("border","2px solid red");
+                                layer.open({
+                                    title:"温馨提示",
+                                    content:"必须大于上一级的数值"
+                                })
+                                return false;
+                            }
+                        }
+                        arr[se[v]]=a
+                    }else{
+                        let a= $("#pl-to tr:nth-child("+i+") td:nth-child("+v+")").html();
+                        arr[se[v]]=a;
+                        arr["agent_commission"]=plan
+                    }
+
+                }
+
+                arraylist[i-1]=arr
+            }
+            arraylist["mode"]="1"
+            $.ajax({
+                url:"/agents/commissions/plan/add",
+                type:"post",
+                data:JSON.stringify(arraylist),
+                success:function(data) {
+                    if (data.errcode == 0) {
+                        layui.layer.msg("添加成功", {icon: 1, timeout: 1000}, function() {
+                            parent.location.reload()
+                        });
+                    } else {
+                        layer.open({
+                            title: "温馨提示",
+                            content: "添加失败",
+                        })
+                    }
+                }
+            })
+        });
+
+        form.on('select(commission_type)',function(data){
+            let mode=null;
+            if (data.value==2){
+                //占城
+                mode=2
+            } else{
+                //普通
+                mode=1
+            }
+            let url="/agents/commissions/create_mode?mode="+mode
+            $(".commission_mode_content").load(url,function(){
+                sp.renderSwitch();
+            })
+        })
+    })
+
+</script>

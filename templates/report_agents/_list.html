@@ -1,0 +1,40 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Date}}</td>
+    <!--<td>{{r.Id}}</td>-->
+    <td>{{r.Username}}</td>
+    <!--<td>{%if r.AgentType == 0 %}普通代理{%else%}官方代理{%endif%}</td>-->
+    <td>{{r.RegisteredNumber}}</td>
+    <td>{{r.BetNumber}}</td>
+    <td>{{r.DepositsNumber}}</td>
+    <td>{{r.FirstDepositNumber}}</td>
+    <td>{{r.WithdrawalsNumber}}</td>
+    <td>{{r.DepositAmount|stringformat:"%.2f"}}</td>
+    <td>{{r.FirstDepositAmount|stringformat:"%.2f"}}</td>
+    <td>{{r.WithdrawalAmount|stringformat:"%.2f"}}</td>
+    <td>{{r.ValidBet|stringformat:"%.2f"}}</td>
+    <td>{{r.TotalNetMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.DividendMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.RebateMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.WinLoseAdjustment|stringformat:"%.2f"}}</td>
+</tr>
+{% endfor %}
+<tr>
+    <td>小计</td>
+    <!--<td></td>-->
+    <td></td>
+    <!--<td></td>-->
+    <td>{{pageRegisteredNumber}}</td>
+    <td>{{pageBetNumber}}</td>
+    <td>{{pageDepositsNumber}}</td>
+    <td>{{pageFirstDepositNumber}}</td>
+    <td>{{pageWithdrawalsNumber}}</td>
+    <td>{{pageDepositAmount|stringformat:"%.2f"}}</td>
+    <td>{{pageFirstDepositAmount|stringformat:"%.2f"}}</td>
+    <td>{{pageWithdrawalAmount|stringformat:"%.2f"}}</td>
+    <td>{{pageValidBet|stringformat:"%.2f"}}</td>
+    <td>{{pageTotalNetMoney|stringformat:"%.2f"}}</td>
+    <td>{{pageDividendMoney|stringformat:"%.2f"}}</td>
+    <td>{{pageRebateMoney|stringformat:"%.2f"}}</td>
+    <td>{{pageWinLoseAdjustment|stringformat:"%.2f"}}</td>
+</tr>

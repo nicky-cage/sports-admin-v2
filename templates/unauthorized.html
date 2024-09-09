@@ -1,0 +1,11 @@
+{% extends "layouts/base.html" %}
+{% block body %}
+<script>
+    layui.use(['layer'], function() {
+        let layer = layui.layer;
+        layer.alert("{{message}}", {icon: 5}, function() {
+            (window !== top ? top : window).location.href = "/";
+        });
+    });
+</script>
+{% endblock %}

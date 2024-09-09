@@ -1,0 +1,19 @@
+{% for r in rows %}
+<tr  {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.UserId}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.TopName}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td style="word-break: break-all;">{{r.BankName}}/{{r.BankRealname}}/{{r.BankCard}}/{{r.BankAddress}}</td>
+    <td>{{r.Remark}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/withdraws/saves", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list pass" data-type="add" tab="1" bill="{{r.BillNo}} " user="{{r.Username}}" id="{{r.Id}}">通过</button>
+            <button class="layui-btn layuiadmin-btn-list layui-btn-danger  defu" tab="1" bill="{{r.BillNo}} " user="{{r.Username}}"  id="{{r.Id}}" data-type="add">拒绝</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

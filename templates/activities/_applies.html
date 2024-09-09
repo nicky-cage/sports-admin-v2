@@ -1,0 +1,39 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td><input type="checkbox" name="id" value="{{r.Id}}" lay-filter="id" lay-filter="sp-form-checkbox"  lay-skin="primary"></td>
+    <td>{{r.Id}}</td>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.Username}}</td>
+    <td>
+        {% if r.MoneyType==1 %}中心钱包{% else %}{{r.Venue}}{% endif %}
+    </td>
+    <td>{{r.Type|dividend_type}}</td>
+    <td>
+        {% if r.FlowLimit==1 %}否{% else %}是{% endif %}
+    </td>
+    <td>{{r.FlowMultiple}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.Applicant}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.ApplicantRemark}}</td>
+    <td>
+        <button class="layui-btn layuiadmin-btn-list agree"  data-type="add">同意</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger refuse" data-type="add">拒绝</button>
+    </td>
+</tr>
+{% endfor %}
+<tr>
+    <td></td>
+    <td></td>
+    <td><span style="color: red">合计</span></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><span style="color: red">{{sum_money|stringformat:"%.2f"}}</span></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>

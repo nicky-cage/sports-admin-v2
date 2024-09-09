@@ -1,0 +1,35 @@
+{%if rows %}
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.id}}</td>
+    <td>{{r.bill_no}}</td>
+    <td>{{r.username}}</td>
+    <td>VIP{{r.vip}}</td>
+    <td>{{r.money|float|stringformat:"%.2f"}}</td>
+    <td>
+    	{% set withdrawCost = r.withdraw_cost|float -%}
+        {%if withdrawCost > 0 -%}<span style="color:red">{{withdrawCost|stringformat:"%.2f"}}</span>
+        {%else -%}{{withdrawCost|stringformat:"%.2f"}}
+        {%endif -%}
+    </td>
+    {% set actual_money = r.money|float - r.withdraw_cost|float %}
+    <td>{{actual_money|float|stringformat:"%.2f"}}</td>
+    <td>{{r.created|time_type_chang}}</td>
+    <td>{{r.UserLabel|safe}}</td>
+    <td>{{r.bank_real_name }}</td>
+    <td style="word-break: break-all; cursor: pointer;" class="sp-alert"
+        text="{{r.bank_name}}<br />{{r.bank_real_name}}<br />{{r.bank_card}}<br />{{r.bank_address}}">{{r.bank_card|truncatechars:10}}</td>
+    <td>{{r.last_money|float|stringformat:"%.2f"}}</td>
+    <td>{{r.sys_result}}</td>
+    <td>{{r.risk_admin}}</td>
+    <td>{{r.remark}}</td>
+    <td>{{r.risk_process_at|time_type_chang}}</td>
+    <td>{% if r.status=="2"%}完成{%else%}<span style="color: orangered">处理中<span>{%endif%}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/history_detail", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list sp-open-link " url="/risk_audits/history_detail" title="审核详情" area="600px,650px" rid="{{r.bill_no}}" data-type="add">详情</button>
+        {%endif -%}
+    </td>
+</tr>
+{%endfor%}
+{%endif%}

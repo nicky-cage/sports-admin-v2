@@ -1,0 +1,119 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="component-form-element" method="post" action="/user_deposit_hrs/mistake_do">
+                <div class="layui-card-header" style="color: blue;">订单信息</div>
+                <div class="layui-form-item" style="margin-top: 20px;">
+                    <label class="layui-form-label">会员账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" disabled value="{{r.Username}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" >存款姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="created" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" disabled value="{{r.DepositName}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" >订单号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="order_no" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" disabled value="{{r.OrderNo}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" >存款金额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="money" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" disabled value="{{r.Money|stringformat:"%.2f"}}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" >收款银行卡</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="card_number_s" style="width: 300px;" autocomplete="off" class="layui-input layui-disabled" disabled value="{{r.AccountByName}}">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-top: 17px;">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">选择银行卡</label>
+                        <div class="layui-input-inline">
+                            <select name="card_number_id" lay-verify="required" lay-search="" disabled="disabled">
+                                {% for p in dr -%}
+                                <option value="{{p.Id}}" pcard_number_id="{{p.Id}}"  {% if r.CardNumber == p.CardNumber%}selected {%endif%}>{{p.BankName}} - {{p.BankCard}}</option>
+                                {% endfor -%}
+                            </select>
+                        </div>
+                        <div class="layui-input-inline" style="width: 100px;margin-top: -15px;">
+                            <input type="checkbox" name="" title="修改" lay-filter="card_edit" lay-skin="primary">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">财务备注</label>
+                    <div class="layui-input-inline">
+                        <textarea name="remark" lay-verify="required" style="width: 300px;" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" >当前状态</label>
+                    <div class="layui-input-inline sp-form-label">
+                        {% if r.Status == 3 -%}<span class="red">失败</span>
+                        {% elif r.Status == 2 -%}<span class="green">成功</span>
+                        {% elif r.Status == 1 -%}待确认
+                        {% else -%}未知状态 - {{r.Status}}
+                        {% endif -%}
+                    </div>
+                </div>
+                <input type="hidden" value="{{r.Updated}}" name="interval_start" />
+                <input type="hidden" value="{{r.Id}}" name="id" />
+                <div class="layui-form-item">
+                    <label class="layui-form-label">&nbsp;</label>
+                    <div class="layui-input-inline" style="margin-bottom: 10px;margin-top: 10px;width: 300px;">
+                        {% if r.Status == 3 %}
+                        <button class="layui-btn" lay-submit lay-filter="save-status" pvalue="3_3">保存修改</button>
+                        <button class="layui-btn" lay-submit lay-filter="save-status" pvalue="3_2">转为成功</button>
+                        {% elif r.Status == 2 %}
+                        <button class="layui-btn" lay-submit lay-filter="save-status" pvalue="2_2">保存修改</button>
+                        <button class="layui-btn" lay-submit lay-filter="save-status" pvalue="2_3">转为失败</button>
+                        <button class="layui-btn" lay-submit lay-filter="save-status" pvalue="2_30">仅失败不扣款</button>
+                        {% else %}订单状态异常
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','jquery', 'form', 'layer'], function() {
+        let $ = layui.jquery, form = layui.form, layer = layui.layer;
+
+        // 切换银行卡片
+        form.on('checkbox(card_edit)', function(data){
+            if(data.elem.checked) {
+                $("select[name='card_number_id']").removeAttr("disabled").removeAttr("readonly");
+                form.render("select");
+            } else {
+                $("select[name='card_number_id']").attr("disabled","disabled").attr("readonly",true);
+                form.render("select");
+            }
+        });
+
+        form.on("submit(save-status)", function(data) {
+            let that = $(data.elem), value = that.attr("pvalue"); data.field.submit = value;
+            that.addClass("layui-btn-disabled").prop("disabled", true);
+            sp.post("/user_deposit_hrs/mistake_do?uid={{r.UserId}}", data.field, function(result) {
+                that.removeClass("layui-btn-disabled").prop("disabled", false);
+                layer.msg(result.message, {icon: 5, timeout: 1000}, function() {
+                    sp.closeAndReload(2);
+                });
+            }, function() {
+                that.removeClass("layui-btn-disabled").prop("disabled", false);
+            });
+            return false;
+        });
+    });
+</script>
+{% endblock body %}

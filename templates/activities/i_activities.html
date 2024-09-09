@@ -1,0 +1,120 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">展示时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="show_time" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime"
+                                       style="width: 330px" id="created_activities" readonly="readonlye" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">标题</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">活动类型</label>
+                            <div class="layui-input-inline">
+                                <select name="activity_type" lay-search="">
+                                    <option value="">全部</option>
+                                    <option value="1">限时活动</option>
+                                    <option value="2">新人首存</option>
+                                    <option value="3">日常活动</option>
+                                    <option value="4">体育优惠</option>
+                                    <option value="5">高额返水</option>
+                                    <option value="6">VIP特权</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="state">
+                                    <option value="">全部</option>
+                                    <option value="1">关闭</option>
+                                    <option value="2">开启</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    <button class="layui-btn layuiadmin-btn-list add" data-type="add">新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col />
+                        <col />
+                        <col />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="250" />
+                        <col width="250" />
+                        <col width="80" />
+                        <col width="60" />
+                        <col width="130" />
+                        <col width="100" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>标题</th>
+                            <th>Web专题</th>
+                            <th>移动端专题</th>
+                            <th>活动类型</th>
+                            <th>内容形式</th>
+                            <th>活动时间</th>
+                            <th>展示时间</th>
+                            <th>状态</th>
+                            <th>排序</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/activities" loaded="loaded">
+                        {% include "_activities.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'form', 'laydate'], function () {
+        let $ = layui.jquery;
+        $('.add').on('click', function () {
+            layer.open({
+                skin: 'activity',
+                type: 2,
+                area: ['98%', '98%'],
+                shade: 0.5,
+                title: '添加',
+                content: '/activities/add',
+            });
+        });
+    });
+</script>

@@ -1,0 +1,167 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layui-form-item layuiadmin-card-header-auto">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" placeholder="请输入用户名称" autocomplete="off" class="layui-input" id="name" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">角色</label>
+                        <div class="layui-input-inline">
+                            <select name="role_id" id="role_id">
+                                <option value="">请选择角色</option>
+                                {%for k, v in admin_roles %}
+                                <option value="{{k}}">{{v.Name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">账号状态</label>
+                        <div class="layui-input-inline">
+                            <select name="state" id="state">
+                                <option value="">请选择状态</option>
+                                <option value="0">禁用</option>
+                                <option value="1">正常</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                        <button class="layui-btn" type="button" id="btnReset">重置</button>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/admins/create", 4) -%}
+                    <button class="layui-btn sp-open-link" url="/admins/create" area="600px,600px">新增账号</button>
+                    {%endif -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="180" />
+                        <col width="100" />
+                        <col width="130" />
+                        <col width="130" />
+                        <col width="200" />
+                        <col />
+                        <col width="60" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="50" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>账号</th>
+                            <th>昵称</th>
+                            <th>邮箱账号</th>
+                            <th>角色</th>
+                            <th>创建时间</th>
+                            <th>最后登录时间</th>
+                            <th>授权IP</th>
+                            <th>最后登录IP/地区</th>
+                            <th>在线</th>
+                            <th>状态</th>
+                            <th>Google验证</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/admins">
+                        {% include "_list.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery'], function () {
+        let $ = layui.jquery;
+        $(document).on('click', '#btnReset', function () {
+            $('form:first')[0].reset();
+        });
+    });
+
+    layui.use(['form', 'jquery', 'layer'], function () {
+        let $ = layui.$, form = layui.form, layer = layui.layer;
+        form.on("switch(sta)", function (data) {
+            layer.open({
+                title: "温馨提示",
+                content: "确定要修改吗",
+                btn: ["取消", "确定"],
+                btn2: function () {
+                    let that = $(data.elem);
+                    let name = that.attr("name");
+                    let current_text = data.othis[0].innerText;
+                    let values_array = that.attr("values").split("|");
+                    let texts = that.attr("lay-text");
+                    for (let i = 0, arr = texts.split("|"); i < arr.length; i++) {
+                        if (current_text == arr[i]) {
+                            let value = values_array[i];
+                            let id = that.attr("rid");
+                            if (!id) {
+                                id = $("td:first", that.parent().parent().parent()).txt();
+                            }
+                            let key = "to_" + name;
+                            let url = that.attr("url") + "?id=" + id + "&" + key + "=" + value;
+                            sp.get(url, function (result) {
+                                if (result.errcode == 0) {
+                                    layui.layer.msg("状态修改成功", { icon: 1, time: 1300 }, function () {
+                                        window.location.reload()
+                                    });
+                                } else {
+                                    layui.layer.msg(result.message, { icon: 2 });
+                                }
+                            });
+                        }
+                    }
+                },
+                btn1: function () {
+                    //先按确定，然后按取消。 有时候会bug  renderswitch 不加载
+                    //确认的时候
+                    sp.renderSwitch();
+                    layer.closeAll()
+                },
+            })
+        });
+
+        // 将用户T下线
+        $(document).on("click", ".sp-btn-confirm", function () {
+            let that = $(this), adminId = that.attr("pid"), url = "/admins/kick?id=" + adminId, adminName = that.attr("pname");
+            let message = "当前选中用户: " + adminName + "<br /><br />确定要将这个用户踢下线么?";
+            layer.confirm(message, { icon: 3, title: "后台操作提示" }, function () {
+                sp.get(url, function (result) {
+                    if (result.errcode == 0) {
+                        layui.layer.msg("操作成功", { icon: 1, time: 1000 }, function () {
+                            that.parent().html("");
+                        });
+                    }
+                });
+            });;
+        });
+    });
+</script>
+{% endblock body %}

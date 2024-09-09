@@ -1,0 +1,87 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入用户名称" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body layui-form">
+                <input type="checkbox" title="注册校验" value="1" code="1" style="float:left;" />
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="100" />
+                        <col width="120" />
+                        <col width="70" />
+                        <col width="120" />
+                        <col width="70" />
+                        <!---->
+                        <col width="70" />
+                        <col width="120" />
+                        <col width="70" />
+                        <col width="120" />
+                        <col width="70" />
+                        <!---->
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="80" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>会员编号</th>
+                            <th>会员名称</th>
+                            <th>首存时间</th>
+                            <th>首存金额</th>
+                            <th>末存时间</th>
+                            <th>末存金额</th>
+                            <!---->
+                            <th>存款次数</th>
+                            <th>首提时间</th>
+                            <th>首提金额</th>
+                            <th>末提时间</th>
+                            <th>末提金额</th>
+                            <!---->
+                            <th>提款次数</th>
+                            <th>存款总计</th>
+                            <th>提款总计</th>
+                            <th>存送总计</th>
+                            <th>活动总计</th>
+                            <!---->
+                            <th>调整总计</th>
+                            <th>上分总计</th>
+                            <th>红利总计</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/user_audits"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

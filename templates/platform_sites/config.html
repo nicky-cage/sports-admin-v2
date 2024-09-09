@@ -1,0 +1,63 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/platform_sites/config_save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">站点名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="site_name" lay-verify="required" placeholder="请输入站点名称, 例如: xx体育" autocomplete="off" class="layui-input" value="{{conf.SiteName}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">平台标识</label>
+        <div class="layui-input-inline">
+            <input type="text" name="platform" lay-verify="required" placeholder="请输入平台标识, 例如: tianji" autocomplete="off" class="layui-input" value="{{conf.Platform}}" />
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">MYSQL</label>
+        <div class="layui-input-inline" style="width: 600px;">
+            <input type="text" name="conn_strings" lay-verify="required" placeholder="请输入MYSQL数据库连接信息" autocomplete="off" class="layui-input" value="{{conf.ConnStrings}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Redis</label>
+        <div class="layui-input-inline" style="width: 600px;">
+            <input type="text" name="redis_strings" lay-verify="required" placeholder="请输入Redis连接信息" autocomplete="off" class="layui-input" value="{{conf.RedisStrings}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">ElasticSearch</label>
+        <div class="layui-input-inline" style="width: 600px;">
+            <input type="text" name="elastic_strings" lay-verify="required" placeholder="请输入ElasticSearch信息" autocomplete="off" class="layui-input" value="{{conf.ElasticStrings}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Kafka</label>
+        <div class="layui-input-inline" style="width: 600px;">
+            <input type="text" name="kafka_strings" lay-verify="required" placeholder="请输入Kafka信息" autocomplete="off" class="layui-input" value="{{conf.KafkaStrings}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">支付信息</label>
+        <div class="layui-input-inline" style="width: 600px;">
+            <input type="text" name="pay_strings" lay-verify="required" placeholder="请输入支付信息, 模式: ID:KEY" autocomplete="off" class="layui-input" value="{{conf.PayStrings}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">静态文件URL</label>
+        <div class="layui-input-inline" style="width: 600px;">
+            <input type="text" name="static_url" lay-verify="required" placeholder="请输入静态文件url" autocomplete="off" class="layui-input" value="{{conf.StaticURL}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">上传文件URL</label>
+        <div class="layui-input-inline" style="width: 600px;">
+            <input type="text" name="upload_url" lay-verify="required" placeholder="请输入上传文件url" autocomplete="off" class="layui-input" value="{{conf.UploadURL}}" />
+        </div>
+    </div>
+    <input type="hidden" name="platform_id" value="{{platformID}}" />
+    <input type="hidden" name="site_id" value="{{siteID}}" />
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

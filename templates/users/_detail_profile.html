@@ -1,0 +1,48 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header"><strong>基本属性</strong></div>
+            <div class="layui-card-body" style="padding: 0px">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100" />
+                        <col width="100" />
+                        <col />
+                        <col width="300" />
+                        <col width="80" />
+                        <col width="200" />
+                        <col width="240" />
+                        <col width="200" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>会员账号</th>
+                        <th>姓名</th>
+                        <th>会员标签</th>
+                        <th>电话/邮箱/微信/QQ</th>
+                        <th>中心钱包</th>
+                        <th>注册IP/最近登录IP</th>
+                        <th>注册时间/最近登录时间</th>
+                        <th>收货地址</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{user.Username}}</td>
+                        <td>{{user.RealName}}</td>
+                        <td>{{user.Label|user_labels|safe}}</td>
+                        <td>{%if is_granted(PLATFORM, ADMIN.RoleId, "/users/show_im", 6) -%} {{user.Phone}}/{{user.Email}}/{{user.WeChat}}/{{user.Qq}} {%else -%} - {%endif -%}</td>
+                        <td>{{money.Available|stringformat:"%.2f"}}</td>
+                        <td>{{user.RegisterIp}}/{{user.CurrentIp}}</td>
+                        <td>{{user.Created|datetime}}/{{user.LastLoginAt|datetime}}</td>
+                        <td>
+                            {{user.ProvinceId|platform_wrap:PLATFORM|province}} {{user.CityId|platform_wrap:PLATFORM|city}}| {{user.DistrictId|platform_wrap:PLATFORM|district}}| {{user.Address}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

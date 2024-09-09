@@ -1,0 +1,182 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline" style="width: 435px">
+                            <label class="layui-form-label">申请时间</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input sp-form-datetime" id="created_withdraw_hrs" name="created" placeholder="请选择时间" style="width: 330px" type="text" />
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="width: 435px">
+                            <label class="layui-form-label">完成时间</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input sp-form-datetime" id="created_withdraw_cs" name="updated" placeholder="请选择时间" style="width: 330px" type="text" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option value="">全部</option>
+                                    <option value="2">成功</option>
+                                    <option value="3">失败</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" name="username" placeholder="请输入会员账号" type="text" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单金额</label>
+                            <div class="layui-input-inline" style="width: 100px">
+                                <input autocomplete="off" class="layui-input" name="money_min" placeholder="￥" type="text" />
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 100px">
+                                <input autocomplete="off" class="layui-input" name="money_max" placeholder="￥" type="text" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单号码</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" name="bill_no" placeholder="请输入订单号" type="text" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">风控审核</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" name="risk_admin" placeholder="请输入风控审核人" type="text" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">出款人</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" name="finance_admin" placeholder="请输入出款人" type="text" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代付</label>
+                            <div class="layui-input-inline">
+                                <select name="business_type">
+                                    <option value="">全部</option>
+                                    <option value="0">否</option>
+                                    <option value="1">是</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-filter="sp-form-search" lay-submit>
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    <button class="layui-btn layuiadmin-btn-list sp-export-excel" data-type="export" url="/user_withdraw_hrs/export">导出EXecl</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="140" />
+                        <col width="100" />
+                        <col width="110" />
+                        <col width="120" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="120" />
+                        <col />
+                        <col width="70" />
+                        <col width="50" />
+                        <col width="120" />
+                        <col width="90" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="60" />
+                        <col width="50" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>订单号</th>
+                            <th>会员账号</th>
+                            <th>会员等级</th>
+                            <th>订单金额</th>
+                            <th>手续费</th>
+                            <th>行政费</th>
+                            <th>实需出款</th>
+                            <th>实已出款</th>
+                            <th>会员标签</th>
+                            <th>银行卡信息</th>
+                            <th>申请时间</th>
+                            <th>代付</th>
+                            <th>风控审核时间</th>
+                            <th>风控审核人</th>
+                            <th>完成时间</th>
+                            <th>出款人</th>
+                            <th>出款卡号/商户</th>
+                            <th>备注</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/user_withdraw_hrs"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let $ = layui.$,
+            form = layui.form,
+            laydate = layui.laydate;
+        let get_user_info = function (that) {
+            //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $('td:eq(0)', tr).text();
+            let bill_no = $('td:eq(1)', tr).text();
+            return { id: id, bill_no: bill_no };
+        };
+        $(document).off('click', '.alog');
+        $(document).on('click', '.alog', function () {
+            let info = get_user_info($(this)),
+                that = $(this),
+                uid = that.attr('uid');
+            layer.open({
+                type: 2,
+                area: ['800px', '600px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade: 0.4,
+                title: '日志记录',
+                content: '/user_withdraw_logs?bill_no=' + info.bill_no + '&uid=' + uid,
+            });
+        });
+    });
+</script>

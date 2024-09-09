@@ -1,0 +1,94 @@
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="1">
+                <div class="layui-form  layui-form-item layuiadmin-card-header-auto">
+
+                    <div class="layui-form-item" style="margin-top:20px;">
+                            <label class="layui-form-label" >比赛类型</label>
+                            <div class="layui-input-inline">
+                                <input type="radio" name="type" title="足球" lay-skin="primary" value="1" >
+                                <input type="radio" name="type" title="篮球" lay-skin="primary" value="2"  >
+                            </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">开赛时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请输入时间" autocomplete="off" class="layui-input sp-form-datetime" style="width: 200px;" id="matchs_time" readonly />
+                            </div>
+                        </div>
+                        <div class="layui-inline"  style="margin-left: 30px;">
+                            <label class="layui-form-label">联赛名称</label>
+                            <div class="layui-input-inline">
+                                <input name="league_name" placeholder="请输入联赛名称" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">队伍名称</label>
+                            <div class="layui-input-inline">
+                                <input name="team_name" placeholder="请输入队伍名称" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th rowspan="2">序号</th>
+                        <th colspan="4">纳米数据</th>
+                        <th colspan="4">BTI数据</th>
+                        <th rowspan="2">审核时间</th>
+                        <th rowspan="2">审核人</th>
+                        <th rowspan="2">操作</th>
+                    </tr>
+                    <tr>
+
+                        <th>开赛时间</th>
+                        <th>联赛名称</th>
+                        <th>主队名称</th>
+                        <th>客队名称</th>
+                        <th>开赛时间</th>
+                        <th>联赛名称</th>
+                        <th>主队名称</th>
+                        <th>客队名称</th>
+
+                    </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/match_games">{% include "_i_list.html" %}</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

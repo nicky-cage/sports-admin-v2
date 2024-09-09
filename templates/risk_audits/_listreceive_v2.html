@@ -1,0 +1,30 @@
+{%for r in rows -%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%} >
+    <td>{{r.bill_no}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/detail", 4) -%}
+        <a href="javascript:void(0)" class="sp-open-link agents" rid="{{r.user_id}}" url="/users/detail" area="98%,98%">{{r.username}}</a>
+        {%else -%}{{r.username}}
+        {%endif -%}
+    </td>
+    <td>VIP{{r.vip}}</td>
+    <td>{{r.money|float|stringformat:"%.2f"}}</td>
+    <td>
+    	{% set withdrawCost = r.withdraw_cost|float -%}
+        {%if withdrawCost > 0 -%}<span style="color:red">{{withdrawCost|stringformat:"%.2f"}}</span>
+        {%else -%}{{withdrawCost|stringformat:"%.2f"}}
+        {%endif -%}
+    </td>
+    <td>{{r.created|datetime}}</td>
+    <td>{{r.user_label|safe}}</td>
+    <td>{{r.bank_name}}/{{r.bank_realname}}/{{r.bank_card}}</td>
+    <td>{{r.last_money}}</td>
+    <td>-</td>
+	<td>{{r.risk_process_at}}</td>
+	<td>{{r.failure_reason}}</td>
+	<td>
+        <button class="layui-btn rece" id="{{r.id}}" username="{{r.username}}"
+			bill_no="{{r.bill_no}}" vip="{{r.vip-1}}" last_money="{{r.last_money}}">领取</button>
+	</td>
+</tr>
+{%endfor -%}

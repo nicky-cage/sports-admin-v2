@@ -1,0 +1,90 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入标题关键字" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">所属代理</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="top_name" placeholder="请输入时间" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">场馆名称</label>
+                            <div class="layui-input-inline">
+                                <select name="venue_type">
+                                    <option></option>
+                                    {%for v in venue_type%}
+                                    <option value="{{v.code}}-{{v.venue_type}}">{{v.name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">投注时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="off" autocomplete="off" readonly="readonly" id="cre" class="layui-input sp-form-date">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col width="150" />
+                        <col width="150" />
+                        <col width="200" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="165" />
+                        <col width="165" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员/代理账号</th>
+                            <th>所属代理</th>
+                            <th>场馆名称</th>
+                            <th>输赢</th>
+                            <th>投注金额</th>
+                            <th>有效投注</th>
+                            <th>投注时间</th>
+                            <th>结算时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/agents/logs">
+                        {%include "_games.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.EnName}}</td>
+    <td>{{r.CnName}}</td>
+    <td>{{r.GameCode}}</td>
+    <td>{{r.VenueType|game_venue_type}}</td>
+  <!--  <td>r.PlatformTypes|game_support_type</td>-->
+    <td>{{r.DisplayTypes|game_display_type}}</td>
+    <td>{{r.Sort}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/games/state", 4) -%}
+            <input type="checkbox" name="is_online" lay-skin="switch" lay-text="上线|下线" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.IsOnline}}" url="/games/state" rid="{{r.Id}}" />
+        {%else -%}
+            {%if r.IsOnline == 2%}上线
+            {%else -%} 下线
+            {%endif -%}
+        {%endif -%}
+
+    </td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/games/update", 4) -%}
+            <button class="layui-btn edit layui-btn-green sp-open-link" url="/games/update" tab="2" area="800px,650px" title="编辑游戏">编辑</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

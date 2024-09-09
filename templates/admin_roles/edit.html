@@ -1,0 +1,122 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<style type="text/css">
+    .layui-input-inline span {
+        height: 12px;
+        line-height: 12px;
+    }
+
+    .layui-tree-line .layui-tree-pack {
+        padding-left: 18px;
+    }
+
+    .layui-form-checkbox {
+        z-index: 100;
+    }
+</style>
+<form class="layui-form" method="post" action="/admin_roles/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" autocomplete="off" class="layui-input" placeholder="请输入角色名称" value="{{r.Name}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色权限</label>
+        <div class="layui-input-inline" style="height: 500px; width: 450px; overflow: auto">
+            <div id="menu_tree"></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <input type="text" name="remark" value="{{r.Remark}}" autocomplete="off" class="layui-input" placeholder="请输入角色相关备注" style="width: 380px" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">谷歌验证</label>
+        <div class="layui-input-inline">
+            <input type="text" name="google_code" autocomplete="off" class="layui-input" placeholder="请输入google验证密码" />
+        </div>
+    </div>
+    {{block.Super|safe}}
+    <input type="hidden" name="menu_ids" value="{{r.MenuIds}}" id="menu_ids" />
+</form>
+<script>
+    layui.use(['tree', 'layer', 'util', 'jquery', 'form'], function () {
+        let tree = layui.tree,
+            layer = layui.layer,
+            $ = layui.jquery,
+            form = layui.form;
+        let data = JSON.parse('{{menusJsonData|safe}}'); // 总的数据
+        let selectedIds = '{{r.MenuIds}}'.split(','); // 当前角色的菜单id汇总
+        let initMenuTree = false; // 是否已经初始化
+        // 是否包含某个菜单id
+        let hasChecked = function (id) {
+            for (let i = 0; i < selectedIds.length; i++) {
+                if (selectedIds[i] == id) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        // 重置用户id信息
+        let setCheckedMenuIds = function (menus) {
+            if (menus.length == 0) {
+                return;
+            }
+            for (let i = 0; i < menus.length; i++) {
+                let menu = menus[i];
+                selectedIds.push(menu.id);
+                if (menu.children && menu.children.length > 0) {
+                    setCheckedMenuIds(menu.children);
+                }
+            }
+        };
+        let setClickMenus = function (menus) {
+            if (menus.length == 0) {
+                return;
+            }
+            for (let i = 0; i < menus.length; i++) {
+                let menu = menus[i];
+                // 如果并不包含此id, 则将其取消
+                if (!hasChecked(menu.id)) {
+                    let element = $('input[value=' + menu.id + ']:first', $('#menu_tree'));
+                    element.next().click();
+                }
+                if (menu.children && menu.children.length > 0) {
+                    setClickMenus(menu.children);
+                }
+            }
+        };
+        // 各个节点;
+        let setCheckedTree = function () {
+            tree.render({
+                elem: '#menu_tree',
+                data: data,
+                id: 'menu_tree',
+                showCheckbox: true, //是否显示复选框
+                oncheck: function (obj) {
+                    if (!initMenuTree) {
+                        return;
+                    }
+                    layer.load(1);
+                    selectedIds = [];
+                    let menus = tree.getChecked('menu_tree');
+                    setCheckedMenuIds(menus);
+                    $('#menu_ids').val(selectedIds.toString());
+                    layer.closeAll();
+                },
+            });
+            tree.setChecked('menu_tree', selectedIds);
+        };
+        (function () {
+            layer.load(1);
+            setCheckedTree();
+            setClickMenus(tree.getChecked('menu_tree'));
+            initMenuTree = true;
+            layer.closeAll();
+        })();
+    });
+</script>
+{%endblock%}

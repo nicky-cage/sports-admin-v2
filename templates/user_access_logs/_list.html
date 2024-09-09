@@ -1,0 +1,30 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.UserName}}</td>
+    <td>{{r.UserName}}</td>
+    <td>{{r.ModuleId|user_log_module}}</td>
+    <td>{{r.LogType|user_log_type}}</td>
+    <td>
+        {%if r.LogLevel == 0%}-
+        {%elif r.LogLevel == 1%}低
+        {%elif r.LogLevel == 2%}<span style="color: red">中</span>
+        {%elif r.LogLevel == 3%}<span style="color: orange; font-weight: bold;">高</span>
+        {%endif%}
+    </td>
+    <td>{{r.Remark}}</td>
+    <td>
+        {%if r.StatusCode == 200%}200 - <span style="color: green">成功</span>
+        {%elif r.StatusCode == 0%}0 - 未知
+        {%else%}{{r.StatusCode}} - <span style="color: red">失败</span>
+        {%endif%}
+    </td>
+    <td>{{r.Domain}}</td>
+    <td>{{r.RegisterDomain}}</td>
+    <td>{{r.RegisterType}}</td>
+    <td style="cursor: pointer;" class="sp-alert" text="{{r.Path}}">{{r.Path|truncatechars:24}}</td>
+    <td>{{r.Ip}} / <span style="color: blue">{{r.Ip|ip_area}}</span></td>
+    <td style="word-break: break-all; cursor: pointer;" class="sp-alert" text="{{r.UserAgent}}">{{r.UserAgent|truncatechars:20}}</td>
+    <td>{{r.Created|datetime}}</td>
+</tr>
+{% endfor %}

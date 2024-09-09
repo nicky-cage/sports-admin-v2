@@ -1,0 +1,105 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="state">
+                                    <option value="">全部状态</option>
+                                    <option value="2">启用</option>
+                                    <option value="1">停用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">自动汇率</label>
+                            <div class="layui-input-inline">
+                                <select name="auto_rate">
+                                    <option value="">是否自动汇率</option>
+                                    <option value="2">是</option>
+                                    <option value="1">否</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">钱包类型</label>
+                            <div class="layui-input-inline">
+                                <select name="wallet_type">
+                                    <option value="">请选择</option>
+                                    <option value="1">USDT - ERC20</option>
+                                    <option value="2">USDT - TRC20</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">钱包地址</label>
+                            <div class="layui-input-inline">
+                                <input name="wallet_address" type="text" placeholder="请输入钱包地址" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/receive_virtuals/create" area="700px,750px" tab="1" data-type="add">新增USDT钱包</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="120" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="120" />
+                        <col width="150" />
+                        <col width="150" />
+                        <col width="250" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col />
+                        <col width="110" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>钱包名称</th>
+                            <th>币种</th>
+                            <th>协议类型</th>
+                            <th>汇率</th>
+                            <th>自动获取汇率</th>
+                            <th>展示方式</th>
+                            <th>最小存款额(USDT)</th>
+                            <th>最大存款额(USDT)</th>
+                            <th>钱包地址</th>
+                            <th>状态</th>
+                            <th>推荐</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody url="/receive_virtuals" id="sp-loaded-table"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

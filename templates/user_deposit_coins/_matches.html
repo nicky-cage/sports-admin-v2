@@ -1,0 +1,16 @@
+{% for r in rows -%}
+<tr {%if forloop.Counter==1 -%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.OrderNumber}}</td>
+    <td>{{r.PayUserName}}</td>
+    <td>{{r.PayAddress}}</td>
+    <td>
+        {{r.Amount|stringformat:'%.2f'}}
+        <span class="layui-badge">{{r.VirtualCoin|stringformat:'%.2f'}}U</span>
+    </td>
+    <td>{{r.ReceiveAddress}}</td>
+    <td>{{r.AdminName}}</td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Created|datetime}}</td>
+</tr>
+{%endfor -%}

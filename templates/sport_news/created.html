@@ -1,0 +1,124 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/sport_news/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">资讯作者</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input name="author" placeholder="请输入资讯作者" autocomplete="off" class="layui-input" value="{{r.Author}}" />
+        </div>
+    </div>
+        <label class="layui-form-label">资讯栏目</label>
+        <div class="layui-input-inline" style="float: left;margin-bottom: 10px;">
+            <input type="radio" name="item_type" title="足球" value="1" {%if r.ItemType==1%}checked{%endif%}>
+            <input type="radio" name="item_type" title="篮球" value="1" {%if r.ItemType==2%}checked{%endif%}>
+            <input type="radio" name="item_type" title="电竞" value="1" {%if r.ItemType==3%}checked{%endif%}>
+            <input type="radio" name="item_type" title="其他" value="1" {%if r.ItemType==4%}checked{%endif%}>
+        </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">资讯标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Title}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >资讯内容</label>
+        <div class="layui-input-inline">
+            <div id="editor" style="width: 700px;height:330px;"></div>
+        </div>
+    </div>
+    <input type="hidden" name="content" id="content">
+    <input type="hidden" name="img_url" id="img" value=" ">
+    <script src="{{STATIC_URL}}/wangEditor/release/wangEditor.min.js"></script>
+    <div hidden="hidden" id="rcont">{{r.Content}}</div>
+    {%if r.Id%}<input type="hidden" name="id" value="{{r.Id}}">{%endif%}
+    <div class="layui-layout-admin" style="z-index:99;">
+        <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+            <button type="button" class="layui-btn" lay-submit lay-filter="sp-save" id="sp-submit">立即提交</button>
+            <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['form'], function() {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+
+        editor.customConfig.zIndex = false;
+
+        editor.customConfig.uploadImgShowBase64 = true
+        var cont =document.getElementById('content');
+        editor.customConfig.onchange = function (html) {
+            cont.value= html
+        };
+        editor.customConfig.uploadImgServer = '/upload';
+        editor.customConfig.uploadFileName = 'file';
+
+        editor.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                // 图片上传并返回结果，但图片插入错误时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                if(result.errcode==0){
+
+                    editor.txt.append('<img src="'+result.data.path+'">');
+                    if(document.getElementById('img').value==''){
+                        document.getElementById('img').value=result.data.path
+                    }else{
+                        var i= document.getElementById('img').value
+                        document.getElementById('img').value=i+","+result.data.path
+                    }
+                    layer.open({
+                        title:'',
+                        content:'上传成功',
+                        btn:[],
+                        time:500,
+                    })
+                }else{
+                    layer.open({
+                        title:'',
+                        content:'上传失败',
+                        btn:[],
+                        time:500,
+                    })
+                }
+            },
+            error: function (xhr, editor) {
+                // 图片上传出错时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                layer.open({
+                    title:'',
+                    content:'上传错误',
+                    btn:[],
+                    time:500,
+                })
+            },
+            timeout: function (xhr, editor) {
+                // 图片上传超时时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                // editor.customConfig.uploadImgTimeout = 3000
+                layer.open({
+                    title:'',
+                    content:'上传超时',
+                    btn:[],
+                    time:500,
+                })
+            },
+        };
+        editor.customConfig.customAlert = function (info) {
+            // info 是需要提示的内容，默认为空就好
+        };
+
+        editor.create()
+        editor.txt.html($("#rcont").text()) //将内容写入富文本中
+
+    });
+</script>
+{% endblock body %}

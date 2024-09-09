@@ -1,0 +1,78 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form" method="post" action="/user_account_sets/save" lay-filter="component-form-element">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px;">用户名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="username" lay-verify="required" placeholder="请输入用户名称" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.username}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px;">真实姓名</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.realname}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px;">中心钱包余额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="account" style="width: 100px;" lay-verify="required" placeholder="请输入中心钱包余额" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.available}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label reason-type" style="width: 90px;"">*上分原因</label>
+                        <div class="layui-input-inline">
+                            <select name="reason" lay-verify="required" lay-search="">
+                                <option value="">请选择上分原因</option>
+                                <option value="人工代充">人工代充/上分/补单</option>
+                                <!--<option value="转账补单">转账补单/离线</option>-->
+                                <option value="活动红利">活动存送/红利/优惠</option>
+                                <option value="其他原因">其他原因</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px;">投注倍数</label>
+                        <div class="layui-input-inline" style="width: 300px;">
+                            <input type="text" name="bet_times" style="width: 100px;" placeholder="请输入投注倍数" autocomplete="off" class="layui-input" value="1" />
+                            <span style="color: red; width: 180px;" id="flow_multiple_label">0: 不需流水 &nbsp; &nbsp; &gt;0: 需要流水 = 投注倍数 * 上分金额</span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px;">异常订单编号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="abnormal_bill_no" placeholder="请输入异常订单编号" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 90px;">*上分金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="money" lay-verify="required" placeholder="请输入上分金额" autocomplete="off" class="layui-input" style="width: 100px;" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label" style="width: 90px;">上分备注</label>
+                        <div class="layui-input-inline" style="width: 190px;">
+                            <textarea name="applicant_remark" placeholder="请输入备注内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="hidden" value="1" name="type" />
+                        <input type="hidden" value="{{r.id}}" name="user_id" />
+                        <input type="hidden" value="{{r.top_id}}" name="top_id" />
+                        <input type="hidden" value="{{r.username}}" name="username" />
+                        <div class="layui-input-inline" style="margin-left: 120px;">
+                            <button class="layui-btn" lay-submit lay-filter="sp-save">提交</button>
+                            <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

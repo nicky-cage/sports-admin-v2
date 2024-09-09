@@ -1,0 +1,23 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.BottomType|bottom_type}}</td>
+    <td>{{r.ContentType|bottom_content_type}}</td>
+    <td>{{r.Title}}</td>
+    <td>{{r.Sort}}</td>
+    <td><img src="{{r.Image}}"></td>
+    <td>{{r.Content}}</td>
+    <td>{%if r.UrlType == 0%}站内连接{%else%}站外链接{%endif%}</td>
+    <td>{{r.Url}}</td>
+
+    <td>
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="正常|关闭" class="sp-btn-state"
+               values="2|1" lay-filter="state" value="{{r.State}}" url="/site_bottoms/state" rid="{{r.Id}}" />
+    </td>
+
+    <td>
+        <button class="layui-btn sp-open-link" url="/site_bottoms/update" tab="5" area="700px,500px">编辑</button>
+        <button class="layui-btn layui-btn-danger sp-btn-delete" url="/site_bottoms/delete" tab="5">删除</button>
+    </td>
+</tr>
+{% endfor %}

@@ -1,0 +1,31 @@
+{% for r in row %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Name}}</td>
+    <td>{%if r.Type==1%}词组匹配{%else%}通用匹配{%endif%}</td>
+    <td>
+        <button class="layui-btn edit layui-btn-green sp-open-link" url="/sport_live/manage/words" tab="2" rid="{{r.Id}}" area="300px,350px" title="编辑">编辑</button>
+        <button class="layui-btn edit layui-btn-green  sport-live-del"   value="{{r.Id}}" >删除</button>
+    </td>
+</tr>
+{% endfor %}
+<script>
+    layui.use(['form', 'jquery', 'layer'], function() {
+        let $ = layui.$
+        let layer = layui.layer;
+        let form=layui.form;
+        $(".sport-live-del").click(function(){
+            let id =$(this).attr("value")
+            let t =$(this)
+            $.ajax({
+                url:"/sport_live/manage/words_save",
+                type:"post",
+                data:JSON.stringify({"id":id,"method":"3"}),
+                success:function(data){
+                    if (data.errcode==0){
+                        layui.layer.msg("删除成功", {icon: 1})
+                        $(this).parent().parent().remove();
+                    }},
+            })
+        })
+    })
+    </script>

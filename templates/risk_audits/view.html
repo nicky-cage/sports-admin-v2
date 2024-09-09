@@ -1,0 +1,101 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<style type="text/css"> .layui-form-item { margin-bottom: 0px; } </style>
+<div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">用户名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="username" style= "background-color:transparent;border:0;"  autocomplete="off" class="layui-input" value="{{r.username}}" readonly="readonly" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">会员等级 </label>
+        <div class="layui-input-block">
+            <input type="text" id="user_level" style= "background-color:transparent;border:0;"  autocomplete="off" class="layui-input" value="VIP{{vip}}" readonly="readonly" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">会员标签</label>
+        <div class="layui-input-block">
+            {{r.label|platform_wrap:PLATFORM|user_labels|safe}}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">提款银行卡信息</label>
+        <div class="layui-input-block">
+            <input type="text" id="bank_info" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input" value="{{r.bank_name}}|{{r.bank_realname}}|{{r.bank_card}}|{{r.bank_address}}" readonly="readonly" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">提款金额</label>
+        <div class="layui-input-block">
+            <input type="text" id="apply_money" style="background-color:transparent;border:0;" autocomplete="off" class="layui-input" value="{{r.money|float|stringformat:"%.2f"}}" readonly="readonly" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">行政费用</label>
+        <div class="layui-input-block">
+            <input type="text" id="cost_money" style="background-color:transparent;border:0;" autocomplete="off" class="layui-input" value="{{r.withdraw_cost|float|stringformat:"%.2f"}}" readonly="readonly" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">实需出款</label>
+        <div class="layui-input-block">
+
+            <input type="text" id="money" style="background-color:transparent;border:0;" autocomplete="off" class="layui-input" value="{{actual_money|stringformat:"%.2f"}} (实需出款 = 提款金额 - 行政费用)" readonly="readonly" />
+        </div>
+        {%if cost!=0.00 %}
+        <button class="layui-btn layui-btn-primary" style="background-color: mediumpurple;color: white;position: absolute;right:180px;top:230px;font-size: 13px;">{{cost|stringformat:"%.2f"}}&nbsp&nbspUSDT</button>
+        {%endif%}
+    </div>
+    <div class="layui-form-item">
+        <span style="color:#ff0000;font-size:16px;margin-left:80px; font-weight: bold;"> ！！！请仔细核查以上信息 ！！！</span>
+    </div>
+    <input type="hidden" name="id" value="{{r.id}}">
+    <input type="hidden" name="result" value="{{result}}">
+    <input type="hidden" name="vip" value="{{vip}}">
+    <input type="hidden" name="last_money" value="{{last_money}}">
+    <input type="hidden" name="remark" value="风控审核通过">
+    <div class="layui-layout-admin" style="z-index:99;">
+        <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+            {%if r.status == 1 || r.process_step < 4%}
+            <button type="button" class="layui-btn risk-pass">立即提交</button>
+            <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+            {%else%}
+            <button type="button" class="layui-btn layui-btn-danger sp-btn-cancel" lay-filter="cancel">关闭窗口</button>
+            {%endif%}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery','layer'],function(){
+
+        let $ = layui.$, layer = layui.layer;
+
+        $(".risk-pass:first").click(function() {
+            let that = $(this);
+            that.prop("disabled", true);
+            that.addClass("layui-btn-disabled");
+            let info = $("input[name='id']").val();
+            let result = $("input[name='result']").val();
+            let vip = $("input[name='vip']").val();
+            let remark =$("input[name='remark']").val();
+            let last_money=$("input[name='last_money']").val();
+            $.ajax({
+                type:"post",
+                url:"/risk_audits/saves",
+                data:JSON.stringify({"id":info,"type":"1","sys_result":result,"vip":vip,"last_money":last_money,"remark":remark}),
+                success:function(data){
+                    if (data.errcode == 0){
+                        layer.msg("风控审核已经通过",{icon:1, time:1300},function(){
+                            parent.location.reload();
+                        });
+                        return
+                    }
+                    layer.msg(data.message, {icon: 2, time:1300});
+                },
+            })
+        })
+    });
+</script>
+{% endblock body %}

@@ -1,0 +1,100 @@
+{% if rows %}
+{% for r in rows %}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{%if r.Type == 1 %}<div class="order-no" style="color: blue;cursor: pointer;">{{r.OrderNo}}</div>{%else-%}{{r.OrderNo}}{%endif-%}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/detail", 4) -%}
+        <a href="javascript:void(0)" class="sp-open-link agents" rid="{{r.UserId}}" url="/users/detail" area="98%,98%">{{r.Username}}</a>
+        {%else -%}{{r.Username}}
+        {%endif -%}
+    </td>
+    <td>{{r.DepositName}}</td>
+    <td>{{r.Vip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.ArriveMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.Discount|stringformat:"%.2f"}}</td>
+    <td>
+        {% if r.ChannelType == 0 %} 银行转账
+        {% elif r.ChannelType== 1 %} 网银转账
+        {% elif r.ChannelType == 2 %} 支付宝
+        {% elif r.ChannelType == 3 %} 微信
+        {% elif r.ChannelType == 4 %} QQ钱包
+        {% elif r.ChannelType == 5 %} 快捷支付
+        {% elif r.ChannelType == 6 %} 京东钱包
+        {% elif r.ChannelType == 7 %} 银联扫码
+        {% elif r.ChannelType == 8 %} 虚拟币
+        {% elif r.ChannelType == 9 %} 云闪付
+        {% else %} -
+        {% endif %}
+    </td>
+    <td>
+        {% if r.Type == 1 %} {{r.PayCode|platform_wrap:PLATFORM|payment_name}} - {{r.PayCode}}
+        {% else %}{{r.AccountByName}}
+        {% endif %}
+    </td>
+    <td>{{r.Label|platform_wrap:PLATFORM|user_labels|safe}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{%if r.Status == 1 %}处理中{%elif r.Status == 2 %}成功{%else%}失败{%endif%}</td>
+    <td>{{r.FinanceAdmin}}</td>
+    <td>
+        {%if r.Status == 1 %}
+            {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_deposits/update", 4) -%}
+            <button class="layui-btn sp-open-link" url="/user_deposit_onlines/update?uid={{r.UserId}}" area="800px,720px" tab="0">处理</button>
+            {%endif -%}
+        {%endif%}
+    </td>
+</tr>
+{% endfor %}
+<tr>
+    <td colspan="2"><span style="color: red">小计 (当前页面)</span></td>
+    <td colspan="3">
+        总计: <span style="color: red">{{page_total}} 笔</span> /
+        成功: <span style="color: red">{{page_success}} 笔</span> /
+        成功率: <span style="color: green">{{page_success_rate|stringformat:'%.2f'}}%</span>
+    </td>
+    <td><span style="color: red">{{page_money|stringformat:'%.2f'}}</span></td>
+    <td>0.00</td>
+    <td><span style="color: red">{{page_discount|stringformat:'%.2f'}}</span></td>
+    <td colspan="8">
+        总计: <span>{{page_money|stringformat:'%.2f'}} 元 </span> /
+        成功: <span style="color: green">{{page_success_money|stringformat:'%.2f'}} 元 </span> /
+        优惠: <span style="color: green">{{page_success_discount|stringformat:'%.2f'}} 元 </span> /
+        成功率: <span style="color: green">{{page_success_money_rate|stringformat:'%.2f'}}%</span>
+    </td>
+</tr>
+<tr>
+    <td colspan="2"><span style="color: red">小计 (当前查询)</span></td>
+    <td colspan="3">
+        总计: <span style="color: red">{{page_total}} 笔</span> /
+        成功: <span style="color: red">{{page_success}} 笔</span> /
+        成功率: <span style="color: green">{{query_success_rate|stringformat:'%.2f'}}%</span>
+    </td>
+    <td><span style="color: red">{{query_money|stringformat:'%.2f'}}</span></td>
+    <td>0.00</td>
+    <td><span style="color: red">{{query_discount|stringformat:'%.2f'}}</span></td>
+    <td colspan="8">
+        总计: <span>{{query_money|stringformat:'%.2f'}} 元 </span> /
+        成功: <span style="color: green">{{query_success_money|stringformat:'%.2f'}} 元 </span> /
+        优惠: <span style="color: green">{{query_success_discount|stringformat:'%.2f'}} 元 </span> /
+        成功率: <span style="color: green">{{query_success_money_rate|stringformat:'%.2f'}}%</span>
+    </td>
+</tr>
+<tr>
+    <td colspan="2"><span style="color: red">总计</span></td>
+    <td colspan="3">
+        总计: <span>{{total_record}} 笔</span> /
+        成功: <span style="color: green">{{total_success_record}} 笔</span> /
+        成功率: <span style="color: green">{{total_success_rate|stringformat:'%.2f'}}%</span>
+    </td>
+    <td><span style="color: red">{{total_money|stringformat:'%.2f'}}</span></td>
+    <td>0.00</td>
+    <td><span style="color: red">{{total_discount|stringformat:'%.2f'}}</span></td>
+    <td colspan="8">
+        总计: <span>{{total_money|stringformat:'%.2f'}} 元 </span> /
+        成功: <span style="color: green">{{total_success_money|stringformat:'%.2f'}} 元 </span> /
+        优惠: <span style="color: green">{{total_success_discount|stringformat:'%.2f'}} 元 </span> /
+        成功率: <span style="color: green">{{total_success_money_rate|stringformat:'%.2f'}}%</span>
+    </td>
+</tr>
+{% endif -%}

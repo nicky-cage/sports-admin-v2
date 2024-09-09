@@ -1,0 +1,14 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Name}}</td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/admin_roles/update", 4) -%}
+            <button class="layui-btn sp-open-link" url="/admin_roles/update" type="button" area="60%,90%">编辑</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

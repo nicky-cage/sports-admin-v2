@@ -1,0 +1,27 @@
+{%for r in rows%}
+<tr>
+    <td>{{r.agent_commission}}</td>
+    <td>{{r.created|time_type_chang}}</td>
+    <td>{{r.creat_admin}}</td>
+    <td>{{r.min|percentage_change|stringformat:"%.2f"}}%~{{r.max|percentage_change|stringformat:"%.2f"}}%</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/commissions/plan/updated", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list sp-open-link" title="佣金方案修改" url="/agents/commissions/plan/updated" rid="{{r.agent_commission}}" area="600px,620px" tab="2" data-type="add">
+            编辑
+        </button>
+        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/commissions/plan/deleted", 4) -%}
+        <button
+            class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete"
+            rid="{{r.agent_commission}}"
+            url="/agents/commissions/plan/deleted"
+            tab="2"
+            area="600px,600px"
+            titile="佣金方案删除"
+            data-type="add"
+        >
+            删除
+        </button>
+        {%endif -%}
+    </td>
+</tr>
+{%endfor%}

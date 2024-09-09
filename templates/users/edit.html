@@ -1,0 +1,271 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/users/save">
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">会员账号</label>
+            <div class="layui-input-inline">
+                <input name="username" lay-verify="required" placeholder="请输入会员名称" autocomplete="off" class="layui-input" value="{{r.Username}}" {%if r.Id != 0%}disabled{%endif%} />
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">手机号码</label>
+            <div class="layui-input-inline">
+                <input name="phone"  placeholder="请输入手机号码" autocomplete="off" class="layui-input" value="{{r.Phone}}" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">会员等级</label>
+            <div class="layui-input-inline">
+                <select name="vip" class="layui-select">
+                    {%if r.Id!=0%}
+                    <option value="{{r.Vip}}" selected>{{r.Vip}}</option>
+                    {%endif%}
+                </select>
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">电子邮箱</label>
+            <div class="layui-input-inline">
+                <input name="email" placeholder="请输入电子邮箱" autocomplete="off" class="layui-input" value="{{r.Email}}"/>
+            </div>
+        </div>
+
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">qq</label>
+            <div class="layui-input-inline">
+                <input name="qq" placeholder="请输入qq" autocomplete="off" class="layui-input" value="{{r.Qq}}"/>
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">微信</label>
+            <div class="layui-input-inline">
+                <input name="we_chat" placeholder="请输入微信" autocomplete="off" class="layui-input" value="{{r.WeChat}}"/>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">中心账户余额</label>
+            <div class="layui-input-inline">
+                <input  {%if r.Id==0%} name="balance" {%else%}disabled {%endif%} placeholder="" autocomplete="off" class="layui-input" value="{{balance}}"/>
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">上级代理</label>
+            <div class="layui-input-inline">
+                <input  {%if r.Id==0%} name="top_name" lay-verify="required" {%else%} disabled {%endif%}  placeholder="请输入上级代理" autocomplete="off" class="layui-input" value="{{r.TopName}}"/>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg3">
+            <label class="layui-form-label">收货地址</label>
+            <div class="layui-input-inline" style="width:100px;">
+                <select name="province_id" lay-filter="provinces" id="provinces" value="{{r.ProvinceId}}">
+                    <option value="0">- 请选择省份 -</option>
+                    {%for p in provinces%}
+                    <option value="{{p.Id}}"  {% ifequal p.Id r.ProvinceId %}selected{%endifequal%}>{{p.Name}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+        <div class="layui-col-lg3">
+            <div class="layui-input-inline"  style="width:100px;">
+                <select name="city_id" lay-filter="cities" id="cities" value="{{r.CityId}}">
+                    <option value="0">- 请选择城市 -</option>
+                    {%for c in city%}
+                    <option value="{{c.Id}}" c_code="{{c.Code}}" {%if c.Id==r.CityId%}selected{%endif%}>{{c.Name}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+        <div class="layui-col-lg3">
+            <div class="layui-input-inline"  style="width:100px;">
+                <select name="district_id" id="districts" value="{{r.DistrictId}}">
+                    <option value="0">- 请选择县/区 -</option>
+                    {%for d in districts%}
+                    <option value="{{d.Id}}" d_code="{{d.Code}}" {%if d.Id==r.DistrictId%}selected{%endif%}>{{d.Name}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+        <div class="layui-col-lg3">
+            <div class="layui-input-inline"  style="width:10px;">
+                <input name="address"  placeholder="请输入详细地址" autocomplete="off" class="layui-input" value="{{r.Address}}" style="width: 150px;" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">会员生日</label>
+            <div class="layui-input-inline">
+                <input name="birthday" id="asdas" placeholder="请选择会员生日" value="{{r.Birthday}}" autocomplete="off" class="layui-input sp-form-date" format="single"  style="width: 150px;"  />
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">真实姓名</label>
+            <div class="layui-input-inline">
+                <input name="realname"  placeholder="请输入管理员名称" autocomplete="off" class="layui-input" value="{{r.RealName}}" />
+            </div>
+            {%if r.Id!=0%}
+            <div class="layui-input-inline">
+                <button class="layui-btn sp-open-link" url="/user/real_name/history" title="姓名历史记录" rid="{{r.Id}}" area="800px,600px" >历史</button>
+            </div>
+            {%endif%}
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-inline">
+                <select name="gender" value="{{r.Gender}}">
+                    <option value="1">男</option>
+                    <option value="2" {%if (r.Gender == 2)-%}selected="selected"{%endif-%}>女</option>
+                    <option value="0" {%if (r.Gender == 0)-%}selected="selected"{%endif-%}>保密</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">支付分组</label>
+            <div class="layui-input-inline">
+                <select name="payment_group_id">
+                    {%for g in paymentGroups -%}
+                    <option value="{{g.Id}}" {%if r.PaymentGroupId == g.Id -%}selected="selected"{%endif -%}>{{g.Name}}</option>
+                    {%endfor -%}
+                </select>
+            </div>
+        </div>
+    </div>
+    {%if r.Id == 0%}
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">登录密码</label>
+            <div class="layui-input-inline">
+                <input name="password" lay-verify="required" placeholder="请输入登录密码" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">重复密码</label>
+            <div class="layui-input-inline">
+                <input name="re_password" lay-verify="required" placeholder="请输入重复密码" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+    </div>
+    {%endif%}
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg12">
+            <label class="layui-form-label">会员标签</label>
+            <div class="layui-input-inline" style="width: 700px;" id="user_labels">
+                {%for k, v in tagCategories%}
+                {%if v.Tags%}
+                <fieldset>
+                    <legend>{{v.Name}}</legend>
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <div class="layui-col-md12">
+                                {%for tv in v.Tags%}<input type="checkbox" name="user_tag_{{tv.Id}}" title="{{tv.Name}}" value="{{tv.Id}}" cat_id="{{k}}" tag_id="{{tv.Id}}" lay-filter="user_tag" />{%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                {%endif%}
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="{{r.Label}}" name="label" id="user_tags" />
+    {{block.Super|safe}}
+</form>
+<script src="{{STATIC_URL}}/js/region.js"></script>
+<script>
+layui.use(['jquery', 'form','laydate'], function() {
+    let $ = layui.jquery, form = layui.form;
+    let laydate = layui.laydate;
+    (function() { // 标签初始化
+        let userRealTags = "{{r.Label}}".split(";");
+        let userLabels = [];
+        for (let i = 0; i < userRealTags.length; i++) {
+            let label = userRealTags[i].split("|");
+            if (label.length != 2) {
+                continue;
+            }
+            let cate_id = label[0];
+            let tag_ids = label[1].split(",");
+            for (let j = 0; j < tag_ids.length; j++) {
+                userLabels.push(cate_id + "|" + tag_ids[j]);
+            }
+        }
+        $("input", $("#user_labels")).each(function() {
+            let that = $(this);
+            that.prop("checked", false);
+            let that_id = that.attr("tag_id");
+            let cate_id = that.attr("cat_id");
+            let key = cate_id + "|" + that_id;
+            for (let i = 0; i < userLabels.length; i++) {
+                if (userLabels[i] == key) {
+                    that.prop("checked", true);
+                    break;
+                }
+            }
+        });
+
+        if ($("input[name='id']").val()!=0){
+            a=$("select[name='vip'] option:first").val()
+            let num=parseInt(a)
+            $("select[name='vip'] option").remove()
+
+            if (num==1){
+                $("select[name='vip']").append("<option value='"+num+"'>VIP"+(num-1)+"</option>");
+                $("select[name='vip']").append("<option value='"+(num+1)+"'>VIP"+num+"</option>");
+            }else{
+                if (num>=9){
+                    $("select[name='vip']").append("<option value='8'>VIP7</option>");
+                    $("select[name='vip']").append("<option value='9' selected>VIP8</option>");
+                }else{
+                    $("select[name='vip']").append("<option value='"+(num-1)+"'>VIP"+(num-2)+"</option>");
+                    $("select[name='vip']").append("<option value='"+num+"' selected>VIP"+(num-1)+"</option>");
+                    $("select[name='vip']").append("<option value='"+(num+1)+"'>VIP"+num+"</option>");
+
+                }
+            }
+        }
+        form.render();
+        laydate.render({
+            elem: '#birthday'
+            ,min: '1970-1-1'
+                ,max: '2020-12-31'
+
+        });
+    })();
+
+    form.on("checkbox(user_tag)", function(data) { // 对于标签选择的控制
+        let userLabels = [];
+        $("input", $("#user_labels")).each(function() {
+            let that = $(this);
+            if (that.prop("checked")) {
+                let that_id = that.val();
+                let cate_id = that.attr("cat_id");
+                if (userLabels[cate_id]) {
+                    userLabels[cate_id].push(that_id);
+                } else {
+                    userLabels[cate_id] = [that_id];
+                }
+            }
+        });
+        let userTags = [];
+        for (let i = 0; i < userLabels.length; i++) {
+            let tags = userLabels[i];
+            if (tags && tags.length > 0) {
+                userTags.push(i + "|" + tags.toString());
+            }
+        }
+        $("#user_tags").val(userTags.join(";"));
+    });
+});
+</script>
+{% endblock body %}

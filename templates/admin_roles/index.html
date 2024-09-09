@@ -1,0 +1,40 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-xs2 layui-col-md2">
+        {%include "_relations.html"%}
+    </div>
+    <div class="layui-col-xs10 layui-col-md10">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn sp-open-link" url="/admin_roles/create" tab="1" area="900px,600px">新增角色</button>
+                </div>
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="150" />
+                        <col width="150" />
+                        <col />
+                        <col width="165" />
+                        <col width="165" />
+                        <col width="90" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>上级角色</th>
+                        <th>角色名称</th>
+                        <th>备注</th>
+                        <th>添加时间</th>
+                        <th>修改时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody> </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

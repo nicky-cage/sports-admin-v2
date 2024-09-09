@@ -1,0 +1,52 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <form class="layui-form" lay-filter="" method="post" tbody="3">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <input type="hidden" name="id" value="{{id}}">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" >结算时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="updated_at" placeholder="off" autocomplete="off" readonly="readonly"  id="fde" class="layui-input sp-form-date">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px; min-height: 560px;">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="120" />
+                        <col width="120" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>场馆名称</th>
+                        <th>场馆类型</th>
+                        <th>投注单数</th>
+                        <th>输赢情况(元)</th>
+                        <th>下注金额(元)</th>
+                        <th>有效下注(元)</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table_wins" url="/user_detail/wins">{%include "_detail_wins.html"%}</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

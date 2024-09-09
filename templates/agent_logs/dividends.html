@@ -1,0 +1,84 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="3">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">会员账号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="id" placeholder="请输入标题关键字" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">所属代理</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="author" placeholder="请输入时间" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">红利类型</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="author" placeholder="请选择状态" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">发放时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="created" placeholder="off" autocomplete="off" readonly="readonly"  id="cre" class="layui-input sp-form-date">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                        <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        <!--<button class="layui-btn layuiadmin-btn-list layui-btn-danger" lay-submit lay-filter="LAY-app-contlist-search">
+                            <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i>导出Excel
+                        </button>-->
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col />
+                        <col width="200" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="165" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>会员/代理账号</th>
+                        <th>所属代理</th>
+                        <th>红利类型</th>
+                        <th>金额</th>
+                        <th>发放时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>亚博全站</td>
+                        <td>全站</td>
+                        <td>xxx</td>
+                        <td>启用</td>
+                        <td>2019-10-19 17:51:44</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

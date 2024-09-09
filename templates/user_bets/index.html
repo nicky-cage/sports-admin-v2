@@ -1,0 +1,25 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="sp-lazy-load">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">注单查询</li>
+                        <li>场馆统计</li>
+                        <li>用户统计</li>
+                        <li>数据同步</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">{% include "list_v2.html" %}</div>
+                        <div class="layui-tab-item" url="/user_bets/count_by_venues">{% include "count_by_venues.html"-%}</div>
+                        <div class="layui-tab-item" url="/user_bets/count_by_users">{% include "count_by_users.html"-%}</div>
+                        <div class="layui-tab-item">{% include "sync.html" -%}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

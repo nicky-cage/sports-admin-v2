@@ -1,0 +1,61 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<style type="text/css">
+.layui-form-item { margin-bottom: 0px;}
+</style>
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/risk_audits/created_save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-top:10px; width: 150px;">提现比</label>
+        <div class="layui-input-inline" style="margin-top:10px;">
+            <input type="text" name="deposits_proportion" lay-verify="number" placeholder="请输入会员账号" autocomplete="off" class="layui-input" value="{{r.DepositsProportion}}" style="width: 100px;" />
+            <span style=" position: absolute;top: -5px; right: 0px;">%</span>
+        </div>
+        <div style="">
+            <input type="checkbox" name="is_deposits_proportion" lay-skin="switch" lay-text="开启|关闭"  {% if r.IsDepositsProportion=="2" %}checked{%endif%} />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-top:10px; width: 150px;">近N天是否存款</label>
+        <div class="layui-input-inline" style="margin-top: 10px;">
+            <input type="text" name="deposits" lay-verify="num" placeholder="请输入会员账号" autocomplete="off" class="layui-input" value="{{r.Deposits}}" style="width: 100px;" />
+        </div>
+        <input type="checkbox" name="is_deposits" lay-skin="switch" lay-text="开启|关闭"   {% if r.IsDeposits=="2" %}checked{%endif%} />
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-top:10px; width: 150px;">今日提款次数</label>
+        <div class="layui-input-inline" style="margin-top: 10px;">
+            <input type="text" name="withdraw_times" lay-verify="num" placeholder="请输入会员账号" autocomplete="off" class="layui-input" value="{{r.WithdrawTimes}}" style="width: 100px;" />
+        </div>
+        <input type="checkbox" name="is_withdraw_times" lay-skin="switch" lay-text="开启|关闭"  {% if r.IsWithdrawTimes=="2" %}checked{%endif%} />
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-top:10px; width: 150px;">是否风控首次提款</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" name="first_deposits" title="是" lay-skin="primary"   {%if r.FirstDeposits=="2"%}checked{%endif%} />
+        </div>
+        <input type="checkbox" name="is_first_deposits" lay-skin="switch" lay-text="开启|关闭" {%if r.IsFirstDeposits=="2"%}checked{%endif%} />
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-top:10px; width: 150px;">是否同设备/同IP多用户</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" name="much_devices" title="是" lay-skin="primary" {%if r.MuchDevices=="2"%}checked{%endif%} />
+        </div>
+        <input type="checkbox" name="is_much_devices" lay-skin="switch" lay-text="开启|关闭"   {%if r.IsMuchDevices=="2"%}checked{%endif%} />
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 150px;">单笔提现金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="max_money" lay-verify="num" placeholder="请输入会员账号" autocomplete="off" class="layui-input" value="{{r.MaxMoney}}" style="width: 100px;" />
+        </div>
+        <input type="checkbox" name="is_max_money" lay-skin="switch" lay-text="开启|关闭"  {%if r.IsMaxMoney=="2"%}checked{%endif%} />
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-top:10px; width: 150px;">是否有风控相关标签</label>
+        <div class="layui-input-inline" >
+            <input type="checkbox" name="risk_label" title="是" lay-skin="primary"   {%if r.RiskLabel=="2"%}checked{%endif%} />
+        </div>
+        <input type="checkbox" name="is_risk_label" lay-skin="switch" lay-text="开启|关闭"   {%if r.IsRiskLabel=="2"%}checked{%endif%} />
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

@@ -1,0 +1,165 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<style>
+    .layui-form-radio { margin-top: -10px; }
+</style>
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/user_cards/save" tab="4">
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员账号</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input name="username" lay-verify="required" placeholder="请输入会员账号,多个账号用,隔开" autocomplete="off" class="layui-input" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">活动类型</label>
+        <div class="layui-input-inline">
+            <select name="activity_type" lay-filter="activity_type">
+                <option value="1">限时活动</option>
+                <option value="2">新人首存</option>
+                <option value="3">日常活动</option>
+                <option value="4">体育优惠</option>
+                <option value="5">高额返水</option>
+                <option value="6">VIP特权</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">活动名称</label>
+        <div class="layui-input-inline">
+            <select name="activity_name" id="activity_name">
+                {% for v in activities -%}
+                {% if v.ActivityType == 1 -%}
+                <option value="{{v.Id}}">{{v.Title}}</option>
+                {% endif -%}
+                {% endfor -%}
+            </select>
+            <input type="hidden" name="activity_title" id="activity_title" lay-verify="required" placeholder="请输入活动名称"
+                   autocomplete="off" class="layui-input" value="{{activityTitle}}"  />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">参与场馆</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="game_code" title="中心钱包" value="1" checked />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">派发金额</label>
+        <div class="layui-input-inline" style="width: 100px;">
+            <input name="money" lay-verify="required" placeholder="请输入派发金额" autocomplete="off" class="layui-input" value="0" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">流水倍数</label>
+        <div class="layui-input-inline" style="width: 100px;">
+            <input name="multiple" lay-verify="required" placeholder="请输入流水倍数" autocomplete="off" class="layui-input" value="1"  />
+        </div>
+    </div>
+    </form>
+    <div class="layui-layout-admin" style="z-index:99;">
+        <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+            <button type="button" class="layui-btn activity-submit"  id="sp-submit">立即提交</button>
+            <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取消操作</button>
+        </div>
+    </div>
+<script>
+    layui.use(['form', 'jquery', 'layer'],function () {
+        // 加载默认
+        let $ = layui.$, form = layui.form, layer = layui.layer;
+        let b = 0;
+
+        function save(list, b, arrNum, arr) {
+            if (b == arrNum) {
+                layer.msg("添加成功",{icon:1,time:1300},function() {
+                    sp.loadTab(3, $(parent.document), function () {
+                        sp.closeWin();
+                        // parent.document.location.reload();
+                    });
+                });
+                return false;
+            }
+
+            list["username"] = arr[b];
+            if (arr[b] == "") {
+                layer.msg("请输入会员账号", {icon: 2, time: 1300});
+                $(".activity-submit").removeAttr("disabled");
+                return
+            }
+            $.ajax({
+                url: "/user_activities/save",
+                type: "post",
+                data: JSON.stringify(list),
+                success:function(data) {
+                    if (data.errcode == 0) {
+                        b++;
+                        save(list, b, arrNum, arr);
+                    } else {
+                        layer.msg(data.message, {icon: 2, time: 1300});
+                        return false;
+                    }
+                }
+            });
+        }
+
+        $(".activity-submit").click(function() {
+            $(".activity-submit").attr('disabled',"true");
+            let name = $("input[name='username']").val();
+            name = name.replace(/，/g,",");
+            let arr = name.split(",");
+            let  arrNum = arr.length;
+            let  activityType = $("select[name='activity_type'] option:selected").val();
+            if (activityType == "") {
+                layer.msg("请选择活动类型", {icon: 2, time: 1300})
+                $(".activity-submit").removeAttr("disabled");
+                return
+            }
+            let activityTitle = $("input[name='activity_title']").val();
+            if (activityTitle == "") {
+                layer.msg("请输入活动标题", {icon: 2, time: 1300});
+                $(".activity-submit").removeAttr("disabled");
+                return
+            }
+            let money = $("input[name='money']").val();
+            if (money == "" || isNaN(money) || parseFloat(money) <= .0) {
+                layer.msg("请输入正确的派发金额", {icon: 2, time: 1300});
+                $(".activity-submit").removeAttr("disabled");
+                return
+            }
+            let multiple = $("input[name='multiple']").val();
+            if (multiple == "" || isNaN(multiple) || parseInt(multiple) == 0) {
+                layer.msg("请输入正确的流水倍数", {icon: 2, time: 1300});
+                $(".activity-submit").removeAttr("disabled");
+                return
+            }
+            let multipleRequirement = parseInt(money) * multiple;
+            let list = {
+                "activity_type": activityType,
+                "activity_title": activityTitle,
+                "money": money,
+                "multiple": multiple,
+                "multiple_requirement": multipleRequirement
+            };
+            save(list, b, arrNum, arr)
+        });
+
+        let activities = JSON.parse('{{activityListJSON|safe}}');
+        form.on("select(activity_type)", function(data) {
+            let val = parseInt(data.value), activity_name = $("#activity_name"), activity_title = "";
+            activity_name.empty();
+            $("#activity_title").val(""); // 初始化
+            for (let i = 0; i < activities.length; i++) {
+                let current = activities[i];
+                if (current.activity_type == val) {
+                    if (activity_title == "") {
+                        activity_title = current.title;
+                        $("#activity_title").val(activity_title);
+                    }
+                    let option = new Option(current.title, current.id);
+                    activity_name.append(option);
+                }
+            }
+            form.render();
+        });
+    })
+</script>
+{% endblock body %}

@@ -1,0 +1,135 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<!-- 搜索框 -->
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <div class="layui-inline">
+                    <label class="layui-form-label">授权对象</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="author" placeholder="请输入精准IP地址" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list add" data-type="add">新增</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>授权类型</th>
+                        <th>授权对象</th>
+                        <th>描述</th>
+                        <th>编辑时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>允许访问</td>
+                        <td>111.111.222.250</td>
+                        <td>描述信息</td>
+                        <td>2019-10-10 13:33:00</td>
+                        <td>
+                            <form class="layui-form">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="checkbox" name="close" checked lay-skin="switch" lay-text="开|关">
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+                            <span><a href="javascript:;" style="color: blue;" class="edit">编辑</a></span>
+                            <span style="margin-left: 10px;"><a href="javascript:;" style="color: blue;" class="delete">删除</a></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate'], function() {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+        let get_user_info = function(that) { //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $("td:eq(0)", tr).text();
+            return {id: id};
+        };
+        $(document).off("click", ".add");
+        $(document).on("click", ".add", function() {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['500px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                title: "新增授权对象",
+                content: "/admin_authorizes/add?id="+info.id
+            });
+        });
+        $(document).off("click", ".edit");
+        $(document).on("click", ".edit", function() {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['500px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                title: "编辑授权对象",
+                content: "/admin_authorizes/edit?id="+info.id
+            });
+        });
+        $(document).off("click", ".delete");
+        $(document).on("click", ".delete", function() {
+            let info = get_user_info($(this));
+            layer.confirm("您确定要删除该授权对象吗?", {icon: 3}, function() {
+                let real_url = "/admin_authorizes/delete"
+                data = {id:info.id}
+            });
+        });
+    });
+</script>
+{% endblock body %}

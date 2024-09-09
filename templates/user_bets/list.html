@@ -1,0 +1,185 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">游戏账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="playname" placeholder="请输入厅方账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">厅方名称</label>
+                            <div class="layui-input-inline">
+                                <select name="game_code">
+                                    <option></option>
+                                    {%for k,v in game_venue%}
+                                    <option value="{{v.Code}}">{{v.Code}}</option>
+                                    {%endfor%}
+                                    <option value="IME">IME</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--<div class="layui-inline">
+                        <label class="layui-form-label">场馆名称</label>
+                        <div class="layui-input-inline">
+                            <select name="venue">
+                                <option value="">请选择场馆</option>
+                            </select>
+                        </div>
+                    </div>-->
+                        <div class="layui-inline">
+                            <label class="layui-form-label">场馆类型</label>
+                            <div class="layui-input-inline">
+                                <select name="venue_type">
+                                    <option value="">请选择类型</option>
+                                    <option value="0">主平台</option>
+                                    <option value="1">体育</option>
+                                    <option value="2">电竞</option>
+                                    <option value="3">真人</option>
+                                    <option value="4">电游</option>
+                                    <option value="5">捕鱼</option>
+                                    <option value="6">彩票</option>
+                                    <option value="7">棋牌</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--<div class="layui-inline">
+                        <label class="layui-form-label">游戏名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="game" placeholder="请输入游戏名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>-->
+                        <div class="layui-inline">
+                            <label class="layui-form-label">投注单号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="bill_no" placeholder="请输入注单流水号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option></option>
+                                    <option value="2">输</option>
+                                    <option value="1">赢</option>
+                                    <option value="3">平局</option>
+                                    <option value="4">无效注单</option>
+                                    <option value="5">提前结算-未结算</option>
+                                    <option value="6">提前结算-赢</option>
+                                    <option value="7">提前结算-输</option>
+                                    <option value="8">提前结算-平</option>
+                                    <option value="9">赢半</option>
+                                    <option value="9">输半</option>
+                                    <option value="0">未结算</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">投注时间</label>
+                            <div class="layui-input-inline" style="width: 300px">
+                                <input type="text" class="layui-input sp-form-datetime" name="created" placeholder="开始 到 结束" id="created_bets" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_bets/set_up", 4) -%}
+                    <button class="layui-btn layuiadmin-btn-list layui-btn-normal set_up" data-type="add">手动补单</button>
+                    {%endif -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col />
+                        <col width="80" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="130" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>会员账号</th>
+                            <th>游戏账号</th>
+                            <th>场馆名称</th>
+                            <th>场馆类型</th>
+                            <th>游戏名称</th>
+                            <th>注单流水号</th>
+                            <th>输赢情况</th>
+                            <th>下注详情</th>
+                            <th>下注金额(元)</th>
+                            <th>有效投注(元)</th>
+                            <th>返水金额(元)</th>
+                            <th>返水比例</th>
+                            <th>状态</th>
+                            <th>下注时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/user_bets">
+                        {%include "_list.html" -%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let $ = layui.$;
+        let form = layui.form;
+        var laydate = layui.laydate;
+        let get_user_info = function (that) {
+            //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $('td:eq(0)', tr).text();
+            return { id: id };
+        };
+        $(document).off('click', '.set_up');
+        $(document).on('click', '.set_up', function () {
+            layer.open({
+                type: 2,
+                area: ['600px', '600px'],
+                //fix: true, //不固定
+                shade: 0.5,
+                title: '手动补单',
+                content: '/user_bets/set_up',
+            });
+        });
+    });
+</script>

@@ -1,0 +1,92 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="component-form-element" method="post" action="/user_deposit_onlines/add_slip_save">
+                <input type="hidden" value="1" name="type" />
+                <div class="layui-form-item" style="padding-top: 20px">
+                    <label class="layui-form-label" style="width: 140px">会员账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 140px">用户名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" placeholder="" id="realName" autocomplete="off" disabled class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 140px">用户余额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" placeholder="" id="money" autocomplete="off" disabled class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 140px">存款金额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="money" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item channel_type">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: 140px">支付类型</label>
+                        <div class="layui-input-inline">
+                            <select name="channel_type" lay-search="">
+                                <option value="">请选择支付类型</option>
+                                {%for k, v in payTypes-%}
+                                <option value="{{k}}">{{v}}</option>
+                                {%endfor-%}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item pay_code">
+                    <label class="layui-form-label" style="width: 140px">支付编码</label>
+                    <div class="layui-input-inline">
+                        <select name="pay_code" lay-search="">
+                            <option value="">请选择支付渠道/编码</option>
+                            {%for v in channelTypes -%}
+                            <option value="{{v.Code}}">{{v.Name}} - {{v.Code}}</option>
+                            {%endfor-%}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 140px">附言</label>
+                    <div class="layui-input-inline">
+                        <textarea name="comment" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-input-inline" style="margin-left: 145px; margin-bottom: 10px; margin-top: 10px; width: 300px">
+                    <button class="layui-btn" lay-submit lay-filter="sp-save">提交</button>
+                    <button class="layui-btn layui-btn-primary sp-btn-cancel">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form'], function () {
+        let $ = layui.$,
+            form = layui.form,
+            element = layui.element,
+            layer = layui.layer;
+        $("input[name='username']").blur(function () {
+            $.ajax({
+                url: '/user_deposits/user_info',
+                type: 'get',
+                data: { username: $("input[name='username']").val() },
+                success: function (data) {
+                    if (data.errcode === 0) {
+                        $('#realName').val(data.data['realname']);
+                        $('#money').val(data.data['money']);
+                    } else {
+                        layui.layer.msg(data.message, { icon: 2, time: 1500 });
+                    }
+                },
+            });
+        });
+    });
+</script>
+{% endblock body %}

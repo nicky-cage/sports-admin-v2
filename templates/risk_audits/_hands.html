@@ -1,0 +1,33 @@
+{%if rows%}
+{%for r in rows%} <tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%} style="text-align:center;">
+<td>{{r.bill_no}}</td>
+<td>
+    {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/detail", 4) -%}
+    <a href="javascript:void(0)" class="sp-open-link agents" rid="{{r.user_id}}" url="/users/detail" area="98%,98%">{{r.username}}</a>
+    {%else -%}{{r.username}}
+    {%endif -%}
+</td>
+<td>VIP{{r.vip}}</td>
+<td class="sp-money">{{r.money}}</td>
+<td class="sp-money">{{r.withdraw_cost}}</td>
+<td>{{r.created|time_type_chang}}</td>
+<td>{{r.label|platform_wrap:PLATFORM|user_labels|safe}}</td>
+<td>{{r.bank_name}}/{{r.bank_realname}}/{{r.ban_card}}</td>
+<td>{{r.last_money}}</td>
+<td>-</td>
+<td>{{r.risk_process_at}}</td>
+<td>{{r.failure_reason}}</td>
+<td>
+    {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/detail", 4) -%}
+    <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/risk_audits/detail" title="审核通过"
+        area="700px,470px" rid="{{r.id}}&vip={{r.vip}}&last_money={{r.last_money}}&sys_result=-" data-type="add" >通过</button>
+    {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/refuse", 4) -%}
+    <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-open-link" url="/risk_audits/refuse" title="拒绝"
+        area="700px,490px" rid="{{r.id}}&vip={{r.vip}}&last_money={{r.last_money}}&sys_result=-" data-type="add" >拒绝</button>
+    {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/hand_up", 4) -%}
+    <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-open-link" url="/risk_audits/hand_up" title="审核挂起"
+            area="700px,470px" rid="{{r.id}}" data-type="add">挂起</button>
+    {%endif -%}
+</td>
+{%endfor%}
+{%endif%}

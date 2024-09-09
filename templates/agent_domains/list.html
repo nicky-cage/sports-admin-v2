@@ -1,0 +1,91 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="user_id" placeholder="请输入代理编号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入代理账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">域名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="domain" placeholder="请输入代理账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="state">
+                                    <option value=""></option>
+                                    <option value="2">正常</option>
+                                    <option value="1">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <button class="layui-btn sp-open-link" url="/agent_domains/create" area="600px,360px" title="新增代理域名绑定">新增域名绑定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="80" />
+                        <col width="150" />
+                        <col width="200" />
+                        <col width="100" />
+                        <col width="300" />
+                        <col width="80" />
+                        <col />
+                        <col width="130" />
+                        <col width="130" />
+                        <col width="90" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>代理编号</th>
+                        <th>代理账号</th>
+                        <th>域名</th>
+                        <th>操作用户</th>
+                        <th>操作IP</th>
+                        <th>状态</th>
+                        <th>备注</th>
+                        <th>添加时间</th>
+                        <th>最后修改</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/agent_domains" style="text-align: center">
+                        {% include "_list.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

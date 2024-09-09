@@ -1,0 +1,18 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Title}}</td>
+    <td>{{r.StartTime|datetime}}</td>
+    <td>{{r.LeagueName}}</td>
+    <td>{{r.PlayTeam}}</td>
+    <td>{{r.PlayItem|sport_type}}</td>
+    <td>{{r.BetOption}}</td>
+    <td>{{r.Content}}</td>
+    <td>{%if r.Sort==1%}否{%else%}是{%endif%}</td>
+    <td>{{r.NickId}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>
+        <button class="layui-btn layuiadmin-btn-list sp-open-link" area="900px,630px" tab="4" rid={{r.Id}}  url="/recommend/updated" >编辑</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete" tab="4" rid={{r.Id}} url="/recommend/delete">删除</button>
+    </td>
+</tr>
+{% endfor %}

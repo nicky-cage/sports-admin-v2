@@ -1,0 +1,110 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<style stype="text/css">
+    .pay { margin-left: 5px; margin-top: 5px; margin-bottom: 0px; padding-bottom: 5px; overflow: auto; }
+    .pay .layui-input { width:96%;}
+    .pay .w260 { width: 260px; }
+    .pay .left { float: left; }
+    .pay .ml10 { margin-left: 10px; }
+    .pay .lbl { margin-left: 10px; float: left; line-height: 23px; height: 23px; }
+    .pay .lbl-l { margin-right: 10px; float: left; line-height: 23px; height: 23px; }
+    .layui-form-checkbox span { height: 25px; line-height: 25px; }
+    .layui-form-item .layui-form-checkbox { float: none; }
+    .pay-channel th { cursor: pointer;}
+</style>
+<form class="layui-form" method="post" action="/payment_channels/save_do">
+    <div class="layui-form-item">
+        <label for="name" class="layui-form-label" style="width: 150px;"> <span class="red">*</span>支付名称 </label>
+        <div class="layui-input-inline" style="width: 385px;">
+            <input id="name" name="name" lay-verify="required" value="{{r.Name}}"
+                   class="layui-input" placeholder="请输入支付渠道名称, 如: 财神支付" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="code" class="layui-form-label" style="width: 150px;"> <span class="red">*</span>支付编码 </label>
+        <div class="layui-input-inline" style="width: 385px;">
+            <input id="code" name="code" lay-verify="required" value="{{r.Code}}"
+                   class="layui-input" placeholder="请输入支付渠道编码, 如: TCS" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 150px; font-weight: bold"><span class="red">*</span>通道列表 </label>
+        <div class="layui-input-inline" style="width:80%;">
+            {%include "_ebank.html"%}
+            {%include "_alipay.html"%}
+            {%include "_weixin.html"%}
+            {%include "_quick.html"%}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="is_online" class="layui-form-label" style="width: 150px;"> <span class="red">*</span>通道状态 </label>
+        <div class="layui-input-inline">
+            <select name="is_online" id="is_online" lay-verify="required">
+                <option value="1">关闭</option>
+                <option value="2" {%if r.IsOnline == 2 %}selected="selected"{%endif%}>开启</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="weight" class="layui-form-label" style="width: 150px;"> <span class="red">*</span>权重 </label>
+        <div class="layui-input-inline">
+            <input id="weight" name="weight" lay-verify="required" value="{% if r.Weight -%}{{r.Weight}}{%else-%}100{%endif-%}" class="layui-input" placeholder="请输入权重" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"><strong style="color: red">注：权重值越大通道越靠前</strong></div>
+    </div>
+    <div class="layui-form-item">
+        <label for="cb_ip_list" class="layui-form-label" style="width: 150px;"> <span class="red">*</span>回调IP白名单 </label>
+        <div class="layui-input-inline">
+            <input id="cb_ip_list" name="cb_ip_list" value="{%if r.CbIpList == "" -%}127.0.0.1{%else-%}{{r.CbIpList}}{%endif-%}" class="layui-input" placeholder="请输入回调IP白名单" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"><strong style="color: red">注：ip请用|隔开,非技术人员请勿修改。</strong></div>
+    </div>
+    <div class="layui-form-item">
+        <label for="remark" class="layui-form-label" style="width: 150px;"> <span class="red">*</span>备注 </label>
+        <div class="layui-input-inline">
+            <textarea class="layui-textarea" id="remark" name="remark"
+                      placeholder="请输入备注" style="width: 300px;">{%if r.Remark-%}{{r.Remark}}{%else-%}请输入备注{%endif-%}</textarea>
+        </div>
+    </div>
+    <input type="hidden" name="methods" value="{{method}}" />
+    <input type="hidden" name="id" value="{{r.Id}}" />
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.use(['form', 'jquery'], function() {
+
+        let $ = layui.$, form = layui.form;
+
+        $(".client-check").each(function() {
+            let that = $("input:first", $(this)), filter = that.attr("lay-filter");
+            form.on('checkbox(' + filter + ')', function (data) {
+                let checked = data.elem.checked;
+                let tr = $(data.elem).parent().parent().parent();
+                $(":checkbox", tr).each(function () {
+                    $(this).prop("checked", checked);
+                });
+                form.render('checkbox');
+            });
+        });
+
+        let hide_channels = function(container) { // 隐藏充值渠道
+            $("tr:gt(0)",  container).each(function() {
+                $(this).hide();
+            });
+        };
+        let show_channels = function(container) { // 显示充值渠道
+            $("tr:gt(0)",  container).each(function() {
+                $(this).show();
+            });
+        };
+        $(document).on("click", ".pay-channel th", function() { // 切换显示/隐藏
+            let that = $(this), container = that.parent().parent().parent(), tr = $("tr:eq(1)", container);
+            if (tr.is(':hidden')) {
+                show_channels(container);
+            } else {
+                hide_channels(container);
+            }
+        });
+    });
+</script>
+{% endblock body %}

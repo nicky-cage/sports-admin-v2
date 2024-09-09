@@ -1,0 +1,14 @@
+
+{%for  r in nami %}
+<tr >
+    <td>{{r.MatchId}}</td>
+    <td>{{r.MatchTime}}</td>
+    <td>{{r.MatchName}}</td>
+    <td>{{r.HomeName}}</td>
+    <td>{{r.AwayName}}</td>
+    <td><input type="hidden" name="nami_id" value="{{r.MatchId}}"/>
+        <input type="hidden" name="type" value="{%if r.SportType==1%}足球{%else%}篮球{%endif%}">
+        <input type="radio" name="nami" lay-filter="nami_chose"  id="nami">
+    </td>
+</tr>
+{%endfor%}

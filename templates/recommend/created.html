@@ -1,0 +1,171 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/recommend/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">发布账号昵称</label>
+        <div class="layui-input-inline" style="width: 500px;">
+            {%for n in nickname%}
+            <input type="radio" name="nickname" title="{{n.Nickname}}" lay-skin="primary" value="{{n.Id}}" {%if n.Id==r.NickId%}checked{%endif%}>
+            {%endfor%}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">比赛项目</label>
+        <div class="layui-input-inline" style="width:400px;">
+            <input type="radio" name="play_item" title="足球"  value="1" {%if r.PlayItem==1%}checked{%endif%}>
+            <input type="radio" name="play_item" title="篮球"  value="2" {%if r.PlayItem==2%}checked{%endif%}>
+            <input type="radio" name="play_item" title="电竞" value="3" {%if r.PLayItem==3%}checked{%endif%}>
+            <input type="radio" name="play_item" title="其他"  value="4" {%if r.PlayItem==4%}checked{%endif%}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">方案标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Title}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-col-lg6">
+        <label class="layui-form-label">比赛时间</label>
+        <div class="layui-input-inline"  style="width:200px;">
+            <input type="text" name="start_time" placeholder="请输入时间" autocomplete="off" class="layui-input sp-form-datetime" value="{{r.StartTime}}" style="width: 200px;" id="start_time" readonly />
+        </div>
+        </div>
+    <div class="layui-col-lg6">
+        <label class="layui-form-label">联赛名称</label>
+        <div class="layui-input-inline">
+            <select name="league_name">
+                <option></option>
+                <option value="test1"{%if r.LeagueName%}{%endif%}>test1</option>
+                <option value="test2">test2</option>
+            </select>
+        </div>
+    </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >比赛队伍</label>
+        <div class="layui-input-inline">
+            <select name="play_team">
+                <option></option>
+                <option value="play_team1" {%if r.PlayTeam%}{%endif%}>play_team1</option>
+                <option value="play_team2">play_team2</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" >投注项目</label>
+        <div class="layui-input-inline">
+            <input type="text" name="bet_project" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.BetProject}}" />
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div style="float:left; width:150px;height:150px;margin-left: 100px;" >
+        <label class="layui-form-label" style="margin-top: 17px;">投注选项</label>
+        <div class="layui-col-lg3" id="commend-option">
+            <input type="text" name="bet_option" lay-verify="" placeholder="" autocomplete="off" class="layui-input" value="" style="margin-top:20px;"/>
+            <input type="text" name="bet_option" lay-verify="" placeholder="" autocomplete="off" class="layui-input" value="" style="margin-top:20px;"/>
+            <input type="text" name="bet_option" lay-verify="" placeholder="" autocomplete="off" class="layui-input" value="" style="margin-top:20px;" />
+        </div>
+        </div>
+        <div style="float:left; width:150px;height:150px;margin-left: 20px;" >
+        <label class="layui-form-label" style="margin-top: 17px;">赔率</label>
+        <div class="layui-col-lg3" id="commend-rate">
+            <input type="text" name="bet_rate" lay-verify="" placeholder="" autocomplete="off" class="layui-input" value=""  style="margin-top:20px;"/>
+            <input type="text" name="bet_rate" lay-verify="" placeholder="" autocomplete="off" class="layui-input" value="" style="margin-top:20px;" />
+            <input type="text" name="bet_rate" lay-verify="" placeholder="" autocomplete="off" class="layui-input" value=""  style="margin-top:20px;"/>
+        </div>
+        </div>
+        <div style="float:left; width:50px;height:150px;margin-left: 20px;" >
+        <label class="layui-form-label" style="margin-top: 17px;">推荐该项</label>
+        <div class="layui-col-lg3 " id="commend-radio" style="position:relative;top:-15px;margin-left:38px;width: 100px;">
+        </div>
+        </div>
+        <input type="hidden" id="option_type" value="{{r.OptionType}}">
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-top: 17px;">方案描述</label>
+        <div class="layui-input-inline">
+            <textarea style="width:500px;height:200px;" name="content">{{r.Content}}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-top: 17px;">是否重点推荐</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="sort" title="是" lay-skin="primary" value="2" {%if r.Sort=="2"%}checked{%endif%}>
+            <input type="radio" name="sort" title="否" lay-skin="primary" value="1"  {%if r.Sort=="1"%}checked{%endif%}>
+        </div>
+    </div>
+</form>
+<div class="layui-layout-admin" style="z-index:99;">
+    <input type="hidden" value="{{r.Id}}" name="id" />
+    <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+        <button type="button" class="layui-btn" id="commend-save">立即提交</button>
+        <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+    </div>
+</div>
+<script>
+layui.use(['jquery','form','layer'],function(){
+    let $=layui.$;
+    let form =layui.form;
+    $(function(){
+        let len=$("#commend-option input").length;
+        for(let i=1;i<=len;i++){
+            $("#commend-radio").append("<input type='radio' name='bet_type' title='是' lay-skin='primary' value='"+i+"'>");
+            if ($("#option_type").val()==i) {
+                $("#commend-radio input:nth-child("+i+")").attr("checked","checked")
+            }
+        }
+
+    })
+    $("#commend-save").click(function(){
+        let nickname=$("input[name='nickname']:checked").val();
+        if (nickname==undefined){
+            layer.msg("必须选择昵称",{icon:2,time:1300});
+            return false;
+        }
+       let  playItem=$("input[name='play_item']:checked").val();
+        if (playItem==undefined){
+            layer.msg("必须选择比赛项目",{icon:2,time:1300});
+            return false;
+        }
+        let title=$("input[name='title']").val();
+        let startTime=$("input[name='start_time']").val();
+        let timeArr= new Date(startTime.substring(0,18)).getTime()/1000;
+
+        let leagueName =$("select[name='league_name'] option:selected").val();
+        let playTeam =$("select[name='play_team'] option:selected").val();
+        let betProject =$("input[name='bet_project']").val();
+        let  betType=$("input[name='bet_type']:checked").val();
+        let betOption=$("#commend-option input:nth-child("+betType+")").val();
+        let betRate=$("#commend-rate input:nth-child("+betType+")").val();
+        let content=$("textarea[name='content']").val();
+        let sort=$("input[name='sort']:checked").val();
+        if (sort==undefined){
+            layer.msg("必须选择是否重点推荐",{icon:2,time:1300});
+            return false;
+        }
+
+        $.ajax({
+            url:"/recommend/save",
+            type:"post",
+            data:JSON.stringify({"nickname":nickname,"play_item":playItem,"title":title,"start_time":timeArr,"league_name":leagueName,"play_team":playTeam,"bet_project":betProject,"bet_type":betType,"bet_option":betOption,"bet_rate":betRate,"content":content,"sort":sort}),
+            success:function(data){
+                if(data.errcode==0){
+                    layer.msg("成功",{icon:1,time:1300},function(){
+                        sp.loadTab(4, $(parent.document), function () {
+                            sp.closeWin();
+                        });
+                    })
+                }else{
+                    layer.msg("失败",{icon:2,time:1300})
+                }
+            }
+        })
+
+
+    })
+})
+</script>
+{% endblock body %}

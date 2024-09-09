@@ -1,0 +1,61 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="3">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">参数组名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="title" placeholder="请输入标题关键字" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body no-padding-lr">
+                <div>
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/parameter_groups/created", 4) -%}
+                    <button class="layui-btn sp-open-link" url="/parameter_groups/created" area="450px,400px">增加参数分组</button>
+                    {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/parameters/create", 4) -%}
+                    <button class="layui-btn sp-open-link" url="/parameters/create" area="450px,600px">增加参数</button>
+                </div>
+                {%endif -%}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="300" />
+                        <col width="150" />
+                        <col />
+                        <col width="140" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>参数组名称</th>
+                            <th>KEY</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

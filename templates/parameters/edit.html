@@ -1,0 +1,41 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/parameters/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">参数名称</label>
+        <div class="layui-input-inline">
+            <input name="title" class="layui-input" value="{{r.Title}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >KEY</label>
+        <div class="layui-input-inline">
+            <input name="name" class="layui-input" value="{{r.Name}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >VALUE</label>
+        <div class="layui-input-inline">
+            <input name="value" class="layui-input" value="{{r.Value}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >数据类型</label>
+        <div class="layui-input-inline">
+            <select name="value_type">
+                <option></option>
+                <option value="string" {%if r.ValueType=="string"%}selected{%endif%}>String</option>
+                <option value="int"  {%if r.ValueType=="int"%}selected{%endif%}>Int</option>
+                <option value="float64"  {%if r.ValueType=="float64"%}selected{%endif%}>Float64</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"  >备注</label>
+        <div class="layui-input-inline" style="width:100px;">
+            <textarea name="remark" placeholder="请填写备注" class="layui-textarea" style="width:250px; height: 150px;">{{r.Remark}}</textarea>
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

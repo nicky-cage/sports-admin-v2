@@ -1,0 +1,65 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form action="/user_deposit_coin_matches/save" class="layui-form" lay-filter="component-form-element" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">付款地址</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input autocomplete="off" class="layui-input" id="pay_address" lay-verify="required" name="pay_address" placeholder="请输入付款钱包地址" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">付款金额</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <select disabled="disabled" id="amount" name="amount">
+                <option value="">请核对确认充值金额</option>
+                {% for dv in deposits -%}
+                <option value="{{dv.UserWalletAddress}}">代币: {{dv.VirtualCoin|stringformat:'%.4f'}} - 金额: {{dv.Money|stringformat:'%.4f'}}</option>
+                {% endfor -%}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">收款钱包</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <select disabled="disabled" id="receive_address" name="receive_address" readonly="readonly">
+                <option value="">请核对确认收款钱包</option>
+                {% for wv in virtual_wallets -%}
+                <option value="{{wv.WalletAddress}}">{{wv.Name}} - {{wv.WalletAddress}}</option>
+                {% endfor -%}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <textarea class="layui-textarea" lay-verify="required" name="remark" placeholder="请输入相关备注" style="width: 380px; height: 38px;">代币充值自动订单匹配</textarea>
+        </div>
+    </div>
+    <input id="recharge_id" name="recharge_id" type="hidden" value="0" />
+    <input id="wallet_id" name="wallet_id" type="hidden" value="0" />
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.use(['jquery', 'form'], function() {
+        let $ = layui.jquery, form = layui.form;
+        let infoArr = JSON.parse('{{deposits_json|safe}}');
+
+        // 输入内容时自动判断金额
+        $(document).on("keyup", "#pay_address", function() {
+            let that = $(this), value = that.val();
+            let amount = $("#amount"), receive_address = $("#receive_address"), recharge_id = $("#recharge_id"), wallet_id = $("#wallet_id");
+            for (let i = 0; i < infoArr.length; i++) {
+                let current = infoArr[i];
+                if (current.user_wallet_address == value) {
+                    amount.val(value);
+                    receive_address.val(current.wallet_address);
+                    recharge_id.val(current.id);
+                    wallet_id.val(current.wallet_id);
+                    form.render();
+                    return;
+                }
+            }
+        });
+    });
+</script>
+{% endblock body %}

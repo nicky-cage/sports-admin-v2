@@ -1,0 +1,156 @@
+<tr>
+    <td>
+        <div class="layui-card">
+            <div class="layui-card-header" style="padding-left: 18px;">基本信息</div>
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>会员账号</th>
+                        <th>会员等级</th>
+                        <th>有效流水</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td id="get_username">{{userInfo.Username}}</td>
+                        <td>{{userInfo.vip|platform_wrap:PLATFORM|user_level}}</td>
+                        <td>{{sumRebateMoney|stringformat:"%.2f"}}元</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>应返水</th>
+                        <th>已返水</th>
+                        <th>剩余未返水</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{{sumNeedRebate|stringformat:"%.2f"}}元</td>
+                        <td>{{hasRebate|stringformat:"%.2f"}}</td>
+                        <td id="need_rebate">{{remainingRebate|stringformat:"%.2f"}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="layui-card-header" style="padding-left: 18px;">
+                流水信息
+                {% if isRebate==true %}
+                <span>
+                <form class="layui-form" lay-filter="" method="post" tbody="1">
+                    <button class="layui-btn issue_rebate" lay-submit="" lay-filter="submit_data">发放</button>
+                </form>
+                </span>
+                {% endif %}
+            </div>
+            <div class="layui-card-body" style="margin-top: 30px;">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>场馆</th>
+                        <th>游戏名称</th>
+                        <th>流水</th>
+                        <th>返水比例(%)</th>
+                        <th>应返水</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for r in outRes %}
+                    <tr>
+                        <td>{{r.Name}}</td>
+                        <td>
+                            {% if r.Child==0 %}
+                            主平台
+                            {% elif r.Child==1 %}
+                            体育
+                            {% elif r.Child==2 %}
+                            电竞
+                            {% elif r.Child==3 %}
+                            真人
+                            {% elif r.Child==4 %}
+                            电游
+                            {% elif r.Child==5 %}
+                            捕鱼
+                            {% elif r.Child==6 %}
+                            彩票
+                            {% elif r.Child==7 %}
+                            棋牌
+                            {% else %}
+                            未知
+                            {% endif %}
+                        </td>
+                        <td>{{r.Value|stringformat:"%.2f"}}</td>
+                        <td>{{r.Ratio|stringformat:"%.2f"}}</td>
+                        <td>{{r.RebateMoney|stringformat:"%.2f"}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><span style="color: red">总计</span></td>
+                        <td></td>
+                        <td><span style="color: red">{{sumRebateMoney|stringformat:"%.2f"}}</span></td>
+                        <td></td>
+                        <td><span style="color: red">{{sumNeedRebate|stringformat:"%.2f"}}</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </td>
+</tr>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','jquery'], function() {
+        let form = layui.form;
+        let $ = layui.jquery;
+        form.on('submit(submit_data)', function(data) {
+            layer.confirm("您确定要发放所选数据的返水吗？此操作无法撤回！", {icon: 3}, function(index) {
+                let username=$("#get_username").text();
+                let rebate_money=$("#need_rebate").text();
+                let commissons_day=$("#commissons_time_id").val();
+                let sub={"username":username,"rebate_money":rebate_money,"commissons_day":commissons_day}
+                sp.post("/user_commissions/issue", sub, function(result) {
+                    if (result.errcode === 0) {
+                        layui.layer.msg("发放成功", {icon: 1, timeout: 1000}, function() {
+                            location.href = "/commission_levels";
+                        });
+                    }else{
+                        layui.layer.msg("发放失败", {icon: 1, timeout: 1000}, function() {
+                            location.href = "/commission_levels";
+                        });
+                    }
+                });
+                layer.close(index);
+            });
+            return false;
+        });
+    });
+</script>

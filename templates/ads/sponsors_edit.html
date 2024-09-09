@@ -1,0 +1,103 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/ad_sponsors/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">轮播标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Title}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">赞助图片</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <div class="layui-upload">
+                <button type="button" name="image" class="layui-btn sp-file-upload" img="{{r.Image}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+            </div>
+            <span style="color: red;">支持.jpg .png .jpeg格式,单个文件不超过5M</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">图标</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <div class="layui-upload">
+                <button type="button" name="icon" class="layui-btn sp-file-upload" img="{{r.Icon}}"><i class="layui-icon">&#xe67c;</i>上传图片</button> <br />
+            </div>
+            <span style="color: red;">.jpg/.png/.jpeg格式,尺寸1440*2560,小于5M</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">第一行文案</label>
+        <div class="layui-input-inline">
+            <input type="text" name="line_first" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.LineFirst}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">第二行文案</label>
+        <div class="layui-input-inline">
+            <input type="text" name="line_second" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.LineSecond}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">按键文案</label>
+        <div class="layui-input-inline">
+            <input type="text" name="line_key" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.LineKey}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">详情链接</label>
+        <div class="layui-input-inline">
+            <input type="text" name="url" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Url}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">分享标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="share_title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.ShareTitle}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">分享图片</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <div class="layui-upload">
+            <button type="button" name="share_image" class="layui-btn sp-file-upload" img="{{r.ShareImage}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+            </div>
+            <span style="color: red;">.jpg/.png/.jpeg格式,尺寸1440*2560,小于5M</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Sort}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">展示时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime-ss" style="width: 330px;" id="created_carousels_edit" />
+        </div>
+    </div>
+    <input type="hidden" name="method" value="{{method}}">
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.use(['form','laydate','jquery','upload'], function() {
+        let $ = layui.jquery, laydate = layui.laydate;
+        let method=$("input[name='method']").val();
+        if (method=="create") {
+            laydate.render({
+                elem: "#created_carousels_edit"
+                ,type: 'datetime'
+                ,range: true
+                ,value: sp.utils.getCurrentDate() + ' 00:00:00 - ' + sp.utils.getCurrentDate() + ' 23:59:59'
+            });
+        } else if (method == "update") {
+            laydate.render({
+                elem: "#created_carousels_edit"
+                ,type: 'datetime'
+                ,range: true
+                ,value: '{{r.TimeStart|datetime}} - {{r.TimeEnd|datetime}}'
+            });
+        }
+    });
+</script>
+{% endblock body %}

@@ -1,0 +1,18 @@
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Username}}</td>
+    <td>{{r.Deposits|stringformat:"%.2f"}}</td>
+    <td>{{r.ValidBet|stringformat:"%.2f"}}</td>
+    <td>{{r.BeforeVip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>{{r.AfterVip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>
+        {%if r.AdjustType==0%}保级
+        {%elif r.AdjustType==1%}<span style="color: orange">升级</span>
+        {%else%}<span style="color: red">降级</span>
+        {%endif%}
+    </td>
+    <td>{{r.Admin}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td></td>
+</tr>
+{%endfor %}

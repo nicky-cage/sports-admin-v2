@@ -1,0 +1,93 @@
+{% for r in rows %}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.WagerRecord.Username}}</td>
+    <td>{{r.WagerRecord.Playname}}</td>
+    <td>{{r.WagerRecord.GameCode}}</td>
+    <td>
+        {% if r.WagerRecord.GameType==0 %} 主平台
+        {% elif r.WagerRecord.GameType==1 %} 体育
+        {% elif r.WagerRecord.GameType==2 %} 电竞
+        {% elif r.WagerRecord.GameType==3 %} 真人
+        {% elif r.WagerRecord.GameType==4 %} 电游
+        {% elif r.WagerRecord.GameType==5 %} 捕鱼
+        {% elif r.WagerRecord.GameType==6 %} 彩票
+        {% elif r.WagerRecord.GameType==7 %} 棋牌
+        {% else %} 未知
+        {% endif %}
+    </td>
+    <td>{{r.GameName}}</td>
+    <td>{{r.WagerRecord.BillNo}}</td>
+    <td>
+        {%if r.WagerRecord.NetMoney > 0 -%}
+        <span style="color: red">{{r.WagerRecord.NetMoney|stringformat:'%.2f'}}</span>
+        {%else -%}
+        <span style="color: green">{{r.WagerRecord.NetMoney|stringformat:'%.2f'}}</span>
+        {%endif -%}
+    </td>
+    <td><a href="#" class="sp-open-link" rid="{{r.WagerRecord.BillNo}}&game_code={{r.WagerRecord.GameCode}}" url="/user_bets/detail" area="600px,630px" style="color: #007DDB">查看详情</a></td>
+    <td>{{r.WagerRecord.BetMoney|stringformat:'%.2f'}}</td>
+    <td>{{r.WagerRecord.ValidMoney|stringformat:'%.2f'}}</td>
+    <td>{{r.WagerRecord.RebateMoney|stringformat:'%.2f'}}</td>
+    <td>{{r.WagerRecord.RebateRatio|stringformat:'%.2f'}}</td>
+    <td>
+        {% set rStatus = r.WagerRecord.Status|bet_status %}
+        {%if rStatus == "输" -%}
+        <span style="color: green">{{rStatus}}</span>
+        {%else -%}
+        {{rStatus}}
+        {%endif -%}
+    </td>
+    <td>{{r.WagerRecord.CreatedAt|datetime64}}</td>
+</tr>
+{% endfor %}
+<tr>
+    <td colspan="5"><span style="color: red">小计 (本页)</span></td>
+    <td>{{rows_total}}</td>
+    <td>
+        {%if page_total.NetMoney > 0 -%}
+        <span style="color: red">{{page_total.NetMoney|stringformat:'%.2f'}}</span>
+        {%else -%}
+        <span style="color: green">{{page_total.NetMoney|stringformat:'%.2f'}}</span>
+        {%endif -%}
+    </td>
+    <td></td>
+    <td><span style="color: red">{{page_total.BetMoney|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{page_total.ValidMoney|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{page_total.RebateMoney|stringformat:'%.2f'}}</span></td>
+    <td colspan="3"></td>
+</tr>
+{%if query_total -%}
+<tr>
+    <td colspan="5"><span style="color: red">小计 (本次查询)</span></td>
+    <td>{{total}}</td>
+    <td>
+        {%if query_total.NetMoney > 0 -%}
+        <span style="color: red">{{query_total.NetMoney|stringformat:'%.2f'}}</span>
+        {%else %}
+        <span style="color: green">{{query_total.NetMoney|stringformat:'%.2f'}}</span>
+        {%endif -%}
+    </td>
+    <td></td>
+    <td><span style="color: red">{{query_total.BetMoney|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{query_total.ValidMoney|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{query_total.RebateMoney|stringformat:'%.2f'}}</span></td>
+    <td colspan="3"></td>
+</tr>
+{%endif -%}
+{%if all_total -%}
+<tr>
+    <td colspan="6"><span style="color: red">总计</span></td>
+    <td>
+        {%if all_total.NetMoney > 0 -%}
+        <span style="color: red">{{all_total.NetMoney|stringformat:'%.2f'}}</span>
+        {%else -%}
+        <span style="color: green">{{all_total.NetMoney|stringformat:'%.2f'}}</span>
+        {%endif -%}
+    </td>
+    <td></td>
+    <td><span style="color: red">{{all_total.BetMoney|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{all_total.ValidMoney|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{all_total.RebateMoney|stringformat:'%.2f'}}</span></td>
+    <td colspan="3"></td>
+</tr>
+{%endif -%}

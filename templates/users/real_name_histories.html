@@ -1,0 +1,43 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col />
+                        <col />
+                        <col width="130" />
+                        <col width="100" />
+                        <col width="120" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>修改前姓名</th>
+                        <th>修改后姓名</th>
+                        <th>修改时间</th>
+                        <th>修改人</th>
+                        <th>是否删除银行卡</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    {%for r in rows%}
+                    <tr>
+                    <td>{{r.Id}}</td>
+                    <td>{{r.BeforeName}}</td>
+                    <td>{{r.AfterName}}</td>
+                    <td>{{r.Updated|datetime}}</td>
+                    <td>{{r.Admin}}</td>
+                    <td>{%if r.DeleteCard==1%}是{%else%}否{%endif%}</td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

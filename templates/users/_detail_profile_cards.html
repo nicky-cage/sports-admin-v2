@@ -1,0 +1,44 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header"><strong>银行卡信息</strong></div>
+            <div class="layui-card-body" style="padding: 0px">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="200" />
+                        <col width="250" />
+                        <col width="300" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>开户人姓名</th>
+                        <th>银行名称</th>
+                        <th>开户地</th>
+                        <th>银行卡号</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%for r in cards%}
+                    <tr>
+                        <td>{{r.RealName}}</td>
+                        <td>
+                            {%if r.BankName==""%} {{r.BankId|platform_wrap:PLATFORM|bank}} 
+                            {%elif r.BankId != 0 %} {{r.BankId|platform_wrap:PLATFORM|bank}} 
+                            {%else%} {{r.BankName}} 
+                            {%endif%}
+                        </td>
+                        <td>{{r.ProvinceId|platform_wrap:PLATFORM|province}} | 
+                            {{r.CityId|platform_wrap:PLATFORM|city}} | 
+                            {{r.DistrictId|platform_wrap:PLATFORM|district}} | 
+                            {{r.Address}}
+                        </td>
+                        <td>{{r.CardNumber}}</td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

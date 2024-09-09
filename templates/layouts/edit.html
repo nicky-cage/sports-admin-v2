@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {%include "_head.html"-%}
+        <style type="text/css">
+            .form-label { width: 100px; overflow: auto; }
+            .layui-form-checkbox i { height: 23px; top: 3px; }
+            .layui-form-item .layui-form-checkbox { float: left; }
+        </style>
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-body" style="margin-bottom: 60px; padding-top: 10px;">
+                            {% block body %}
+                            <div class="layui-layout-admin" style="z-index:99;">
+                                <input name="id" type="hidden" value="{{r.Id}}" />
+                                <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+                                    <button class="layui-btn" id="sp-submit" lay-filter="sp-comfirm-save" lay-submit style="padding: 0px 15px" type="button">立即提交</button>
+                                    <button class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel" style="margin-left: 50px; color: red; padding: 0px 15px;" type="button">取消操作</button>
+                                </div>
+                            </div>
+                            {% endblock body %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="{{STATIC_URL}}/js/scripts.js"></script>

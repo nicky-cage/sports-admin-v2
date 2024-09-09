@@ -1,0 +1,83 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/user_changes/save">
+    <input type="hidden" name="bill_no" value="{{r.bill_no}}">
+    <input type="hidden" name="id" value="{{r.id}}">
+    <input type="hidden" name="user_id" value="{{r.user_id}}">
+    <input type="hidden" name="adjust_method" value="{{r.adjust_method}}">
+    <input type="hidden" name="vip" value="{{r.vip}}">
+    <input type="hidden" name="status" value="3">
+
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header" style="color: blue;">基本信息</div>
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" >会员账号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="username" disabled value="{{r.username}}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" >调整类型</label>
+                        <div class="layui-input-inline">
+                            <select name="adjust_type">
+                                <option value="{{r.adjust_type}}">{%if r.adjust_type=="1"%}红利补发{%elif r.adjust_type=="2"%}系统调整{%else%}输赢调整{%endif%}</option>
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" >调整方式</label>
+                        <div class="layui-input-inline">
+                            <input type="text"  disabled   placeholder="{%if r.adjust_method=='1'%}上分{%else%}下分{%endif%}" autocomplete="off" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" >调整金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="adjust_money"  disabled value="{{r.adjust_money}}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" >申请人</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="admin_name" disabled value="{{r.admin_name}}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">申请时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="updated" disabled value="{{r.updated|time_type_chang}}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">申请备注</label>
+                        <div class="layui-input-inline">
+                            <textarea  placeholder="请输入内容" name="applicant_remark" disabled class="layui-textarea">{{r.remark}}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-card-header" style="color: blue;">审核备注</div>
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">拒绝备注</label>
+                        <div class="layui-input-inline">
+                            <textarea name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline" style="margin-left: 90px;margin-bottom: 10px;margin-top: 10px;">
+                        <button class="layui-btn" lay-submit lay-filter="sp-save">提交</button>
+                        <button class="layui-btn layui-btn-primary sp-btn-cancel">取消</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock body %}

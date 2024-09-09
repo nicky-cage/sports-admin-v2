@@ -1,0 +1,121 @@
+{% extends "../layouts/base.html" %} {% block body %}
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" class="layui-input sp-form-datetime" placeholder="" id="created_operations" style="width: 300px" />
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-left: 150px">
+                            <!--<button class="layui-btn layui-btn-sm layui-btn-normal">本日</button>-->
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-normal sp-set-datetime" bind_to="created_operations" period="today">本日</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary sp-set-datetime" bind_to="created_operations" period="yesterday">昨天</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary sp-set-datetime" bind_to="created_operations" period="this_week">本周</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary sp-set-datetime" bind_to="created_operations" period="last_week">上周</button>
+                            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm sp-set-datetime" bind_to="created_operations" period="this_month">本月</button>
+                            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm sp-set-datetime" bind_to="created_operations" period="last_month">上月</button>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{STATIC_URL}}/js/date-range-util.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}/js/date-set.js"></script>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>注册数</th>
+                            <th>首存人数</th>
+                            <th>存款人数</th>
+                            <th>提款人数</th>
+                            <th>在线存款人数</th>
+                            <th>离线存款人数</th>
+                            <th>人工存款人数</th>
+                            <th>人工提款人数</th>
+
+                            <th>存款金额</th>
+                            <th>在线存款金额</th>
+                            <th>人工存款金额</th>
+                            <th>离线存款金额</th>
+                            <th>虚拟币存款金额</th>
+
+                            <th>人工提款金额</th>
+                            <th>提款金额</th>
+                            <th>虚拟币提款金额</th>
+                            <th>存提差</th>
+
+                            <th>有效投注人数</th>
+                            <th>有效投注额</th>
+                            <th>总投注额</th>
+                            <th>公司输赢</th>
+
+                            <th>红利</th>
+                            <th>反水</th>
+                            <th>存款优惠</th>
+                            <th>代理佣金</th>
+                            <th>公司收入</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/report_operations" loaded="loaded">
+                        {% include "_list.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

@@ -1,0 +1,17 @@
+{%for r in rows%}
+<tr>
+    <td>{{r.Id}}</td>
+    <td>{{r.Name}}</td>
+    <td>{{r.Level}}</td>
+    <td>{%if r.Type == 0 -%}<span class="red">特殊组</span>{%else-%}<span class="green">晋级组</span>{%endif-%}</td>
+    <!--<td>{{r.MaxWithdraw}}</td>-->
+    <td>{%if r.Type == 0 -%}-{%else-%}{{r.UpgradeAmount}}{%endif%}</td>
+    <td>{{r.Remark}}</td>
+    <td>
+        <button class="layui-btn sp-open-link" url="/payment_groups/update" area="700px,600px">编辑</button>
+        {% if r.Type == 0 -%}
+        <button class="layui-btn sp-btn-delete layui-btn-danger" rid="{{r.Id}}" url="/payment_groups/delete">删除</button>
+        {% endif -%}
+    </td>
+</tr>
+{%endfor%}

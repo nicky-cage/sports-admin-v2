@@ -1,0 +1,20 @@
+{%for r in rows%}
+<tr  {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+     <td>{{r.SerialNumber}}</td>
+     <td>{{r.TypeId|trans_type}}</td>
+     <td>{{r.Amount|stringformat:"%.2f"}}</td>
+     <td>{{r.PreviousAvailable|stringformat:"%.2f"}}</td>
+     <td>{{r.Available|stringformat:"%.2f"}}</td>
+     <td>{{r.Created|datetime}}</td>
+     <td>{{r.Description}}</td>
+ </tr>
+{%endfor%}
+<tr>
+     <th>总计</th>
+     <th></th>
+     <th>{{amount_money|stringformat:"%.2f"}}</th>
+     <th></th>
+     <th></th>
+     <th></th>
+     <th></th>
+</tr>

@@ -1,0 +1,20 @@
+{% for r in rows %}
+<tr>
+    <td>{{r.id}}</td>
+    <td>{{r.title}}</td>
+    <td>{{r.name}}</td>
+    <td>{{r.value}}</td>
+    <td>{{r.value_type}}</td>
+    <td>{{r.remark}}</td>
+
+    {%if r.group_id==9%}
+    <td>
+        <button class="layui-btn sp-open-link"   title="参数修改" url="/parameters/update">开启</button>
+    </td>
+    {%else%}
+    <td>
+        <button class="layui-btn sp-open-link"  area="500px,460px" title="参数修改" url="/parameters/update">修改</button>
+    </td>
+    {%endif%}
+</tr>
+{% endfor %}

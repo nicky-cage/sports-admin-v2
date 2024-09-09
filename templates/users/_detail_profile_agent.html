@@ -1,0 +1,42 @@
+{%if agent.Id > 0%}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header"><strong>代理信息</strong></div>
+            <div class="layui-card-body" style="padding: 0px">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100" />
+                        <col width="200" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col />
+                        <col width="200" />
+                        <col width="165" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>代理类别</th>
+                        <th>代理账号</th>
+                        <th>账号状态</th>
+                        <th>下线会员</th>
+                        <th>注册IP/最近登录IP</th>
+                        <th>成为代理时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>{%if agent.AgentType=="1"%}官方代理{%else%}普通代理{%endif%}</td>
+                        <td>{{agent.Username}}</td>
+                        <td>{%if agent.Status==2%}正常{%else%}禁用{%endif%}</td>
+                        <td>{{lower}}</td>
+                        <td>{{agent.RegisterIp}}/{{agent.CurrentIp}}</td>
+                        <td>{{agent.TransformAgent|datetime}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{%endif%}

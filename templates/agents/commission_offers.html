@@ -1,0 +1,313 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="id" placeholder="请输入代理编号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入代理账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理类型</label>
+                            <div class="layui-input-inline">
+                                <select name="agent_type">
+                                    <option></option>
+                                    <option value="0">普通代理</option>
+                                    <option value="1">官方代理</option>
+                                    <option value="3">招商代理</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--
+                    <div class="layui-inline">
+                        <label class="layui-form-label">上月是否有结余</label>
+                        <div class="layui-input-inline">
+                            <select name="last_balance">
+                                <option></option>
+                                <option value="2">是</option>
+                                <option value="1">否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="layui-inline">
+                        <label class="layui-form-label">本月是否有结余</label>
+                        <div class="layui-input-inline">
+                            <select name="balance">
+                                <option></option>
+                                <option value="2">是</option>
+                                <option value="1">否</option>
+                            </select>
+                        </div>
+                    </div>-->
+                        <div class="layui-inline">
+                            <label class="layui-form-label">佣金月份</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="month" placeholder="佣金月份,格式2020-08" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <!-- <div class="layui-inline">
+                        <label class="layui-form-label">佣金金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="money" placeholder="最小金额~最大金额" autocomplete="off" class="layui-input">
+
+                        </div>
+                    </div>-->
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/commissions/grant", 4) -%}
+                    <button class="layui-btn layuiadmin-btn-list all-grant" data-type="add">一键发放</button>
+                    {%endif -%}
+                    <!--<button class="layui-btn layuiadmin-btn-list" data-type="add">批量导入</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="40" />
+                        <col width="55" />
+                        <col width="65" />
+                        <col width="60" />
+                        <col width="100" />
+                        <col width="60" />
+                        <col width="100" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="70" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="70" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col />
+                        <col width="110" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" class="all-choice" /></th>
+                            <th>序号</th>
+                            <th>佣金月份</th>
+                            <th>代理编号</th>
+                            <th>代理账号</th>
+                            <th>代理类型</th>
+                            <th>上线</th>
+                            <th>下线会员</th>
+                            <th>活跃会员</th>
+                            <th>存款金额</th>
+                            <th>提款金额</th>
+                            <th>代理总输赢</th>
+                            <th>场馆费</th>
+                            <th>存款手续费</th>
+                            <th>红利</th>
+                            <th>反水</th>
+                            <!--<th>累计负盈利</th>-->
+                            <th>输赢调整</th>
+                            <th>净输赢</th>
+                            <!-- <th>冲正后净输赢</th>-->
+                            <th>佣金比例</th>
+                            <th>当月佣金</th>
+                            <th>实发佣金</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/agents/commissions" style="text-align: center" class="commission-tb">
+                        {% include "_commission_offer.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form', 'jquery', 'layer'], function () {
+        let $ = layui.$,
+            form = layui.form;
+        let num = $('.commission-tb tr').length; //tr的长度
+        let td_num = $('.commission-tb tr:nth-child(1) td').length; //td的长度
+
+        // 手工发送
+        $(document).on('click', '.grant', function () {
+            let id = $(this).attr('id');
+            let p = $(this).parent().parent();
+            let money = p.find("td[name='commission_adjust']").html();
+            let netmoney = p.find("td[name='net_profit']").html();
+            let num = p.find('td').length - 1;
+            let arr = {};
+            for (let i = 1; i < num; i++) {
+                if (i == 5) {
+                    arr[p.find('td').eq(i).attr('name')] = p.find('td').eq(i).attr('value');
+                } else {
+                    arr[p.find('td').eq(i).attr('name')] = p.find('td').eq(i).html();
+                }
+            }
+
+            arr['washed_win'] = 0;
+            if (arr['rebate'] == '') {
+                arr['rebate'] = 0;
+            }
+
+            layer.open({
+                title: '温馨提示',
+                content: '确认要发放吗?',
+                btn: ['取消', '确认'],
+                btn2: function () {
+                    $.ajax({
+                        url: '/agents/commissions/grant',
+                        type: 'post',
+                        data: JSON.stringify({ log: arr, id: id, money: money, net_profit: netmoney }),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        headers: {
+                            'Content-Type': 'application/json; charset=UTF-8', //,
+                        },
+                        success: function (data) {
+                            if (data.errcode == 0) {
+                                layer.open({
+                                    title: false,
+                                    content: '<div style="width:100%;text-align:center;"><b>' + data.data + '</b></div>',
+                                    time: 1000,
+                                    btn: false,
+                                    closeBtn: 0,
+                                });
+                            } else {
+                                layer.open({
+                                    title: false,
+                                    content: '<div style="width:100%;text-align:center;"><b>' + data.message + '</b></div>',
+                                    time: 1000,
+                                    btn: false,
+                                    closeBtn: 0,
+                                });
+                            }
+                        },
+                    });
+                },
+            });
+        });
+
+        $('.commission-reload').click(function () {
+            window.location.reload();
+        });
+
+        let i = 1;
+        $('.all-choice').click(function () {
+            if (i == 1) {
+                $('.commission-tb tr').each(function () {
+                    $(".commission-tb tr td input[type='checkbox']").prop('checked', true);
+                });
+            } else {
+                $('.commission-tb tr').each(function () {
+                    $(".commission-tb tr td input[type='checkbox']").removeAttr('checked');
+                });
+            }
+            if (i == 2) {
+                i = 0;
+            }
+            i++;
+        });
+        let x = 1;
+
+        let allGrant = function (arr, x) {
+            // 发放所有
+            $('.all-grant').html('发放中');
+            //长度应该是 要发放数组的长度
+            let num = Object.keys(arr).length;
+            if (x > num) {
+                layer.open({
+                    title: '温馨提示',
+                    content: '已发放完毕',
+                    time: 1000,
+                });
+                $('.all-grant').html('一键发放');
+                return false;
+            }
+            $.ajax({
+                url: '/agents/commissions/grant',
+                type: 'post',
+                data: JSON.stringify(arr[x]),
+                dataType: 'json',
+                contentType: 'application/json',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8', //,
+                },
+                success: function (data) {
+                    x++;
+                    allGrant(arr, x);
+                },
+            });
+        };
+
+        $('.all-grant').click(function () {
+            let arrlen = 1;
+            let arr = {};
+            let stemp = {};
+            let d = td_num - 2;
+            //将所有checked的tr 储存到arr
+            for (let b = 1; b <= num; b++) {
+                var a = $('.commission-tb tr:nth-child(' + b + ") td input[type='checkbox']").prop('checked');
+                let p = $('.commission-tb tr:nth-child(' + b + ')');
+                if (a == true) {
+                    let temp = {};
+                    for (let i = 1; i <= d; i++) {
+                        if (i == 5) {
+                            temp[p.find('td').eq(i).attr('name')] = p.find('td').eq(i).attr('value');
+                        } else {
+                            temp[p.find('td').eq(i).attr('name')] = p.find('td').eq(i).html();
+                        }
+                        temp['washed_win'] = '0';
+                        //user_id 修改未agent_code
+                        arr[arrlen] = {
+                            log: temp,
+                            id: $('.commission-tb tr:nth-child(' + b + ") td[name='agent_code']").html(),
+                            money: $('.commission-tb tr:nth-child(' + b + ") td[name='money']").html(),
+                            net_profit: $('.commission-tb tr:nth-child(' + b + ") td[name='net_profit']").html(),
+                        };
+                    }
+                    arrlen++;
+                }
+            }
+            if (Object.keys(arr).length == 0) {
+                // 判断是否
+                layer.open({
+                    title: '温馨提示',
+                    content: '请选择代理后再发放',
+                    time: 1000,
+                });
+            } else {
+                allGrant(arr, x);
+            }
+        });
+    });
+</script>

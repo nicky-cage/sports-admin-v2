@@ -1,0 +1,115 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row" style="overflow: auto">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="sp-lazy-load">
+                    <ul class="layui-tab-title">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/withdraws", 4) -%}
+                        <li class="layui-this">提款审核</li>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/withdraws/record", 4) -%}
+                        <li>提款记录</li>
+                        {%endif -%}
+                    </ul>
+                    <div class="layui-tab-content">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/withdraws", 4) -%}
+                        <div class="layui-tab-item layui-show" url="/agents/withdraws">{% include "i_withdraws_audits.html" %}</div>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/withdraws/record", 4) -%}
+                        <div class="layui-tab-item" url="/agents/withdraws/record">{% include "withdraws_records.html" %}</div>
+                        {%endif -%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'layer'], function () {
+        let $ = layui.$;
+        let form = layui.form;
+        let element = layui.element;
+        let layer = layui.layer;
+
+        $('.pass').on('click', function () {
+            var id = $(this).attr('id');
+            var username = $(this).attr('user');
+            var bill = $(this).attr('bill');
+            var ts = $(this);
+            var arr = { id: id, username: username, bill_no: bill, type: '1' };
+            function re() {
+                ts.parent().parent().remove();
+            }
+            layer.open({
+                content: '确认通过此提款申请',
+                btn: ['取消', '确定'],
+                btn2: function (index, layero) {
+                    $.ajax({
+                        type: 'post',
+                        url: '/agents/withdraws/saves',
+                        data: JSON.stringify(arr),
+                        success: function (data) {
+                            if (data.errcode == 0) {
+                                re();
+                                layer.open({
+                                    title: false,
+                                    content: '<div style="width:100%;text-align:center;"><b>' + data.data + '</b></div>',
+                                    time: 1000,
+                                    btn: false,
+                                    closeBtn: 0,
+                                });
+                            } else {
+                                layer.open({
+                                    title: '程序错误',
+                                    content: data.data,
+                                });
+                            }
+                        },
+                    });
+                },
+            });
+        });
+
+        $('.defu').on('click', function () {
+            var info = $(this).attr('id');
+            var username = $(this).attr('user');
+            var bill = $(this).attr('bill');
+            var ts = $(this);
+            function re() {
+                ts.parent().parent().remove();
+            }
+            layer.open({
+                title: '拒绝原因',
+                content: "<input type='text' id='leab' style='100px' class='layui-input' placeholder='请输入原因'>",
+                btn: ['取消', '确定'],
+                btn2: function (index, layero) {
+                    var remark = $('#leab').val();
+                    var arr = { id: info, remark: remark, username: username, bill_no: bill, type: '2' };
+                    $.ajax({
+                        type: 'post',
+                        url: '/agents/withdraws/saves',
+                        data: JSON.stringify(arr),
+                        success: function (data) {
+                            if (data.errcode == 0) {
+                                layer.open({
+                                    title: false,
+                                    content: '<div style="width:100%;text-align:center;"><b>已拒绝</b></div>',
+                                    time: 1000,
+                                    btn: false,
+                                    closeBtn: 0,
+                                });
+                                re();
+                            } else {
+                                layer.open({
+                                    title: '程序错误',
+                                    conent: '错误',
+                                });
+                            }
+                        },
+                    });
+                },
+            });
+        });
+    });
+</script>
+
+{% endblock body %}

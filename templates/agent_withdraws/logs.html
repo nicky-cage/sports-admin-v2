@@ -1,0 +1,32 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150" />
+                    <col width="130" />
+                    <col width="80" />
+                    <col width="80" />
+                    <col width="80" />
+                    <col />
+                </colgroup>
+                <thead>
+                <tr style="background-color: #FF9933;color: black;">
+                    <th>操作</th>
+                    <th>时间</th>
+                    <th>结果</th>
+                    <th>耗时</th>
+                    <th>操作人</th>
+                    <th>备注</th>
+                </tr>
+                </thead>
+                <tbody id="sp-loaded-table" loaded="loaded"  url="/user_withdraw_logs">
+                {% include "_logs.html" %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock body %}

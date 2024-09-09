@@ -1,0 +1,453 @@
+<style>
+    .con-table td {
+        padding: 2px 15px;
+    }
+</style>
+<input type="hidden" name="turntable_id" id="turntable_id" autocomplete="off" class="layui-input" value="{{turntable.Id}}" />
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"> <span style="color: red">*</span>活动标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" id="name" autocomplete="off" class="layui-input" style="width: 330px;" placeholder="请输入幸运转盘活动标题" value="{{turntable.Name}}" />
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">*</span>活动时间</label>
+    <div class="layui-input-inline">
+        <input type="text" name="turntable_start_end" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" 
+            style="width: 330px;" id="turntable_start_end" readonly="readonly" rvalue="{{turntable_start}} - {{turntable_end}}" />
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">*</span>固定抽奖时间</label>
+    <div class="layui-input-block">
+        <input type="radio" name="turntable_fixed_draw_select" lay-filter="fixed_draw_select" value="1" title="每周" {%if turntable.FixedDrawSelect==1%} checked {%endif%} />
+        <input type="radio" name="turntable_fixed_draw_select" lay-filter="fixed_draw_select" value="2" title="每日" {%if turntable.FixedDrawSelect==2%} checked {%endif%} />
+        <input type="radio" name="turntable_fixed_draw_select" lay-filter="fixed_draw_select" value="3" title="不限时间" {%if turntable.FixedDrawSelect==3%} checked {%endif%} />
+    </div>
+</div>
+
+<div class="layui-form-item" id="turntable_setting" {%if turntable.FixedDrawSelect==3-%} style="display:none" {%endif%}>
+    <div class="layui-form-inline">
+        <label class="layui-form-label" style="width: 120px;"><span style="color: red">&nbsp;</span></label>
+        <div class="layui-input-inline">
+            <div id="turntable_set_day" {%if turntable.FixedDrawSelect==2%}style="display:none;" {%endif%}>
+                <select name="fixed_draw_date" lay-filter="fixed_draw_date" id="fixed_draw_date">
+                    <option value="1" {% if turntable.FixedDrawTimeRow.Week==1-%}selected="selected" {%endif-%}>周一</option>
+                    <option value="2" {% if turntable.FixedDrawTimeRow.Week==2-%}selected="selected" {%endif-%}>周二</option>
+                    <option value="3" {% if turntable.FixedDrawTimeRow.Week==3-%}selected="selected" {%endif-%}>周三</option>
+                    <option value="4" {% if turntable.FixedDrawTimeRow.Week==4-%}selected="selected" {%endif-%}>周四</option>
+                    <option value="5" {% if turntable.FixedDrawTimeRow.Week==5-%}selected="selected" {%endif-%}>周五</option>
+                    <option value="6" {% if turntable.FixedDrawTimeRow.Week==6-%}selected="selected" {%endif-%}>周六</option>
+                    <option value="7" {% if turntable.FixedDrawTimeRow.Week==7-%}selected="selected" {%endif-%}>周日</option>
+                </select>
+            </div>
+            <div id="turntable_set_time" style="float: left;">
+                <input type="text" name="fixed_draw_time" id="fixed_draw_time" autocomplete="off" class="layui-input show-time" placeholder="格式 00:00" value="{{turntable.FixedDrawTimeRow.Time}}" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"> <span style="color: red">*</span>每日抽奖次数</label>
+        <div class="layui-input-inline">
+            <input type="text" name="max_draw" id="max_draw" autocomplete="off" class="layui-input" placeholder="请输入每日抽奖次数" value="{{turntable.MaxDraw}}" />
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item" style="width: 100%">
+    <div class="layui-inline" style="width: 78%">
+        <label class="layui-form-label" style="width: 120px;"> <span style="color: red">*</span>条件设置</label>
+        <div class="layui-input-inline margin-right" style="width: 84%;">
+            <div class="layui-input-inline" style="width: 650px;">
+                <table class="layui-table con-table" id="con-table1">
+                    <thead>
+                        <tr>
+                            <th width="200">判断依据</th>
+                            <th width="150">最小值</th>
+                            <th width="150">增加抽奖次数</th>
+                            <th width="100">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for r in turntable.ConditionSettingRows-%}
+                        <tr>
+                            <td>
+                                <select name="selectPlay" lay-filter="selectPlay" class="selectPlay">
+                                    {%for k, p in playList -%}
+                                    <option value="{{k}}" {% if k == r.PlayID %}selected{%else%} {{r.PlayID}}{%endif%} >{{p}}</option>
+                                    {%endfor%}
+                                </select>
+                                <input type="hidden" class="layui-input inputVaule selectPlayValue" value="" />
+                            </td>
+                            <td><input class="inputVaule layui-input min_value" placeholder="请输入最小值" value="{{r.MinValue|stringformat:"%.0f"}}" /></td>
+                            <td><input class="inputVaule layui-input draw_count" placeholder="请输入增加抽奖次数" value="{{r.DrawCount}}" /></td>
+
+                            <td><button class="newTr1 layui-btn layui-btn-danger" type="button">删除</button></td>
+                        </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">&nbsp;</span></label>
+    <div class="layui-inline">
+        <button type="button" class="layui-btn" id="add_turntable_cond" lay-filter="add_turntable_cond">添加条件</button>
+    </div>
+</div>
+
+<div class="layui-form-item" style="width: 100%">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">*</span>奖项设置</label>
+    <div class="layui-input-inline margin-right" style="width: 84%;">
+        <div class="layui-input-inline" style="width: 800px;">
+            <table class="layui-table con-table" id="con-table2">
+                <thead>
+                    <tr>
+                        <th width="250">奖项名称</th>
+                        <th width="150">奖励金额</th>
+                        <th width="150">存款金额</th>
+                        <th width="150">中奖概率(%)</th>
+                        <th width="150">流水倍数</th>
+                        <th width="150">奖项类型</th>
+                        <th width="100">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for r in turntable.PrizeSettingsRows -%}
+                    <tr>
+                        <td><input class="inputVaule layui-input draw-name" placeholder="请输入奖项名称" value="{{r.Name}}" /></td>
+                        <td><input class="inputVaule layui-input draw-money" placeholder="请输入奖励金额" value="{{r.Money|stringformat:"%.0f"}}" /></td>
+                        <td><input class="inputVaule layui-input draw-deposit-money" placeholder="请输入存款金额" value="{{r.DepositsMoney}}" /></td>
+                        <td><input class="inputVaule layui-input draw-percent" placeholder="请输入中奖概率" value="{{r.Percent|stringformat:"%.0f"}}" /></td>
+                        <td><input class="inputVaule layui-input draw-times" placeholder="请输入流水倍数" value="{{r.Times}}" /></td>
+                        <td>
+                            <select class="draw-type">
+                                <option></option>
+                                <option value="1" {%if r.Type==1%}selected{%endif%}>现金奖励</option>
+                                <option value="2" {%if r.Type==2%}selected{%endif%}>存款优惠</option>
+                                <option value="3" {%if r.Type==3%}selected{%endif%}>实物奖励</option>
+                                <option value="4" {%if r.Type==4%}selected{%endif%}>其他</option>
+                            </select>
+                        </td>
+                        <td><button class="newTr2 layui-btn layui-btn-danger">删除</button></td>
+                    </tr>
+                    {%endfor -%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">&nbsp;</span></label>
+    <div class="layui-inline">
+        <button type="button" class="layui-btn" id="add_turntable_reward_item" lay-filter="addBtn">添加奖项</button>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">*</span>是否前端展示</label>
+    <div class="layui-inline">
+        <input type="radio" name="turntable_state" lay-filter="state" value="1" title="是" {%if turntable.State==1%} checked {%endif%} />
+        <input type="radio" name="turntable_state" lay-filter="state" value="2" title="否" {%if turntable.State==2%} checked {%endif%} />
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">*</span>展示时间</label>
+    <div class="layui-input-inline">
+        <input type="text" name="show_time_start_end" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" 
+            style="width: 330px;" id="show_time_start_end" rvalue="{{show_time_start}} - {{show_time_end}}" />
+    </div>
+</div>
+
+<div class="layui-form-item" style="width: 100%">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">*</span>榜单设置</label>
+    <div class="layui-input-inline">
+        <input type="radio" name="turntable_list_settings" lay-filter="list_settings" value="1" title="手动" {%if turntable.ListSettings==1-%} checked {%endif-%} />
+        <input type="radio" name="turntable_list_settings" lay-filter="list_settings" value="2" title="自动" {%if turntable.ListSettings==2-%} checked {%endif-%} />
+    </div>
+</div>
+
+<div class="layui-form-item turntable_user_list" style="width: 100%">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">&nbsp;</span></label>
+    <div class="layui-input-inline" style="width: 84%;">
+        <div class="layui-input-inline" style="width: 800px;">
+            <table class="layui-table con-table" id="con-table3">
+                <thead>
+                    <tr>
+                        <th width="60">排序</th>
+                        <th width="240">奖项名称</th>
+                        <th width="200">奖励</th>
+                        <th width="200">时间</th>
+                        <th width="100">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for r in turntable.RankingListRows -%}
+                    <tr>
+                        <td><input class="inputVaule layui-input sort" placeholder="请输入榜单排序" value="{{r.Sort}}" /></td>
+                        <td><input class="inputVaule layui-input title" placeholder="请输入榜单标题/获奖名称" value="{{r.Name}}" /></td>
+                        <td><input class="inputVaule layui-input reward" placeholder="请输入榜单用户获得奖励" value="{{r.Draw}}" /></td>
+                        <td><input class="inputVaule layui-input time" placeholder="请选择时间" value="{{r.Time}}" /></td>
+                        <td><button type="button" class="newTr3 layui-btn layui-btn-danger">删除</button></td>
+                    </tr>
+                    {%endfor-%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item turntable_user_list">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">&nbsp;</span></label>
+    <div class="layui-inline">
+        <button type="button" class="layui-btn" id="add_turntable_reward_list" lay-filter="addBtn">添加榜单</button>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px; margin-top: 10px;">规则说明</label>
+    <div class="layui-input-inline" style="width: 750px; height: 400px;">
+        <div class="layui-tab layui-tab-brief ">
+            <ul class="layui-tab-title">
+                <li class="layui-this">电脑端</li>
+                <li>移动端</li>
+            </ul>
+            <div class="layui-tab-content" style="padding-left: 0px;">
+                {% import "../_elements/rich_text.html" rich_text %}
+                <div class="layui-tab-item layui-show">
+                    {{ rich_text("editor_turntable_pc", "content_turntable_pc") }}
+                </div>
+                <div class="layui-tab-item" style="display: none;">
+                    {{ rich_text("editor_turntable_mobile", "content_turntable_mobile") }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">&nbsp;</span></label>
+    <div class="layui-inline">
+        <button class="layui-btn" id="submit-turntable" lay-submit lay-filter="submit-turntable">保存活动</button>
+    </div>
+</div>
+
+<input type="hidden" name="playConJson" id="playConJson" value="{{playCondJson}}" />
+<div hidden="hidden" id="rcont"></div>
+<script>
+    layui.use(['form', 'jquery', 'layer', 'laydate'], function () {
+
+        let form = layui.form, $ = layui.$, layer = layui.layer, laydate = layui.laydate, table = layui.table;
+        let playConds = JSON.parse('{{ playConJson|safe }}');
+
+        // 固定抽奖时间
+        form.on("radio(fixed_draw_select)", function (data) {
+            switch (data.value) {
+                case "1":// 每周
+                    $("#turntable_set_day").show();
+                    $("#turntable_set_time").show();
+                    $("#turntable_setting").show();
+                    //$("#fixed_draw_time").addClass("show-time");
+                    break;
+                case "2":// 每日
+                    $("#turntable_set_day").hide();
+                    $("#turntable_set_time").show();
+                    //$("#fixed_draw_time").removeClass("show-time");
+                    break;
+                case "3":// 不限时间
+                    $("#turntable_setting").hide();
+                    break;
+            }
+            form.render()
+        });
+
+        // 自定/手动设置榜单
+        form.on("radio(list_settings)", function (data) {
+            if (data.value == "1") {  // 手动
+                $(".turntable_user_list").each(function () {
+                    $(this).show();
+                });
+            } else {  // 自动
+                $(".turntable_user_list").each(function () {
+                    $(this).hide();
+                });
+            }
+        });
+
+        //setTimeout(function () {
+        //    let editor = createRichText('#editor', 'content');
+        //    editor.txt.html($("#rcont").text()) //将内容写入富文本中
+        //}, 2000);
+
+        form.render();
+
+        // -- 添加条件设置 --
+        $('#add_turntable_cond').click(function () {
+            var selectPlay = "<select name=\"selectPlay\" lay-filter=\"selectPlay\" class=\"selectPlay\">";
+            $.each(playConds, function (index, value) {
+                selectPlay += '<option value=' + index + '>' + value + '</option>';
+            });
+            selectPlay += '</select>';
+            var html = `<tr>
+                            <td> ` + selectPlay + `<input type='hidden' class='layui-input inputVaule selectPlayValue' value='' /></td >
+                            <td> <input type=\"text\" class=\"inputVaule layui-input min_value\" placeholder='请输入最小值' /></td>
+                            <td> <input type=\"text\" class=\"inputVaule layui-input draw_count\" placeholder='请输入增加抽奖次数' /></td>
+                            <td> <button class=\"newTr1 layui-btn layui-btn-danger\" type='button'>删除</button></td>
+                        </tr>`
+            $("#con-table1 > tbody").append(html)
+            form.render();
+        });
+        // -- 删除
+        $(document).on('click', '.newTr1', function () {
+            if ($("tr", $("#con-table1")).length < 2) {
+                sp.alert("已经是最后一行了");
+                return;
+            }
+            $(this).parent().parent().remove();
+        });
+
+        // -- 添加奖项
+        $('#add_turntable_reward_item').click(function () {
+            var html = `<tr>
+                            <td><input type="text" class="inputVaule layui-input draw-name" placeholder="请输入奖项名称" /></td>
+                            <td><input type="text" class="inputVaule layui-input draw-money" placeholder="请输入奖励金额" /></td>
+                             <td><input type="text" class="inputVaule layui-input draw-deposit-money" placeholder="请输入存款金额" /></td>
+
+                            <td><input type="text" class="inputVaule layui-input draw-percent" placeholder="请输入中奖概率" /></td>
+                            <td><input type="text" class="inputVaule layui-input draw-times" placeholder="请输入流水倍数" /></td>
+                             <td>
+                            <select class="draw-type">
+                                <option></option>
+                                <option value="1" {%if r.Type==1%}selected{%endif%}>现金奖励</option>
+                                <option value="2" {%if r.Type==2%}selected{%endif%}>存款优惠</option>
+                                <option value="3" {%if r.Type==3%}selected{%endif%}>实物奖励</option>
+                                <option value="4" {%if r.Type==3%}selected{%endif%}>其他</option>
+                            </select>
+                             </td>
+                            <td><button class="newTr2 layui-btn layui-btn-danger">删除</button></td>
+                        </tr> `;
+            $("#con-table2 > tbody").append(html)
+            form.render();
+        });
+        // -- 删除奖项
+        $(document).on('click', '.newTr2', function () {
+            if ($("tr", $("#con-table2")).length < 2) {
+                sp.alert("已经是最后一行了");
+                return;
+            }
+            $(this).parent().parent().remove();
+        });
+
+        // -- 添加榜单
+        $('#add_turntable_reward_list').click(function () {
+            var html = `<tr>
+                            <td><input type="text" class="inputVaule layui-input sort" placeholder="请输入榜单排序" /></td>
+                            <td><input type="text" class="inputVaule layui-input title" placeholder="请输入榜单标题/获奖名称" /></td>
+                            <td><input type="text" class="inputVaule layui-input reward" placeholder="请输入榜单用户获得奖励" /></td>
+                            <td><input type="text" class="inputVaule layui-input time" placeholder="请选择时间" /></td>
+                            <td><button type="button" class="newTr3 layui-btn layui-btn-danger">删除</button></td>
+                        </tr>`;
+            $("#con-table3 > tbody").append(html)
+            form.render();
+        });
+        // -- 删除榜单
+        $(document).on('click', '.newTr3', function () {
+            if ($("tr", $("#con-table3")).length < 2) {
+                sp.alert("已经是最后一行了");
+                return;
+            }
+            $(this).parent().parent().remove();
+        });
+
+        // 监听下拉列表 并且把值赋给class为selectPlayValue的文本框 方便遍历表格的时候读取
+        form.on("select(selectPlay)", function (data) {
+            $(this).parent().parent().siblings(".selectPlayValue").val(data.value)
+        });
+
+
+        // 提交数据
+        form.on('submit(submit-turntable)', function () {
+            var data = {
+                id: parseInt($("#turntable_id").val()),
+                name: $("#name").val(),
+                turntable_start: (Date.parse($("#turntable_start_end").val().split(" - ")[0].replace(/-/g, '/')) / 1000),
+                turntable_end: (Date.parse($("#turntable_start_end").val().split(" - ")[1].replace(/-/g, '/')) / 1000),
+                fixed_draw_select: parseInt($("input[name=turntable_fixed_draw_select]:checked").val()),
+                //fixed_draw_date: $("#fixed_draw_date").val(),
+                fixed_draw_time: $("#fixed_draw_time").val(),
+                max_draw: parseInt($("#max_draw").val()),
+                condition_setting_rows: function () {
+                    let tbody = $("tbody:first", $("#con-table1")), arr = [];
+                    $("tr", tbody).each(function () {
+                        let that = $(this), select_play = $(".selectPlay:first", that), min_value = $(".min_value:first", that), draw_count = $(".draw_count:first", that);
+                        arr.push({
+                            play_id: parseInt(select_play.val()),
+                            min_value: parseInt(min_value.val()),
+                            draw_count: parseInt(draw_count.val()),
+
+                        });
+                    });
+                    return arr;
+                }(),
+                prize_settings_rows: function () {
+                    let tbody = $("tbody:first", $("#con-table2")), arr = [];
+                    $("tr", tbody).each(function () {
+                        let that = $(this), draw_name = $(".draw-name:first", that), draw_money = $(".draw-money:first", that), draw_percent = $(".draw-percent:first", that), draw_times = $(".draw-times:first", that), draw_type = $(".draw-type:first option:selected", that), deposit_money = $(".draw-deposit-money:first", that);
+
+                        arr.push({
+                            name: draw_name.val(),
+                            money: parseFloat(draw_money.val()),
+                            percent: parseFloat(draw_percent.val()),
+                            times: parseInt(draw_times.val()),
+                            type:parseInt(draw_type.val()),
+                            deposits_money:parseInt(deposit_money.val())
+                        });
+                    });
+                    return arr;
+                }(),
+                state: parseInt($("input[name=turntable_state]:checked").val()),
+                list_settings: parseInt($("input[name=turntable_list_settings]:checked").val()),
+                show_time_start: (Date.parse($("#show_time_start_end").val().split(" - ")[0].replace(/-/g, '/')) / 1000),
+                show_time_end: (Date.parse($("#show_time_start_end").val().split(" - ")[1].replace(/-/g, '/')) / 1000),
+                ranking_list_rows: function () {
+                    let tbody = $("tbody:first", $("#con-table3")), arr = [];
+                    $("tr", tbody).each(function () {
+                        let that = $(this), sort = $(".sort:first", that), title = $(".title:first", that), reward = $(".reward:first", that), time = $(".time:first", that);
+                        arr.push({
+                            sort: parseInt(sort.val()),
+                            name: title.val(),
+                            draw: reward.val(),
+                            time: time.val()
+                        });
+                    });
+                    return arr;
+                }()
+                //details: $("#content_turntable_pc").val()
+                //content_pc: $("#content_turntable_pc").val(),
+                //content_mobile: $("#content_turntable_mobile").val()
+            };
+
+            $.post("/activities/turntable_do", { data: JSON.stringify(data) }, function (res) {
+                if (res.errcode == 0) {
+                    layui.layer.msg("更新成功", { icon: 1 });
+                    return;
+                }
+                layui.layer.msg(res.message, { icon: 2 });
+            });
+            return false;
+        });
+    })
+</script>

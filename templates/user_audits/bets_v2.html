@@ -1,0 +1,51 @@
+{% extends "../layouts/base.html" -%}
+{% block body -%}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col />
+                        <col width="80" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="130" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>会员账号</th>
+                            <th>游戏账号</th>
+                            <th>场馆名称</th>
+                            <th>场馆类型</th>
+                            <th>游戏名称</th>
+                            <th>注单流水号</th>
+                            <th>输赢情况</th>
+                            <th>下注详情</th>
+                            <th>下注金额(元)</th>
+                            <th>有效投注(元)</th>
+                            <th>返水金额(元)</th>
+                            <th>返水比例</th>
+                            <th>状态</th>
+                            <th>下注时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/v2/user_audits/bets?user_id={{user_id}}&time_start={{time_start}}&time_end={{time_end}}">
+                        {%include "_bets_v2.html" -%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock body -%}

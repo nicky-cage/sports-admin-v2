@@ -1,0 +1,146 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="1">
+                <div class="layui-form layui-card-header layui-form-item layuiadmin-card-header-auto">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">英文名称</label>
+                        <div class="layui-input-inline">
+                            <input name="ename" placeholder="请输入场馆英文名称" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">中文名称</label>
+                        <div class="layui-input-inline">
+                            <input name="name" placeholder="请输入场馆中文名称" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">场馆类型</label>
+                        <div class="layui-input-inline">
+                            <select name="venue_type">
+                                <option></option>
+                                {%for k, v in venue_types -%}
+                                <option value="{{k}}">{{v}}</option>
+                                {%endfor-%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-inline">
+                            <select name="is_online">
+                                <option></option>
+                                <option value="1">正常</option>
+                                <option value="2">锁住</option>
+                                <option value="3">下线</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn" lay-submit lay-filter="sp-form-search"><i class="layui-icon layui-icon-search layuiadmin-button-btn"></i></button>
+                        <button class="layui-btn sp-form-reset" type="button">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="200" />
+                        <col />
+                        <col width="120" />
+                        <col width="130" />
+                        <col width="100" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="150" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>场馆英文名称</th>
+                            <th>场馆中文名称</th>
+                            <th>场馆类型</th>
+                            <th>最后更新时间</th>
+                            <th>排序</th>
+                            <th>状态</th>
+                            <th>钱包状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let $ = layui.$;
+        let layer = layui.layer;
+        let form = layui.form;
+
+        $('.wallet').click(function () {
+            let id = $(this).attr('id');
+            var wallet = '';
+            var st = '';
+            var cont = '';
+            let to = '';
+
+            if ($(this).attr('value') == 1) {
+                //1是正常，2是不正常
+                wallet = 2;
+                st = '场馆钱包锁定';
+                cont = '已锁住钱包';
+                to = '<p>锁定后资金无法转入和转出该钱包</p>';
+            } else {
+                wallet = 1;
+                st = '场馆钱包解锁';
+                cont = '钱包已解锁';
+                to = '<p>解锁后资金将自由转入和转出该钱包</p>';
+            }
+            layer.open({
+                title: '温馨提示',
+                content: '确认要' + st + '吗' + to,
+                btn: ['取消', '确认'],
+                btn2: function () {
+                    $.ajax({
+                        type: 'post',
+                        url: 'game_venues/save',
+                        data: JSON.stringify({ id: id, wallet: wallet }),
+                        success: function (data) {
+                            if (data.errcode == 0) {
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 1300);
+                                layer.open({
+                                    title: '提示信息',
+                                    content: cont,
+                                    time: 1000,
+                                });
+                            } else {
+                                layui.layer.msg(data.message, { icon: 2 });
+                            }
+                        },
+                        error: function () {
+                            layer.open({
+                                title: '错误信息',
+                                content: '程序错误',
+                            });
+                        },
+                    });
+                },
+            });
+        });
+    });
+</script>

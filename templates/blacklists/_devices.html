@@ -1,0 +1,19 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.DeviceNo}}</td>
+    <td>{{r.UserNames}}</td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>{{r.AdminName}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_devices/update", 4) -%}
+            <button class="layui-btn sp-open-link" url="/blocked_devices/update" area="600px,400px" tab="0">编辑</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_devices/delete", 4) -%}
+            <button class="layui-btn layui-btn-danger sp-btn-delete" url="/blocked_devices/delete" tab="0">删除</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

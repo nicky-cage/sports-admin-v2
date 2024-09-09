@@ -1,0 +1,45 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding-top: 10px;">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col />
+                        <col />
+                        <col width="130" />
+                        <col width="100" />
+                        <col width="120" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>用户编号</th>
+                        <th>用户名称</th>
+                        <th>注册IP</th>
+                        <th>注册时间</th>
+                        <th>最后登录时间</th>
+                        <th>最后登录IP</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    {%for r in rows%}
+                    <tr>
+                        <td>{{r.Id}}</td>
+                        <td>{{r.UserId}}</td>
+                        <td><a href="#" class="sp-open-link" rid="{{r.UserId}}" url="/users/detail" area="98%,98%">{{r.Username}}</a></td>
+                        <td><a href="#" class="sp-open-link" rid="{{r.UserId}}" url="/users/detail" area="98%,98%">{{r.RegisterIp}}</a></td>
+                        <td>{{r.Created}}</td>
+                        <td>{{r.LastLoginIp}}</td>
+                        <td>{{r.LastLogin}}</td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

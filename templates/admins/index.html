@@ -1,0 +1,175 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<!-- 搜索框 -->
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="author" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">角色</label>
+                    <div class="layui-input-inline">
+                        <select name="label">
+                            <option value="">请选择角色</option>
+                            <option value="0">美食</option>
+                            <option value="1">新闻</option>
+                            <option value="2">八卦</option>
+                            <option value="3">体育</option>
+                            <option value="4">音乐</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">账号状态</label>
+                    <div class="layui-input-inline">
+                        <select name="label">
+                            <option value="">请选择标签</option>
+                            <option value="0">美食</option>
+                            <option value="1">新闻</option>
+                            <option value="2">八卦</option>
+                            <option value="3">体育</option>
+                            <option value="4">音乐</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="LAY-app-contlist-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list add" data-type="add">新增账号</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- 数据表格 -->
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>账号</th>
+                        <th>邮箱账号</th>
+                        <th>角色</th>
+                        <th>创建时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>zhangsan</td>
+                        <td>zhangsan@gmail.com</td>
+                        <td>风控总监</td>
+                        <td>2019-10-10 13:33:00</td>
+                        <td>
+                            <form class="layui-form">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <input type="checkbox" name="close" checked lay-skin="switch" lay-text="开|关">
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+                            <span><a href="javascript:;" style="color: blue;" class="edit">编辑</a></span>
+                            <span style="margin-left: 10px;"><a href="javascript:;" style="color: blue;" class="handover">一键交接</a></span>
+                            <span style="margin-left: 10px;"><a href="javascript:;" style="color: blue;" class="delete">删除</a></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate'], function() {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+        let get_user_info = function(that) { //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $("td:eq(0)", tr).text();
+            return {id: id};
+        };
+        $(document).off("click", ".add");
+        $(document).on("click", ".add", function() {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['500px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                title: "新增账号",
+                content: "/admins/add?id="+info.id
+            });
+        });
+        $(document).off("click", ".edit");
+        $(document).on("click", ".edit", function() {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['500px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                title: "编辑账号",
+                content: "/admins/edit?id="+info.id
+            });
+        });
+        $(document).off("click", ".handover");
+        $(document).on("click", ".handover", function() {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['500px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                title: "一键交接",
+                content: "/admins/handover?id="+info.id
+            });
+        });
+        $(document).off("click", ".delete");
+        $(document).on("click", ".delete", function() {
+            let info = get_user_info($(this));
+            layer.confirm("您确定要删除该账号吗?", {icon: 3}, function() {
+                let real_url = "/user_cards/delete"
+                data = {id:info.id}
+            });
+        });
+    });
+</script>
+{% endblock body %}

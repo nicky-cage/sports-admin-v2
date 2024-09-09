@@ -1,0 +1,93 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/platform_site_configs/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">平台名称</label>
+        <div class="layui-input-inline">
+            <select name="platform_id" lay-verify="required" lay-search="" lay-filter="platform_id" name="" id="platform_id">
+                {% for p in platforms -%}
+                <option value="{{p.Id}}" {%if p.Id==r.PlatformId%}selected="selected" {%endif%}>{{p.Name}}</option>
+                {% endfor -%}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">盘口/站点</label>
+        <div class="layui-input-inline">
+            <select name="site_id" lay-verify="required" lay-search="" id="site_id" lay-filter="site_id">
+                {%for p in platforms -%}
+                <!--{{forloop.Counter}} - {{p.Id}} - {{r.PlatformId}}-->
+                {%if (r.PlatformId == 0 && forloop.Counter == 1)-%}
+                {%for v in p.Sites-%}
+                {{v.Id}}
+                <option value="{{v.Id}}">{{v.Name}}</option>
+                {%endfor-%}
+                {%endif-%}
+                {%endfor-%}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">配置名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" lay-verify="required" placeholder="请输入配置名称" autocomplete="off" class="layui-input" value="{{r.Name}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">配置项值</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="text" name="value" lay-verify="required" placeholder="请输入配置项值" autocomplete="off" class="layui-input" value="{{r.Value}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注说明</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="text" name="remark" lay-verify="required" placeholder="请输入盘口/网站备注" autocomplete="off" class="layui-input" value="{{r.Remark}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-inline">
+            <select name="status" lay-verify="required" lay-search="">
+                <option value="2">启用</option>
+                <option value="1" {%if r.Status==0%}selected{%endif%}>停用</option>
+            </select>
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.use(['jquery', 'form'], function () {
+
+        let $ = layui.jquery, form = layui.form;
+        let platforms = JSON.parse('{{platformsJSON|safe}}');
+        let site_id = $("#site_id");
+        let setSites = function (platform_id) {
+            for (let i = 0; i < platforms.length; i++) {
+                let platform = platforms[i];
+                if (platform.id == platform_id) { // 如果
+                    for (let s = 0; s < platform.sites.length; s++) {
+                        let site = platform.sites[s];
+                        site_id.append("<option value='" + site.id + "'>" + site.name + "</option>");
+                    }
+                    form.render();
+                    break;
+                }
+            }
+        };
+        (function () {
+            let platform_id = $("#platform_id").val();
+            setSites(platform_id);
+        })()
+
+        // 选择平台列表
+        form.on("select(platform_id)", function (data) {
+            site_id.empty();
+            let platform_id = parseInt(data.value);
+            setSites(platform_id);
+        });
+
+        // 初始化平台列表
+    });
+</script>
+{% endblock body %}

@@ -1,0 +1,21 @@
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%} style="text-align:center;">
+    <td>{{r.bill_no}}</td>
+    <td>{{r.username}}</td>
+    <td>Vip{{r.vip}}</td>
+    <td>{{r.money}}</td>
+    <td>{{r.created|time_type_chang}}</td>
+    <td>{{r.bank_name}}/{{r.bank_realname}}/{{r.ban_card}}</td>
+    <td>{{r.last_money}}</td>
+    <td url="/risk_audits/sys_detail" class="sp-open-link" area="600px,400px" title="系统审核结果" rid="{{r.Id}}" style="color:#0aa3e0;"><b>钱包负数</b></td>
+    <td>{%if r.risk_process_at==2%}{{r.risk_process_at}}{%endif%}</td>
+    <td>{{r.cause_failure}}</td>
+    <td>
+        <button class="layui-btn layuiadmin-btn-list  risk_pass" id="{{r.id}}" data-type="add">通过</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger refuse"  id="{{r.id}}"  data-type="add">拒绝</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger handup" id="{{r.id}}" data-type="add">挂起</button>
+    </td>
+</tr>
+{%endfor%}
+<script src="{{STATIC_URL}}/js/riskaudits.js"></script>
+

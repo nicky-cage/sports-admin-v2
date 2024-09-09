@@ -1,0 +1,169 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">申请时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="updated" placeholder="off" autocomplete="off" readonly="readonly" id="crweh" class="layui-input sp-form-date" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="bill_no" placeholder="请输入订单号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">申请人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="admin" placeholder="请输入申请人" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">调整类型</label>
+                            <div class="layui-input-inline">
+                                <select name="adjust_type">
+                                    <option value="">请选择标签</option>
+                                    <option value="1">红利补发</option>
+                                    <option value="2">系统调整</option>
+                                    <option value="3">输赢调整</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option value="">请选择标签</option>
+                                    <option value="0">待处理</option>
+                                    <option value="1">通过</option>
+                                    <option value="2">拒绝</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">调整方式</label>
+                            <div class="layui-input-inline">
+                                <select name="adjust_method">
+                                    <option value="">请选择</option>
+                                    <option value="1">上分</option>
+                                    <option value="2">下分</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150">
+                        <col width="150">
+                        <col width="80">
+                        <col width="80">
+                        <col width="105">
+                        <col width="105">
+                        <col width="100">
+                        <col width="130">
+                        <col />
+                        <col width="80">
+                        <col width="110">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>订单编号</th>
+                            <th>会员账号</th>
+                            <th>调整类型</th>
+                            <th>调整方式</th>
+                            <th>流水倍数(倍)</th>
+                            <th>调整金额(元)</th>
+                            <th>申请人</th>
+                            <th>申请时间</th>
+                            <th>备注</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/user_changes">
+                        {% include "_user_changes.html" %}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form', 'laydate'], function () {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+        let get_user_info = function (that) { //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $("td:eq(0)", tr).text();
+            return { id: id };
+        };
+        let laydate = layui.laydate;
+        //执行一个laydate实例
+        $(document).off("click", ".agree");
+        $(document).on("click", ".agree", function () {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['600px', '500px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade: 0.4,
+                title: "同意操作",
+                content: "/user_changes/agree?id=" + info.id
+            });
+        });
+        $(document).off("click", ".refuse");
+        $(document).on("click", ".refuse", function () {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['600px', '500px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade: 0.4,
+                title: "拒绝操作",
+                content: "/user_changes/refuse?id=" + info.id
+            });
+        });
+    });
+</script>

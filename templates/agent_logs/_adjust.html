@@ -1,0 +1,24 @@
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.id}}</td>
+    <td>{{r.username}}</td>
+    <td>{{r.top_name}}</td>
+    <td>VIP{{r.vip}}</td>
+    <td>{{r.label|platform_wrap:PLATFORM|user_labels|safe}}</td>
+    <td>{%if r.adjust_method=="2"%}-{%endif%}{{r.adjust_money}}</td>
+    <td>{{r.admin_name}}</td>
+    <td>{{r.updated|time_type_chang}}</td>
+    <td>{{r.remark}}</td>
+</tr>
+{%endfor%}
+<tr>
+    <td style="color:red;">总计</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td name="adjust">{{adjust_money}}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>

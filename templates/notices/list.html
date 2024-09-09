@@ -1,0 +1,42 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="sp-lazy-load">
+                    <ul class="layui-tab-title">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/notices", 4) -%}
+                        <li class="layui-this">系统公告</li>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/messages", 4) -%}
+                        <li>站内消息</li>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_feedback", 3) -%}
+                        <li>玩家反馈</li>
+                        {%endif -%}
+                        <!--<li>代理站内信</li>
+                        <li>社区爆料</li>
+                        <li>体育资讯</li>-->
+                    </ul>
+                    <div class="layui-tab-content">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/notices", 4) -%}
+                        <div class="layui-tab-item layui-show">{% include "i_list.html" %}</div>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/messages", 4) -%}
+                        <div class="layui-tab-item" url="/messages">{% include "../messages/list.html" %}</div>
+                        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_feedback", 3) -%}
+                        <div class="layui-tab-item" url="/user_feedback">{% include "../user_feedback/list.html" %}</div>
+                        {%endif -%}
+                        <!--<div class="layui-tab-item" url="/message_agent">
+                            {# include "../message_agent/list.html" -#}
+                        </div>
+                        <div class="layui-tab-item" url="/recommend">
+                            {# include "../recommend/list.html" -#}
+                        </div>
+                        <div class="layui-tab-item" url="/sport_news">
+                            {# include "../sport_news/list.html" -#}
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

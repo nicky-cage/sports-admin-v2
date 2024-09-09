@@ -1,0 +1,32 @@
+{% for r in rows -%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Date}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.TopName}}</td>
+    <td>{{r.DepositAmount|stringformat:"%.2f"}}</td>
+    <td>{{r.WithdrawalAmount|stringformat:"%.2f"}}</td>
+    <td>{{r.ValidBet|stringformat:"%.2f"}}</td>
+    <td>{{r.TotalNetMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.DividendMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.RebateMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.BetNums}}</td>
+    <td>{{r.WinLoseAdjustment|stringformat:"%.2f"}}</td>
+    <td><a href="#" class="user-report-detail sp-open-link" rid="{{r.UserId}}" url="/v2/user_audits/bets?time_start={{r.TimeStart}}&time_end={{r.TimeEnd}}&user_id={{r.UserId}}"
+        title="会员报表详情 - {{r.Date}}" area="90%,90%">详情</a>
+    </td>
+</tr>
+{% endfor %}
+<tr>
+    <td>总计</td>
+    <td>投注人次: {{total}}</td>
+    <td></td>
+    <td>{{pageDepositAmount|stringformat:"%.2f"}}</td>
+    <td>{{pageWithdrawalAmount|stringformat:"%.2f"}}</td>
+    <td>{{pageValidBet|stringformat:"%.2f"}}</td>
+    <td>{{pageTotalNetMoney|stringformat:"%.2f"}}</td>
+    <td>{{pageDividendMoney|stringformat:"%.2f"}}</td>
+    <td>{{pageRebateMoney|stringformat:"%.2f"}}</td>
+    <td>{{pageBetNums}}</td>
+    <td>{{pageWinLoseAdjustment|stringformat:"%.2f"}}</td>
+    <td></td>
+</tr>

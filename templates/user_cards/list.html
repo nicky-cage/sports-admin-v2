@@ -1,0 +1,79 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="user_name" placeholder="请输入会员账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="real_name" placeholder="请输入会员姓名" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">银行卡号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="card_number" placeholder="请输入银行卡号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_cards/create", 4) -%}
+                    <button class="layui-btn sp-open-link" url="/user_cards/create" area="600px,600px" title="添加信息">新增</button>
+                    {%endif -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="150" />
+                        <col width="120" />
+                        <col width="150" />
+                        <col width="200" />
+                        <col />
+                        <col width="135" />
+                        <col width="100" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员账号</th>
+                            <th>开户人姓名</th>
+                            <th>开户银行</th>
+                            <th>银行卡号</th>
+                            <th>开户地址</th>
+                            <th>绑定时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/user_cards">
+                        {% include "_list.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

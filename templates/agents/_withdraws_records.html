@@ -1,0 +1,19 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.UserId}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.TopName}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.Created |datetime}}</td>
+    <td>
+        {%if r.BusinessType == 0 %}否{%elif r.BusinessType == 1 %}是{%else%}未知{%endif%}
+    </td>
+    <td style="word-break: break-all;">{{r.BankName}}/{{r.BankRealname}}/{{r.BankCard}}/{{r.BankAddress}}</td>
+    <td>{{r.RiskAdmin}}</td>
+    <td>{{r.RiskProcessAt}}</td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Status|agent_withdraws_status}}</td>
+</tr>
+{% endfor %}

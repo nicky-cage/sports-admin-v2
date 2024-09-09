@@ -1,0 +1,13 @@
+{%for r in res%}
+<tr  {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.TopName}}</td>
+    <td>{{r.GameCode}}</td>
+    <td>{{r.NetMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.BetMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.ValidMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.CreatedAt|datetime64}}</td>
+    <td>{{r.UpdatedAt|datetime64}}</td>
+</tr>
+{%endfor%}

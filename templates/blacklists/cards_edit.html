@@ -1,0 +1,18 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/blocked_cards/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">银行卡号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="card_number" lay-verify="required" placeholder="请输入银行卡号" autocomplete="off" class="layui-input" value="{{r.CardNumber}}" style="width: 300px;" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >备注</label>
+        <div class="layui-input-inline">
+            <textarea name="remark" placeholder="请输入备注" class="layui-textarea" style="width: 300px;">{{r.Remark}}</textarea> 
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

@@ -1,0 +1,18 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.NamiStartTime|datetime}}</td>
+    <td>{{r.NamiLeagueName}}</td>
+    <td>{{r.NamiHomeTeam}}</td>
+    <td>{{r.NamiVisitingTeam}}</td>
+    <td>{{r.BtiStartTime|datetime}}</td>
+    <td>{{r.BtiLeagueName}}</td>
+    <td>{{r.BtiHomeTeam}}</td>
+    <td>{{r.BtiVisitingTeam}}</td>
+    <td>{{r.RiskTime}}</td>
+    <td>{{r.Admin}}</td>
+    <td>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete" tab="1" rid="{{r.Id}}" url="/match_games/deleted">删除</button>
+    </td>
+</tr>
+{% endfor %}

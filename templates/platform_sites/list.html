@@ -1,0 +1,95 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form layui-card-header layui-form-item layuiadmin-card-header-auto">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">选择平台</label>
+                        <div class="layui-input-inline">
+                            <select name="platform_id">
+                                <option value="">请选择平台</option>
+                                {%for k, v in platforms %}
+                                <option value="{{k}}">{{v.Name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">站点名称</label>
+                        <div class="layui-input-inline">
+                            <input name="name" placeholder="请输入站点名称" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">限定域名</label>
+                        <div class="layui-input-inline">
+                            <input name="urls" placeholder="请输入域名" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-inline">
+                            <input name="remark" placeholder="请输入备注" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="layui-card-body">
+                    <div>
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/platform_sites/create", 4) -%}
+                        <button class="layui-btn sp-open-link" url="/platform_sites/create" area="600px,500px">新增</button>
+                        {%endif -%}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="250" />
+                        <col width="250" />
+                        <col width="80" />
+                        <col />
+                        <col width="130" />
+                        <col width="130" />
+                        <col width="90" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>平台名称</th>
+                            <th>站点名称</th>
+                            <th>站点代码</th>
+                            <th>前台域名</th>
+                            <th>后台地址</th>
+                            <th>状态</th>
+                            <th>备注</th>
+                            <th>添加时间</th>
+                            <th>最后修改</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/platform_sites">
+                        {% include "_list.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

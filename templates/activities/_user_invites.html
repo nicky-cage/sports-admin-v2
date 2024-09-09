@@ -1,0 +1,30 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.InviteList.Id}}</td>
+    <td>{{r.InviteList.UserName}}</td>
+    <td>{{r.InviteList.InviteUName}}</td>
+    <td>{{r.User.RegisterIp}}</td>
+    <td>{{r.Area}}</td>
+    <td>{{r.User.Created|datetime}}</td>
+    <td>
+        {%if r.User.RegisterId == 1 %} WEB
+        {% elif r.User.RegisterId==2 %} H5
+        {% elif r.User.RegisterId==3 %} APP
+        {%endif%}
+    </td>
+    <td>{{r.DeviceNo}}</td>
+    <td>{{r.InviteList.FirstDeposit|stringformat:"%.2f"}}</td>
+    <td>{{r.InviteList.DepositTime|datetime}}</td>
+    <td>{{r.InviteList.Bonus|stringformat:"%.2f"}}</td>
+    <td>{{r.InviteList.BonusTime|datetime}}</td>
+    <td>
+        {%if r.InviteList.Status == 1 %}
+        <button class="layui-btn layuiadmin-btn-list agree"  data-type="add">通过</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger refuse"  data-type="add">拒绝</button>
+        {% elif r.InviteList.Status == 2 %} 未首充
+        {% elif r.InviteList.Status == 3 %} 不符合
+        {% elif r.InviteList.Status == 4 %} 已派奖
+        {%endif%}
+    </td>
+</tr>
+{% endfor %}

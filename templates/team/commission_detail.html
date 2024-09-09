@@ -1,0 +1,118 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="140" />
+                        <col width="80" />
+                        <col width="180" />
+                        <col width="180" />
+                        <col width="180" />
+                        <col width="180" />
+                        <col width="200" />
+                        <col width="160" />
+                        <col width="160" />
+                        <col width="160" />
+                        <col width="160" />
+                        <col width="160" />
+                        <col width="160" />
+                        <col width="160" />
+                        <col width="160" />
+                        <col width="160" />
+                        <col width="60" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>代理账号</th>
+                        <th>上线</th>
+                        <th>下线会员</th>
+                        <th>活跃会员</th>
+                        <th>存款金额</th>
+                        <th>提款金额</th>
+                        <th>代理总输赢</th>
+                        <th>场馆费</th>
+                        <th>红利</th>
+                        <th>反水</th>
+                        <th>净输赢</th>
+                        <th>佣金比例</th>
+                        <th>佣金</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/commission_team" style="text-align: center" class="commission-tb">
+                    <tr >
+                        <td name="username">{{r.username}}</td>
+                        <td name="top_name">{{r.top_name}}</td>
+                        <td name="lower_num">{{r.lower_num}}</td>
+                        <td name="active_num">{{r.active_num}}</td>
+                        <td name="deposit">{% if r.deposit=="" %}0{%else%}{{r.deposit}}{%endif%}</td>
+                        <td name="withdraws">{% if r.withdraws==0.00%}0{%else%}{{r.withdraws}}{%endif%}</td>
+                        <td name="final_win_lose">{% if r.final== "-0"%}0{%else%}{{r.final}}{%endif%}</td>
+                        <td name="game_venue_cost">{% if r.game_cost==" "%}0{%else%}{{r.game_cost}}{%endif%}</td>
+                        <td name="dividends">{% if r.dividends==""%}0{%else%}{{r.dividends}}{%endif%}</td>
+                        <td name="rebate">{% if r.rebate==""%}0{%else%}{{r.rebate}}{%endif%}</td>
+                        <td name="net_profit">{% if r.net_profit==0.00%}0{%else%}{{r.net_profit}}{%endif%}</td>
+                        <td name="rate">{{r.rate}}</td>
+                        <td name="money">{% if r.money=="0.00"%}0{%else%}{{r.money}}{%endif%}</td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="250" />
+                        <col width="250" />
+                        <col width="250" />
+                        <col width="250" />
+                        <col width="250" />
+                        <col width="250" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>游戏名称</th>
+                        <th>投注人数</th>
+                        <th>活跃人数</th>
+                        <th>投注金额</th>
+                        <th>有效投注</th>
+                        <th>总盈利</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    {% for r in data %}
+                    <tr >
+                        <td >{{r.GameName}}</td>
+                        <td >{{r.BetUsers}}</td>
+                        <td >{{r.ActiveUsers}}</td>
+                        <td >{{r.BetMoney|stringformat:"%.2f"}}</td>
+                        <td >{{r.ValidMoney|stringformat:"%.2f"}}</td>
+                        <td >{{r.NetMoney|stringformat:"%.2f"}}</td>
+                    </tr>
+                    {%endfor%}
+                    <tr >
+                        <td >总计：</td>
+                        <td >{{allCount.BetNum}}</td>
+                        <td >{{allCount.ActivesNum}}</td>
+                        <td >{{allCount.BetMoney|stringformat:"%.2f"}}</td>
+                        <td >{{allCount.ValidMoney|stringformat:"%.2f"}}</td>
+                        <td >{{allCount.Win|stringformat:"%.2f"}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

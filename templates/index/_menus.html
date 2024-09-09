@@ -1,0 +1,67 @@
+<div class="layui-side layui-side-menu">
+    <div class="layui-side-scroll">
+        <div class="layui-logo" lay-href="home/console.html">
+            <span>后台管理</span>
+        </div>
+        <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+            <li data-name="home" class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;" lay-tips="主页" lay-direction="2">
+                    <i class="layui-icon layui-icon-home"></i>
+                    <cite>快捷访问</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd data-name="console" class="layui-this"><a lay-href="/index/right">后台首页</a></dd>
+                </dl>
+            </li>
+            {%for menu in role.Menus%}
+            <li data-name="template" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="{{menu.Name}}" lay-direction="2">
+                    <i class="layui-icon {{menu.Icon}}"></i>
+                    <cite>{{menu.Name}}</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    {%for sub in menu.Children%}
+                    <dd><a lay-href="{{sub.Url}}">{{sub.Name}}</a></dd>
+                    {%endfor%}
+                </dl>
+            </li>
+            {%endfor%}
+            {%if admin.Name == "bond01" || admin.Name == "admin" -%}
+            <li data-name="template" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="管理工具" lay-direction="2">
+                    <i class="layui-icon layui-icon-app"></i>
+                    <cite>管理工具</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="/admin_tools/down_vips">降级问题</a></dd>
+                </dl>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="/admin_tools/up_vips">升级问题</a></dd>
+                </dl>
+            </li>
+            {%endif -%}
+        </ul>
+    </div>
+</div>
+<script>
+    let MAX_TAB_NUM = 8; //最大允许的tab数量
+    layui.config({ base: '{{STATIC_URL}}/layuiadmin/' })
+        .extend({ index: 'lib/index' })
+        .use(['index', 'element', 'jquery'], function() {
+        let element = layui.element, $ = layui.jquery;
+        let tabs_container = "layadmin-layout-tabs"; //顶级tabs容器
+        element.on("nav", function(data) {
+            let tabs = $("div[lay-filter=" + tabs_container + "] li");
+            let over_count = tabs.length - MAX_TAB_NUM; //超出的tab的数量
+            if (over_count >= 0) {
+                for (let i = 0; i < over_count; i++) {
+                    let tab = tabs.eq(i + 1);
+                    let id = tab.attr("lay-id");
+                    if (id) {
+                        element.tabDelete(tabs_container, id);
+                    }
+                }
+            }
+        });
+    });
+</script>

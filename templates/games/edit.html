@@ -1,0 +1,143 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/games/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">游戏场馆</label>
+        <div class="layui-input-inline">
+            <select name="games_id" disabled>
+                <option ></option>
+                <option value="{{r.Id}}" selected >{{r.GameCode}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">游戏类型</label>
+        <div class="layui-input-inline">
+            <input type="text" name="game_type" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.VenueType|game_venue_type}}">
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">游戏英文名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="en_name" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.EnName}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">游戏中文名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="cn_name" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.CnName}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">游戏图片</label>
+        <div class="layui-input-inline">
+            <div class="layui-upload">
+                <button type="button" name="img_url" class="layui-btn sp-file-upload" img="{{r.WebImgUrl}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+            </div>
+            支持扩展名:.png 尺寸690*440 大小不超过3M
+        </div>
+    </div>
+   <!-- <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">支持平台</label>
+        <div class="layui-input-inline" style="width: 220px;">
+            <input type="checkbox"  id="cb0" lay-filter="cb0" lay-skin="primary" {%if r.PlatformTypes |checkbox_first%} checked="" value="0" {%else%} value="" {%endif%}   title="PC">
+            <input type="checkbox" id="cb1" lay-filter="cb1" lay-skin="primary" {%if r.PlatformTypes |checkbox_second%} checked="" value="1" {%else%} value="" {%endif%}    title="H5">
+            <input type="checkbox"  id="cb2" lay-filter="cb2" lay-skin="primary" {%if r.PlatformTypes |checkbox_three%} checked=""value="2" {%else%} value="" {%endif%}  title="APP">
+            <input type="hidden" name="platform_types" id="platform_type" value="">
+
+            <input type="hidden" name="game_code" value="r.GameCode">
+        </div>
+    </div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">展示类型</label>
+        <div class="layui-input-inline" style="width: 240px;">
+            <input type="checkbox" id="chb0" name="display_type" lay-filter="chb0" {%if r.DisplayTypes |checkbox_first%} checked="" value="1"  {%else%} value="" {%endif%}  lay-skin="primary" title="热门">
+            <input type="checkbox" id="chb1" name="display_type" lay-filter="chb1"  {%if r.DisplayTypes |checkbox_second%} checked=""value="2"  {%else%} value="" {%endif%}  lay-skin="primary" title="最新">
+            <input type="hidden" name="display_types" id="display_type" value="">
+        </div>
+    </div>
+    <input type="hidden" name="is_hot" value="r.IsHot">
+    <input type="hidden" name="is_new" value="r.IsNew">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Sort}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">模式</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="mode" title="竖屏" value="1" {%if r.Mode==1%}checked{%endif%}>
+            <input type="radio" name="mode" title="横屏" value="2" {%if r.Mode==2%}checked{%endif%}>
+        </div>
+    </div>
+    {{block.Super|safe}}
+    <script>
+        layui.config({
+            base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+        }).use(['form', 'jquery', 'layer'], function() {
+            let $ = layui.$
+            let form = layui.form;
+
+            // form.on('checkbox(cb0)', function (data) {
+            //     if($("#cb0").val()==""){
+            //         $(this).val("0")
+            //         $("#platform_type").val($("#cb0").val()+","+$("#cb1").val()+","+$("#cb2").val())
+            //     }else{
+            //         $(this).val("")
+            //         $("#platform_type").val($("#cb0").val()+","+$("#cb1").val()+","+$("#cb2").val())
+            //     }
+            // })
+            // form.on('checkbox(cb1)', function (data) {
+            //     if($(this).val()==''){
+            //         $(this).val("1")
+            //         $("#platform_type").val($("#cb0").val()+","+$("#cb1").val()+","+$("#cb2").val())
+            //     }else{
+            //         $(this).val("")
+            //         $("#platform_type").val($("#cb0").val()+","+$("#cb1").val()+","+$("#cb2").val())
+            //     }
+            // })
+            // form.on('checkbox(cb2)', function (data) {
+            //     if($(this).val()==''){
+            //         $(this).val("2")
+            //         $("#platform_type").val($("#cb0").val()+","+$("#cb1").val()+","+$("#cb2").val())
+            //     }else{
+            //         $(this).val("")
+            //         $("#platform_type").val($("#cb0").val()+","+$("#cb1").val()+","+$("#cb2").val())
+            //     }
+            // })
+
+
+            form.on('checkbox(chb0)', function (data) {
+                if($(this).val()==''){
+                    $(this).val("0")
+                    $("input[name='is_hot']").val("1");
+                    $("#display_type").val($("#chb0").val()+","+$("#chb1").val()+","+$("#chb2").val())
+
+                }else{
+                    $(this).val("")
+                    $("input[name='is_hot']").val("2");
+                    $("#display_type").val($("#chb0").val()+","+$("#chb1").val()+","+$("#chb2").val())
+                }
+
+            })
+            form.on('checkbox(chb1)', function (data) {
+                if($(this).val()==''){
+                    $(this).val("1");
+                    $("input[name='is_new']").val("1");
+                    $("#display_type").val($("#chb0").val()+","+$("#chb1").val()+","+$("#chb2").val())
+                }else{
+                    $(this).val("");
+                    $("input[name='is_new']").val("2");
+                    $("#display_type").val($("#chb0").val()+","+$("#chb1").val()+","+$("#chb2").val())
+                }
+
+            })
+
+
+
+        })
+    </script>
+</form>
+{% endblock body %}

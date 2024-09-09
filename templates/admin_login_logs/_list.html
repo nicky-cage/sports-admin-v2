@@ -1,0 +1,9 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td> {{r.AdminId}} / {{r.AdminName}} </td>
+    <td>{{r.Ip}} / <span style="color: blue">{{r.Ip|ip_area}}</span></td>
+    <td style="word-break: break-all; cursor: pointer;" class="sp-alert" text="{{r.UserAgent}}">{{r.UserAgent|truncatechars:140}}</td>
+    <td>{{r.Created|datetime}}</td>
+</tr>
+{% endfor %}

@@ -1,0 +1,93 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-header">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/deposit_limits/remind", 4) -%} 存款行为冻结<span style="margin-left: 15px">
+                    <button class="layui-btn layuiadmin-btn-list remind" data-type="add">时间提醒设置</button>
+                </span>
+                {%endif -%}
+            </div>
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="200" />
+                        <col />
+                        <col width="120" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员等级</th>
+                            <th colspan="2">按支付总数限制</th>
+                            <th colspan="2">按支付方式限制</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>提醒限制次数</th>
+                            <th>冻结限制次数</th>
+                            <th>提醒限制次数</th>
+                            <th>提醒限制次数</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%include "_index.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">未支付订单设置</div>
+            <div class="layui-card-body">
+                <form class="layui-form" action="" lay-filter="component-form-group">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label" style="width: 160px; margin-top: 6px">允许提交多笔未支付订单: </label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="allow" value="2" title="开启" lay-filter="ratio" {%if allow == "2"-%}checked="checked"{%endif%} /> <input type="radio" name="allow" value="1"
+                            title="关闭" lay-filter="ratio" {%if allow == "1"%}checked="checked"{%endif%} />
+                        </div>
+                    </div>
+                    <span style="color: red">提示：关闭状态下，会员不可提交多笔未支付存款订单，需要手动取消订单才可继续提交新订单.</span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form'], function () {
+        let $ = layui.$,
+            form = layui.form,
+            layer = layui.layer;
+        $(document).off('click', '.remind');
+        $(document).on('click', '.remind', function () {
+            layer.open({
+                type: 2,
+                area: ['500px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade: 0.4,
+                title: '时间提醒设置',
+                content: '/deposit_limits/remind',
+            });
+        });
+
+        form.on('radio(ratio)', function (data) {
+            sp.post('/deposit_limits/allow', { value: data.value }, function (res) {
+                sp.alertSuccess('状态[是否允许提交多笔未支付订单]修改成功');
+            });
+        });
+    });
+</script>

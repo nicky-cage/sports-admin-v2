@@ -1,0 +1,25 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="sp-lazy-load">
+                    <ul class="layui-tab-title">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/access_logs", 4) -%}
+                        <li class="layui-this">后台操作日志</li>
+                        {%endif -%}
+                        <li>后台登录日志</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/access_logs", 4) -%}
+                        <div class="layui-tab-item layui-show">{% include "i_list.html" %}</div>
+                        {%endif -%}
+                        <div class="layui-tab-item" url="/admin_login_logs">{% include "../admin_login_logs/list.html" %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

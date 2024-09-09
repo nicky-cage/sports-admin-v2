@@ -1,0 +1,71 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form" lay-filter="" method="post" tbody="4">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">银行卡号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="card_number" placeholder="请输入银行卡号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登录账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="user_names" placeholder="请输入登录账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_cards/create", 4) -%}
+                    <button class="layui-btn sp-open-link" url="/blocked_cards/create" tab="4" area="600px,400px">新增银行卡黑名单</button>
+                    {%endif -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="350" />
+                        <col />
+                        <col />
+                        <col width="130" />
+                        <col width="130" />
+                        <col width="150" />
+                        <col width="110" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>银行卡号</th>
+                            <th>曾经使用账号</th>
+                            <th>备注</th>
+                            <th>添加时间</th>
+                            <th>修改时间</th>
+                            <th>修改人员</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: center"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Username}}</td>
+    <td>{%if r.Type==0%}手机验证码{%else%}邮箱验证码{%endif%}</td>
+    <td>{%if r.Type==0%}{{r.Phone}}{%else%}{{r.Email}}{%endif%}</td>
+    <td>{{r.Code}}</td>
+    <td>{{r.Created|datetime}}</td>
+</tr>
+{% endfor %}

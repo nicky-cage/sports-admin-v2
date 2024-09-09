@@ -1,0 +1,173 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+
+<form class="layui-form" lay-filter="component-form-element" method="post" enctype="multipart/form-data" action="/helps/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">分类</label>
+        <div class="layui-input-inline">
+            <select name="category_id">
+                <option value="">请选择分类</option>
+                {% for hk, hv in help_categories %}
+                <option value="{{hv.Id}}"{%if hv.Id == r.CategoryId%} selected {%endif%}>{{hv.Name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <input type="hidden" name="admin_name" value="{{admin}}">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input" value="{{r.Title}}" style="width: 380px;" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">关联场景</label>
+        <div class="layui-input-inline">
+            <select name="venue_type" value="">
+                <option value="">请选择关联场景</option>
+                {% for tk, tv in venue_types %}
+                <option value="{{tk}}" {%if tk == r.VenueType%} selected {%endif%}>{{tv}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >支持终端</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" id="cb" lay-skin="primary" lay-filter="cb" {%if r.Terminal|checkbox_first%}checked="" value="0"{%else%}value=""{%endif%}  title="PC" >
+            <input type="checkbox"  id="cb1" lay-skin="primary"lay-filter="cb1" {%if r.Terminal|checkbox_second%}checked="" value="1" {%else%}value=""{%endif%}  title="移动">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="sort" lay-verify="number" placeholder="请输入排序" autocomplete="off" class="layui-input" value="{{r.Sort}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >内容方式</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="content_type" value="0" title="文本" {%if r.ContentType == 0%}checked{%endif%}>
+            <input type="radio" name="content_type" value="1" title="链接" {%if r.ContentType == 1%}checked{%endif%}>
+        </div>
+    </div>
+    <input type="hidden" name="content" id="content">
+    <input type="hidden" name="terminal" value="" id="terminal">
+    <input type="hidden" name="img" id="img" value="">
+    <script src="{{STATIC_URL}}/wangEditor/release/wangEditor.min.js"></script>
+    <div hidden="hidden" id="rcont">{{r.Content}}</div>
+    <div id="editor" style="height:600px;"></div>
+
+    <script>
+        layui.config({
+            base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+        }).use(['form', 'jquery', 'layer'], function() {
+            let $ = layui.$
+            let layer = layui.layer;
+        var E = window.wangEditor
+        var editor = new E('#editor')
+
+            editor.customConfig.zIndex = false;
+
+        editor.customConfig.uploadImgShowBase64 = true
+        var cont =document.getElementById('content')
+        editor.customConfig.onchange = function (html) {
+            cont.value= html
+        }
+        editor.customConfig.uploadImgServer = '/upload'
+        editor.customConfig.uploadFileName = 'file'
+
+        editor.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                // 图片上传并返回结果，但图片插入错误时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                if(result.errcode==0){
+
+                    editor.txt.append('<img src="'+result.data.path+'">')
+                    if(document.getElementById('img').value==''){
+                        document.getElementById('img').value=result.data.path
+                    }else{
+                        var i= document.getElementById('img').value
+                        document.getElementById('img').value=i+","+result.data.path
+                    }
+                    layer.open({
+                        title:'',
+                        content:'上传成功',
+                        btn:[],
+                        time:500,
+                    })
+                }else{
+                    layer.open({
+                        title:'',
+                        content:'上传失败',
+                        btn:[],
+                        time:500,
+                    })
+                }
+            },
+            error: function (xhr, editor) {
+                // 图片上传出错时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                layer.open({
+                    title:'',
+                    content:'上传错误',
+                    btn:[],
+                    time:500,
+                })
+            },
+            timeout: function (xhr, editor) {
+                // 图片上传超时时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                // editor.customConfig.uploadImgTimeout = 3000
+                layer.open({
+                    title:'',
+                    content:'上传超时',
+                    btn:[],
+                    time:500,
+                })
+            },
+        }
+        editor.customConfig.customAlert = function (info) {
+            // info 是需要提示的内容，默认为空就好
+        }
+
+        editor.create()
+        editor.txt.html($("#rcont").text()) //将内容写入富文本中
+
+
+        layui.config({
+            base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+        }).use(['form', 'jquery', 'layer'], function() {
+            let $ = layui.$
+            let form = layui.form;
+
+            form.on('checkbox(cb)', function(data){
+                if($(this).val()==""){
+                    $(this).val("0")
+                    $("#terminal").val($("#cb").val()+","+$("#cb1").val())
+                }else{
+                    $(this).val("")
+                    $("#terminal").val($("#cb").val()+","+$("#cb1").val())
+                }
+            });
+            form.on('checkbox(cb1)', function(data){
+                if($(this).val()==""){
+                    $(this).val("1")
+                    $("#terminal").val($("#cb").val()+","+$("#cb1").val())
+                }else{
+                    $(this).val("")
+                    $("#terminal").val($("#cb").val()+","+$("#cb1").val())
+                }
+            });
+            $(function(){
+                $("#terminal").val($("#cb").val()+","+$("#cb1").val())
+                $("#content").val($("#rcont").text())
+            });
+            form.render()
+        })
+        })
+
+    </script>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

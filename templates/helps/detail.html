@@ -1,0 +1,20 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-form-item layui-form-text" style="margin:30px -50px;">
+    <label class="layui-form-label" >*内容</label>
+    <div class="layui-input-block">
+        <div id="help-content" style="width:500px;height:550px;background: white;border:solid 1px;"></div>
+    </div>
+</div>
+<div hidden="hidden" id="con" >{{r.content}}</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form', 'jquery', 'layer'], function() {
+        let $ = layui.$
+             $(function(){
+        $("#help-content").html($("#con").text())
+      })
+    })
+</script>
+{% endblock body %}

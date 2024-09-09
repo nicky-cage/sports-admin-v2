@@ -1,0 +1,32 @@
+{% for r in rows%}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Name}}</td>
+    <td>USDT</td>
+    <td>
+        {%if r.WalletType == 1 -%} USDT - ERC20
+        {%elif r.WalletType == 2 -%} USDT -TRC20
+        {%else -%} 未知
+        {%endif -%}
+    </td>
+    <td>{%if r.AutoRate == 2 -%}<del>{{r.Rate|stringformat:'%.2f'}}</del>{%else-%}{{r.Rate|stringformat:'%.2f'}}{%endif-%}</td>
+    <td>{%if r.AutoRate == 2 -%}是{%else-%}否{%endif -%}</td>
+    <td>
+        {%if r.ShowType == 3 -%} 联系专属客服
+        {%elif r.ShowType == 2 -%} 钱包地址
+        {%elif r.ShowType == 1 -%} 钱包地址 + 二维码
+        {%else -%} 未知
+        {%endif -%}
+    </td>
+    <td>{{r.DepositMin|stringformat:"%.2f"}}</td>
+    <td>{{r.DepositMax|stringformat:"%.2f"}}</td>
+    <td style="word-break: break-all; cursor: pointer;" class="sp-alert" text="{{r.WalletAddress}}">{{r.WalletAddress|truncatechars:32}}</td>
+    <td>{%if r.State == 2 -%}<span style="color:green">已启用</span>{%else-%}<span style="color:red">已停用</span>{%endif-%}</td>
+    <td>{%if r.IsRecommend == 2 -%}<span style="color:green">是</span>{%else-%}<span style="color:red">否</span>{%endif-%}</td>
+    <td>{{r.Remark}}</td>
+    <td>
+        <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/receive_virtuals/update" area="700px,750px" tab="1" data-type="add">修改</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete" tab="1" url="/receive_virtuals/delete">删除</button>
+    </td>
+</tr>
+{% endfor -%}

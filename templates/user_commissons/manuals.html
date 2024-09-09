@@ -1,0 +1,52 @@
+
+<div class="layui-fluid">
+    <!-- 搜索框 -->
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <form class="layui-form" lay-filter="" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="commissons_time" class="layui-input sp-form-date" format="single" placeholder="" id="commissons_time_id">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 数据表格 -->
+    <table class="layui-table">
+        <tbody id="sp-loaded-table"  url="/user_commissions/manual">
+        {% include "_manuals.html" %}
+        </tbody>
+    </table>
+
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate'], function() {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+        let laydate = layui.laydate;
+    });
+</script>
+

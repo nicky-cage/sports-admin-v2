@@ -1,0 +1,166 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 100px">所属代理编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="id" placeholder="请输入代理编号" lay-filter="number" class="layui-input" />
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 100px">所属代理账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="top_name" placeholder="请输入代理账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 100px">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 100px">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option value=""></option>
+                                    <option value="2">启用</option>
+                                    <option value="1">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 100px">统计日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="agent_user" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="150" />
+                        <col width="150" />
+                        <col />
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="130" />
+                        <col width="140" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员账号</th>
+                            <th>真实姓名</th>
+                            <th>手机号码</th>
+                            <th>所属代理</th>
+                            <th>中心账户</th>
+                            <th>存款金额</th>
+                            <th>提款金额</th>
+                            <th>总输赢</th>
+                            <th>状态</th>
+                            <th>注册时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/agents/users">
+                        {% include "_users.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'layer'], function () {
+        let $ = layui.$,
+            element = layui.element;
+
+        // 查看会员信息
+        $('.users-detail').on('click', function () {
+            var info = $(this).attr('id');
+            layer.open({
+                title: '查看会员信息',
+                shade: 0.5,
+                type: 2,
+                area: ['700px', '600px'],
+                offset: 'auto',
+                btn: ['取消', '确定'],
+                anim: 2,
+                content: ['/agents/users_view', 'no'],
+                success: function (layero, index) {
+                    $.ajax({
+                        url: '/agents/detail',
+                        type: 'get',
+                        data: { id: info },
+                        success: function (data) {
+                            var iframe = window['layui-layer-iframe' + index]; //拿到iframe元素
+                            iframe.child(JSON.stringify(data)); //向此iframe层方法 传递参数
+                        },
+                    });
+                },
+            });
+        });
+
+        // 转代理线
+        $('.users-trans').on('click', function () {
+            var info = $(this).attr('id');
+            layer.open({
+                title: '转代理线',
+                shade: 0.5,
+                type: 2,
+                area: ['600px', '400px'],
+                offset: 'auto',
+                btn: ['取消', '确定'],
+                anim: 2,
+                content: ['/agents/users_trans', 'no'],
+                success: function (layero, index) {
+                    // $.ajax({
+                    //     url: "/agents/detail",
+                    //     type: "get",
+                    //     data: {"id": info},
+                    //     success:function(data){
+                    //         var iframe = window['layui-layer-iframe' + index];//拿到iframe元素
+                    //         iframe.child(JSON.stringify(data))//向此iframe层方法 传递参数
+                    //     }
+                    // })
+                },
+            });
+        });
+    });
+</script>
+
+{% endblock body %}

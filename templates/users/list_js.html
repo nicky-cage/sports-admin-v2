@@ -1,0 +1,311 @@
+<script>
+    layui.use(['jquery', 'layer', 'element'], function () {
+        let $ = layui.jquery,
+            layer = layui.layer,
+            element = layer.element;
+        let getAllSelectedIds = function () {
+            // 拿到已选中的所有项目的编号
+            let userIds = [];
+            $('.user_ids').each(function () {
+                let that = $(this);
+                if (that.prop('checked')) {
+                    userIds.push(that.val());
+                }
+            });
+            return userIds;
+        };
+
+        // 某个单选
+        $(document).on('click', '.user_ids', function () {
+            let that = $(this);
+            if (!that.prop('checked')) {
+                // 如果是未选中
+                $('#check_all').prop('checked', false); // 则重置全选为未选中状态
+            } else {
+                // 统计当前已选中的数量
+                let checkboxTotal = 0;
+                $('.user_ids').each(function () {
+                    if ($(this).prop('checked')) {
+                        checkboxTotal += 1;
+                    }
+                });
+                if (checkboxTotal == $('.user_ids').length) {
+                    $('#check_all').prop('checked', true);
+                }
+            }
+        });
+
+        // 显示某个用户电话,qq/微信/邮件
+        $(document).on('click', '.link-show-info', function () {
+            let that = $(this),
+                id = that.attr('rid'),
+                imType = that.attr('rtype');
+            if (!id || !imType) {
+                sp.alert('缺少必要信息, 无法查看详情');
+            }
+            sp.post('/users/show_im?id=' + id + '&type=' + imType, {}, function (result) {
+                if (result.errcode != 0) {
+                    sp.alert(result.message);
+                    return;
+                }
+                sp.alertSuccess(result.data);
+            });
+        });
+
+        // 全选
+        $(document).on('click', '#check_all', function () {
+            let that = $(this);
+            let checked = that.prop('checked');
+            $('.user_ids').each(function () {
+                $(this).prop('checked', checked);
+            });
+        });
+
+        // 批量添加标签
+        $(document).on('click', '#btnAddTags', function () {
+            let userIds = getAllSelectedIds();
+            if (userIds.length == 0) {
+                sp.alert('没有选择任何用户');
+            } else {
+                sp.open('/users/add_tags?ids=' + userIds.toString(), 800, 600, '批量添加标签');
+            }
+        });
+
+        // 批量禁用
+        $(document).on('click', '#btnDisableAll', function () {
+            let userIds = getAllSelectedIds();
+            // 如果所选编号不够
+            if (userIds.length == 0) {
+                sp.alert('没有选择任何用户');
+                return;
+            }
+            sp.post('/users/disable_all', { ids: userIds.toString() }, function (result) {
+                if (result.errcode == 0) {
+                    sp.alertSuccess('操作成功', function () {
+                        location.reload();
+                    });
+                } else {
+                    sp.alert(result.message);
+                }
+            });
+        });
+
+        //重置资金密码 二次弹框
+        $(document).on('click', '#reset_withdraw_password', function () {
+            let id = $(this).attr('rid');
+            layer.open({
+                title: '温馨提示',
+                icon: 3,
+                content:
+                    '确认要重置资金吗?<br /><br />' +
+                    //  "1. 将会删除用户资金密码, 并向用户发送短信<br />" +
+                    '1. 用户需要在前台登录并重新设置资金密码<br />',
+                btn: ['取消', '确认'],
+                btn2: function () {
+                    $.ajax({
+                        type: 'post',
+                        url: 'users/withdraw_password',
+                        data: JSON.stringify({ id: id }),
+                        success: function (data) {
+                            if (data.errcode == 0) {
+                                layui.layer.msg(data.data, { icon: 1 });
+                            } else {
+                                layui.layer.msg(data.message, { icon: 2 });
+                            }
+                        },
+                    });
+                },
+            });
+        });
+
+        let user_idstr = '{{userIds}}';
+        let user_ids = '{{userIds}}'.split(',');
+        let fArr = [];
+        $(document).on('click', '#recover-all', function () {
+            if (user_idstr == '' || user_ids.length == 0) {
+                sp.alert('没有可供操作的用户');
+                return;
+            }
+            let fix_ids = $('#user-ids').val(); // 临时处理错误相关信息 - 请手工将错误用户id写入此input
+            if (fix_ids != '') {
+                user_ids = fix_ids.split(',');
+            }
+
+            let account_recovery = function(user_id_list) {
+                let user_count = user_id_list.length;
+                let index = 0, success = 0, failure = 0;
+                let game_id = $("#recover_game_id").val();
+                layer.load({ shade: 0.3 });
+                let timer = setInterval(function () {
+                    if (index >= user_count) {
+                        clearInterval(timer);
+                        layer.closeAll();
+                    }
+                    let userId = user_id_list[index];
+                    if (!userId) {
+                        return;
+                    }
+                    $.ajax({
+                        url: '/user_detail/accounts_recovery',
+                        type: 'get',
+                        data: { id: userId, index: index, "game_id": game_id },
+                        success: function (data) {
+                            if (data.errcode == 0) {
+                                success += 1;
+                            } else {
+                                failure += 1;
+                                fArr.push(userId);
+                            }
+                            let percent = Math.round((index / user_count) * 10000) / 100 + '%';
+                            let text = '回收完成: ' + index + '/' + user_count + '<br />' +
+                                '成功/失败统计: ' + success + '/' + failure + '<br />' +
+                                '处理进度: ' + percent;
+                            layer.msg(text, { time: 1000 });
+                        },
+                    });
+                    index += 1;
+                }, 2500);
+            };
+            let message =
+                '警告: <br />' +
+                '此功能用于回收全部用户游戏余额<br />' +
+                '此项功能会频繁请求三方接口<br />' +
+                '此功能同一时间仅限1人使用<br />' +
+                '请务必谨慎确认执行此项操作!<br /><br />' +
+                '选择游戏: <select name="recover_game_id" id="recover_game_id">' + '' +
+                '<option value="0">所有游戏</option>' +
+                '{%for g in gameList -%}{%if g.Pid == 0 && g.VenueType == 0 -%}<option value="{{g.Id}}">{{g.Name}} - {{g.Ename}}</option>{%endif -%}{%endfor -%}' +
+                '</select><br /><br />' +
+                // '钱包回收总计: ' + user_count + ' <br />' +
+                // '共计时间: ' + time_min + ' - ' + time_max + ' 秒<br />' +
+                '你确定要执行此项操作么?';
+            sp.confirm(message, function () {
+                let game_id = $("#recover_game_id").val();
+                sp.get("/users/game_user_ids?game_id=" + game_id, function(result) {
+                    if (result.errcode == 0) {
+                        if (result.data.length == 0) {
+                            layer.msg("没有用户账户需要回收", {time: 1000});
+                            return;
+                        }
+                        account_recovery(result.data);
+                    }
+                });
+            }, '重要提醒 - 一键全部回收');
+        });
+
+        let balance_idstr = '{{userIds}}';
+        let balance_ids = '{{userIds}}'.split(',');
+        $(document).on('click', '#balance-all', function () {
+            if (balance_idstr == '' || balance_ids.length == 0) {
+                sp.alert('没有可供操作的用户');
+                return;
+            }
+            let timeoutMin = balance_ids.length * 1;
+            let timeoutMax = balance_ids.length * 3;
+            let message =
+                '警告: <br />' +
+                '此功能用于同步全部用户游戏余额<br />' +
+                '此项功能会频繁请求三方接口<br />' +
+                '此功能同一时间仅限1人使用<br />' +
+                '请务必谨慎确认执行此项操作!<br /><br />' +
+                '钱包同步总计: ' + balance_ids.length + '<br />' +
+                '共计用时: ' + timeoutMin + ' - ' + timeoutMax + ' 秒<br />' +
+                '你确定要执行此项操作么?';
+            sp.confirm( message, function () {
+                    let index = 0, success = 0, failure = 0;
+                    layer.load({ shade: 0.3 });
+                    let timer = setInterval(function () {
+                        if (index >= balance_ids.length) {
+                            clearInterval(timer);
+                            layer.closeAll();
+                        }
+                        let userId = balance_ids[index];
+                        if (!userId) {
+                            return;
+                        }
+                        $.ajax({
+                            url: '/user_detail/account_async',
+                            type: 'get',
+                            data: { id: userId, code: 'game', index: index },
+                            success: function (data) {
+                                if (data.errcode == 0) {
+                                    success += 1;
+                                } else {
+                                    failure += 1;
+                                }
+                                let percent = Math.round((index / balance_ids.length) * 10000) / 100 + '%';
+                                let text = '同步完成: ' + index + '/' + balance_ids.length + '<br />' +
+                                    '成功/失败统计: ' + success + '/' + failure + '<br />' +
+                                    '处理进度: ' + percent;
+                                layer.msg(text, { time: 1000 });
+                            },
+                        });
+                        index += 1;
+                    }, 2000);
+                },
+                '重要提醒 - 一键同步余额'
+            );
+        });
+
+        // 导入会员信息
+        $(document).on('click', '#import-excel', function () {
+            let text =
+                '<form id="import-excel-form" action="/users/import" enctype="multipart/form-data">' +
+                '<input type="file" name="import_excel_file" id="import_excel_file" /><br /><br />' +
+                '<strong>文件格式:</strong> Excel <br />' +
+                '<strong>文件大小:</strong> 不能超过2M <br />' +
+                '<strong>数据格式:</strong>  &nbsp;| 用户账号 | 状态 | 真实姓名 | 性别 | 生日 | 钱包余额 | 层级 | 所属总代 |<br />' +
+                '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | 所属代理 | 注册时间 | 最后登录时间 | 存款次数 |<br />' +
+                '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | 存款总额 | 取款次数 | 取款总额 | 手机号码 |<br />' +
+                '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | 邮箱 | QQ | 微信 | 备注 |<br />' +
+                '<span style="color: red">请务必确认Excel文件的列一一对应!</span>' +
+                '</form>';
+            layer.open({
+                title: '导入Excel',
+                area: ['700px', '400px'],
+                content: text,
+                yes: function (index, layz) {
+                    let form = $('#import-excel-form'),
+                        files = $('input[type=file]:first', form).prop('files'),
+                        data = new FormData();
+                    data.append('import_excel_file', files[0]);
+                    layer.load(1);
+                    $.ajax({
+                        async: false,
+                        type: 'POST',
+                        url: '/users/import',
+                        data: data,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.errcode != 0) {
+                                sp.alert(result.message ? result.message : '上传文件出现错误', function () {
+                                    layer.closeAll();
+                                });
+                                return;
+                            }
+                            sp.alertSuccess('导入数据成功', function () {
+                                layer.closeAll();
+                            });
+                        },
+                        error: function (res) {
+                            sp.alert('导入出错: 处理数据失败, 检查文件内容有误', function () {
+                                layer.closeAll();
+                            });
+                        },
+                    });
+                },
+            });
+        });
+
+        // 修改会员VIP等级
+        $(document).on("click", ".user-level-ups", function() {
+            let that = $(this), userID = that.attr("rid"), userVIP = that.attr("rvip"), userName = that.attr("rusername");
+            let url = "/users/level_up?id=" + userID + "&vip=" + userVIP + "&username=" + userName;
+            let title =  "修改会员VIP等级: " + userID + " / " + userName + " | <span class='red'>警告: 本项目操作不会赠送任何礼金!</span>";
+            sp.open(url, 800, 500, title);
+        });
+    });
+</script>

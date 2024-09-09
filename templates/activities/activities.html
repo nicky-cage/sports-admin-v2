@@ -1,0 +1,49 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<script src="{{STATIC_URL}}/wangEditor/release/wangEditor.min.js"></script>
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab sp-tab-container" lay-filter="sp-lazy-load">
+                    <ul class="layui-tab-title">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities", 4) -%}
+                        <li class="layui-this">常规活动</li>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities/turntable", 3) -%}
+                        <li>幸运转盘</li>
+                        {%endif -%}
+                        {%if PLATFORM == "venice"-%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities/arrived", 3) -%}
+                        <li>会员签到</li>
+                        {%endif-%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities/red_envelop_rain", 3) -%}
+                        <li>红包雨</li>
+                        {%endif-%} {%endif-%}
+                        <!-- <li>邀请好友</li>
+                        <li>发放礼金</li>
+                        <li>审核列表</li>
+                        <li>历史记录</li> -->
+                    </ul>
+                    <div class="layui-tab-content">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities", 4) -%}
+                        <div class="layui-tab-item layui-show sp-tab-area">{% include "i_activities.html" %}</div>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities/turntable", 3) -%}
+                        <div class="layui-tab-item sp-tab-area" url="/activities/turntable">{% include "turntable_activities.html" %}</div>
+                        {%endif -%}
+                        {%if PLATFORM == "venice"-%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities/arrived", 3) -%}
+                        <div class="layui-tab-item sp-tab-area" url="/activities/arrived">{% include "arrived_activities.html" %}</div>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities/red_envelop_rain", 3) -%}
+                        <div class="layui-tab-item sp-tab-area" url="/activities/red_envelope_rain">{% include "red_envelope_rain.html" %}</div>
+                        {%endif -%}
+                        {%endif -%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

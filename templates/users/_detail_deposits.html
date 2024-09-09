@@ -1,0 +1,37 @@
+{%for r in rows%}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.OrderNo}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.ArriveMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.TopMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.Discount|stringformat:"%.2f"}}</td>
+    <td>{{r.ChannelType|channel_type}}</td>
+    <td>{{r.DepositName}}</td>
+    <td>{{r.AccountByName}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>
+        <button class="layui-btn sp-open-link"
+            area="90%,80%"
+            title="区间: {{r.Created|datetime}} TO {{currentTime|datetime}}"
+            url="/v2/user_audits/bets?time_start={{r.Created}}&time_end={{currentTime}}&user_id={{r.UserId}}">至当前时间</button>
+        {% if forloop.Counter==1%}
+        {% else -%}
+        <button class="layui-btn sp-open-link"
+            area="90%,80%"
+            title="区间: {{r.Created|datetime}} TO {%for v in createdTimes -%}{%if v.ThisTime == r.Created -%}{{v.NextTime|datetime}}{%endif-%}{%endfor%}"
+            url="/v2/user_audits/bets?time_start={{r.Created}}&time_end={%for v in createdTimes -%}{%if v.ThisTime == r.Created -%}{{v.NextTime}}{%endif-%}{%endfor-%}&user_id={{r.UserId}}">至下笔存款</button>
+        {% endif -%}
+    </td>
+    <td>{%if r.Status==2%}成功{%elif r.Status==3%}失败{%else%}待处理{%endif%}</td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.FinanceAdmin}}</td>
+</tr>
+{%endfor%}
+<tr>
+    <td>总计</td>
+    <td><span style="color: red">{{deposits_money|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red">{{deposits_arrive|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red">{{deposits_top|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red">{{deposits_discount|stringformat:"%.2f"}}</span></td>
+    <td colspan="8"></td>
+</tr>

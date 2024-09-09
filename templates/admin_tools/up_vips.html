@@ -1,0 +1,110 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div
+                    class="layui-form layui-card-header layuiadmin-card-header-auto"
+                >
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input
+                                    type="text"
+                                    name="username"
+                                    placeholder="请输入会员账号"
+                                    autocomplete="off"
+                                    class="layui-input"
+                                />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit lay-filter="sp-form-search" >
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn" ></i> </button>
+                            <button class="layui-btn sp-form-reset" type="button" > 重置 </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="100" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col />
+                        <col width="70" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员编号</th>
+                            <th>会员账号</th>
+                            <th>当前VIP等级</th>
+                            <th>应该VIP等级</th>
+                            <th>升级积分总额</th>
+                            <th>当前积分总额</th>
+                            <th>缺少升级积分</th>
+                            <th>是否升级</th>
+                            <th>已经升级</th>
+                            <th>当前每月俸禄</th>
+                            <th>晋级礼金</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/admin_tools/up_vips" >
+                        {% include "_up_vips.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(["jquery"], function () {
+        let $ = layui.jquery;
+        // 升级vip
+        $(document).on("click", ".upgrade-vip", function () {
+            let that = $(this);
+            let user_id = that.attr("user_id"),
+                from_level = that.attr("from_level"),
+                to_level = that.attr("to_level");
+            let url = "/admin_tools/up_vip?user_id=" + user_id + "&from_level=" + from_level + "&to_level=" + to_level;
+            sp.confirm("确定要升级用户VIP等级么?", function () {
+                $.get(url, function (result) {
+                    if (result.errcode != 0) {
+                        sp.alert(result.message);
+                        return;
+                    }
+                    sp.alertSuccess("用户等级调整成功", function () {
+                        let url = $("#sp-loaded-table").attr("url");
+                        if (url) {
+                            location.href = url;
+                            return;
+                        }
+                        location.reload();
+                    });
+                });
+            });
+        });
+    });
+</script>
+{% endblock body %}

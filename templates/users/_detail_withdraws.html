@@ -1,0 +1,21 @@
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.WithdrawCost|stringformat:"%.2f"}}</td>
+    <td>{{r.BankName}}/{{r.BankCard}}</td>
+    <td>{{r.BankRealname}}/{{r.BankAddress}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.RiskProcessAt}}</td>
+    <td>{{r.RiskAdmin}}</td>
+    <td>{{r.FinanceProcessAt}}</td>
+    <td>{{r.FinanceAdmin}}</td>
+    <td>{{r.Remark}}</td>
+    <td>{%if r.Status==2%}成功{%elif r.Status ==3%}失败{%else%}处理中{%endif%}</td>
+</tr>
+{%endfor%}
+<tr>
+    <th>总计</th>
+    <th>{{withdraws_money|stringformat:'%.2f'}}</th>
+    <th colspan="10"></th>
+</tr>

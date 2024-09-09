@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>后台管理系统</title>
+    <meta content="webkit" name="renderer"/>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <link href="{{STATIC_URL}}/layuiadmin/layui/css/layui.css" media="all" rel="stylesheet"/>
+    <link href="{{STATIC_URL}}/layuiadmin/style/admin.css" media="all" rel="stylesheet"/>
+    <style type="text/css">
+        .layui-table td {
+            padding: 0px 5px;
+            height: 35px;
+            line-height: 35px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .layui-table th {
+            padding: 0px 5px;
+            height: 35px;
+            line-height: 35px;
+            font-size: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .layui-btn {
+            height: 28px;
+            line-height: 28px;
+        }
+
+        .layui-card-body {
+            padding-bottom: 0px;
+            padding-top: 0px;
+        }
+    </style>
+    <script src="{{STATIC_URL}}/layuiadmin/layui/layui.js"></script>
+    <script>const STATIC_URL = "{{STATIC_URL}}";</script>
+    <script>const UPLOAD_URL = "{{UPLOAD_URL}}";</script>
+    <script src="{{STATIC_URL}}/js/common.js"></script>
+</head>
+<body>
+<div class="layui-fluid">
+    {% block body -%}{% endblock -%}
+</div>
+</body>
+</html>
+<script src="{{STATIC_URL}}/js/scripts.js"></script>

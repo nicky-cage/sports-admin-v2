@@ -1,0 +1,29 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.DepositFirstTime|datetime}}</td>
+    <td>{%if r.DepositFirstMoney > 0 -%}<span style="color:green">{{r.DepositFirstMoney|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif -%}</td>
+    <td>{{r.DepositLastTime|datetime}}</td>
+    <td>{%if r.DepositLastMoney > 0 -%}<span style="color:green">{{r.DepositLastMoney|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif-%}</td>
+    <td>{%if r.DepositCount > 0 -%}<span style="color:green">{{r.DepositCount}}</span>{%else-%}<del>0</del>{%endif-%}</td>
+    <td>{{r.WithdrawFirstTime|datetime}}</td>
+    <td>{%if r.WithdrawFirstMoney > 0-%}<span style="color:red">{{r.WithdrawFirstMoney|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif-%}</td>
+    <td>{{r.WithdrawLastTime|datetime}}</td>
+    <td>{%if r.WithdrawLastMoney > 0 -%}<span style="color:red">{{r.WithdrawLastMoney|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif-%}</td>
+    <td>{%if r.WithdrawCount > 0 -%}<span style="color:red">{{r.WithdrawCount}}</span>{%else-%}<del>0</del>{%endif-%}</td>
+    <td>{%if r.TotalDeposit > 0 -%}<span style="color:green">{{r.TotalDeposit|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif-%}</td>
+    <td>{%if r.TotalWithdraw > 0 -%}<span style="color:red">{{r.TotalWithdraw|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif-%}</td>
+    <td>{%if r.TotalActivity > 0 -%}<span style="color:red">{{r.TotalActivity|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif-%}</td>
+    <td>{%if r.TotalActivityApply > 0 -%}<span style="color:red">{{r.TotalActivityApply|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif-%}</td>
+    <td>{%if r.TotalUserReset > 0 -%}<span style="color:red">{{r.TotalUserReset|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif-%}</td>
+    <td>{%if r.TotalAccountSet > 0 -%}<span style="color:red">{{r.TotalAccountSet|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif-%}</td>
+    <td>{%if r.TotalDividend > 0 -%}<span style="color:red">{{r.TotalDividend|stringformat:"%.2f"}}</span>{%else-%}<del>0.00</del>{%endif-%}</td>
+    <td>
+        <!--<button class="layui-btn sp-open-link" title="稽核详情 - {{r.Username}} / {{r.Id}}" url="/v2/user_audits/detail"
+            rid="{{r.Id}}" area="98%,98%" tab="0" type="button">详情</button>-->
+        <button class="layui-btn sp-open-link" title="稽核详情 - {{r.Username}} / {{r.Id}}" url="/v3/user_audits/detail"
+                rid="{{r.Id}}" area="98%,98%" tab="0" type="button">详情</button>
+    </td>
+</tr>
+{% endfor %}

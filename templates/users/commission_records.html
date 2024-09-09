@@ -1,0 +1,116 @@
+<!-- 搜索框 -->
+<div class="layui-col-md12">
+    <div class="layui-card">
+        <form class="layui-form" lay-filter="" method="post" tbody="3">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" >佣金月份</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="month" placeholder="佣金月份,格式'2020-09'" autocomplete="off" class="layui-input "  />
+                        </div>
+                    </div>
+                <input type="hidden"  name="id" value="{{id}}">
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" type="button"  lay-submit lay-filter="user-commission">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px;">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="90" />
+                        <col />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="90" />
+                        <col width="80" />
+                        <col width="90" />
+                        <col width="80" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="80" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="165" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>佣金月份</th>
+                        <th>上线</th>
+                        <th>下线会员</th>
+                        <th>活跃会员</th>
+                        <th>存款金额</th>
+                        <th>总输赢</th>
+                        <th>场馆费</th>
+                        <th>红利</th>
+                        <th>返水</th>
+                        <th>输赢调整</th>
+                        <th>净输赢</th>
+                        <th>上月结余</th>
+                        <th>冲正后净输赢</th>
+                        <th>佣金比例</th>
+                        <th>佣金调整</th>
+                        <th>佣金</th>
+                        <th>本月结余</th>
+                        <th>发放人员</th>
+                        <th>发放时间</th>
+                    </tr>
+                    </thead>
+                    <tbody url="/user_detail/commission_records" class="user_commission" >
+                    {%include "_commission_records.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate'], function() {
+        let $ = layui.$
+        let laydate=layui.laydate
+        let form=layui.form;
+        $(".sp-form-date").each(function() {
+            let element_id = $(this).attr("id");
+            let is_simple = $(this).attr("format");
+            laydate.render({
+                elem: "#" + element_id
+                ,type: 'date'
+                ,range: (is_simple ? false : true)
+                ,value: (is_simple ? sp.utils.getCurrentDate() : sp.utils.getCurrentDate() + ' - ' + sp.utils.getCurrentDate())
+            });
+        });
+        form.on("submit(user-commission)", function(data){
+            $.ajax({
+              url:"/user_detail/commission_records",
+              type:"get",
+              data:data.field,
+              success:function(data){
+                  $(".user_commission tr").remove();
+                  $(".user_commission").append(data)
+
+                let   total=$(".user_commission tr:nth-child(1)").attr("total")
+
+                        //总挑数跟当前页。
+                    //depositsPage(total,1)
+
+              }
+          })
+        });
+    });
+</script>

@@ -1,0 +1,152 @@
+<style type="text/css">
+    .layui-form-item .layui-form-checkbox[lay-skin='primary'] {
+        margin-top: -6px;
+    }
+</style>
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="2">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">操作时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="created_audit_hrs" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">操作金额</label>
+                            <div class="layui-input-inline" style="width: 100px">
+                                <input type="text" name="money_min" placeholder="开始金额" autocomplete="off" class="layui-input" />
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 100px">
+                                <input type="text" name="money_max" placeholder="结束金额" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">操作人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="audit" placeholder="请输入操作人" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">类型</label>
+                            <div class="layui-input-inline">
+                                <select name="type">
+                                    <option value="">全部</option>
+                                    <option value="1">上分</option>
+                                    <option value="2">下分</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option value="">全部</option>
+                                    <option value="2">成功</option>
+                                    <option value="3">失败</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_account_sets/export", 4) -%}
+                    <button class="layui-btn sp-export-excel" data-type="export" url="/user_account_sets/export">导出EXecl</button>
+                    {%endif -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="150" />
+                        <col width="120" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col />
+                        <col width="130" />
+                        <col width="100" />
+                        <col width="80" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>订单编号</th>
+                            <th>会员账号</th>
+                            <th>会员等级</th>
+                            <th>操作类型</th>
+                            <th>原因</th>
+                            <th>操作金额(元)</th>
+                            <th>投注倍数</th>
+                            <th>审核备注</th>
+                            <th>操作时间</th>
+                            <th>操作人</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/user_account_hrs"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let form = layui.form;
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        //日期时间范围
+        laydate.render({
+            elem: '#test5',
+            type: 'datetime',
+            range: true,
+            value: getCurrDate() + ' 00:00:00 - ' + getCurrDate() + ' 23:59:59',
+        });
+    });
+
+    function getCurrDate() {
+        var date = new Date();
+        var sep = '-';
+        var year = date.getFullYear(); //获取完整的年份(4位)
+        var month = date.getMonth() + 1; //获取当前月份(0-11,0代表1月)
+        var day = date.getDate(); //获取当前日
+        if (month <= 9) {
+            month = '0' + month;
+        }
+        if (day <= 9) {
+            day = '0' + day;
+        }
+        var currentdate = year + sep + month + sep + day;
+        return currentdate;
+    }
+</script>

@@ -1,0 +1,491 @@
+
+<div class="layui-row" style="width:48%;float: left;">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th colspan="5">纳米数据<a href="#"><i class="layui-icon layui-icon-refresh layuiadmin-button-btn button-reload-nami"></i></a></th>
+                    </tr>
+                    <tr>
+                        <th colspan="5" style="text-align: left;font-size: 15px;"> 已选择</th>
+                    </tr>
+                    <tr>
+                        <th>比赛类型</th>
+                        <th>开赛时间</th>
+                        <th>联赛名称</th>
+                        <th>主队名称</th>
+                        <th>客队名称</th>
+                    </tr>
+                    </thead>
+                    <tbody id="nami-risk" url="/match_game">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layui-row" style="width:48%;float: left;">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th colspan="5">BTI数据<a href="#"><i class="layui-icon layui-icon-refresh layuiadmin-button-btn button-reload-bti"></i></a></th>
+
+                    </tr>
+                    <tr>
+                        <th colspan="5" style="text-align: left;font-size: 15px;"> 已选择</th>
+                    </tr>
+                    <tr>
+                        <th>比赛类型</th>
+                        <th>开赛时间</th>
+                        <th>联赛名称</th>
+                        <th>主队名称</th>
+                        <th>客队名称</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bti-risk">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layui-row" style="width:4%;float: left;position: relative;top:50px;">
+    <button  class="layui-btn layuiadmin-btn-list game_risk">审核确认</button>
+</div>
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form  layui-form-item layuiadmin-card-header-auto">
+
+                    <div class="layui-form-item" style="margin-top:20px;">
+                        <label class="layui-form-label" >比赛类型</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="type" title="足球" lay-skin="primary" value="1" >
+                            <input type="radio" name="type" title="篮球" lay-skin="primary" value="2"  >
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">开赛时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="start_time" placeholder="请输入时间" autocomplete="off" class="layui-input sp-form-date" style="width: 200px;" id="match_time" readonly />
+                            </div>
+                        </div>
+                        <div class="layui-inline"  style="margin-left: 30px;">
+                            <label class="layui-form-label">联赛名称</label>
+                            <div class="layui-input-inline">
+                                <input name="league_name" placeholder="请输入联赛名称" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">队伍名称</label>
+                            <div class="layui-input-inline">
+                                <input name="team_name" placeholder="请输入队伍名称" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" type="button" lay-submit lay-filter="match-games" >
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<form class="layui-form" >
+<div class="layui-row" style="width:50%;float: left;">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                    </colgroup>
+                    <thead >
+                    <tr>
+                        <th>序号</th>
+                        <th>开赛时间</th>
+                        <th>联赛名称</th>
+                        <th>主队名称</th>
+                        <th>客队名称</th>
+                        <th>选择</th>
+                    </tr>
+                    </thead>
+                    <tbody id="nami-games" >
+
+                    {%include "nami.html"%}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <div id="nami-page"  style="position:relative;left:170px;"></div>
+    </div>
+    <input type="hidden" name="nami_total" value="{{nami_total}}">
+    <input type="hidden" name="bti_total" value="{{bti_total}}">
+
+</div>
+
+<div class="layui-row" style="width:50%;float: left;">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                        <col width="50" />
+                    </colgroup>
+                    <thead >
+                    <tr>
+                        <th>序号</th>
+                        <th>开赛时间</th>
+                        <th>联赛名称</th>
+                        <th>主队名称</th>
+                        <th>客队名称</th>
+                        <th>选择</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bti-games">
+                    {%include "bti.html"%}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+        <div id="bti-page" style="position:relative;left:250px;"></div>
+    </div>
+
+</div>
+</form>
+
+<script>
+    layui.use(['jquery','layer','form','laypage'],function(){
+        let $=layui.$;
+        let layer=layui.layer;
+        let laypage = layui.laypage;
+        let form=layui.form;
+
+
+            //帮点下面的点击事件
+            form.on('radio(nami_chose)',function(data){
+
+                nami_time=$("input[name='nami']:checked").parent().parent().children("td:nth-child(2)").html();
+                nami_name=$("input[name='nami']:checked").parent().parent().children("td:nth-child(3)").html();
+                nami_home=$("input[name='nami']:checked").parent().parent().children("td:nth-child(4)").html();
+                nami_cus=$("input[name='nami']:checked").parent().parent().children("td:nth-child(5)").html();
+                type=$("input[name='nami']:checked").prev().val();
+                namiId=$("input[name='nami']:checked").prev().prev().val();
+                $("#nami-risk tr td:nth-child(1)").html(type);
+                $("#nami-risk tr td:nth-child(2)").html(nami_time);
+                $("#nami-risk tr td:nth-child(3)").html(nami_name);
+                $("#nami-risk tr td:nth-child(4)").html(nami_home);
+                $("#nami-risk tr td:nth-child(5)").html("");
+                $("#nami-risk tr td:nth-child(5)").append("<span>"+nami_cus+"</span>");
+                $("#nami-risk tr td:nth-child(5)").append("<input type='hidden' name='nami_id' value='"+namiId+"'>");
+
+            });
+
+            form.on('radio(bti_chose)',function(data){
+                bti_time=$("input[name='bti']:checked").parent().parent().children("td:nth-child(2)").html();
+                bti_name=$("input[name='bti']:checked").parent().parent().children("td:nth-child(3)").html();
+                bti_home=$("input[name='bti']:checked").parent().parent().children("td:nth-child(4)").html();
+                bti_cus=$("input[name='bti']:checked").parent().parent().children("td:nth-child(5)").html();
+                bti_type=$("input[name='bti']:checked").prev().val();
+                BtiId=$("input[name='bti']:checked").prev().prev().val();
+
+                $("#bti-risk tr td:nth-child(1)").html(bti_type);
+                $("#bti-risk tr td:nth-child(2)").html(bti_time);
+                $("#bti-risk tr td:nth-child(3)").html(bti_name);
+                $("#bti-risk tr td:nth-child(4)").html(bti_home);
+                $("#bti-risk tr td:nth-child(5)").html("");
+                $("#bti-risk tr td:nth-child(5)").append("<span>"+bti_cus+"</span>");
+                $("#bti-risk tr td:nth-child(5)").append("<input type='hidden' name='nami_id' value='"+BtiId+"'>");
+            });
+
+           namiPage($("input[name='nami_total']").val(),1);
+             btiPage($("input[name='bti_total']").val(),1);
+
+
+
+        $(".game_risk").click(function(){
+            nami_content=$("#nami-risk tr td:nth-child(1)").html()
+            if(nami_content==""){
+                layer.msg("请选择纳米数据",{icon:2,time:1300})
+                return false;
+            }
+            bti_content=$("#bti-risk tr td:nth-child(1)").html()
+            if(bti_content==""){
+                layer.msg("请选择BTI数据",{icon:2,time:1300})
+                return false;
+            }
+            if(nami_content!=bti_content){
+                layer.msg("比赛类型不一致",{icon:2,time:1300})
+                return false;
+            }
+
+            let nami_start_time=$("#nami-risk tr td:nth-child(2)").html();
+            let nami_league_name=$("#nami-risk tr td:nth-child(3)").html();
+            let nami_home_team=$("#nami-risk tr td:nth-child(4)").html();
+            // let nami_visiting_team=$("#nami-risk tr td:nth-child(5)").html();
+            let nami_visiting_team=$("#nami-risk tr td:nth-child(5) span").html();
+            let nami_id=$("#nami-risk tr td:nth-child(5) input[name='nami_id']").val();
+
+
+            let bti_start_time=$("#bti-risk tr td:nth-child(2)").html();
+            let bti_league_name=$("#bti-risk tr td:nth-child(3)").html();
+            let bti_home_team=$("#bti-risk tr td:nth-child(4)").html();
+            let bti_visiting_team=$("#bti-risk tr td:nth-child(5) span").html();
+            let bti_id=$("#bti-risk tr td:nth-child(5) input[name='bti_id']").val();
+
+            $.ajax({
+                url:"/match_game/risk",
+                type:"post",
+                data:JSON.stringify({"type":nami_content,"nami_start_time":nami_start_time,"nami_league_name":nami_league_name,
+                    "nami_home_team":nami_home_team,"nami_visiting_team":nami_visiting_team,"bti_start_time":bti_start_time,
+                    "bti_league_name":bti_league_name,"bti_home_team":bti_home_team,"bti_visiting_team":bti_visiting_team,"bti_id":bti_id,"nami_id":nami_id}),
+                success:function(data){
+                    if (data.errcode==0){
+                        layer.msg("操作成功",{icon:1,time:1300});
+                        Naclear();
+                        Bticlear();
+                        checkClear();
+                    }else{
+                        layer.msg("操作失败",{icon:2,time:1300})
+                    }
+                }
+
+            })
+
+        })
+
+        function  Naclear(){
+            len=$("#nami-risk tr td").length;
+            for (let i=1;i<=len;i++){
+                $("#nami-risk tr td:nth-child("+i+")").html("")
+            }
+        }
+
+        function  Bticlear(){
+            len=$("#bti-risk tr td").length;
+            for (let i=1;i<=len;i++){
+                $("#bti-risk tr td:nth-child("+i+")").html("")
+            }
+        }
+
+        function checkClear(){
+            $("input[name='bti']:checked").parent().parent().remove();
+            $("input[name='nami']:checked").parent().parent().remove();
+        }
+
+        form.on("submit(match-games)", function(data) {
+            //date.field  表单提交字段,
+            if (data.field["type"] !=""){
+                ajaxRequest(data)
+            }else{
+                //搜索 跟单纯的时间查找
+                if (data.field["league_name"] !="" ||data.field["team_name"] !=""){
+                }else{
+                    //都为空 则是时间搜索
+                    ajaxRequest(data)
+                }
+            }
+        })
+
+        function ajaxRequest(data){
+            $.ajax({
+                url:"/match_game",
+                type:"get",
+                data:data.field,
+                success:function(data){
+                    if (data.errcode==0){
+                        //时间搜索。或者类型搜索。
+                        $("#nami-games tr").remove();
+                        $("#bti-games tr").remove();
+                        pushGameNami(data.data)
+                        pushGameBti(data.data)
+                        namiPage(data.data.nami_total,1)
+                        btiPage(data.data.bti_total,1)
+
+                    }else{
+                        layer.msg("系统错误",{icon:2,time:1300})
+                        return false;
+                    }
+                }
+            })
+        }
+        function pushGameNami(data){
+            let text='';
+            data.nami.forEach(function(v){
+                text=text+'<tr>';
+                text=text+'<td>'+v["match_id"]+'</td>' ;
+                text=text+'<td>'+v["match_time"]+'</td>';
+                text=text+'<td>'+v["match_name"]+'</td>';
+                text=text+'<td>'+v["home_name"]+'</td>';
+                text=text+'<td>'+v["away_name"]+'</td>';
+                var sport='';
+                if(v["sport_type"]=="1"){
+                    sport="足球"
+                }else{
+                    sport="蓝球"
+                }
+                text=text+'<td><input type="hidden" name="nami_id" value="'+v["match_id"]+'"><input type="hidden" name="type" value="'+sport+'"><input type="radio" lay-filter="nami_chose" name="nami" ></td>';
+                text= text+'</tr>';
+            })
+            $("#nami-games").append(text)
+            $("input[name=nami_total]").val(data.nami_total)
+        form.render('radio')
+        }
+        function pushGameBti(data){
+            let html='';
+            data.bti.forEach(function(v){
+                html=html+'<tr>';
+                html=html+'<td>'+v["match_id"]+'</td>' ;
+                html=html+'<td>'+v["match_time"]+'</td>';
+                html=html+'<td>'+v["match_name"]+'</td>';
+                html=html+'<td>'+v["home_name"]+'</td>';
+                html=html+'<td>'+v["away_name"]+'</td>';
+                var sport='';
+                if(v["sport_type"]=="1"){
+                    sport="足球"
+                }else{
+                    sport="蓝球"
+                }
+                html=html+'<td><input type="hidden" name="bti_id" value="'+v["match_id"]+'"><input type="hidden" name="type" value="'+sport+'"><input type="radio" lay-filter="bti_chose" name="bti" ></td>';
+                html= html+'</tr>';
+            })
+
+            $("#bti-games").append(html)
+            $("input[name=bti_total]").val(data.bti_total)
+            form.render('radio')
+        }
+
+        $(".button-reload-nami").click(function(){
+            Naclear()
+        })
+        $(".button-reload-bti").click(function(){
+            Bticlear()
+        })
+        function namiPage(total,curr){
+            form.render('radio')
+            laypage.render({
+                elem: 'nami-page'
+                ,count: total,
+                limit: 15,
+                curr:curr,
+                jump:function(obj, first){
+                    if(!first){
+                        //当前夜，请求数据。
+                        let arr={};
+                        let  times=$("input[name='start_time']").val();
+                        arr["start_time"]=times;
+                        let type=$("input[name='type']:checked").val();
+                        if (type!=undefined){
+                            arr["type"]=type
+                        }
+                        arr["nami_page"]=obj.curr;
+
+                        $.ajax({
+                            url:"/match_game",
+                            type:"get",
+                            data:arr,
+                            success:function(data){
+                                if(data.errcode==0){
+                                    $("#nami-games tr").remove();
+                                    pushGameNami(data.data)
+                                    namiPage(data.data.nami_total,data.data.nami_page)
+
+                                }else{
+                                    layer.msg("系统错误",{icon:2,time:1300})
+                                    return false;
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+
+        }
+        function btiPage(total,curr){
+            laypage.render({
+                elem: 'bti-page'
+                ,count: total ,
+                limit: 15,
+                curr:curr,
+                jump:function(obj, first){
+                    if(!first){
+                        //当前夜，请求数据。
+                        let arr={};
+                        let  startTime=$("input[name='start_time']").val();
+                        arr["start_time"]=startTime;
+                        let type=$("input[name='type']:checked").val();
+                        if (type!=undefined){
+                            arr["type"]=type
+                        }
+                        arr["bti_page"]=obj.curr;
+
+                        $.ajax({
+                            url:"/match_game",
+                            type:"get",
+                            data:arr,
+                            success:function(data){
+                                if(data.errcode==0){
+                                    $("#bti-games tr").remove();
+
+                                    pushGameBti(data.data)
+                                    btiPage(data.data.bti_total,data.data.bti_page)
+
+                                }else{
+                                    layer.msg("系统错误",{icon:2,time:1300})
+                                    return false;
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        }
+
+    })
+</script>

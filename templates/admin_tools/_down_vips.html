@@ -1,0 +1,53 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.ID}}</td>
+	{% if forloop.Counter == 1 -%} <td rowspan="{{rows_count}}">{{r.CountMonth}}</td> {%endif -%}
+    <td>{{r.UserID}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.VipCurrentName}} - {{r.VipCurrent}}</td>
+    <td>
+        {%if r.ShouldDown -%}<span style='color: red'>{{r.VipShouldName}} - {{r.VipShould}}</span>
+        {%else -%}{{r.VipShouldName}} - {{r.VipShould}}
+        {%endif -%}
+    </td>
+    <td>{{r.MarkHolding|stringformat:'%.2f'}}</td>
+    <td>{{r.MarkCurrent|stringformat:'%.2f'}}</td>
+    <td>
+        {%if r.ShouldDown%}<span style="color:red"> {{r.MarkNeed|stringformat:'%.2f'}}</span>
+        {%else%}<span style="color:green"><del>{{r.MarkNeed|stringformat:'%.2f'}}</del></span>
+        {%endif-%}
+    </td>
+    <td>
+        {%if r.ShouldDown -%}<span style="color: red">是</span>
+        {%else-%}<del>否</del>
+        {%endif-%}
+    </td>
+    <td>
+        {%if !r.ShouldDown -%}-
+        {%elif r.HasDown -%}<span style="color: green"><del>是</del></span>
+        {%else -%}<span style="color: red">否</span>
+        {%endif -%}
+    </td>
+    <td>
+        {%if r.ShouldDown -%}<span style="color: red; font-weight: bold;">{{r.MonthBonus|stringformat:'%.2f'}}</span>
+        {%else -%}{{r.MonthBonus|stringformat:'%.2f'}}
+        {%endif -%}
+    </td>
+    <td>
+        {% if r.ShouldDown && !r.HasDown && r.Balance < r.MonthBonus %} 可用余额 {{r.Balance|stringformat:'%.2f'}}, 不够扣除 
+        {% elif r.ShouldDown && r.HasDown -%} 本月已经降级, 如果下月未达标则再次降级
+        {% elif r.HasDown -%} 本月有过降级 
+        {% endif -%}
+    </td>
+    <td>
+        {%if r.ShouldDown && !r.HasDown -%}
+		<button type="button" class="layui-btn layui-btn-warm down-vip"
+			reduct="0" user_id="{{r.UserID}}" valid_bet="{{r.MarkCurrent}}" from_level="{{r.VipCurrent}}" to_level="{{r.VipShould}}">降级</button>
+            {% if r.Balance >= r.MonthBonus %}
+            <button type="button" class="layui-btn layui-btn-danger down-vip"
+                reduct="1" user_id="{{r.UserID}}" valid_bet="{{r.MarkCurrent}}" from_level="{{r.VipCurrent}}" to_level="{{r.VipShould}}" >降级并扣俸禄</button>
+            {%endif -%}
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

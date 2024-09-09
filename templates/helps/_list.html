@@ -1,0 +1,37 @@
+{% for r in rows -%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Title}}</td>
+    <td>{% for tk, tv in venue_types -%}
+        {%if r.VenueType == tk -%}
+        {{tv}}
+        {%endif-%}
+        {%endfor-%}
+    </td>
+    <td>{%if r.Terminal =='0,' or r.Terminal ==',0'-%}PC
+        {%else-%}
+        {%if r.Terminal == ',1' or r.Terminal =='1,' -%} 移动
+        {%else-%}PC,移动
+        {%endif-%}
+        {%endif-%}
+    </td>
+    <td>{{r.ContentType|help_content_type}}</td>
+    <td>{{r.AdminName}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/helps/state", 4) -%}
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="正常|关闭" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.State}}" tab="0" url="/helps/state" rid="{{r.Id}}" />
+        {%else -%} {{r.State|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/helps/update", 4) -%}
+        <button class="layui-btn sp-open-link" url="/helps/update" tab="0" area="900px,650px">编辑</button>
+        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/helps/delete", 4) -%}
+        <button class="layui-btn layui-btn-danger sp-btn-delete" url="/helps/delete" tab="0">删除</button>
+        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/helps/detail", 4) -%}
+        <button class="layui-btn layui-btn-danger sp-open-link" url="/helps/detail" area="650px,650px" tab="0" title="预览" rid="{{r.Id}}">预览</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor -%}

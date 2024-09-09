@@ -1,0 +1,138 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/receive_virtuals/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">钱包名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" lay-verify="required" placeholder="请输入钱包名称, 用作标识" autocomplete="off" class="layui-input" value="{{r.Name}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">协议类型</label>
+        <div class="layui-input-inline">
+            <select name="wallet_type">
+                <option value="1">USDT - ERC20</option>
+                <option value="2" {%if r.WalletType == 2-%}selected="selected"{%endif-%}>USDT - TRC20</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">钱包地址</label>
+        <div class="layui-input-inline" style="width: 480px">
+            <input type="text" name="wallet_address" lay-verify="required" placeholder="请输入钱包地址" autocomplete="off" class="layui-input" value="{{r.WalletAddress}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">汇率</label>
+        <div class="layui-input-inline" style="width: 100px">
+            <input type="text" name="rate" id="exchange-rate" lay-verify="required" placeholder="请输入汇率" autocomplete="off" class="layui-input"
+                value="{%if r.AutoRate -%}{{r.Rate|stringformat:'%.2f'}}{%else-%}{{rate|stringformat:'%.2f'}}{%endif-%}" />
+            <button type="button" class="layui-btn layui-bg-orange" id="refresh-exchange" style="margin-top: 5px">
+                刷新汇率
+                <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i>
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">自动获取汇率</label>
+        <div class="layui-input-inline">
+            <select name="auto_rate">
+                <option value="2">是</option>
+                <option value="1" {%if r.AutoRate == 1 -%}selected="selected"{%endif-%}>否</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">汇率浮动</label>
+        <div class="layui-input-inline" style="width: 100px">
+            <input type="text" name="rate_float" lay-verify="required" placeholder="请输入汇率浮动" autocomplete="off" class="layui-input" value="{{r.RateFloat|stringformat:'%.2f'}}" />
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">是否推荐</label>
+        <div class="layui-input-inline">
+            <select name="is_recommend">
+                <option value="1">否</option>
+                <option value="2" {%if r.IsRecommend == 2 -%}selected="selected"{%endif-%}>是</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">状态</label>
+        <div class="layui-input-inline">
+            <select name="state">
+                <option value="1">停用</option>
+                <option value="2" {%if r.State == 2 -%}selected="selected"{%endif-%}>启用</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">展示方式</label>
+        <div class="layui-input-inline">
+            <select name="show_type">
+                <option value="1">钱包地址 + 二维码</option>
+                <option value="2" {%if r.ShowType == 2-%}selected="selected"{%endif-%}>钱包地址</option>
+                <option value="3" {%if r.ShowType == 3-%}selected="selected"{%endif-%}>联系专属客服</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">最小存款额(USDT)</label>
+        <div class="layui-input-inline">
+            <input type="text" name="deposit_min" id="min-money-limit" lay-verify="required" placeholder="请输入最小存款额" autocomplete="off" class="layui-input" value="{{r.DepositMin|stringformat:'%.2f'}}" />
+            <!-- ≈ <span id="deposit-min-rmb">{{min_virtual_rmb|stringformat:'%.2f'}} 元</span>-->
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">最大存款额(USDT)</label>
+        <div class="layui-input-inline">
+            <input type="text" name="deposit_max" id="max-money-limit" lay-verify="required" placeholder="请输入最大存款额" autocomplete="off" class="layui-input" value="{{r.DepositMax|stringformat:'%.2f'}}" style="float:left" />
+            <!--≈ <span id="deposit-max-rmb">{{max_virtual_rmb|stringformat:'%.2f'}} 元</span>-->
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">专属客服地址</label>
+        <div class="layui-input-inline" style="width: 480px">
+            <input type="text" name="service_uri" placeholder="请输入专属客服地址" autocomplete="off" class="layui-input" value="{{r.ServiceURI}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="width: 120px">备注</label>
+        <div class="layui-input-inline" style="width: 480px">
+            <input type="text" name="remark" placeholder="请输入备注信息" autocomplete="off" class="layui-input" value="{{r.Remark}}" />
+        </div>
+    </div>
+    <input type="hidden" name="kind" value="1001" />
+    {{block.Super|safe}}
+</form>
+<script>
+	layui.use(['jquery', 'layer'], function() {
+		let $ = layui.jquery, layer = layui.layer;
+
+		// 刷新汇率
+		let lastExchangeTime = 0;
+		let currentExchangeRate = 0;
+		$(document).on("click", "#refresh-exchange", function() {
+			let currentTime = Date.parse(new Date());
+			let getMoney =  function(fromMoney) {
+				return Math.round(fromMoney * 100) / 100;
+			};
+			let setMoney = function() {
+				let newMoney = getMoney(currentExchangeRate);
+				$("#exchange-rate").val(newMoney);
+				// $("#deposit-max-rmb").html(getMoney())
+			};
+			if (currentTime - lastExchangeTime < 3600) { // 1小时缓存
+				setMoney();
+				return;
+			}
+			$.get("/index/exchange", function(result) {
+				currentExchangeRate = result.data;
+				lastExchangeTime = currentTime;
+				setMoney();
+			});
+		});
+	});
+</script>
+{% endblock body %}

@@ -1,0 +1,195 @@
+{% extends "../layouts/base.html" -%}
+{% block body -%}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline" style="width: 490px;">
+                                <input type="text" name="users.username" placeholder="精确匹配请以,结尾或以,隔开 模糊匹配以;结尾或以;隔开" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">上级用户</label>
+                            <div class="layui-input-inline" style="width: 490px;">
+                                <input type="text" name="users.top_name" placeholder="精确匹配请以,结尾或以,隔开 模糊匹配以;结尾或以;隔开" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="users.realname" placeholder="请输入会员真实姓名" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">手机号码</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="users.phone" placeholder="请输入手机号码" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员等级</label>
+                            <div class="layui-input-inline">
+                                <select name="users.vip">
+                                    <option value="">请选择VIP等级</option>
+                                    {%for v in vipLevels -%}
+                                    <option value="{{v.Id}}">{{v.Name}}</option>
+                                    {%endfor -%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="users.status">
+                                    <option value="">请选择状态</option>
+                                    <option value="2">启用</option>
+                                    <option value="1">禁用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">在线状态</label>
+                            <div class="layui-input-inline">
+                                <select name="online">
+                                    <option value="">请选择在线状态</option>
+                                    <option value="1">在线</option>
+                                    <option value="0">离线</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登录IP</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="users.last_login_ip" placeholder="请输入会员登录IP" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">注册时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="user-register" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">最后登录</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="last_login_at" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="user-last-login" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">注册IP</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="users.register_ip" placeholder="请输入会员注册IP" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">排序类型</label>
+                            <div class="layui-input-inline">
+                                <select name="order_sort">
+                                    <option value="">请选择排序类型</option>
+                                    <option value="created">注册时间</option>
+                                    <option value="wallet">中心钱包余额</option>
+                                    <option value="username">会员名称</option>
+                                    <option value="vip">VIP级别</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">排序方式</label>
+                            <div class="layui-input-inline">
+                                <select name="order_by">
+                                    <option value="">请选择排序方式</option>
+                                    <option value="desc">降序 (从大到小)</option>
+                                    <option value="asc">升序 (从小大到)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/create", 4) -%}
+                <button class="layui-btn sp-open-link" data-type="add" url="/users/create" area="400px,500px">添加用户</button>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/add_tags", 4) -%}
+                <button class="layui-btn" data-type="batchdel" id="btnAddTags">批量添加标签</button>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/disable_all", 4) -%}
+                <button class="layui-btn layui-bg-red" data-type="add" id="btnDisableAll">批量禁用</button>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/export", 4) -%}
+                <button class="layui-btn layuiadmin-btn-list sp-export-excel" data-type="export" url="/users/export">导出EXecl</button>
+                {%endif -%}
+                <button type="button" class="layui-btn" id="import-excel" url="/users/import">导入Excel</button>
+                <button type="button" class="layui-btn layui-bg-red" id="recover-all">一键全部回收</button>
+                <button type="button" class="layui-btn layui-bg-red" id="balance-all">一键同步余额</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="40" />
+                        <col width="105" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="90" />
+                        <col width="80" />
+                        <col width="125" />
+                        <col width="130" />
+                        <col width="150" />
+                        <col width="150" />
+                        <col width="40" />
+                        <col width="120" />
+                        <col width="70" />
+                        <col />
+                        <col width="170" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="check_all" /></th>
+                            <th>会员账号</th>
+                            <th>中心钱包</th>
+                            <th>游戏钱包</th>
+                            <th>钱包总额</th>
+                            <th>会员等级</th>
+                            <th>真实姓名</th>
+                            <th>代理 | 上级</th>
+                            <th>手机 | 邮箱 | QQ | 微信</th>
+                            <th>注册IP | 地区</th>
+                            <th>最近登录IP | 地区</th>
+                            <th>在线</th>
+                            <th>注册时间</th>
+                            <th>状态</th>
+                            <th>会员标签</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/users">
+                        {% include "_list.html" -%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="user_ids" id="user-ids" value="" />
+{% include "list_js.html" -%}
+{% endblock body -%}

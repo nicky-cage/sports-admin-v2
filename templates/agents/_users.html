@@ -1,0 +1,22 @@
+{% for r in rows %}
+<tr  {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.id}}</td>
+    <td>{{r.username}}</td>
+    <td>{{r.realname}}</td>
+    <td>{{r.phone}}</td>
+    <td>{{r.top_name}}</td>
+    <td>{{r.balance}}</td>
+    <td>{{r.deposits}}</td>
+    <td>{{r.withdraws}}</td>
+    <td>{{r.final}}</td>
+    <td>{%if r.status == "2"%}<span style="color:green;">启用</span>{%else%}<span style="color:red;">禁用</span>{%endif%}</td>
+    <td>{{r.created |time_type_chang}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/users/detail", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list  sp-open-link"  url="/agents/users/detail" title="查看会员信息" area="700px,580px" rid="{{r.id}}" data-type="add">查看</button>
+        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/users/update", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-open-link" url="/agents/users/update" title="转代理线" area="550px,400px" data-type="add">转代理线</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

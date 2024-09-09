@@ -1,0 +1,303 @@
+<form class="layui-form" >
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label"><span style="color: red">*</span>活动标题</label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" id="title" autocomplete="off" class="layui-input" value="{{r.Title}}">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">*</span>活动时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="activity_range_start" placeholder="请选择时间" autocomplete="off"
+                   class="layui-input sp-form-datetime"  value="" style="width: 330px;" id="red_envelopo_start"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item" >
+        <label class="layui-form-label"><span style="color: red">*</span>抢红包时间</label>
+        <table class="layui-table" style="width:550px;">
+            <colgroup>
+                <col width="150">
+                <col width="50">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>抢红包时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody class="specific_time_table">
+            <!-- 抢红包时间-->
+            <input type="hidden" name="specific_time" value="">
+            <tr>
+                <td >
+                    <input type="text"   autocomplete="off" class="layui-input" style="float: left; width:200px;" ><span style="float: left;">&nbsp&nbsp&nbsp&nbsp~&nbsp&nbsp&nbsp&nbsp</span>
+                    <input type="text"   autocomplete="off" class="layui-input" style="float: left; width:200px;" >
+                </td>
+                <td><a id="red_envelope_del" style="color:blue;">删除</a></td>
+            </tr>
+            <tr>
+                <td >
+                    <input type="text"   autocomplete="off" class="layui-input" style="float: left; width:200px;" ><span style="float: left;">&nbsp&nbsp&nbsp&nbsp~&nbsp&nbsp&nbsp&nbsp</span>
+                    <input type="text"   autocomplete="off" class="layui-input" style="float: left; width:200px;" >
+                </td>
+                <td><a id="red_envelope_del" style="color:blue;">删除</a></td>
+            </tr>
+            </tbody>
+        </table>
+        </table>
+        <button class="layui-btn" id="red_envelope_add">添加</button>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="position:relative;top:10px;"><span style="color: red">*</span>领取方式</label>
+
+        <div class="layui-input-block">
+            <input type="radio" name="receive_type" value="1" title="普通领取" checked>
+            <input type="radio" name="receive_type" value="2" title="阶梯领取" >
+        </div>
+
+
+
+        <div style="position:relative;left:100px;">
+           <div class="layui-form-item" style="width:200px">
+               <label class="layui-form-label"><span style="color: red">*</span>有效投注额</label>
+            <input type="text" name="valid_money"  autocomplete="off" class="layui-input" >
+               <div style="position:relative;top:-24px;left:230px;">
+               <select name="game_type">
+                   <option></option>
+                   <option value="1">会员有效投注</option>
+                   <option  value="2">体育有效投注</option>
+                   <option  value="3">真人有效投注</option>
+                   <option  value="4">电竞有效投注</option>
+                   <option  value="5">电子有效投注</option>
+                   <option  value="6">棋牌有效投注</option>
+                   <option  value="7">彩票有效投注</option>
+                   <option  value="8">捕鱼有效投注</option>
+               </select>
+               </div>
+           </div>
+            <div class="layui-form-item" style="width:200px">
+                <label class="layui-form-label"><span style="color: red">*</span>充值金额</label>
+                <input type="text" name="deposit_money"  autocomplete="off" class="layui-input">
+            </div><div class="layui-form-item"style="width:200px">
+                <label class="layui-form-label"><span style="color: red">*</span>领取数量</label>
+                <input type="text" name="receive_nums"  autocomplete="off" class="layui-input">
+            </div>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="position:relative;top:10px;"><span style="color: red">*</span>红包类型</label>
+        <div class="layui-input-block">
+        <input type="radio" name="money_type" value="1" title="随机红包金额" checked>
+        <input type="radio" name="money_type" value="2" title="固定红包金额">
+        </div>
+        <div class="layui-form-item" style="width:200px;margin-top:20px;">
+            <label class="layui-form-label"><span style="color: red">*</span>红包金额</label>
+            <input type="text" name="max_money"  autocomplete="off" class="layui-input" style="position:relative;left:30px;">
+        </div>
+        <div class="layui-form-item" style="width:200px">
+            <label class="layui-form-label"><span style="color: red">*</span>中奖几率</label>
+            <input type="text" name="rate"  autocomplete="off" class="layui-input" style="position:relative;left:30px;">
+        </div><div class="layui-form-item" style="width:200px">
+            <label class="layui-form-label"><span style="color: red">*</span>洗码量倍数</label>
+            <input type="text" name="flow_multiple"  autocomplete="off" class="layui-input" style="position:relative;left:30px;">
+        </div>
+
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="position:relative;top:10px;"><span style="color: red">*</span>是否前端展示</label>
+        <div class="layui-input-block">
+        <input type="radio" name="status" value="1" title="不是">
+        <input type="radio" name="status" value="2" title="是" checked>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red">*</span>展示时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="show_start_time" placeholder="请选择时间" autocomplete="off"
+                   class="layui-input sp-form-datetime" style="width: 330px;" id="red_envelopo_show_start"/>
+        </div>
+    </div>
+    <input type="hidden" name="content" id="content" >
+
+<script src="{{STATIC_URL}}/wangEditor/release/wangEditor.min.js"></script>
+<div hidden="hidden" id="rcont">{{r.Content}}</div>
+<div id="editor" style="height:600px;"></div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form', 'jquery', 'layer'], function() {
+        let $ = layui.$
+        let layer = layui.layer;
+        let E = window.wangEditor
+        let editor = new E('#editor')
+        editor.customConfig.zIndex = false;
+        editor.customConfig.uploadImgShowBase64 = true
+        var cont = document.getElementById('content')
+        editor.customConfig.onchange = function (html) {
+            cont.value = html
+        }
+        editor.customConfig.uploadImgServer = '/upload'
+        editor.customConfig.uploadFileName = 'file'
+
+        editor.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                // 图片上传并返回结果，但图片插入错误时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                if (result.errcode == 0) {
+
+                    editor.txt.append('<img src="' + result.data.path + '">')
+                    if (document.getElementById('img').value == '') {
+                        document.getElementById('img').value = result.data.path
+                    } else {
+                        var i = document.getElementById('img').value
+                        document.getElementById('img').value = i + "," + result.data.path
+                    }
+                    layer.open({
+                        title: '',
+                        content: '上传成功',
+                        btn: [],
+                        time: 500,
+                    })
+                } else {
+                    layer.open({
+                        title: '',
+                        content: '上传失败',
+                        btn: [],
+                        time: 500,
+                    })
+                }
+            },
+            error: function (xhr, editor) {
+                // 图片上传出错时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                layer.open({
+                    title: '',
+                    content: '上传错误',
+                    btn: [],
+                    time: 500,
+                })
+            },
+            timeout: function (xhr, editor) {
+                // 图片上传超时时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                // editor.customConfig.uploadImgTimeout = 3000
+                layer.open({
+                    title: '',
+                    content: '上传超时',
+                    btn: [],
+                    time: 500,
+                })
+            },
+        }
+        editor.customConfig.customAlert = function (info) {
+            // info 是需要提示的内容，默认为空就好
+        }
+
+        editor.create()
+        editor.txt.html($("#rcont").text()) //将内容写入富文本中
+    });
+</script>
+</form>
+
+<div class="layui-form-item">
+    <button class="layui-btn red_envelope_rain_submit"  >保存</button>
+</div>
+
+<script>
+layui.config({
+    base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+}).use(['form', 'jquery', 'layer'], function() {
+    let $ = layui.$
+    let form = layui.form;
+
+    $(".red_envelope_rain_submit").click(function(){
+        //标题
+        let title =$("#title").val()
+        //活动开始时间
+        let activity_range=$("input[name='activity_range_start']").val()
+        let temp= activity_range.split(" - ")
+        let activity_range_start=temp[0]
+        let activity_range_end=temp[1]
+        //强红包时间
+        let  specific_time21 =$(".specific_time_table tr:nth-child(2) td:nth-child(1) input:nth-child(1)").val()
+        let  specific_time22 =$(".specific_time_table tr:nth-child(2) td:nth-child(1) input:nth-child(3)").val()
+
+
+        let  specific_time31 =$(".specific_time_table tr:nth-child(3) td:nth-child(1) input:nth-child(1)").val()
+        let  specific_time32 =$(".specific_time_table tr:nth-child(3) td:nth-child(1) input:nth-child(3)").val()
+        //判断
+        let specific_time= specific_time21 +"-"+ specific_time22 +","+specific_time31+"-"+specific_time32
+        //领取方式
+        let receive_type=$("input[name='receive_type']:checked").val()
+
+        //
+        let gameType=$("select[name='game_type'] option:selected").val()
+        //有效投注金额
+        let validMoney=$("input[name='valid_money']").val()
+        //充值金额
+        let depositMoney=$("input[name='deposit_money']").val()
+        //领取数量
+        let receiveNums=$("input[name='receive_nums']").val()
+        //红包类型
+        let money_type =$("input[name='money_type']:checked").val()
+        //红包金额
+        let money =$("input[name='max_money']").val()
+
+        //中奖机率
+        let rate=$("input[name='rate']").val()
+        //流水倍数
+        let flowMultiple=$("input[name='flow_multiple']").val()
+        //前端展示
+        let status=$("input[name='status']:checked").val()
+        //展示时间
+        let show_start=$("input[name='show_start_time']").val()
+        let timeArr =show_start.split(" - ")
+        let show_start_time=timeArr[0]
+        let show_end_time=timeArr[1]
+        //文本内容
+        let content= $("#content").val()
+        let arr={"title":title,"activity_range_start":activity_range_start,"activity_range_end":activity_range_end,"specific_time":specific_time,
+            "receive_type":receive_type,"valid_money":validMoney,"deposit_money":depositMoney,
+            "receive_nums":receiveNums,"money_type":money_type,"max_money":money,"rate":rate,"flow_multiple":flowMultiple,"status":status,"show_start_time":show_start_time,
+            "show_end_time":show_end_time,"content":content,"game_type":gameType }
+
+        $.ajax({
+            type:"post",
+            url:"/activities/red_envelope_rain/save",
+            data:JSON.stringify(arr),
+            success:function(data){
+               if(data.errcode==0){
+                   layer.msg("操作成功",{icon:1,time:1300},function(){
+                       parent.location.reload();
+                   });
+               }
+            }
+        })
+    })
+
+
+    $(function(){
+        $("#content").val($("#rcont").text())
+    });
+    form.render()
+})
+</script>
+<!--
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-form layui-card-body layuiadmin-card-header-auto">
+                <form class="layui-form sp-tab-tbody" lay-filter="" tbody="3" id="red_envelope_form" method="post">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+-->

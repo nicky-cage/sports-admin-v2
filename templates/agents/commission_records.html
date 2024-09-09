@@ -1,0 +1,123 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="user_id" placeholder="请输入标题关键字" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入时间" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理类型</label>
+                            <div class="layui-input-inline">
+                                <select name="type">
+                                    <option></option>
+                                    <option value="0">普通代理</option>
+                                    <option value="1">官方代理</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">佣金月份</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="month" placeholder="请选择状态" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/commissions/export", 4) -%}
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                    {%endif -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="40" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="100" />
+                        <col width="60" />
+                        <col width="100" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="75" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="75" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="75" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="130" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>佣金月份</th>
+                            <th>代理编号</th>
+                            <th>代理账号</th>
+                            <th>代理类型</th>
+                            <th>上线</th>
+                            <th>下线会员</th>
+                            <th>活跃会员</th>
+                            <th>存款金额</th>
+                            <th>提款金额</th>
+                            <th>公司输赢</th>
+                            <th>场馆费</th>
+                            <th>存提款手续费</th>
+                            <th>红利</th>
+                            <th>活动奖金</th>
+                            <th>累计负盈利</th>
+                            <th>输赢调整</th>
+                            <th>净输赢</th>
+                            <th>冲正后净输赢</th>
+                            <th>佣金比例</th>
+                            <th>佣金</th>
+                            <th>实发佣金</th>
+                            <th>发放人员</th>
+                            <th>发放时间</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%include "_commission_records.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

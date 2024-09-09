@@ -1,0 +1,57 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/users/add_tags_save">
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg12">
+            <label class="layui-form-label">会员标签</label>
+            <div class="layui-input-inline" style="width: 700px;" id="user_labels">
+                {%for k, v in tagCategories%}
+                {%if v.Tags%}
+                <fieldset>
+                    <legend>{{v.Name}}</legend>
+                    <div class="layui-card">
+                        <div class="layui-card-body">
+                            <div class="layui-col-md12">
+                                {%for tv in v.Tags%}<input type="checkbox" name="user_tag_{{tv.Id}}" title="{{tv.Name}}" value="{{tv.Id}}" cat_id="{{k}}" tag_id="{{tv.Id}}" lay-filter="user_tag" />{%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                {%endif%}
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="{{userIds}}" name="user_ids" id="user_ids" />
+    <input type="hidden" value="" name="user_tags" id="user_tags" />
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.use(['jquery', 'form'], function() {
+        let $ = layui.jquery, form = layui.form;
+        form.on("checkbox(user_tag)", function(data) { // 对于标签选择的控制
+            let userLabels = [];
+            $("input", $("#user_labels")).each(function() {
+                let that = $(this);
+                if (that.prop("checked")) {
+                    let that_id = that.val();
+                    let cate_id = that.attr("cat_id");
+                    if (userLabels[cate_id]) {
+                        userLabels[cate_id].push(that_id);
+                    } else {
+                        userLabels[cate_id] = [that_id];
+                    }
+                }
+            });
+            let userTags = [];
+            for (let i = 0; i < userLabels.length; i++) {
+                let tags = userLabels[i];
+                if (tags && tags.length > 0) {
+                    userTags.push(i + "|" + tags.toString());
+                }
+            }
+            $("#user_tags").val(userTags.join(";"));
+        });
+    });
+</script>
+{% endblock body %}

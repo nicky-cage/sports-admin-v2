@@ -1,0 +1,30 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-row" style="overflow: hidden;">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body" style="overflow: auto;">
+                        <div class="layui-tab"  lay-filter="sp-lazy-load">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">赛事直播</li>
+                                <li>直播管理</li>
+                            </ul>
+                            <div class="layui-tab-content" style="height:500px;">
+                                <div class="layui-tab-item layui-show" url="/sport_live" >
+                                    {% include "list.html" %}
+                                </div>
+                                <div class="layui-tab-item" url="/sport_live/manage">
+                                    {% include "manage.html" %}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

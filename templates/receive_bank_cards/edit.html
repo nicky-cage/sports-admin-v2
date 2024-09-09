@@ -1,0 +1,114 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/receive_bank_cards/save">
+    <input type="hidden" value="1" name="1" />
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">开户人姓名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="bank_realname" lay-verify="required" placeholder="请输入开户人姓名" autocomplete="off" class="layui-input" value="{{r.BankRealname}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">开户银行</label>
+        <div class="layui-input-inline">
+            <select class="layui-form-select" name="bank_name" lay-filter="bank-name" lay-verify="require" lay-search>
+                <option value="">请选择开户银行</option>
+                {% for bank in banks -%}
+                <option value="{{bank.Name}}" pcode="{{bank.Code}}" {%if r.BankName==bank.Name-%}selected="selected" {%endif-%}>{{bank.Name}}</option>
+                {% endfor -%}
+            </select>
+            <input type="hidden" value="{{r.BankCode}}" name="bank_code" id="bank_code" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">卡号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="bank_card" lay-verify="required" placeholder="请输入卡号" autocomplete="off" class="layui-input" value="{{r.BankCard}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">开户地址</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="text" name="bank_address" lay-verify="required" placeholder="请输入开户地址" autocomplete="off" class="layui-input" value="{{r.BankAddress}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">开放会员等级</label>
+        <div class="layui-input-inline" style="width: 500px;">
+            <div class="sp-form-checkbox-list" name="vips" value="{{r.Vips}}" items="1|VIP0,2|VIP1,3|VIP2,4|VIP3,5|VIP4,6|VIP5,7|VIP6,8|VIP7,9|VIP8" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label" style="margin-top: 17px;">最小存款额</label>
+        <div class="layui-input-inline" style="margin-top: 17px;">
+            {%if r.MinMoneyLimit|stringformat:"%.2f" == "0.00" %}
+            <input type="text" name="min_money_limit" lay-verify="required" placeholder="请输入最小存款额" autocomplete="off" class="layui-input" value="10" />
+            {%else%}
+            <input type="text" name="min_money_limit" lay-verify="required" placeholder="请输入最小存款额" autocomplete="off" class="layui-input" value="{{r.MinMoneyLimit|stringformat:'%.2f'}}" />
+            {%endif%}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">最大存款额</label>
+        <div class="layui-input-inline">
+            {%if r.MaxMoneyLimit|stringformat:"%.2f" == "0.00" %}
+            <input type="text" name="max_money_limit" lay-verify="required" placeholder="请输入最大存款额" autocomplete="off" class="layui-input" value="100000" />
+            {%else%}
+            <input type="text" name="max_money_limit" lay-verify="required" placeholder="请输入最大存款额" autocomplete="off" class="layui-input" value="{{r.MaxMoneyLimit|stringformat:'%.2f'}}" />
+            {%endif%}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">日限制金额</label>
+        <div class="layui-input-inline">
+            {%if r.DayMoneyLimit|stringformat:"%.2f" == "0.00" %}
+            <input type="text" name="day_money_limit" lay-verify="required" placeholder="请输入日限制金额" autocomplete="off" class="layui-input" value="500000" />
+            {%else%}
+            <input type="text" name="day_money_limit" lay-verify="required" placeholder="请输入日限制金额" autocomplete="off" class="layui-input" value="{{r.DayMoneyLimit|stringformat:'%.2f'}}" />
+            {%endif%}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">日限制次数</label>
+        <div class="layui-input-inline">
+            {%if r.DayTimesLimit == 0 %}
+            <input type="text" name="day_times_limit" lay-verify="required" placeholder="请输入日限制次数" autocomplete="off" class="layui-input" value="1000" />
+            {%else%}
+            <input type="text" name="day_times_limit" lay-verify="required" placeholder="请输入日限制次数" autocomplete="off" class="layui-input" value="{{r.DayTimesLimit}}" />
+            {%endif%}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">收款类型</label>
+        <div class="layui-input-inline">
+            <select class="layui-form-select" name="type" lay-filter="bank-name" lay-verify="require" lay-search>
+                <option value="1">内部银行卡</option>
+                <option value="2" {%if r.Type == 2 -%}selected="selected"{%endif -%}>三方银行卡</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">费率 (%)</label>
+        <div class="layui-input-inline">
+            <input type="text" name="fee" style="width: 100px;" lay-verify="required" placeholder="请输入费率" autocomplete="off" class="layui-input" value="{{r.Fee|stringformat:'%.2f'}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">备注</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="text" name="remark" placeholder="请输入备注信息" autocomplete="off" class="layui-input" value="{{r.Remark}}" />
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+<script type="text/javascript">
+    layui.use(['form', 'jquery'], function () {
+        let $ = layui.jquery, form = layui.form;
+        form.on("select(bank-name)", function (data) {
+            let option = $("option[value=" + data.value + "]");
+            let code = option.attr("pcode");
+            $("#bank_code").val(code);
+        });
+    });
+</script>
+{% endblock body %}

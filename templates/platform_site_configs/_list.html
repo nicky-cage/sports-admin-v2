@@ -1,0 +1,24 @@
+{%for r in rows%}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.PlatformId|platform_name}}</td>
+    <td>{{r.SiteId|platform_site_name}}</td>
+    <td>{{r.Name}}</td>
+    <td class="sp-alert" style="cursor: pointer;" text="{{r.Value}}">{{r.Value|truncatechars:30}}</td>
+    <td>{{r.Remark}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/platform_site_configs/state", 4) -%}
+        <input type="checkbox" name="status" lay-skin="switch" lay-text="正常|禁用" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.Status}}" url="/platform_site_configs/state" rid="{{r.Id}}" />
+        {%else -%}
+        {{r.Status|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/platform_site_configs/update", 4) -%}
+        <button class="layui-btn sp-open-link" url="/platform_site_configs/update" area="600px,450px">编辑</button>
+        {%endif -%}
+    </td>
+</tr>
+{%endfor%}

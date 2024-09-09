@@ -1,0 +1,13 @@
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.BankName}}/{{r.BankCard}}</td>
+    <td>{{r.BankRealname}}/{{r.BankAddress}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{%if r.Status ==1%}处理中{%elif r.Status==2%}成功{%else%}失败{%endif%}</td>
+    <td>{{r.RiskAdmin}}</td>
+    <td>{{r.FinanceAdmin}}</td>
+    <td>{{r.Remark}}</td>
+</tr>
+{%endfor%}

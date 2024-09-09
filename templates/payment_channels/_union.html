@@ -1,0 +1,69 @@
+<table class="layui-table pay-channel">
+    <thead> <tr> <th colspan="2"> 银联扫码 </th> </tr> </thead>
+    <tr style="background:none; display: none;">
+        <td style="width: 150px;">
+            <div class="layui-form-item client-check">
+                <input type="checkbox" name="unionpay_client_pc" lay-filter="unionpay_client_pc" title="PC" value="开启" {%if r.ChannelList.Unionpay.ClientPc.Status == "开启"-%}checked="checked"{%endif-%} />
+            </div>
+        </td>
+        <td>
+            <div class="layui-form-item pay">
+                <input name="unionpay_fixed_bank_pc" value="{{r.ChannelList.Unionpay.ClientPc.FixedBankLimit}}" placeholder="支付方式列表...例如:支付方式一|支付方式二银行列表" class="layui-input" />
+            </div>
+            <div class="layui-form-item pay">
+                <label class="lbl-l">最小金额:</label><input name="unionpay_min_money_pc" value="{{r.ChannelList.Unionpay.ClientPc.MinMoneyLimit}}" placeholder="最小金额...例如:100|200" class="layui-input w260 left" />
+                <label class="lbl">最大金额:</label><input name="unionpay_max_money_pc" value="{{r.ChannelList.Unionpay.ClientPc.MaxMoneyLimit}}" placeholder="最大金额...例如:500|1000" class="layui-input w260 left ml10" />
+            </div>
+            <div class="layui-form-item pay" >
+                <label class="lbl-l">固定额度:</label><input name="unionpay_fixed_money_pc" value="{{r.ChannelList.Unionpay.ClientPc.FixedMoneyLimit}}" placeholder="固定额度...例如:100,200,300|200,400,600" class="layui-input w260 left" />
+                <label class="lbl">是否推荐:</label><input name="unionpay_recommended_pc" value="{{r.ChannelList.Unionpay.ClientPc.Recommended}}" placeholder="是否推荐...1|0" class="layui-input w260 left ml10" />
+            </div>
+            <div class="layui-form-item pay" >
+                <label class="lbl-l">轮询比重:</label><input name="unionpay_poll_pc" value="{{r.ChannelList.Unionpay.ClientPc.Poll}}" placeholder="轮询比重(%)...10|20" class="layui-input w260 left" />
+                <label class="lbl">启用状态:</label><input name="unionpay_enable_pc" value="{{r.ChannelList.Unionpay.ClientPc.Enable}}" placeholder="启用状态...1|0" class="layui-input w260 left ml10" />
+            </div>
+            <div class="layui-form-item pay" >
+                <label class="lbl-l">支付费率:</label><input name="unionpay_fare_pc" value="{{r.ChannelList.Unionpay.ClientPc.Fare}}" placeholder="支付手续纲率(%)...4.1|4.2" class="layui-input w260 left" />
+                <label class="lbl">每日限额:</label><input name="unionpay_day_max_pc" value="{{r.ChannelList.Unionpay.ClientPc.DayMax}}" placeholder="每日限额...1000|50000" class="layui-input w260 left ml10" />
+            </div>
+        </td>
+    </tr>
+    <tr style="background:none; display: none;">
+        <td>
+            <div class="layui-form-item client-check">
+                <input type="checkbox" name="unionpay_client_app" lay-filter="unionpay_client_app" title="APP" value="开启" {%if r.ChannelList.Unionpay.ClientApp.Status == "开启"-%}checked="checked"{%endif-%} />
+            </div>
+        </td>
+        <td>
+            <div class="layui-form-item pay">
+                <input name="unionpay_fixed_bank_app" value="{{r.ChannelList.Unionpay.ClientApp.FixedBankLimit}}" placeholder="支付方式列表...例如:支付方式一|支付方式二" class="layui-input" />
+            </div>
+            <div class="layui-form-item pay">
+                <label class="lbl-l">最小金额:</label><input name="unionpay_min_money_app" value="{{r.ChannelList.Unionpay.ClientApp.MinMoneyLimit}}" placeholder="最小金额...例如:100|200" class="layui-input w260 left">
+                <label class="lbl">最大金额:</label><input name="unionpay_max_money_app" value="{{r.ChannelList.Unionpay.ClientApp.MaxMoneyLimit}}" placeholder="最大金额...例如:500|1000" class="layui-input w260 left ml10">
+            </div>
+            <div class="layui-form-item pay" >
+                <label class="lbl-l">固定额度:</label><input name="unionpay_fixed_money_app" value="{{r.ChannelList.Unionpay.ClientApp.FixedMoneyLimit}}" placeholder="固定额度...例如:100,200,300|200,400,600" class="layui-input w260 left" />
+                <label class="lbl">是否推荐:</label><input name="unionpay_recommended_app" value="{{r.ChannelList.Unionpay.ClientApp.Recommended}}" placeholder="是否推荐...1|0" class="layui-input w260 left ml10" />
+            </div>
+            <div class="layui-form-item pay" >
+                <label class="lbl-l">轮询比重:</label><input name="unionpay_poll_app" value="{{r.ChannelList.Unionpay.ClientApp.Poll}}" placeholder="轮询比重(%)...10|20" class="layui-input w260 left" />
+                <label class="lbl">启用状态:</label><input name="unionpay_enable_app" value="{{r.ChannelList.Unionpay.ClientApp.Enable}}" placeholder="启用状态...1|0" class="layui-input w260 left ml10" />
+            </div>
+            <div class="layui-form-item pay" >
+                <label class="lbl-l">支付费率:</label><input name="unionpay_fare_app" value="{{r.ChannelList.Unionpay.ClientApp.Fare}}" placeholder="支付手续纲率(%)...4.1|4.2" class="layui-input w260 left" />
+                <label class="lbl">每日限额:</label><input name="unionpay_day_max_app" value="{{r.ChannelList.Unionpay.ClientApp.DayMax}}" placeholder="每日限额...1000|50000" class="layui-input w260 left ml10" />
+            </div>
+        </td>
+    </tr>
+    <!--<tr style="background:none; display: none;">
+        <td>
+            <div> 费用 (%) </div>
+        </td>
+        <td>
+            <div class="layui-form-item pay" style="margin-bottom: 5px;">
+                <input name="unionpay_channel_fee" value="{{r.ChannelList.Unionpay.ChannelFee}}" placeholder="渠道手续费用" class="layui-input" style="width: 260px;" />
+            </div>
+        </td>
+    </tr>-->
+</table>

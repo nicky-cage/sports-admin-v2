@@ -1,0 +1,91 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form" lay-filter="" method="post" tbody="0">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">设备编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="device_no" placeholder="请输入设备编号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登录账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入用户登录账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">上级代理</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="top_name" placeholder="请输入上级代理名称" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登录IP</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="login_ip" placeholder="请输入登录IP" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">起止时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="created" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="180" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col />
+                        <col width="130" />
+                        <col width="200" />
+                        <col width="130" />
+                        <col width="125" />
+                        <col width="100" />
+                        <col width="100" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员账号</th>
+                            <th>上级代理名称</th>
+                            <th>设备编号</th>
+                            <th>登录IP</th>
+                            <th>登录地址</th>
+                            <th>上次登录IP</th>
+                            <th>登录时间</th>
+                            <th>客户端类型</th>
+                            <th>类型</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/user_login_logs">
+                        {% include "_index.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

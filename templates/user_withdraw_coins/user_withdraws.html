@@ -1,0 +1,23 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="sp-lazy-load">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">提款中</li>
+                        <li>历史记录</li>
+                        <li>提款设置 (USDT)</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">{% include "i_user_withdraws.html" %}</div>
+                        <div class="layui-tab-item" url="/user_withdraw_coin_hrs">{% include "history_records.html" %}</div>
+                        <div class="layui-tab-item">{% include "../user_withdraws/withdraw_usdt.html" %}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

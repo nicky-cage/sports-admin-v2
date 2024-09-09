@@ -1,0 +1,164 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="1">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">订单状态</label>
+                        <div class="layui-input-inline">
+                            <select name="status">
+                                <option></option>
+                                <option value="2">成功</option>
+                                <option value="3">失败</option>
+                                <option value="1">待确认</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label" >申请时间</label>
+                        <div class="layui-input-inline" style="width: 300px;">
+                            <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" style="width: 295px;" id="created_deposits" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" type="button" lay-submit lay-filter="user-deposits">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                    <input type="hidden"  name="id" value="{{id}}" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" name="total" value="{{total}}">
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px;">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="200" />
+                        <col width="200" />
+                        <col width="165" />
+                        <col width="80" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>订单编号</th>
+                        <th>提款金额</th>
+                        <th>开户银行/卡号</th>
+                        <th>开户姓名/地址</th>
+                        <th>申请时间</th>
+                        <th>状态</th>
+                        <th>风控审核人</th>
+                        <th>财务审核人</th>
+                        <th>审核备注</th>
+                    </tr>
+                    </thead>
+                    <tbody class="user_deposits">
+                    {%include "_commission_withdraws.html"%}
+                    </tbody>
+                    <tr>
+                        <th>总合计</th>
+                        <th>{{sum}}</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </table>
+                <div id="deposits-page" style="position:relative;left:250px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form','laydate','laypage'], function() {
+        let $ = layui.$
+        let laydate=layui.laydate;
+        let laypage=layui.laypage;
+        let form=layui.form;
+        $(".sp-form-datetime").each(function() {
+            let element_id = $(this).attr("id");
+            let is_simple = $(this).attr("format");
+            laydate.render({
+                elem: "#" + element_id
+                ,type: 'datetime'
+                ,range: (is_simple ? false : true)
+                ,value: (is_simple ? sp.utils.getCurrentDate() + ' 00:00:00' : (sp.utils.getCurrentDate() + ' 00:00:00 - ' + sp.utils.getCurrentDate() + ' 23:59:59'))
+            });
+        });
+
+        // $(function(){
+        //     let total=$("input[name='total']").val()
+        //     depositsPage(total,1)
+        // })
+
+      form.on("submit(user-deposits)",function(data){
+          $.ajax({
+              url:"/user_detail/commission_withdraws",
+              type:"get",
+              data:data.field,
+              success:function(data){
+                  $(".user_deposits tr").remove();
+                  $(".user_deposits").append(data)
+
+                let   total=$(".user_deposits tr:nth-child(1)").attr("total")
+
+                        //总挑数跟当前页。
+                    //depositsPage(total,1)
+
+              }
+          })
+        })
+
+        function depositsPage(total,curr){
+            laypage.render({
+                elem: 'deposits-page'
+                ,count: total,
+                limit: 15,
+                curr:curr,
+                jump:function(obj, first){
+                    if(!first){
+                        //当前夜，请求数据。
+                        let arr={};
+                        let  id=$("input[name='id']").val();
+                        arr["id"]=id;
+                        let status=$("input[name='status']:selected").val();
+                        arr["status"]=status
+                        let  created=$("input[name='created']").val();
+
+                        if (curr!=1){
+                            arr["created"]=created
+                        }
+
+                        arr["page"]=obj.curr;
+
+                        $.ajax({
+                            url:"/user_detail/commission_withdraws",
+                            type:"get",
+                            data:arr,
+                            success:function(data){
+                                $(".user_deposits tr").remove();
+                                $(".user_deposits").append(data)
+                            }
+                        })
+                    }
+                }
+            });
+        }
+    });
+</script>

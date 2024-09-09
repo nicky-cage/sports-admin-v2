@@ -1,0 +1,52 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1 -%}total="{{total}}"{%endif -%}>
+    <td>{{r.ID}}</td>
+    <td>{{r.UserID}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.VipCurrentName}} - {{r.VipCurrent}}</td>
+    <td>
+        {%if r.ShouldUp -%}<span style='color: red'>{{r.VipShouldName}} - {{r.VipShould}}</span>
+        {%else -%}{{r.VipShouldName}} - {{r.VipShould}}
+        {%endif -%}
+    </td>
+    <td>{{r.MarkUpTotal|stringformat:'%.2f'}}</td>
+    <td>
+        {% if r.MarkTotal < 0 %}<span style='color:red'>{{r.MarkTotal|stringformat:'%.2f'}}</span>
+        {% else -%} {{r.MarkTotal|stringformat:'%.2f'}}
+        {% endif -%}
+    </td>
+    <td>
+        {%if r.NeedTotal > 0.0 %}<span style="color:red"> {{r.NeedTotal|stringformat:'%.2f'}}</span>
+        {%else%}<span style="color:green"><del>{{r.NeedTotal|stringformat:'%.2f'}}</del></span>
+        {%endif-%}
+    </td>
+    <td>
+        {%if r.ShouldUp -%}<span style="color: red">是</span>
+        {%else-%}<del>否</del>
+        {%endif-%}
+    </td>
+    <td>
+        {%if !r.ShouldUp -%}-
+        {%elif r.HasUp -%}<span style="color: green"><del>是</del></span>
+        {%else -%}<span style="color: red">否</span>
+        {%endif -%}
+    </td>
+    <td>
+        {%if r.ShouldUp -%}<span style="color: red; font-weight: bold;">{{r.MonthBonus|stringformat:'%.2f'}}</span>
+        {%else -%}{{r.MonthBonus|stringformat:'%.2f'}}
+        {%endif -%}
+    </td>
+    <td>
+        {%if r.ShouldUp -%}<span style="color: red; font-weight: bold;">{{r.UpgradeBonus|stringformat:'%.2f'}}</span>
+        {%else -%}<del>{{r.UpgradeBonus|stringformat:'%.2f'}}</del>
+        {%endif -%}
+    </td>
+    <td>{{r.Remark}}</td>
+    <td>
+        {%if r.ShouldUp && !r.HasUp -%}
+        <button type="button" class="layui-btn layui-btn-danger upgrade-vip" user_id="{{r.UserID}}" 
+            from_level="{{r.VipCurrent}}" to_level="{{r.VipShould}}">升级VIP</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

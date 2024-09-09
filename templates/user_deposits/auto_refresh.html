@@ -1,0 +1,58 @@
+<script>
+    layui.use(['form', 'jquery', 'layer'], function() {
+        let $ = layui.$, layer = layui.layer, form = layui.form;
+        let timerDataTable = $(".auto-refresh-table:first"); // 表格定义
+        let timerRefresh = null; // 刷新定时器
+        let url = timerDataTable.attr("url");
+        let cacheKey = "refresh-" + url;
+        let fetchData = function () { // 待审核列表 - 自动刷新获取数据
+            timerDataTable.empty();
+            if (timerRefresh != null) { // 只要自动刷新才显示以下界面
+                layer.open({
+                    title: false,
+                    content: '<div style="width:100%;text-align:center;">正在刷新数据列表 ...</div>',
+                    btn: false,
+                    time: 700,
+                    closeBtn: 0,
+                });
+            }
+            $.get(url, {"created": $("#created").val()}, function (res) {
+                timerDataTable.append(res);
+                sp.loadPager('sp-loaded-table');
+                $("#sp-loaded-table").attr("loaded", "loaded"); // 防止自动安分页进行刷新
+            });
+        };
+        let autoRefresh = function () { // 检测并开启自动刷新功能
+            if (timerRefresh != null) {
+                clearInterval(timerRefresh); // 先停止原来的计时器
+            }
+            let interval = $("#refresh-interval").val(); // 自动刷新间隔时间
+            window.localStorage.setItem(cacheKey, $("#refresh-interval").val());
+            timerRefresh = setInterval(function () {
+                fetchData();
+            }, interval * 1000);
+        };
+
+        form.on("switch(auto-timer)", function (data) {
+            let checked = data.elem.checked;
+            if (checked) { // 如果选定是要自动刷新
+                window.localStorage.setItem(cacheKey, $("#refresh-interval").val());
+                autoRefresh();
+                return;
+            }
+            if (timerRefresh != null) { // 如果没有选中
+                window.localStorage.removeItem(cacheKey);
+                clearInterval(timerRefresh);
+            }
+        });
+        form.on("select(auto-seconds)", function (data) {
+            autoRefresh();
+        });
+        let timerChecked = window.localStorage.getItem(cacheKey);
+        if (timerChecked) { // 判断是否正在自动刷新功能
+            $("#refresh-interval").val(timerChecked); // 设定默认的刷新
+            $("#auto-timer").prop("checked", true);
+            autoRefresh();
+        }
+    });
+</script>

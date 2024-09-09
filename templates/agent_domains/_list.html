@@ -1,0 +1,21 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.UserId}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.Domain}}</td>
+    <td>{{r.AdminName}}</td>
+    <td>{{r.Ip}}</td>
+    <td>
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="正常|禁用" class="sp-btn-state" values="2|1"
+               lay-filter="state" value="{{r.State}}" url="/agent_domains/state" rid="{{r.Id}}" />
+    </td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>
+        <button class="layui-btn sp-open-link" url="/agent_domains/update" area="600px,400px" tab="1">编辑</button>
+        <button class="layui-btn layui-btn-danger sp-btn-delete" url="/agent_domains/delete" tab="1">删除</button>
+    </td>
+</tr>
+{% endfor %}

@@ -1,0 +1,32 @@
+{%for r in rows%}
+<tr  {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.Type|dividend_type}} | {{r.Type}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{%if r.FlowLimit==1%}否{%else%}是{%endif%}</td>
+    <td>{{r.FlowMultiple}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{%if r.IsAutomatic==1%}自动{%else%}手动{%endif%}</td>
+    <td>{{r.ReviewerRemark}}</td>
+    <td>{%if r.State==1%}处理中{%elif r.State==2%}成功{%else%}<span style="color:red;">失败</span>{%endif%}</td>
+    <td>{{r.Updated|datetime}}</td>
+</tr>
+{%endfor%}
+<tr>
+    <td>小计 (本页)</td>
+    <td colspan="2">{{pTotal|stringformat:'%.2f'}}</td>
+    <td colspan="7">
+        <div style="width: 100px; margin-left: 50px; float: left; text-align: left;">申请中: {{p.Apply|stringformat:'%.2f'}}</div>
+        <div style="width: 100px; margin-left: 50px; float: left; text-align: left;">已通过: {{p.Pass|stringformat:'%.2f'}}</div>
+        <div style="width: 100px; margin-left: 50px; float: left; text-align: left;">已拒绝: {{p.Deny|stringformat:'%.2f'}}</div>
+    </td>
+</tr>
+<tr>
+    <td>总计 (全部)</td>
+    <td colspan="2">{{tTotal|stringformat:'%.2f'}}</td>
+    <td colspan="7">
+        <div style="width: 100px; margin-left: 50px; float: left; text-align: left;">申请中: {{t.TotalApply|stringformat:'%.2f'}}</div>
+        <div style="width: 100px; margin-left: 50px; float: left; text-align: left;">已通过: {{t.TotalPass|stringformat:'%.2f'}}</div>
+        <div style="width: 100px; margin-left: 50px; float: left; text-align: left;">已拒绝: {{t.TotalDeny|stringformat:'%.2f'}}</div>
+    </td>
+</tr>

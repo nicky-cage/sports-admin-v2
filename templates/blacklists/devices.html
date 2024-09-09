@@ -1,0 +1,47 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="sp-lazy-load">
+                    <ul class="layui-tab-title">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_devices", 4) -%}
+                        <li class="layui-this">设备编号</li>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_ips", 4) -%}
+                        <li>IP地址</li>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_mails", 4) -%}
+                        <li>邮箱地址</li>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_phones", 4) -%}
+                        <li>手机号码</li>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_cards", 4) -%}
+                        <li>银行卡号</li>
+                        {%endif -%}
+                    </ul>
+                    <div class="layui-tab-content">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_devices", 4) -%}
+                        <div class="layui-tab-item layui-show">{% include "i_devices.html" %}</div>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_ips", 4) -%}
+                        <div class="layui-tab-item" url="/blocked_ips">{% include "ips.html" %}</div>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_mails", 4) -%}
+                        <div class="layui-tab-item" url="/blocked_mails">{% include "mails.html" %}</div>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_phones", 4) -%}
+                        <div class="layui-tab-item" url="/blocked_phones">{% include "phones.html" %}</div>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/blocked_cards", 4) -%}
+                        <div class="layui-tab-item" url="/blocked_cards">{% include "cards.html" %}</div>
+                        {%endif -%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

@@ -1,0 +1,107 @@
+
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div style="height:100%;">
+    <div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" >会员账号</label>
+            <div class="layui-input-block">
+                <input type="text" id="username" disabled style= "background-color:transparent;border:0;" value="{{r.Username}}"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 会员等级 </label>
+            <div class="layui-input-block">
+                <input type="text" name="level" disabled style= "background-color:transparent;border:0;" value="{{r.Vip|platform_wrap:PLATFORM|user_level}}"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 所属代理编号</label>
+            <div class="layui-input-block">
+                <input type="text"  id="" disabled value="{{r.Id}}" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 生日</label>
+            <div class="layui-input-block">
+                <input type="text" disabled  id="birs" value="{{r.Birthday}}" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> QQ</label>
+            <div class="layui-input-block">
+                <input type="text" disabled id="qq" value="{{r.QQ}}" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 邮箱</label>
+            <div class="layui-input-block">
+                <input type="text" disabled id="email" value="{{r.Email}}" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 注册时间</label>
+            <div class="layui-input-block">
+                <input type="text" disabled id="create" value="{{r.Created|datetime}}" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 注册IP</label>
+            <div class="layui-input-block">
+                <input type="text" disabled id="regip" value="{{r.RegisterIp}}" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div style="position:absolute;top:5px;right:50px;">
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 真实姓名</label>
+            <div class="layui-input-block">
+                <input type="text" disabled id="realname" value="{{r.RealName}}" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 中心用户余额</label>
+            <div class="layui-input-block">
+                <input type="text"  disabled id="money" value="{{account.Balance|stringformat:"%.2f"}}" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 性别</label>
+            <div class="layui-input-block">
+                <input type="text"  disabled id="sex" value="{%if r.Gender == '1'%}男{%elif r.Gender=='2'%}女{%else%}保密{%endif%}" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 手机号</label>
+            <div class="layui-input-block">
+                <input type="text"  disabled id="phone" value="{{r.Phone}}" style= "background-color:transparent;border:0;" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 微信</label>
+            <div class="layui-input-block">
+                <input type="text"  disabled id="wexin" value="{{r.Weixin}}" style= "background-color:transparent;border:0;"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 会员标签</label>
+            <div class="layui-input-block">
+                {{r.Label|platform_wrap:PLATFORM|user_labels|safe}}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 最后登录时间</label>
+            <div class="layui-input-block">
+                <input type="text" disabled  id="lastlogintime" value="{{r.LastLoginAt}}" style= "background-color:transparent;border:0;"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 最后登录IP</label>
+            <div class="layui-input-block">
+                <input type="text" disabled  id="lastip" value="{{r.LastLoginIp}}" style= "background-color:transparent;border:0;"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

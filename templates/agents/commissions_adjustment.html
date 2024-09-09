@@ -1,0 +1,54 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" action="/agents/commissions/save">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" disabled name="username" value="{{r.username}}" placeholder="{{r.username}}" autocomplete="off" class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">发放月份</label>
+                            <div class="layui-input-inline">
+                                <input type="text" disabled name="month"  value="{{r.month}}" placeholder="{{r.month}}" autocomplete="off" class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">佣金</label>
+                            <div class="layui-input-inline">
+                                <input type="text" disabled name="commission" value="{{money}}" placeholder="" autocomplete="off" class="layui-input layui-disabled">
+                            </div>
+                        </div>
+                        <input type="hidden" name="adjust_admin" value="{{admin}}">
+                        <input type="hidden" name="user_id" value="{{r.user_id}}">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">调整金额</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="commission_adjust" lay-verify="number" value="" placeholder="请输入调整金额" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">备注</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="label"  lay-verify="required" value="" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-layout-admin" style="z-index:99;">
+                    <input type="hidden" value="{{r.id}}" name="id" />
+                    <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+                        <button type="submit" class="layui-btn" lay-submit lay-filter="sp-save">立即提交</button>
+                        <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取消</button>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+{% endblock body %}

@@ -1,0 +1,105 @@
+{%for r in rows%}
+<tr  {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.id}}</td>
+    <td>{{r.username}}</td>
+    <td>VIP{{r.vip}}</td>
+    <td>{{r.top_name}}</td>
+    <td>{{r.activity_title}}</td>
+    <td>{{r.activity_type|activity_type}}</td>
+    <td>中心钱包</td>
+    <td name="money">{{r.money}}</td>
+    <td>{{r.multiple_requirement}}</td>
+    <td>{{r.multiple}}</td>
+    <td>
+        {%if r.multiple_finish != "" -%}{{r.multiple_finish}}
+        {%else -%}0.00
+        {%endif -%}
+    </td>
+    <td>{{r.created|time_type_chang}}</td>
+    <td>{{r.updated|time_type_chang}}</td>
+    <td>{{r.proposer}}</td>
+    <td>{{r.risk_admin}}</td>
+    <td>
+        {%if r.status=="1"%}待派发
+        {%elif r.status=="2"%}<span style="color: green">已派发</span>
+        {%else%}<span style="color: red">已取消</span>
+        {%endif%}
+    </td>
+    {%if r.status=="1"%}
+    <td>
+        <button class="layui-btn layuiadmin-btn-list activities-agree" id="{{r.id}}" uid="{{r.user_id}}" data-type="confirm">派发</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger activities-cancel" id="{{r.id}}" uid="{{r.user_id}}" data-type="cancel">取消</button>
+    </td>
+    {%else%}
+    <td></td>
+    {%endif%}
+</tr>
+{%endfor%}
+
+<tr>
+    <td colspan="7">总计</td>
+    <td>{{activity_money}}</td>
+    <td></td>
+    <td colspan="9"></td>
+</tr>
+<script>
+layui.use(['form','jquery','layer'],function () {
+    let $ = layui.$;
+    let layer = layui.layer;
+
+    $(".activities-agree").click(function(){
+        let id = $(this).attr("id");
+        let money = $(this).parent().parent().find("td[name='money']").html();
+        layer.open({
+            title:"温馨提醒",
+            content:"确认要派发吗",
+            btn:["取消","确认"],
+            btn2:function(){
+                $.ajax({
+                    url:"/user_activities/agree",
+                    type:"get",
+                    data:{"id":id,"money":money},
+                    success:function(data){
+                        if (data.errcode == 0) {
+                            layer.msg("派发成功", {icon:1,time:1300}, function () {
+                                sp.loadTab(3, $(document), function () {
+                                    sp.closeWin();
+                                });
+                            });
+                        } else {
+                            layer.msg("程序错误",{icon:2,time:1300});
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    $(".activities-cancel").click(function(){
+        let id = $(this).attr("id");
+        layer.open({
+            title:"温馨提醒",
+            content:"确认要取消活动吗",
+            btn:["取消","确认"],
+            btn2:function(){
+                $.ajax({
+                    url:"/user_activities/cancel",
+                    type:"get",
+                    data:{"id":id},
+                    success:function(data){
+                        if (data.errcode==0){
+                            layer.msg("活动已取消",{icon:1,time:1300},function () {
+                                sp.loadTab(3, $(document), function () {
+                                    sp.closeWin();
+                                });
+                            });
+                        } else {
+                            layer.msg("程序错误",{icon:2,time:1300});
+                        }
+                    }
+                });
+            }
+        });
+    });
+});
+</script>

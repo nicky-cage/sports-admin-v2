@@ -1,0 +1,83 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">我的资料</div>
+            <div class="layui-card-body" pad15>
+                <div class="layui-form" lay-filter="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户编号</label>
+                        <div class="layui-input-inline" style="height:28px; line-height: 28px;">{{admin.Id}}</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名称</label>
+                        <div class="layui-input-inline" style="height:28px; line-height: 28px;">{{admin.Name}}</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">我的角色</label>
+                        <div class="layui-input-inline">
+                            <select name="role" lay-verify="">
+                                {%for k,v in adminRoles%}
+                                <option value="{{k}}" {%if r.RoleId == k%}selected{%endif%} {%if r.RoleId != k%}disabled{%endif%}>{{v.Name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">昵称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="nickname" lay-verify="nickname" value="{{r.Nickname}}" autocomplete="off" placeholder="请输入昵称" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">电子邮箱</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="mail" lay-verify="email" value="{{r.Mail}}" autocomplete="off" placeholder="请输入电子邮箱" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">添加时间</label>
+                        <div class="layui-input-inline" style="height:28px; line-height: 28px;">{{r.Created|datetime}}</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">最后修改</label>
+                        <div class="layui-input-inline" style="height:28px; line-height: 28px;">{{r.Updated|datetime}}</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">登录次数</label>
+                        <div class="layui-input-inline" style="height:28px; line-height: 28px;">{{r.LoginCount}}</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">最后登录</label>
+                        <div class="layui-input-inline" style="height:28px; line-height: 28px;">{{r.LastLogin|datetime}}</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">最后IP</label>
+                        <div class="layui-input-inline" style="height:28px; line-height: 28px;">{{r.LastIp}}</div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="profile">确认修改</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'jquery'], function() {
+        let form = layui.form, $ = layui.jquery;
+        form.on("submit(profile)", function(data) {
+            sp.post("/index/profile_save", data.field, function(res) {
+                if (res.errcode == 0) { //如果返回结果正确
+                    sp.alertSuccess("资料修改成功");
+                }
+            })
+            return false;
+        });
+    });
+</script>
+{% endblock body %}

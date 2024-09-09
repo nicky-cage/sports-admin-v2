@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {%include "layouts/_head.html"-%}
+    <style type="text/css">
+        .form-label {
+            width: 100px;
+            overflow: auto;
+        }
+
+        .layui-form-checkbox i {
+            height: 23px;
+            top: 3px;
+        }
+
+        .layui-form-item .layui-form-checkbox {
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-body" style="margin-bottom: 62px;">
+                        <form class="layui-form" action="{{actionURL}}" method="get">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label" style="width: 100px; margin-top: 5px; margin-right: 5px;">选择导出的列:</label>
+                                <div class="layui-input-inline" style="width: 600px;">
+                                    {% for v in columns -%}
+                                    <div class="" style="width: 150px; float: left; display: block;">
+                                        <input type="checkbox" name="{{v.Field}}" title="{{v.Name}}" value="{{v.Field}}" checked />
+                                    </div>
+                                    {% endfor -%}
+                                </div>
+                            </div>
+                            <input type="hidden" value="{{exportURL}}" id="export_url" name="export_url" />
+                            <div class="layui-layout-admin" style="z-index:99;">
+                                <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+                                    <button type="button" class="layui-btn" lay-submit lay-filter="sp-export-save" id="sp-submit">立即提交</button>
+                                    <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="{{STATIC_URL}}/js/scripts.js"></script>
+<script>
+    layui.use(['jquery', 'form'], function () {
+        let $ = layui.jquery, form = layui.form;
+
+        form.on("submit(sp-export-save)", function (data) {
+            let that = $(data.elem);
+            if (that.hasClass("layui-btn-disabled")) {
+                return false;
+            }
+            let current_form = $(data.form);
+            let url = current_form.attr("action");
+            if (!url) {
+                alert("没有设置表单 action!");
+                return false;
+            }
+
+            that.addClass("layui-btn-disabled");
+            layer.confirm(
+                "确认操作",
+                { icon: 3, title: "确认操作" },
+                function () {
+                    sp.post(url, data.field, function (result) {
+                        if (result.code || result.errcode) {
+                            let code = result.errcode == undefined ? result.code : result.errcode; // 返回数据结构的兼容问题
+                            if (code != 0) { // 有错误发生
+                                sp.alert(result.message);
+                                that.removeClass("layui-btn-disabled");
+                                return;
+                            }
+                        }
+                        let sign = result.data;
+                        layui.layer.msg("操作成功, 正在准备下载文件 ...", { icon: 1, time: 2000 }, function () {
+                            sp.closeWin();
+                            window.open("{{actionURL}}?sign=" + sign); // 打开下载文件
+                        });
+                    }, function () { that.removeClass("layui-btn-disabled"); });
+                }
+            );
+            return false;
+        });
+    });
+</script>

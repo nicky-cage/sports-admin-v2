@@ -1,0 +1,1 @@
+alter table admin_roles add menu_ids text comment '菜单编号';

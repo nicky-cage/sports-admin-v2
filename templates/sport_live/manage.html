@@ -1,0 +1,49 @@
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">禁言时间</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="sex" value="男" title="1天" checked>
+                        <input type="radio" name="sex" value="女" title="3天" >
+                        <input type="radio" name="sex" value="女" title="永久" >
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn  sp-open-link" url="/sport_live/manage/words"  area="500px,300px" title="新增代理" >新增词组</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="55" />
+                        <col width="100" />
+                        <col width="110" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>过滤词组</th>
+                        <th>类型</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/sport_live/manage">
+                    {% include "_manage.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

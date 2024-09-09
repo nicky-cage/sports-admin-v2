@@ -1,0 +1,35 @@
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.Username}}</td>
+    <td>{%if r.AdjustType=="1"%}红利补发{%elif r.AdjustType=="2"%}系统调整{%else%}输赢调整{%endif%}</td>
+    <td>{%if r.AdjustMethod==1%}上分{%else%}下分{%endif%}</td>
+    <td>{{r.FlowMultiple}}</td>
+    <td>{{r.AdjustMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.AdminName}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>{{r.Remark}}</td>
+    <td>{%if r.Status==1%}待审核{%elif r.Status==2%}成功{%else%}失败{%endif%}</td>
+    {%if r.Status==1%}
+    <td>
+        <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/user_changes/agree?user_id={{r.UserId}}" title="同意操作" area="650px,500px" rid="{{r.Id}}" tab="0" data-type="add">同意</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-open-link" url="/user_changes/refuse?user_id={{r.UserId}}" title="拒绝操作" rid="{{r.Id}}" tab="0" area="650px,500px" data-type="add">拒绝</button>
+    </td>
+    {%else%}
+    <td></td>
+    {%endif%}
+</tr>
+{%endfor%}
+<tr>
+    <th>总合计</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th>{{sum_reset|stringformat:"%.2f"}}</th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+</tr>

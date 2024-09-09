@@ -1,0 +1,47 @@
+<!-- 填充内容 -->
+<div class="layui-card">
+    <div class="layui-card-body">
+        <div id="test-tree-demo3"></div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate','tree'], function() {
+        let form = layui.form;
+        var tree = layui.tree,layer = layui.layer;
+        //模拟数据1
+        var data1 = [{
+            title: '风控总监'
+            ,id: 1
+            ,children: [{
+                title: '风控一部经理'
+                ,id: 1000
+                ,children: [{
+                    title: '风控一部主管'
+                    ,id: 10001
+                    ,children:[{
+                        title: '风控一部组长'
+                        ,id: 100001
+                    }]
+                }]
+            }]
+        },{
+            title: '财务总监'
+            ,id: 2
+            ,children: [{
+                title: '财务一部经理'
+                ,id: 2000
+            },{
+                title: '财务二部经理'
+                ,id: 2001
+            }]
+        },
+        ];
+        tree.render({
+            elem: '#test-tree-demo3'
+            ,data: data1
+            ,showLine: false  //是否开启连接线
+        });
+    });
+</script>

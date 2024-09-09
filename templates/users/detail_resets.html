@@ -1,0 +1,96 @@
+<form class="layui-form" action="/user_detail/resets/save" tbody="9">
+    <div class="layui-form-item">
+        <label class="layui-form-label w100">会员账号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="username" disabled lay-verify="title" value="{{username}}" autocomplete="off" placeholder="请输入会员账号" class="layui-input" disabled />
+        </div>
+    </div>
+    <input type="hidden" name="admin_name" value="{{admin}}">
+    <input type="hidden" name="user_id" value="{{id}}">
+    <input type="hidden" name="vip" value="{{vip}}">
+    <input type="hidden" name="top_name" value="{{top_name}}">
+    <input type="hidden" name="top_id" value="{{top_id}}">
+    <div class="layui-form-item">
+        <label class="layui-form-label w100">中心钱包余额</label>
+        <div class="layui-input-inline" >
+            <input type="text" disabled name="center_money" value="{{money}}" lay-verify="required" placeholder="请输入中心钱包余额" autocomplete="off" class="layui-input" value="0.00" disabled />
+        </div>
+        <a href="javascript:;"  title="刷新">
+            <i class="layui-icon layui-icon-refresh-3  accounts-refresh"></i>
+        </a>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w100">调整类型</label>
+        <div class="layui-input-inline" style="width: 500px;">
+            <input type="radio" name="adjust_type" value="1" checked title="红利补发" />
+            <input type="radio" name="adjust_type" value="2" title="系统调整"  />
+            <input type="radio" name="adjust_type" value="3" title="输赢调整" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w100">调整方式</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="adjust_method" checked value="1" title="上分" />
+            <input type="radio" name="adjust_method" value="2" title="下分"  />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w100">流水限制</label>
+        <div class="layui-input-inline" style="width: 500px;">
+            <input type="radio" name="flow_limit" lay-filter="flow_limit" checked value="1" title="无需流水限制" />
+            <input type="radio" name="flow_limit" lay-filter="flow_limit" value="2" title="需要流水限制"  />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w100">流水倍数</label>
+        <div class="layui-input-inline" style="width: 400px;">
+            <input type="text" name="flow_multiple" style="width: 100px;" lay-verify="required" placeholder="请输入流水倍数" autocomplete="off" class="layui-input" value="0" />
+            <span style="color: red; width: 180px; display: none;" id="flow_multiple_label">0: 不限流水 &nbsp; &nbsp; &gt;0: 限制流水 = 流水倍数 * 上分金额</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w100">调整金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="adjust_money" lay-verify="required" placeholder="请输入调整金额" autocomplete="off" class="layui-input" value="0.00" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label w100">备注</label>
+        <div class="layui-input-inline">
+            <textarea class="layui-textarea" name="remark" lay-verify="required" style="width: 380px; height: 100px;" placeholder="请输入此次操作相关备注"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="sp-comfirm-save">提交</button>
+        </div>
+    </div>
+    <script>
+        layui.use(['form', 'jquery', 'layer'],function(){
+            let $ =layui.$
+            let form = layui.form;
+            form.render();
+
+            $(".accounts-refresh").click(function() {
+                let id = $("input[name='user_id']").val();
+                $.ajax({
+                    url:"/user_detail/account_async",
+                    type:"get",
+                    data:{"user_id":id},
+                    success:function (data) {
+                        $("input[name='center_money']").val(data.data);
+                    }
+                })
+            });
+
+            form.on("radio(flow_limit)", function(data) {
+                let flow_limit = data.value;
+                if (flow_limit == "2") {
+                    $("#flow_multiple_label").show();
+                } else {
+                    $("#flow_multiple_label").hide();
+                }
+            });
+        })
+    </script>
+</form>

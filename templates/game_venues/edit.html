@@ -1,0 +1,143 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/game_venues/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">场馆英文名称</label>
+        <div class="layui-input-inline">
+            <input name="ename" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.Ename}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">场馆中文名称</label>
+        <div class="layui-input-inline">
+            <input name="name" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.Name}}" />
+        </div>
+    </div>
+    {%if  r.Pid==0%}
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">对应场馆中文名</label>
+        <div class="layui-input-inline">
+            <input  lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.Id|platform_wrap:PLATFORM|venue_lower}}" />
+        </div>
+    </div>
+    {%else%}
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >场馆类型</label>
+        <div class="layui-input-inline">
+            <select  class="layui-disabled" disabled>
+                <option value="0" {% if r.VenueType == 0%} selected {%endif%}>主平台</option>
+                <option value="1" {% if r.VenueType == 1%} selected {%endif%}>体育</option>
+                <option value="2" {% if r.VenueType == 2%} selected {%endif%}>电竞</option>
+                <option value="3" {% if r.VenueType == 3%} selected {%endif%}>真人</option>
+                <option value="4" {% if r.VenueType == 4%} selected {%endif%}>电游</option>
+                <option value="5" {% if r.VenueType == 5%} selected {%endif%}>捕鱼</option>
+                <option value="6" {% if r.VenueType == 6%} selected {%endif%}>彩票</option>
+                <option value="7" {% if r.VenueType == 7%} selected {%endif%}>棋牌</option>
+            </select>
+        </div>
+    </div>
+    {%endif%}
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="sort" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Sort}}" />
+        </div>
+    </div>
+
+    {%if r.Pid==0%}
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >场馆平台费</label>
+        <div class="layui-input-inline">
+            <input type="text" name="platform_rate" lay-verify="number" placeholder="" autocomplete="off" class="layui-input" value="{{r.PlatformRate|percentage_change|stringformat:"%.0f"}}" />
+        </div>
+        <span>%</span>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >钱包状态</label>
+        <div class="layui-input-inline">
+            <select name="is_online">
+                <option></option>
+                <option value="1" {%if r.Maintain==2%}{%else%}{%if r.IsOnline==1%}selected{%endif%}{%endif%}>正常</option>
+                <option value="2" {%if r.Maintain==2%}selected{%endif%}>锁定</option>
+                <option value="3" {%if r.Maintain==2%}{%else%}{%if r.IsOnline==1%}{%else%}selected{%endif%}{%endif%}>下线</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >原因备注</label>
+        <div class="layui-input-inline">
+            <textarea name="remark" class="layui-input" style="width:300px;height:150px;"></textarea>
+        </div>
+    </div>
+    {%endif%}
+    <input type="hidden" name="pid" {{r.Pid}}>
+</form>
+<div class="layui-layout-admin" style="z-index:99;">
+    <input type="hidden" value="{{r.Id}}" name="id" />
+    <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+        <button type="submit" class="layui-btn gv-sub" >立即提交</button>
+        <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+    </div>
+</div>
+<script>
+    layui.use(['jquery','layer',"form"],function() {
+        let $ = layui.jquery;
+        let form = layui.form;
+        let layer = layui.layer;
+        $(".gv-sub").click(function(){
+            let status=$("select[name='is_online'] option:checked").html();
+            let sval=$("select[name='is_online'] option:checked").val();
+            let name=$("input[name='name']").val();
+            let ename=$("input[name='ename']").val();
+            let remark=$("textarea").val();
+            let id =$("input[name='id']").val();
+            let rate=$("input[name='platform_rate']").val();
+            let sort=$("input[name='sort']").val();
+            let pid=$("input[name='pid']").val();
+            let created='';
+            let con="你确定要设置"+status+"吗";
+            let tt='';
+            let line="<p>场馆正常状态，前端将入口将正常展示，该场馆钱包将自由转入和转出。</p>";
+            let line_false="<p>场馆下线后，前端将不展示该场馆入口,该场馆的钱包只能转出不能传入</p>";
+            let maintain ="<p>场馆维护后，该场馆钱包讲不能转入转出</p>";
+            let arr='';
+            if (pid==0){
+                arr={"id":id,"is_online":sval,"remark":remark,"platform_rate":rate,"sort":sort,"name":name,"ename":ename}
+            }else{
+                arr={"id":id,"sort":sort}
+            }
+            if (sval==1){
+                tt=line;
+            }else if(sval==2){
+                tt=maintain;
+                created=$("#maintains").val();
+            }else{
+                tt=line_false
+            }
+
+            layer.open({
+                title:"温馨提示",
+                content:con+tt,
+                btn:["取消","确认"],
+                btn2:function(){
+
+                    $.ajax({
+                        url:"/game_venues/save",
+                        type:"post",
+                        data:JSON.stringify(arr),
+                        success:function(data){
+                            if (data.errcode==0){
+                                layui.layer.msg("操作成功", {icon:1, time: 1800}, function() {  //关闭弹窗之后, 刷新上页列表数据
+                                    // 此操作只适应只有一个tab的上页, 如果有多个, 请手工操作
+                                    parent.location.reload();
+                                });
+                            }
+                        }
+                    })
+                }
+            })
+        })
+    })
+</script>
+
+{% endblock body %}

@@ -1,0 +1,115 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">场馆英文名称</label>
+        <div class="layui-input-inline">
+            <input name="ename" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.ename}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">场馆中文名称</label>
+        <div class="layui-input-inline">
+            <input name="name" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.name}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">场馆状态</label>
+        <div class="layui-input-inline">
+            <select name="is_online" lay-filter="g-s-c">
+                <option value="1" {%if r.maintain=="2"%}{%else%}{%if r.is_online=="1"%}selected{%endif%}{%endif%}>在线</option>
+                <option value="2" {%if r.maintain=="2"%}selected{%endif%}>锁定</option>
+                <option value="3" {%if r.maintain=="2"%}{%else%}{%if r.is_online=="1"%}{%else%}selected{%endif%}{%endif%}>下线</option>
+            </select>
+        </div>
+    </div>
+    {%if r.maintain=="2"%}
+    <div class="layui-form-item g-c-1" >
+        <label class="layui-form-label" style="width: 100px;">预计维护时间</label>
+        <div class="layui-input-inline">
+            <input type="text"  placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" style="width: 330px;"  id="maintains" />
+        </div>
+    </div>
+    {%endif%}
+
+    <div class="layui-form-item g-c" style="display:none">
+        <label class="layui-form-label" style="width: 100px;">预计维护时间</label>
+        <div class="layui-input-inline">
+            <input type="text"  placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" style="width: 330px;"  id="maintains" />
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">原因备注</label>
+        <div class="layui-input-inline">
+            <textarea name="remark" style="width:300px;height:200px"></textarea>
+        </div>
+    </div>
+</form>
+<div class="layui-layout-admin" style="z-index:99;">
+    <input type="hidden" value="{{r.id}}" name="id" />
+    <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+        <button type="submit" class="layui-btn g-sub" >立即提交</button>
+        <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+    </div>
+</div>
+<script>
+    layui.use(['jquery','layer',"form"],function() {
+        let $ = layui.jquery;
+        let form = layui.form;
+        let layer=layui.layer;
+        $(".g-sub").click(function(){
+            let status=$("select[name='is_online'] option:checked").html();
+            let sval=$("select[name='is_online'] option:checked").val();
+            let name=$("input[name='name']").val();
+            let remark=$("textarea").val();
+            let id =$("input[name='id']").val();
+            let created='';
+            let con="你确定要设置"+status+"吗";
+            let tt='';
+            let line="<p>场馆正常状态，前端将入口将正常展示，该场馆钱包将自由转入和转出。</p>";
+            let line_false="<p>场馆下线后，前端将不展示该场馆入口,该场馆的钱包只能转出不能传入</p>";
+            let maintain ="<p>场馆维护后，该场馆钱包讲不能转入转出</p>";
+
+            if (sval==1){
+                tt=line;
+            }else if(sval==2){
+                tt=maintain;
+                created=$("#maintains").val();
+            }else{
+                tt=line_false
+            }
+
+            layer.open({
+                title:"温馨提示",
+                content:con+tt,
+                btn:["取消","确认"],
+                btn2:function(){
+                    $.ajax({
+                        url:"/game_venues/state_save",
+                        type:"post",
+                        data:JSON.stringify({"id":id,"is_online":sval,"remark":remark,"created":created,"name":name}),
+                        success:function(data){
+                            if (data.errcode==0){
+                                layui.layer.msg("操作成功", {icon:1, time: 1800}, function() {  //关闭弹窗之后, 刷新上页列表数据
+                                    // 此操作只适应只有一个tab的上页, 如果有多个, 请手工操作
+                                    parent.location.reload();
+                                });
+                            }
+                        }
+                    })
+                }
+            })
+        })
+
+        form.on('select(g-s-c)',function(data){
+            if (data.value==2){
+                $(".g-c").css("display","block")
+            }else{
+                $(".g-c").css("display","none");
+                $(".g-c-1").css("display","none");
+            }
+        })
+    })
+</script>
+{% endblock body %}

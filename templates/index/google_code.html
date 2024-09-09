@@ -1,0 +1,59 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header"></div>
+            <div class="layui-card-body" pad15>
+                <div class="layui-form" lay-filter="">
+                    <form>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-inline" style="width: 500px;">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?data={{code}}&size=200x200&ecc=M" />
+                            <!--<img src="/index/qr?code={{code}}" />-->
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"></label>
+                        <div class="layui-input-inline" style="width: 500px;">
+                            自动刷新密钥剩余: <span style="color: red" id="seconds">{{current_second}}</span> 秒<br />
+                            1. 请使用 "Google身份验证器" 扫描以上二维码 <br />
+                            2. 点击 "确认绑定", 绑定到当前登录账户 <br />
+                            <span style="color: green">如果已经绑定, 可以点击再次绑定替换旧的密钥</span><br />
+                            <button class="layui-btn" id="submit" type="button">确认绑定</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['layer'], function() {
+
+        let $ = layui.$, layer = layui.layer;
+
+        $(document).on("click", "#submit", function() { 
+            let data = { "secret": "{{secret}}" };
+            sp.post("/index/google_bind", data, function(res) {
+                if (res.errcode === 0) {  // 成功
+                    sp.alertSuccess("绑定成功");
+                }
+            });
+        });
+        
+        let sec = $("#seconds");
+        setInterval(function() {
+            let current_second = parseInt(sec.text()); // 当前秒数
+            current_second -= 1;
+            sec.text(current_second);
+            if (current_second <= 0) { 
+                location.reload();
+            }
+        }, 1000);
+
+    });
+</script>
+{% endblock body %}

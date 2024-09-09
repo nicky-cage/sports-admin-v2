@@ -1,0 +1,632 @@
+[
+    {
+        "name": "会员管理",
+        "icon": "layui-icon-user",
+        "level": 1,
+        "menus": [
+            {"name": "会员列表", "url": "/users", "level": 2, "menus": [
+                {"name": "会员列表", "url": "/users", "level": 3, "menus": [
+                    {"name": "会员列表", "url": "/users", "level": 4},
+                    {"name": "添加标签", "url": "/users/add_tags|/users/add_tags_save", "level": 4},
+                    {"name": "批量禁用", "url": "/users/disable_all", "level": 4},
+                    {"name": "批量匹配", "url": "/users", "level": 4},
+                    {"name": "修改资料", "url": "/users/update|/users/save", "level": 4},
+                    {"name": "用户状态", "url": "/users/state", "level": 4},
+                    {"name": "钱包金额", "url": "/user_detail/account_async", "level": 4},
+                    {"name": "添加用户", "url": "/users/create|/users/add", "level": 4},
+                    {"name": "修改密码", "url": "/users/password|/users/password_save", "level": 4},
+                    {"name": "会员详情", "url": "/users/detail", "level": 4, "menus": [
+                        {"name": "中心钱包", "url": "/users/detail", "level": 5, "menus": [
+                            {"name": "基本信息", "url": "/users/detail", "level": 6},
+                            {"name": "账户信息", "url": "/user_detail/accounts|/user_detail/accounts/transfer_out", "level": 6},
+                            {"name": "输赢信息", "url": "/user_detail/wins", "level": 6},
+                            {"name": "存款信息", "url": "/user_detail/deposits", "level": 6},
+                            {"name": "取款信息", "url": "/user_detail/withdraws", "level": 6},
+                            {"name": "红利信息", "url": "/user_detail/dividends", "level": 6},
+                            {"name": "返水信息", "url": "/user_detail/commissions", "level": 6},
+                            {"name": "平台转账", "url": "/user_detail/transfers", "level": 6},
+                            {"name": "账户调整", "url": "/user_detail/resets|/user_detail/resets/save", "level": 6},
+                            {"name": "调整记录", "url": "/user_detail/changes", "level": 6}
+                        ]},
+                        {"name": "佣金钱包", "url": "/user_detail/commission_accounts", "level": 5, "menus": [
+                            {"name": "账户信息", "url": "/user_detail/commission_accounts", "level": 6},
+                            {"name": "提款信息", "url": "/user_detail/commission_withdraws", "level": 6},
+                            {"name": "佣金信息", "url": "/user_detail/commission_records", "level": 6},
+                            {"name": "账户金额", "url": "/user_detail/account", "level": 6}
+                        ]}
+                    ]}
+                ]}
+            ]},
+            {"name": "会员等级", "url": "/user_levels", "level": 2, "menus": [
+                {"name": "会员等级", "url": "/user_levels", "level": 3, "menus": [
+                    {"name": "会员等级列表", "url": "/user_levels", "level": 4},
+                    {"name": "会员等级修改", "url": "/user_levels/update|/user_levels/save", "level": 4}
+                ]}
+            ]},
+            {"name": "会员标签", "url": "/user_tags", "level": 2, "menus": [
+                {"name": "会员标签", "url": "/user_tags", "level": 3, "menus": [
+                    {"name": "会员标签列表", "url": "/user_tags", "level": 4},
+                    {"name": "会员标签添加", "url": "/user_tags/create|/user_tags/save", "level": 4},
+                    {"name": "会员标签修改", "url": "/user_tags/update|/user_tags/save", "level": 4},
+                    {"name": "会员标签删除", "url": "/user_tags/delete", "level": 4}
+                ]},
+                {"name": "标签分类", "url": "/user_tag_categories", "level": 3, "menus": [
+                    {"name": "标签分类列表", "url": "/user_tag_categories", "level": 4},
+                    {"name": "标签分类添加", "url": "/user_tag_categories/create|/user_tag_categories/save", "level": 4},
+                    {"name": "标签分类修改", "url": "/user_tag_categories/update|/user_tag_categories/save", "level": 4},
+                    {"name": "标签分类删除", "url": "/user_tag_categories/delete", "level": 4}
+                ]}
+            ]},
+            {"name": "会员绑卡", "url": "/user_cards", "level": 2,  "menus": [
+                {"name": "会员绑卡", "url": "/user_cards", "level": 3, "menus": [
+                    {"name": "会员银行卡列表", "url": "/user_cards/", "level": 4},
+                    {"name": "会员银行卡添加", "url": "/user_cards/create|/user_cards/save", "level": 4},
+                    {"name": "会员银行卡修改", "url": "/user_cards/update|/user_cards/save", "level": 4},
+                    {"name": "会员银行卡删除", "url": "/user_cards/delete", "level": 4},
+                    {"name": "会员银行卡详细", "url": "/user_cards/detail", "level": 4}
+                ]}
+            ]},
+            {"name": "投注管理", "url": "/user_bets", "level": 2, "menus": [
+                {"name": "投注管理", "url": "/user_bets", "level": 3, "menus": [
+                    {"name": "投注管理", "url": "/user_bets", "level": 4},
+                    {"name": "手动补单", "url": "/user_bets/set_up|/user_bets/save_do", "level": 4},
+                    {"name": "导出数据", "url": "/user_bets", "level": 4}
+                ]}
+            ]},
+            {"name": "记录管理", "url": "/user_changes", "level": 2, "menus": [
+                {"name": "账户调整", "url": "/user_changes", "level": 3, "menus": [
+                    {"name": "同意", "url": "/user_changes/agree", "level": 4},
+                    {"name": "拒绝", "url": "/user_changes/refuse|/user_changes/save", "level": 4}
+                ]},
+                {"name": "平台转账", "url": "/user_transfers", "level": 3, "menus": [
+                    {"name": "平台转账", "url": "/user_transfers|/user_transfers/check_transfer_status", "level": 4},
+                    {"name": "导出数据", "url": "/user_changes", "level": 4}
+                ]},
+                {"name": "红利记录", "url": "/user_dividends", "level": 3, "menus": [
+                    {"name": "红利记录", "url": "/user_dividends", "level": 4},
+                    {"name": "导出数据", "url": "/user_changes", "level": 4}
+                ]},
+                {"name": "活动记录", "url": "/user_activities", "level": 3, "menus": [
+                    {"name": "活动记录", "url": "/user_activities", "level": 4},
+                    {"name": "导出数据", "url": "/user_changes", "level": 4}
+                ]},
+                {"name": "等级记录", "url": "/user_level_changes", "level": 3, "menus": [
+                    {"name": "等级记录", "url": "/user_level_changes", "level": 4},
+                    {"name": "导出数据", "url": "/user_changes", "level": 4}
+                ]}
+            ]},
+            {"name": "会员验证码查询", "url": "/users_code", "level": 2, "menus": [
+                {"name": "会员验证码查询", "url": "/users_code", "level": 3, "menus": []}
+            ]}
+        ]
+    },
+    {
+        "name": "财务管理",
+        "icon": "layui-icon-rmb",
+        "level": 1,
+        "menus": [
+            {"name": "收款银行卡", "url": "/receive_bank_cards", "level": 2, "menus": [
+                {"name": "收款银行卡", "url": "/receive_bank_cards", "level": 3, "menus": [
+                    {"name": "添加", "url": "/receive_bank_cards/create|/receive_bank_cards/save", "level": 4},
+                    {"name": "修改", "url": "/receive_bank_cards/update|/receive_bank_cards/save", "level": 4},
+                    {"name": "删除", "url": "/receive_bank_cards/delete", "level": 4},
+                    {"name": "状态", "url": "/receive_bank_cards/state", "level": 4}
+                ]}
+            ]},
+            {"name": "支付通道", "url": "/payment_channels", "level": 2, "menus": [
+                {"name": "支付通道", "url": "/payment_channels", "level": 3, "menus": [
+                    {"name": "添加", "url": "/payment_channels/add|/payment_channels/save_do", "level": 4},
+                    {"name": "修改", "url": "/payment_channels/edit|/payment_channels/save_do", "level": 4},
+                    {"name": "删除", "url": "/payment_channels/delete", "level": 4},
+                    {"name": "状态", "url": "/payment_channels/state", "level": 4}
+                ]}
+            ]},
+            {"name": "存款管理", "url": "/user_deposits", "level": 2, "menus": [
+                {"name": "存款中", "url": "/user_deposits", "level": 3, "menus": [
+                    {"name": "存款列表", "url": "/user_deposits", "level": 4},
+                    {"name": "手动确认", "url": "/user_deposits/update|/user_deposits/confirm_do", "level": 4},
+                    {"name": "获取状态", "url": "/user_deposits/get_status", "level": 4},
+                    {"name": "导出数据", "url": "/user_deposits", "level": 4}
+                ]},
+                {"name": "历史记录", "url": "/user_deposit_hrs", "level": 3, "menus": [
+                    {"name": "历史记录", "url": "/user_deposit_hrs", "level": 4},
+                    {"name": "日志", "url": "/user_deposit_logs", "level": 4},
+                    {"name": "导出数据", "url": "/user_deposit_hrs", "level": 4}
+                ]}
+            ]},
+            {"name": "提款管理", "url": "/user_withdraws", "level": 2, "menus": [
+                {"name": "提款中", "url": "/user_withdraws", "level": 3, "menus": [
+                    {"name": "提款列表", "url": "/user_withdraws", "level": 4},
+                    {"name": "成功", "url": "/user_withdraws/success|/user_withdraws/success_do", "level": 4},
+                    {"name": "失败", "url": "/user_withdraws/failure|/user_withdraws/failure_do", "level": 4},
+                    {"name": "获取状态", "url": "/user_withdraws/get_status", "level": 4},
+                    {"name": "日志", "url": "/user_withdraw_logs", "level": 4},
+                    {"name": "导出数据", "url": "/user_withdraws", "level": 4}
+                ]},
+                {"name": "历史记录", "url": "/user_withdraw_hrs", "level": 3, "menus": [
+                    {"name": "历史记录", "url": "/user_withdraw_hrs", "level": 4},
+                    {"name": "日志", "url": "/user_withdraw_logs", "level": 4},
+                    {"name": "导出数据", "url": "/user_withdraw_hrs", "level": 4}
+                ]}
+            ]},
+            {"name": "代理提款", "url": "/agent_withdraws", "level": 2, "menus": [
+                {"name": "提款中", "url": "/agent_withdraws", "level": 3, "menus": [
+                    {"name": "提款列表", "url": "/agent_withdraws", "level": 4},
+                    {"name": "成功", "url": "/agent_withdraws/success|/agent_withdraws/success_do", "level": 4},
+                    {"name": "失败", "url": "/agent_withdraws/failure|/agent_withdraws/failure_do", "level": 4},
+                    {"name": "日志", "url": "/agent_withdraw_logs", "level": 4},
+                    {"name": "导出数据", "url": "/agent_withdraws", "level": 4}
+                ]},
+                {"name": "历史记录", "url": "/agent_withdraw_hrs", "level": 3, "menus": [
+                    {"name": "历史记录", "url": "/agent_withdraw_hrs", "level": 4},
+                    {"name": "日志", "url": "/agent_withdraw_logs", "level": 4},
+                    {"name": "导出数据", "url": "/agent_withdraw_hrs", "level": 4}
+                ]}
+            ]},
+            {"name": "手动上分", "url": "/user_account_sets", "level": 2, "menus": [
+                {"name": "手动上下分", "url": "/user_account_sets", "level": 3, "menus": [
+                    {"name": "手动上下分", "url": "/user_account_sets", "level": 4},
+                    {"name": "手动上分", "url": "/user_account_sets/top_money|/user_account_sets/save", "level": 4},
+                    {"name": "手动下分", "url": "/user_account_sets/down_money|/user_account_sets/save", "level": 4}
+                ]},
+                {"name": "审核列表", "url": "/user_account_audits", "level": 3, "menus": [
+                    {"name": "审核列表", "url": "/user_account_audits", "level": 4},
+                    {"name": "同意", "url": "/user_account_audits/agree|/user_account_audits/save_do", "level": 4},
+                    {"name": "拒绝", "url": "/user_account_audits/refuse|/user_account_audits/save_do", "level": 4},
+                    {"name": "导出数据", "url": "/user_account_audits", "level": 4}
+                ]},
+                {"name": "历史记录", "url": "/user_account_hrs", "level": 3, "menus": [
+                    {"name": "历史记录", "url": "/user_account_hrs", "level": 4},
+                    {"name": "导出数据", "url": "/user_account_hrs", "level": 4}
+                ]}
+            ]}
+        ]
+    },
+    {
+        "name": "运营管理",
+        "icon": "layui-icon-component",
+        "level": 1,
+        "menus": [
+            {"name": "广告管理", "url": "/ads", "level": 2, "menus": [
+                {"name": "APP启动页", "url": "/ads", "level": 3, "menus": [
+                    {"name": "APP启动页广告列表", "url": "/ads", "level": 4},
+                    {"name": "APP启动页广告添加", "url": "/ads/create|/ads/save", "level": 4},
+                    {"name": "APP启动页广告修改", "url": "/ads/update|/ads/update", "level": 4},
+                    {"name": "APP启动页广告删除", "url": "/ads/delete", "level": 4},
+                    {"name": "APP启动页广告状态", "url": "/ads/state", "level": 4}
+                ]},
+                {"name": "轮播图", "url": "/ad_carousels", "level": 3, "menus": [
+                    {"name": "轮播图列表", "url": "/ad_carousels", "level": 4},
+                    {"name": "轮播图添加", "url": "/ad_carousels/create|/ad_carousels/save", "level": 4},
+                    {"name": "轮播图修改", "url": "/ad_carousels/update|/ad_carousels/save", "level": 4},
+                    {"name": "轮播图删除", "url": "/ad_carousels/delete", "level": 4},
+                    {"name": "轮播图状态", "url": "/ad_carousels/state", "level": 4}
+                ]},
+                {"name": "体育赛事", "url": "/ad_matches", "level": 3, "menus": [
+                    {"name": "赛事列表", "url": "/ad_matches", "level": 4},
+                    {"name": "赛事添加", "url": "/ad_matches/create|/ad_matches/save", "level": 4},
+                    {"name": "赛事修改", "url": "/ad_matches/update|/ad_matches/save", "level": 4},
+                    {"name": "赛事删除", "url": "/ad_matches/delete", "level": 4},
+                    {"name": "赛事状态", "url": "/ad_matches/state", "level": 4}
+                ]},
+                {"name": "赞助配置", "url": "/ad_sponsors", "level": 3, "menus": [
+                    {"name": "赞助列表", "url": "/ad_sponsors", "level": 4},
+                    {"name": "赞助添加", "url": "/ad_sponsors/create|/ad_sponsors/save", "level": 4},
+                    {"name": "赞助修改", "url": "/ad_sponsors/update|/ad_sponsors/save", "level": 4},
+                    {"name": "赞助删除", "url": "/ad_sponsors/delete", "level": 4},
+                    {"name": "赞助状态", "url": "/ad_sponsors/state", "level": 4}
+                ]}
+            ]},
+            {"name": "内容管理", "url": "/messages", "level": 2, "menus": [
+                {"name": "系统公告", "url": "/notices", "level": 3, "menus": [
+                    {"name": "公告列表", "url": "/notices", "level": 4},
+                    {"name": "公告添加", "url": "/notices/create|/notices/save", "level": 4},
+                    {"name": "公告修改", "url": "/notices/update|/notices/save", "level": 4},
+                    {"name": "公告删除", "url": "/notices/delete", "level": 4},
+                    {"name": "消息状态", "url": "/notices/state", "level": 4}
+                ]},
+                {"name": "站内消息", "url": "/messages", "level": 3, "menus": [
+                    {"name": "消息列表", "url": "/messages", "level": 4},
+                    {"name": "消息添加", "url": "/messages/create|/messages/save", "level": 4},
+                    {"name": "消息修改", "url": "/messages/update|/messages/save", "level": 4},
+                    {"name": "消息删除", "url": "/messages/delete", "level": 4},
+                    {"name": "消息置顶", "url": "/messages/top", "level": 4},
+                    {"name": "消息状态", "url": "/messages/state", "level": 4}
+                ]},
+                {"name":"玩家反馈","url": "/user_feedback","level": 3,"menus": [
+                    {"name": "用户反馈列表","url":"user_feedback","level": 4 },
+                    {"name": "反馈修改","url": "/user_feedback/update|/user_feedback/Save",
+                        "level": 4
+                    },
+                    {"name": "反馈详情","url": "/user_feedback/delete","level":4}
+                ]
+                }
+            ]},
+            {"name": "返水管理", "url": "/commission_levels", "level": 2, "menus": [
+                {"name": "返水等级", "url": "/commission_levels", "level": 3, "menus": [
+                    {"name": "返水等级列表", "url": "/commission_levels", "level": 4},
+                    {"name": "返水等级修改", "url": "/commission_levels/setup|/commission_levels/save_do", "level": 4},
+                    {"name": "返水等级详情", "url": "/commission_levels/details", "level": 4}
+                ]},
+                {"name": "手动返水", "url": "/commission_levels", "level": 3, "menus": [
+                    {"name": "手动返水", "url": "/commission_levels", "level": 4},
+                    {"name": "发放返水", "url": "/commission_levels", "level": 4}
+                ]},
+                {"name": "返水记录", "url": "/user_commissions/record", "level": 3, "menus": [
+                    {"name": "返水记录", "url": "/user_commissions/record", "level": 4},
+                    {"name": "导出数据", "url": "/user_commissions/record", "level": 4}
+                ]}
+            ]},
+            {"name": "红利管理", "url": "/dividend_managements", "level": 2, "menus": [
+                {"name": "发放红利", "url": "/dividend_managements", "level": 3, "menus": [
+                    {"name": "发放红利", "url": "/dividend_managements", "level": 4},
+                    {"name": "下载载模板", "url": "/dividend_managements/excel", "level": 4},
+                    {"name": "红利提交", "url": "/dividend_managements/submit_do", "level": 4}
+                ]},
+                {"name": "审核列表", "url": "/dividend_audits", "level": 3, "menus": [
+                    {"name": "审核列表", "url": "/dividend_audits", "level": 4},
+                    {"name": "同意", "url": "/dividend_audits/edit_view|/dividend_audits/agree", "level": 4},
+                    {"name": "拒绝", "url": "/dividend_audits/edit_view|/dividend_audits/refuse", "level": 4},
+                    {"name": "批量通过", "url": "/dividend_audits/edit_view|/dividend_audits/batch_agree", "level": 4},
+                    {"name": "批量拒绝", "url": "/dividend_audits/edit_view|/dividend_audits/batch_refuse", "level": 4}
+                ]},
+                {"name": "历史记录", "url": "/dividend_hrs", "level": 3, "menus": [
+                    {"name": "历史记录", "url": "/dividend_hrs", "level": 4},
+                    {"name": "导出数据", "url": "/dividend_hrs", "level": 4}
+                ]}
+            ]},
+            {"name": "活动管理", "url": "/activities", "level": 2, "menus": [
+                {"name": "常规活动", "url": "/activities", "level": 3, "menus": [
+                    {"name": "活动列表", "url": "/activities", "level": 4},
+                    {"name": "活动添加", "url": "/activities/add|/activities/save_do", "level": 4},
+                    {"name": "活动修改", "url": "/activities/edit|/activities/save_do", "level": 4},
+                    {"name": "活动删除", "url": "/activities/delete", "level": 4},
+                    {"name": "活动状态", "url": "/activities/state", "level": 4}
+                ]},
+                {"name": "邀请好友", "url": "/user_invites", "level": 3, "menus": [
+                    {"name": "邀请列表", "url": "/user_invites", "level": 4},
+                    {"name": "规则设置", "url": "/user_invites/rule_setting|/user_invites/save_do", "level": 4},
+                    {"name": "开启活动", "url": "/user_invites/enable", "level": 4},
+                    {"name": "同意", "url": "/user_invites/agree|/user_invites/agree_do", "level": 4},
+                    {"name": "拒绝", "url": "/user_invites/refuse|/user_invites/refuse_do", "level": 4}
+                ]},
+                {"name":"发放活动金","url": "/dividend_managements", "level": 3, "menus": [
+                    {"name": "发放活动金", "url": "/dividend_managements", "level": 4},
+                    {"name": "下载载模板", "url": "/dividend_managements/excel", "level": 4},
+                    {"name": "提交", "url": "/dividend_managements/submit_do", "level": 4}
+                ]},
+                {"name":"审核列表", "url": "/dividend_audits", "level": 3, "menus": [
+                    {"name": "审核列表", "url": "/dividend_audits", "level": 4},
+                    {"name": "同意", "url": "/dividend_audits/edit_view|/dividend_audits/agree", "level": 4},
+                    {"name": "拒绝", "url": "/dividend_audits/edit_view|/dividend_audits/refuse", "level": 4},
+                    {"name": "批量通过", "url": "/dividend_audits/edit_view|/dividend_audits/batch_agree", "level": 4},
+                    {"name": "批量拒绝", "url": "/dividend_audits/edit_view|/dividend_audits/batch_refuse", "level": 4}
+                ]},
+                {"name":"历史记录", "url": "/dividend_hrs", "level": 3, "menus": [
+                    {"name": "历史记录", "url": "/dividend_hrs", "level": 4}
+                ]}
+            ]},
+            {"name": "存款优惠", "url": "/deposit_discounts", "level": 2, "menus": [
+                {"name": "存款优惠", "url": "/deposit_discounts", "level": 3, "menus": [
+                    {"name": "存款优惠列表", "url": "/deposit_discounts", "level": 4},
+                    {"name": "存款优惠状态", "url": "/deposit_discounts/state", "level": 4},
+                    {"name": "存款优惠修改", "url": "/deposit_discounts/update|/deposit_discounts/save", "level": 4}
+                ]}
+            ]}
+        ]
+    },
+    {
+        "name": "风控管理",
+        "icon": "layui-icon-auz",
+        "level": 1,
+        "menus": [
+            {"name": "提款审核", "url": "/risk_audits", "level": 2, "menus": [
+                {"name": "待审核列表", "url": "/risk_audits", "level": 3, "menus": [
+                    {"name": "待审列表", "url": "/risk_audits", "level": 4},
+                    {"name": "系统审核", "url": "/risk_audits", "level": 4},
+                    {"name": "人工审核", "url": "/risk_audits", "level": 4}
+                ]},
+                {"name": "审核挂起列表", "url": "/risk_audits/handuplist", "level": 3, "menus": [
+                    {"name": "待审列表", "url": "/risk_audits/handuplist", "level": 4},
+                    {"name": "挂起新增", "url": "/risk_audits/handuplist", "level": 4},
+                    {"name": "批量导入", "url": "/risk_audits/handuplist", "level": 4}
+                ]},
+                {"name": "历史记录列表", "url": "/risk_audits/history", "level": 3, "menus": [
+                    {"name": "记录列表", "url": "/risk_audits/history", "level": 4},
+                    {"name": "记录新增", "url": "/risk_audits/history", "level": 4},
+                    {"name": "批量导入", "url": "/risk_audits/history", "level": 4},
+                    {"name": "历史详情", "url": "/risk_audits/history_detail", "level": 4}
+                ]}
+            ]},
+            {"name": "拉黑名单", "url": "/black_lists", "level": 2, "menus": [
+                {"name": "设备编号", "url": "/black_lists", "level": 3, "menus": [
+                    {"name": "设备编号", "url": "/blocked_devices", "level": 4},
+                    {"name": "设备添加", "url": "/blocked_devices/create|/blocked_devices/save", "level": 4},
+                    {"name": "设备修改", "url": "/blocked_devices/update|/blocked_devices/save", "level": 4},
+                    {"name": "设备删除", "url": "/blocked_devices/delete", "level": 4}
+                ]},
+                {"name": "IP地址", "url": "/blocked_ips", "level": 3, "menus": [
+                    {"name": "IP地址列表", "url": "/blocked_ips", "level": 4},
+                    {"name": "IP地址添加", "url": "/blocked_ips/create|/blocked_ips/save", "level": 4},
+                    {"name": "IP地址修改", "url": "/blocked_ips/update|/blocked_ips/save", "level": 4},
+                    {"name": "IP地址删除", "url": "/blocked_ips/delete", "level": 4}
+                ]},
+                {"name": "邮箱地址", "url": "/blocked_mails", "level": 3, "menus": [
+                    {"name": "邮箱列表", "url": "/blocked_mails", "level": 4},
+                    {"name": "邮箱添加", "url": "/blocked_mails/create|/blocked_mails/save", "level": 4},
+                    {"name": "邮箱修改", "url": "/blocked_mails/update|/blocked_mails/save", "level": 4},
+                    {"name": "邮箱删除", "url": "/blocked_mails/delete", "level": 4}
+                ]},
+                {"name": "手机号码", "url": "/blocked_phones", "level": 3, "menus": [
+                    {"name": "手机号码列表", "url": "/blocked_phones", "level": 4},
+                    {"name": "手机号码添加", "url": "/blocked_phones/create|/blocked_phones/save", "level": 4},
+                    {"name": "手机号码修改", "url": "/blocked_phones/update|/blocked_phones/save", "level": 4},
+                    {"name": "手机号码删除", "url": "/blocked_phones/delete", "level": 4}
+                ]},
+                {"name": "银行卡号", "url": "/blocked_cards", "level": 3, "menus": [
+                    {"name": "银行卡号列表", "url": "/blocked_cards", "level": 4},
+                    {"name": "银行卡号添加", "url": "/blocked_cards/create|/blocked_cards/save", "level": 4},
+                    {"name": "银行卡号修改", "url": "/blocked_cards/update|/blocked_cards/save", "level": 4},
+                    {"name": "银行卡号删除", "url": "/blocked_cards/delete", "level": 4}
+                ]}
+            ]},
+            {"name": "登录日志", "url": "/user_login_logs", "level": 2, "menus": [
+                {"name": "登录日志", "url": "/user_login_logs", "level": 3, "menus": [
+                    {"name": "登录日志列表", "url": "/user_login_logs", "level": 4}
+                ]}
+            ]}
+        ]
+    },
+    {
+        "name": "报表中心",
+        "icon": "layui-icon-table",
+        "level": 1,
+        "menus": [
+            {"name": "经营报表", "url": "/report_operations", "level": 2, "menus": [
+                {"name": "经营报表", "url": "/report_operations", "level": 3, "menus": [
+                    {"name": "经营报表", "url": "/report_operations", "level": 4},
+                    {"name": "导出数据", "url": "/report_operations", "level": 4}
+                ]}
+            ]},
+            {"name": "游戏报表", "url": "/report_games", "level": 2, "menus": [
+                {"name": "游戏报表", "url": "/report_games", "level": 3, "menus": [
+                    {"name": "游戏报表", "url": "/report_games", "level": 4},
+                    {"name": "导出数据", "url": "/report_games", "level": 4}
+                ]}
+            ]},
+
+            {"name": "代理报表", "url": "/report_agents", "level": 2, "menus": [
+
+                {"name": "游戏报表", "url": "/report_agents", "level": 3, "menus": [
+                    {"name": "游戏报表", "url": "/report_agents", "level": 4},
+                    {"name": "导出数据", "url": "/report_agents", "level": 4}
+                ]}
+            ]},
+            {"name": "会员报表", "url": "/report_users", "level": 2, "menus": [
+                {"name": "会员报表", "url": "/report_users", "level": 3, "menus": [
+                    {"name": "会员报表", "url": "/report_users", "level": 4},
+                    {"name": "导出数据", "url": "/report_users", "level": 4}
+                ]}
+            ]}
+        ]
+    },
+    {
+        "name": "站点管理",
+        "icon": "layui-icon-util",
+        "level": 1,
+        "menus": [
+            {"name": "站点设置", "url": "/configs/update?id=1", "level": 2, "menus": [
+                {"name": "基本信息", "url": "/configs/update?id=1", "level": 3, "menus": [
+                    {"name": "站点设置", "url": "/configs/update?id=1", "level": 4},
+                    {"name": "站点设置", "url": "/configs/save", "level": 4},
+                    {"name": "站点设置", "url": "/configs/update?id=1", "level": 4}
+                ]},
+                {"name": "帮助中心", "url": "/helps", "level": 3, "menus": [
+                    {"name": "帮助中心", "url": "/helps", "level": 4},
+                    {"name": "帮助分类添加", "url": "/help_categories/create|/help_categories/save", "level": 4},
+                    {"name": "帮助分类修改", "url": "/help_categories/update|/help_categories/save", "level": 4},
+                    {"name": "帮助分类删除", "url": "/help_categories/delete", "level": 4},
+                    {"name": "帮助列表", "url": "/helps", "level": 4},
+                    {"name": "帮助添加", "url": "/helps/create|/helps/save", "level": 4},
+                    {"name": "帮助修改", "url": "/helps/update|/helps/save", "level": 4},
+                    {"name": "帮助删除", "url": "/helps/delete", "level": 4},
+                    {"name": "帮助预览", "url": "/helps/detail", "level": 4},
+                    {"name": "帮助状态", "url": "/helps/state", "level": 4}
+                ]},
+                {"name": "维护设置", "url": "/site_maintains", "level": 3, "menus": [
+                    {"name": "维护设置", "url": "/site_maintains/update", "level": 4},
+                    {"name": "维护修改", "url": "/site_maintains/update|/site_maintains/save", "level": 4},
+                    {"name": "维护日志", "url": "/site_maintains_log", "level": 4}
+                ]},
+                {"name": "通用配置", "url": "/parameter_groups", "level": 3, "menus": [
+                    {"name": "通用配置", "url": "/parameter_groups", "level": 4},
+                    {"name": "参数设置", "url": "/parameters", "level": 4},
+                    {"name": "通用配置创建", "url": "/parameter_groups/created|/parameter_groups/save", "level": 4},
+                    {"name": "参数更改", "url": "/parameters/update|/parameters/save", "level": 4},
+                    {"name": "参数更改", "url": "/parameters/create|/parameters/save", "level": 4}
+                ]},
+                {"name": "存款限制", "url": "/deposit_limits", "level": 3, "menus": [
+                    {"name": "存款限制", "url": "/deposit_limits", "level": 4},
+                    {"name": "时间提醒", "url": "/deposit_limits", "level": 4},
+                    {"name": "订单设置", "url": "/deposit_limits", "level": 4},
+                    {"name": "站点设置", "url": "/deposit_limits", "level": 4}
+                ]},
+                {"name": "PC底部信息", "url": "/site_bottoms", "level": 3, "menus": [
+                    {"name": "底部信息列表", "url": "/site_bottoms", "level": 4},
+                    {"name": "底部信息添加", "url": "/site_bottoms/creat","level": 4},
+                    {"name": "底部信息修改", "url": "/site_bottoms/update|/site_bottoms/save", "level": 4},
+                    {"name": "底部信息删除", "url": "/site_bottoms/delete|/site_bottoms/save", "level": 4},
+                    {"name": "底部信息添加", "url": "/site_bottoms/state","level": 4}
+                ]},
+                {"name": "银行列表", "url": "/banks", "level": 3, "menus": [
+                    {"name": "银行列表", "url": "/banks", "level": 4},
+                    {"name": "银行添加", "url": "/banks/create|/banks/save", "level": 4},
+                    {"name": "银行修改", "url": "/banks/update|/banks/save", "level": 4},
+                    {"name": "银行删除", "url": "/banks/delete", "level": 4},
+                    {"name": "银行状态", "url": "/banks/state", "level": 4}
+                ]},
+                {"name": "版本列表", "url": "/versions", "level": 3, "menus": [
+                    {"name": "版本列表", "url": "/versions", "level": 4},
+                    {"name": "版本添加", "url": "/versions/created|/versions/save", "level": 4},
+                    {"name": "版本修改", "url": "/versions/updated|/versions/save", "level": 4},
+                    {"name": "版本删除", "url": "/versions/delete", "level": 4},
+                    {"name": "版本状态", "url": "/versions/state", "level": 4}
+                ]},
+                {"name": "常用配置", "url": "/popular", "level": 3, "menus": [
+                    {"name": "常用配置", "url": "/popular", "level": 4},
+                    {"name": "常用配置保存", "url": "/popular/save", "level": 4}
+                ]}
+            ]},
+            {"name": "场馆管理", "url": "/game_venues", "level": 2, "menus": [
+                {"name": "场馆列表", "url": "/game_venues", "level": 3, "menus": [
+                    {"name": "场馆列表", "url": "/game_venues", "level": 4},
+                    {"name": "场馆状态", "url": "/game_venues/create|/game_venues/save", "level": 4},
+                    {"name": "场馆修改", "url": "/game_venues/update|/game_venues/save", "level": 4},
+                    {"name": "场馆下级状态", "url": "/game_venues/lower_state", "level": 4},
+                    {"name": "场馆下级状态保存", "url": "/game_venues/state_save", "level": 4},
+                    {"name": "场馆钱包状态", "url": "/game_venues/state", "level": 4},
+                    {"name": "场馆创建返回视图", "url": "/game_venues/add", "level": 4}
+                ]},
+                {"name": "电子游戏列表", "url": "/games", "level": 3, "menus": [
+                    {"name": "游戏列表", "url": "/games", "level": 4},
+                    {"name": "游戏修改", "url": "/games/update|/games/save", "level": 4},
+                    {"name": "游戏状态", "url": "/games/state", "level": 4}
+                ]},
+                {"name": "场馆游戏", "url": "/game_venues/games", "level": 3, "menus": [
+                    {"name": "场馆游戏", "url": "/game_venues/games", "level": 4},
+                    {"name": "场馆操作日志", "url": "/game_maintains_log", "level": 4}
+                ]}
+            ]}
+        ]
+    },
+    {
+        "name": "代理管理",
+        "icon": "layui-icon-group",
+        "level": 1,
+        "menus": [
+            {"name": "代理列表", "url": "/agents", "level": 2, "menus": [
+                {"name": "代理列表", "url": "/agents", "level": 3, "menus": [
+                    {"name": "代理列表", "url": "/agents", "level": 4},
+                    {"name": "代理查看", "url": "/agents/detail_view", "level": 4},
+                    {"name": "代理修改", "url": "/agents/update|/agents/save", "level": 4},
+                    {"name": "增加会员", "url": "/agents/add|/agents/lower_add", "level": 4},
+                    {"name": "代理新增", "url": "/agents/insert", "level": 4},
+                    {"name": "代理详细", "url": "/agents/detail", "level": 4},
+                    {"name": "代理新增视图", "url": "/agents/create", "level": 4}
+                ]}
+            ]},
+            {"name": "下线会员", "url": "/agents/users", "level": 2, "menus": [
+                {"name": "下线会员", "url": "/agents/users", "level": 3, "menus": [
+                    {"name": "下线会员", "url": "/agents/users", "level": 4},
+                    {"name": "下线查看", "url": "/agents/users/detail", "level": 4},
+                    {"name": "转代理线", "url": "/agents/users/update|/agents/users_save", "level": 4},
+                    {"name": "查看是否代理", "url": "/agents/user_check","level": 4}
+                ]}
+            ]},
+            {"name": "佣金管理", "url": "/agents/commissions", "level": 2, "menus": [
+                {"name": "发放佣金", "url": "/agents/commissions", "level": 3, "menus": [
+                    {"name": "发放佣金", "url": "/agents/commissions/grant", "level": 4},
+                    {"name": "佣金调整", "url": "/agents/commissions/adjustment|/agents/commissions/save", "level": 4}
+
+                ]},
+                {"name": "佣金记录", "url": "/agents/commissions/record", "level": 3, "menus": [
+                    {"name": "佣金记录", "url": "/agents/commissions/record", "level": 4},
+                    {"name": "导出数据", "url": "/agents/commissions/record", "level": 4}
+                ]},
+                {"name": "返佣方案", "url": "/agents/commissions/plan", "level": 3, "menus": [
+                    {"name": "返佣方案", "url": "/agents/commissions/plan", "level": 4},
+                    {"name": "佣金方案更改", "url": "/agents/commissions/plan/updated", "level": 4},
+                    {"name": "佣金方案", "url": "/agents/commissions/plan", "level": 4},
+                    {"name": "佣金方案新增", "url": "/agents/commissions/plan/add", "level": 4},
+                    {"name": "佣金方案保存", "url": "/agents/commissions/plan/save", "level": 4},
+                    {"name": "佣金方案删除", "url": "/agents/commissions/plan/deleted", "level": 4},
+                    {"name": "佣金方案视图", "url": "/agents/commissions/plan/view", "level": 4},
+                    {"name": "佣金方案展示", "url": "/agents/commissions/plan_list", "level": 4},
+                    {"name": "佣金方案增加", "url": "/agents/commissions/create", "level": 4}
+                ]}
+            ]},
+            {"name": "提款管理", "url": "/agents/withdraws", "level": 2, "menus": [
+                {"name": "提款审核", "url": "/agents/withdraws", "level": 3, "menus": [
+                    {"name": "提款审核", "url": "/agents/withdraws", "level": 4},
+                    {"name": "批量通过", "url": "/agents/withdraws", "level": 4},
+                    {"name": "批量拒绝", "url": "/agents/withdraws", "level": 4}
+                ]},
+                {"name": "提款记录", "url": "/agents/withdraws/record", "level": 3, "menus": [
+                    {"name": "提款记录", "url": "/agents/withdraws/record", "level": 4},
+                    {"name": "导出数据", "url": "/agents/withdraws/record", "level": 4}
+                ]}
+            ]},
+            {"name": "记录查询", "url": "/agents/logs", "level": 2, "menus": [
+                {"name": "红利", "url": "/agents/logs", "level": 3, "menus": [
+                    {"name": "红利列表", "url": "/agents/logs", "level": 4},
+                    {"name": "导出数据", "url": "/agents/logs", "level": 4}
+                ]},
+                {"name": "返水", "url": "/agents/logs", "level": 3, "menus": [
+                    {"name": "返水列表", "url": "/agents/logs", "level": 4},
+                    {"name": "导出数据", "url": "/agents/logs", "level": 4}
+                ]},
+                {"name": "游戏", "url": "/agents/logs", "level": 3, "menus": [
+                    {"name": "游戏列表", "url": "/agents/logs", "level": 4},
+                    {"name": "导出数据", "url": "/agents/logs", "level": 4}
+                ]},
+                {"name": "输赢调整", "url": "/agents/logs_adjust", "level": 3, "menus": [
+                    {"name": "调整列表", "url": "/agents/logs_adjust", "level": 4},
+                    {"name": "导出数据", "url": "/agents/logs_adjust", "level": 4}
+                ]},
+                {"name": "转代", "url": "/agents/logs_transfer", "level": 3, "menus": [
+                    {"name": "转代列表", "url": "/agents/logs_transfer", "level": 4},
+                    {"name": "导出数据", "url": "/agents/logs_transfer", "level": 4}
+                ]},
+                {"name": "存款", "url": "/agents/logs_deposits", "level": 3, "menus": [
+                    {"name": "存款列表", "url": "/agents/logs_deposits", "level": 4},
+                    {"name": "导出数据", "url": "/agents/logs_deposits", "level": 4}
+                ]},
+                {"name": "登录", "url": "/agents/logs_login", "level": 3, "menus": [
+                    {"name": "登录列表", "url": "/agents/logs_login", "level": 4},
+                    {"name": "导出数据", "url": "/agents/logs_login", "level": 4}
+                ]}
+            ]}
+        ]
+    },
+    {
+        "name": "系统管理",
+        "icon": "layui-icon-windows",
+        "level": 1,
+        "menus": [
+            {"name": "系统账号", "url": "/admins", "level": 2, "menus": [
+                {"name": "系统账号", "url": "/admins", "level": 3, "menus": [
+                    {"name": "系统用户列表", "url": "/admins", "level": 4},
+                    {"name": "系统用户添加", "url": "/admins/create|/admins/save", "level": 4},
+                    {"name": "系统用户修改", "url": "/admins/update|/admins/save", "level": 4},
+                    {"name": "系统用户删除", "url": "/admins/delete", "level": 4},
+                    {"name": "系统用户状态", "url": "/admins/state", "level": 4}
+                ]}
+            ]},
+            {"name": "菜单管理", "url": "/menus", "level": 2, "menus": [
+                {"name": "菜单管理", "url": "/menus", "level": 3, "menus": [
+                    {"name": "菜单管理列表", "url": "/menus", "level": 4},
+                    {"name": "菜单管理添加", "url": "/menus/create|/menus/save", "level": 4},
+                    {"name": "菜单管理修改", "url": "/menus/update|/menus/save", "level": 4},
+                    {"name": "菜单管理删除", "url": "/menus/delete", "level": 4}
+                ]}
+            ]},
+            {"name": "角色管理", "url": "/admin_roles", "level": 2, "menus": [
+                {"name": "角色管理", "url": "/admin_roles", "level": 3, "menus": [
+                    {"name": "角色管理列表", "url": "/admin_roles", "level": 4},
+                    {"name": "角色管理添加", "url": "/admin_roles/create|/admin_roles/save", "level": 4},
+                    {"name": "角色管理修改", "url": "/admin_roles/update|/admin_roles/save", "level": 4},
+                    {"name": "角色管理删除", "url": "/admin_roles/delete", "level": 4}
+                ]}
+            ]},
+            {"name": "访问权限", "url": "/permission_ips", "level": 2, "menus": [
+                {"name": "访问权限", "url": "/permission_ips", "level": 3, "menus": [
+                    {"name": "访问权限列表", "url": "/permission_ips", "level": 4},
+                    {"name": "访问权限添加", "url": "/permission_ips/create|/permission_ips/save", "level": 4},
+                    {"name": "访问权限修改", "url": "/permission_ips/update|/permission_ips/save", "level": 4},
+                    {"name": "访问权限删除", "url": "/permission_ips/delete", "level": 4},
+                    {"name": "访问权限状态", "url": "/permission_ips/state", "level": 4}
+                ]}
+            ]}
+        ]
+    }
+]

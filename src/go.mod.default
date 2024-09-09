@@ -1,0 +1,36 @@
+module sports-admin
+
+go 1.16
+
+require (
+	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
+	github.com/flosch/pongo2 v0.0.0-20200913210552-0d938eb266f3
+	github.com/gin-gonic/gin v1.6.3
+	github.com/go-ole/go-ole v1.2.5 // indirect
+	github.com/go-redis/redis/v7 v7.4.0
+	github.com/go-sql-driver/mysql v1.5.0
+	github.com/go-xorm/xorm v0.7.9
+	github.com/imroc/req v0.3.0
+	github.com/olivere/elastic/v7 v7.0.24
+	github.com/pkg/errors v0.9.1
+	github.com/shirou/gopsutil v3.20.11+incompatible
+	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
+	github.com/smartystreets/goconvey v1.7.0 // indirect
+	github.com/tealeg/xlsx v1.0.5
+	github.com/xuri/excelize/v2 v2.4.1
+	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
+	gopkg.in/ffmt.v1 v1.5.6
+	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
+	gopkg.in/ini.v1 v1.52.0
+	gopkg.in/olahol/melody.v1 v1.0.0-20170518105555-d52139073376
+	pongo2gin v1.3.0
+	sports-common v0.0.0-00010101000000-000000000000
+	sports-models v0.0.0-00010101000000-000000000000
+	xorm.io/builder v0.3.6
+)
+
+replace (
+	pongo2gin v1.3.0 => gitlab.com/go-box/pongo2gin v1.3.0 //
+	sports-common => ../../common/src/
+	sports-models => ../../models/src/
+)

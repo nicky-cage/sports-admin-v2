@@ -1,0 +1,29 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/audit_deposit/save">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">稽核状态</label>
+        <div class="layui-input-inline">
+            <select name="status" lay-verify="required">
+                <option></option>
+                <option value="2">通过</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <textarea name="remark"lay-verify="required"  style="width:190px;height:190px"></textarea>
+        </div>
+    </div>
+    <div class="layui-layout-admin" style="z-index:99;">
+    <input type="hidden" value="{{id}}" name="id" />
+        <input type="hidden" value="1" name="type">
+    <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+        <button type="button" class="layui-btn" lay-submit lay-filter="sp-save" id="sp-submit">立即提交</button>
+        <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+    </div>
+    </div>
+</form>
+{% endblock body %}

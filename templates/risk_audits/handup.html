@@ -1,0 +1,73 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<style type="text/css">
+    .layui-input-inline div { font-size: 12px; }
+</style>
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/risk_audits/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 150px;margin-top: 10px;"><span style="color:red;">*</span> 拒绝原因: </label>
+        <div class="layui-input-inline" style="width: 250px; font-size: 12px;">
+            <input type="radio" name="cause"lay-filter="cb" value="流水不足" title="流水不足" />
+            <div style="position:absolute;top:5px;left:90px;">
+                <div style="float:left;">(差&nbsp</div>
+                <div style="float:left; margin-top: 5px;"><input type="text" name="mon"   placeholder="请输入差额" autocomplete="off" class="layui-input" style="width:97px;height:27px;"></div>
+                <div style="float:left;">)</div>
+            </div>
+            <p><input type="radio" name="cause" lay-filter="cb" value="套利会员" title="套利会员" ></p>
+            <p><input type="radio" name="cause" lay-filter="cb" value="多账号" title="多账号" ></p>
+            <p><input type="radio" name="cause" lay-filter="cb" value="银行卡异常" title="银行卡异常" ></p>
+            <p><input type="radio" name="cause" lay-filter="cb" value="" title="" >
+            <textarea lay-filter="con"  placeholder="请输入原因" style="position:relative;top:-25px;left:30px;" class="layui-textarea context "></textarea>
+            </p>
+        </div>
+    </div>
+    <input type="hidden" name="cause_failure" value="" />
+    <input type="hidden" name="id" value="{{id}}" />
+    <div class="layui-layout-admin" style="z-index:99;">
+        <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+            <button type="button" class="layui-btn risk-hand"  id="sp-submit">立即提交</button>
+            <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+        </div>
+    </div>
+</form>
+<script>
+layui.use(['form', 'jquery', 'layer'], function() {
+
+    let $ = layui.$, form = layui.form;
+
+    form.on("radio(cb)", function (data) {
+        if(data.value!=='') {
+            $("input[name='cause_failure']").val(data.value);
+        }
+    })
+
+    $("input[name='mon']").on("input", function (e) {
+        $("input[name='cause_failure']").val("流水不足差"+e.delegateTarget.value)
+    })
+
+    $(document).on("input propertychange",".context",function(){
+        $("input[name='cause_failure']").val($(".context").val())
+    });
+
+    $(".risk-hand").click(function() {
+        let id=$("input[name='id']").val()
+        let reason =$("input[name='cause_failure']").val()
+        let  arr={"id":id,"failure_reason":reason,"type":"2"}
+        $.ajax({
+            url: "/risk_audits/saves",
+            type: "post",
+            data: JSON.stringify(arr),
+            success:function(data) {
+                if (data.errcode==0) {
+                    layer.msg("已挂起",{icon:1,time:1300},function(){
+                        parent.location.reload();
+                    });
+                } else {
+                    layer.msg("程序错误",{icon:2,time:1300});
+                }
+            }
+        });
+    });
+})
+</script>
+{% endblock body %}

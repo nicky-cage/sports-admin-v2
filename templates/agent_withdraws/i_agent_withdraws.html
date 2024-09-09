@@ -1,0 +1,171 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline" style="width: 395px;">
+                            <label class="layui-form-label">申请时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" style="width: 330px;" id="created_agent_withdraws" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单金额</label>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" name="money_min" placeholder="开始金额" autocomplete="off" class="layui-input" />
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" name="money_max" placeholder="结束金额" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="bill_no" placeholder="请输入订单号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理审核人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="agent_admin" placeholder="请输入风控审核人" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option value="">全部</option>
+                                    <option value="1">处理中</option>
+                                    <option value="2">成功</option>
+                                    <option value="3">失败</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="150" />
+                        <col width="120" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col />
+                        <col width="130" />
+                        <col width="130" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="110" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>订单编号</th>
+                            <th>代理账号</th>
+                            <th>会员等级</th>
+                            <th>订单金额(元)</th>
+                            <th>银行卡信息</th>
+                            <th>申请时间</th>
+                            <th>代理审核完成时间</th>
+                            <th>代理审核人</th>
+                            <th>订单状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" class="agent-w" url="/agent_withdraws">
+                        {% include "_agent_withdraws.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let $ = layui.$
+        let layer = layui.layer;
+        let get_user_info = function (that) { //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $("td:eq(0)", tr).text();
+            return { id: id };
+        };
+        $(document).off("click", ".success");
+        $(document).on("click", ".success", function () {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['800px', '600px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade: 0.4,
+                title: "提款成功确认",
+                content: "/agent_withdraws/success?id=" + info.id
+            });
+        });
+        $(document).off("click", ".failure");
+        $(document).on("click", ".failure", function () {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['800px', '600px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade: 0.4,
+                title: "提款失败确认",
+                content: "/agent_withdraws/failure?id=" + info.id
+            });
+        });
+
+        $(function () {
+            $(".agent-w").attr("url", "/agent_withdraws")
+        });
+    });
+
+    function getCurrDate() {
+        var date = new Date();
+        var sep = "-";
+        var year = date.getFullYear(); //获取完整的年份(4位)
+        var month = date.getMonth() + 1; //获取当前月份(0-11,0代表1月)
+        var day = date.getDate(); //获取当前日
+        if (month <= 9) {
+            month = "0" + month;
+        }
+        if (day <= 9) {
+            day = "0" + day;
+        }
+        var currentdate = year + sep + month + sep + day;
+        return currentdate;
+    }
+</script>

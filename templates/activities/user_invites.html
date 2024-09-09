@@ -1,0 +1,201 @@
+<!-- 搜索框 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账户</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账户" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">推荐账户</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="invite_uname" placeholder="请输入推荐账户" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">首存金额</label>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" name="deposit_amount_min" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 100px;">
+                                <input type="text" name="deposit_amount_max" placeholder="" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">派奖状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option value="">请选择标签</option>
+                                    <option value="1">未处理</option>
+                                    <option value="2">未首充</option>
+                                    <option value="3">不符合</option>
+                                    <option value="4">已派奖</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <span class="rule">
+                    {%if rules.State == 1 %}
+                    <button class="layui-btn layuiadmin-btn-list enable_event" data-type="add">启用活动</button>
+                    {% else %}
+                    <button class="layui-btn layuiadmin-btn-list layui-btn-danger disable_event" data-type="add">停止活动</button>
+                    {% endif %}
+                    </span>
+                    <button class="layui-btn layuiadmin-btn-list layui-btn-normal set_up" data-type="add">规则设置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80">
+                        <col width="100">
+                        <col width="100">
+                        <col width="120">
+                        <col />
+                        <col width="130">
+                        <col width="80">
+                        <col />
+                        <col width="80">
+                        <col width="130">
+                        <col width="80">
+                        <col width="130">
+                        <col width="80">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>会员账号</th>
+                        <th>推荐账号</th>
+                        <th>注册IP</th>
+                        <th>注册地址</th>
+                        <th>注册时间</th>
+                        <th>注册来源</th>
+                        <th>注册设备编号</th>
+                        <th>首存金额</th>
+                        <th>首存时间</th>
+                        <th>推荐奖金</th>
+                        <th>奖金发放时间</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/user_invites">
+                    {% include "_user_invites.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate'], function() {
+        let $ = layui.$
+        let form = layui.form;
+        var laydate = layui.laydate;
+        let get_user_info = function(that) { //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $("td:eq(0)", tr).text();
+            return {id: id};
+        };
+        $(document).off("click", ".set_up");
+        $(document).on("click", ".set_up", function() {
+            layer.open({
+                type: 2,
+                area: ['900px', '600px'],
+                //fix: true, //不固定
+                shade:0.5,
+                title: "规则配置",
+                content: "/user_invites/rule_setting"
+            });
+        });
+        $(document).off("click", ".agree");
+        $(document).on("click", ".agree", function() {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['600px', '500px'],
+                //fix: true, //不固定
+                shade:0.5,
+                title: "通过",
+                content: "/user_invites/agree?id="+info.id
+            });
+        });
+        $(document).off("click", ".refuse");
+        $(document).on("click", ".refuse", function() {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['600px', '500px'],
+                //fix: true, //不固定
+                shade:0.5,
+                title: "拒绝",
+                content: "/user_invites/refuse?id="+info.id
+            });
+        });
+        $(document).off("click", ".enable_event");
+        $(document).on("click", ".enable_event", function() {
+            layer.confirm(
+                "请确认是否启用邀请好友活动? <br />若未检查规则配置，请检查后再开启.",
+                {icon: 3, title: "启用活动"},
+                function() {
+                    sp.post("/user_invites/enable",{"state":2},function(result){
+                        if (result.errcode === 0) {
+                            $(".enable_event").hide();
+                            $(".rule").html('<button class="layui-btn layuiadmin-btn-list layui-btn-danger disable_event" data-type="add">停止活动</button>');
+                            layui.layer.msg("邀请好友活动,启用成功", {icon: 1, timeout: 1000}, function() {
+                            });
+                        }else{
+                            layui.layer.msg("邀请好友活动,启用失败", {icon: 1, timeout: 1000}, function() {
+                            });
+                        }
+                    })
+                }
+            );
+        });
+        $(document).off("click", ".disable_event");
+        $(document).on("click", ".disable_event", function() {
+            layer.confirm(
+                "请确认是否停用邀请好友活动?",
+                {icon: 3, title: "停用活动"},
+                function() {
+                    sp.post("/user_invites/enable",{"state":1},function(result){
+                        $(".disable_event").hide();
+                        $(".rule").html('<button class="layui-btn layuiadmin-btn-list enable_event" data-type="add">启用活动</button>');
+                        if (result.errcode === 0) {
+                            layui.layer.msg("邀请好友活动,停用成功", {icon: 1, timeout: 1000}, function() {
+
+                            });
+                        }else{
+                            layui.layer.msg("邀请好友活动,停用失败", {icon: 1, timeout: 1000}, function() {
+                            });
+                        }
+                    })
+                }
+            );
+        });
+    });
+</script>

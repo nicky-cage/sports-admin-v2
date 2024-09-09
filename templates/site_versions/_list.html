@@ -1,0 +1,16 @@
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{%if r.AppType==1%}安卓{%else%}苹果{%endif%}</td>
+    <td>{%if r.GameType==0%}会员{%else%}代理{%endif%}</td>
+    <td>{{r.Versions}}</td>
+    <td>{{r.Promotion}}</td>
+    <td>{{r.UpdatedLog}}</td>
+    <td>{{r.UpdatedUrl}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>{%if r.Must==1%}不强制{%else%}强制{%endif%}</td>
+    <td>
+        <button class="layui-btn sp-open-link" rid="{{r.Id}}" url="/version/updated" area="800px,600px" title="版本配置修改" tab="5">修改</button>
+        <button class="layui-btn sp-btn-delete layui-btn-danger" url="/version/delete" rid="{{r.Id}}" tab="5">删除</button>
+    </td>
+</tr>
+{%endfor%}

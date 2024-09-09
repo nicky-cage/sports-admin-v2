@@ -1,0 +1,92 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="#">
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">代理账号</label>
+            <div class="layui-input-inline">
+                <input type="text" id="username" disabled style="background-color: transparent; border: 0" value="{{r.username}}" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 手机账号 </label>
+            <div class="layui-input-inline">
+                <input type="text" id="phone" disabled style="background-color: transparent; border: 0" value="{{r.phone}}" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+        </div>
+        <div class="layui-col-lg6">
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> QQ</label>
+            <div class="layui-input-inline">
+                <input type="text" id="qq" disabled value="{{r.qq}}" style="background-color: transparent; border: 0" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 代理类型</label>
+            <div class="layui-input-inline">
+                <input type="text" id="type" disabled value="{%if r.agent_type == '1' %}官方代理{%elif r.agent_type == '2' %}总代{%elif r.agent_type == '3' %}招商代理{%else%}普通代理{%endif%}"
+                    style="background-color: transparent; border: 0" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg12">
+            <label class="layui-form-label"> 专属链接</label>
+            <div class="layui-input-inline">
+                <input type="text" id="onlylink" disabled value="{{r.user_only_link}}" style="background-color: transparent; border: 0" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 最后登录IP</label>
+            <div class="layui-input-inline">
+                <input type="text" id="lastip" disabled value="{{r.last_login_ip}}" style="background-color: transparent; border: 0" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 注册登录IP</label>
+            <div class="layui-input-inline">
+                <input type="text" id="resgip" disabled value="{{r.register_ip}}" style="background-color: transparent; border: 0" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 真实姓名</label>
+            <div class="layui-input-inline">
+                <input type="text" id="realname" disabled value="{{r.realname}}" style="background-color: transparent; border: 0" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 邮箱地址</label>
+            <div class="layui-input-inline">
+                <input type="text" id="email" disabled value="{{r.email}}" style="background-color: transparent; border: 0" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg12">
+            <label class="layui-form-label"> 合营代码</label>
+            <div class="layui-input-inline">
+                <input type="text" id="join" disabled value="{{r.partner_code}}" style="background-color: transparent; border: 0" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg12">
+            <label class="layui-form-label"> 推广链接</label>
+            <div class="layui-input-inline">
+                <input type="text" id="selllink" disabled value="{{r.user_link}}" style="background-color: transparent; border: 0" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock body %}

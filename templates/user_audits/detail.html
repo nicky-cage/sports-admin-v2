@@ -1,0 +1,245 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+{%set totalDeduct = totalManageFee -%}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item" style="line-height: 20px;">
+                        <div class="layui-inline"> 用户名称: {{user.Username}} &nbsp; |</div>
+                        <div class="layui-inline"> 用户等级: {{user.Vip|platform_wrap:PLATFORM|user_level}} &nbsp; |</div>
+                        <div class="layui-inline"> 上级代理: {{user.TopName}} &nbsp; |</div>
+                        <div class="layui-inline"> 注册时间: {{user.Created|datetime}} &nbsp; |</div>
+                        <div class="layui-inline"> 最后登录时间: {{user.LastLoginAt|datetime}}</div>
+                        <br/>
+                        <div class="layui-inline"> 存款/提款次数: <span style="color:green">{{totalDepositCount}}</span> /
+                            <span style="color:red">{{totalWithdrawCount}}</span> &nbsp; |
+                        </div>
+                        <div class="layui-inline"> 存款/提款总额/差: <span style="color:green">{{totalDeposit|stringformat:'%.2f'}}</span> /
+                            <span style="color:red">{{totalWithdraw|stringformat:'%.2f'}}</span> /
+                            {%if totalPro > 0.0-%}<span style="color:green">{{totalPro|stringformat:'%.2f'}}</span>
+                            {%elif totalPro < 0.0 -%}<span style="color:red">{{totalPro|stringformat:'%.2f'}}</span>
+                            {%else -%}
+                            <del>0.00</del>
+                            {%endif-%} &nbsp;|
+                        </div>
+                        <div class="layui-inline"> 最后存款: {{depositLastTime}} &nbsp;|</div>
+                        <div class="layui-inline"> 最后提款: {{withdrawLastTime}}</div>
+                        <br/>
+                        <div class="layui-inline"> 稽核开始时间: {{lastWithdraw}} &nbsp; |</div>
+                        <div class="layui-inline"> 稽核记录: {{totalRows}} &nbsp; |</div>
+                        <div class="layui-inline"> 稽核流水: {{totalFlowNeed|stringformat:'%.2f'}} &nbsp; |</div>
+                        <div class="layui-inline"> 完成稽核: {{totalFlowCurrent|stringformat:'%.2f'}} &nbsp; |</div>
+                        <div class="layui-inline"> 流水缺额: {%if totalFlowLeft > 0 %}<span class="red">{{totalFlowLeft|stringformat:'%.2f'}}</span>
+                            {%else%}
+                            <del class="green">{{totalFlowLeft|stringformat:'%.2f'}}</del>
+                            {%endif%} &nbsp; |
+                        </div>
+                        <div class="layui-inline"> 行政费率: {{manageFeeRate|stringformat:'%.2f'}}% &nbsp; |</div>
+                        <div class="layui-inline"> 总计扣除: {%if totalDeduct > 0 %}<span class="red">{{totalDeduct|stringformat:'%.2f'}}</span>
+                            {%else%}
+                            <del class="green">{{totalDeduct|stringformat:'%.2f'}}</del>
+                            {%endif-%}
+                        </div>
+                        {% if isWarn -%}
+                        <br/>
+                        <div class="layui-inline">
+                            <span class="layui-badge">*** 警告: 此用户稽核信息异常, 请仔细核实用户稽核记录是否来源于 活动/VIP等级调整/调整 ***</span>
+                        </div>
+                        {%endif -%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60"/>
+                        <col width="130"/>
+                        <col width="80"/>
+                        <col/>
+                        <col width="70"/>
+                        <col width="80"/>
+                        <col width="80"/>
+                        <col width="80"/>
+                        <col width="80"/>
+                        <col width="80"/>
+                        <col width="80"/>
+                        <col width="90"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>存款时间</th>
+                        <th>存款金额</th>
+                        <th>存款类型</th>
+                        <th>流水倍数</th>
+                        <th>所需流水</th>
+                        <th>完成流水</th>
+                        <th>当前流水</th>
+                        <th>行政费用</th>
+                        <th>优惠金额</th>
+                        <th>优惠扣除</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%for r in rows %}
+                    <tr>
+                        <td>{{forloop.Counter}}</td>
+                        <td>{{r.AuditTime|datetime}}</td>
+                        <td>{{r.DepositMoney|stringformat:'%.2f'}}</td>
+                        <td>{{r.Remark}}</td>
+                        <td>{{r.AuditMultiple}}.00</td>
+                        <td rvalue="{{r.FlowNeed|stringformat:'%.2f'}}">{{r.FlowNeed|stringformat:'%.2f'}}</td>
+                        <td>
+                            {%if r.ValidBet >= r.FlowNeed -%}
+                            <div class="green">
+                                <del>{{r.ValidBet|stringformat:'%.2f'}}</del>
+                            </div>
+                            {%else-%}
+                            <div class="red">{{r.ValidBet|stringformat:'%.2f'}}</div>
+                            {%endif-%}
+                        </td>
+                        <td>{{r.ValidNext|stringformat:'%.2f'}}</td>
+                        <td>
+                            {% if r.ManageFee > 0.0 -%}
+                            <span style="color:red">{{r.ManageFee|stringformat:'%.2f'}}</span>
+                            {% else -%}
+                            {{r.ManageFee|stringformat:'%.2f'}}
+                            {%endif -%}
+                        </td>
+                        <td rvalue="{{r.DiscountMoney|stringformat:'%.2f'}}">{{r.DiscountMoney|stringformat:'%.2f'}}</td>
+                        <td rvalue="{{r.DiscountDeduct|stringformat:'%.2f'}}">{{r.DiscountDeduct|stringformat:'%.2f'}}</td>
+                        <td>
+                            <button class="layui-btn audit-update" rid="{{r.Id}}" rvalue="1" type="button">修改</button>
+                            <button class="audit-delete layui-btn layui-btn-danger" rid="{{r.Id}}" type="button">删除</button>
+                        </td>
+                    </tr>
+                    {%endfor%}
+                    <tr>
+                        <td colspan="2">总计(稽核)</td>
+                        <td>{{totalMoney|stringformat:'%.2f'}}</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>{{totalFlowNeed|stringformat:'%.2f'}}</td>
+                        <td class="{%if totalFlowCurrent >= totalFlowNeed-%}green{%else-%}red{%endif-%}">
+                            {{totalFlowCurrent|stringformat:'%.2f'}}
+                        </td>
+                        <td></td>
+                        <td totalManageFeeCal {%if> 0 -%}class="red"{%endif-%}>{{info.TotalManageFeeCal|stringformat:'%.2f'}}</td>
+                        <td totalDiscount {%if> 0 -%}class="green"{%endif-%}}>{{totalDiscount|stringformat:'%.2f'}}</td>
+                        <td totalDiscountDeduct {%if> 0 -%}class="red"{%endif-%}>{{info.TotalDiscountDeductCal|stringformat:'%.2f'}}</td>
+                        <td>--</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">总计(如果提款, 则扣除 = 行政费用 + 优惠扣除)</td>
+                        <td colspan="4" totalDeduct {%if> 0%}class="red"{%endif-%}>
+                            {{totalDeduct|stringformat:'%.2f'}} = {{info.TotalManageFeeCal|stringformat:'%.2f'}} + {{totalDiscountDeduct|stringformat:'%.2f'}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery'], function () {
+        let $ = layui.jquery;
+        // 删除稽核信息
+        $(document).on("click", ".audit-delete", function () {
+            let that = $(this), id = that.attr("rid");
+            if (!id) {
+                sp.alert("无法获取用户编号信息");
+                return;
+            }
+            let url = "/user_audits/delete?id=" + id + "&user_id={{userID}}";
+            $.post(url, {id: id, user_id: "{{userID}}"}, function (result) {
+                if (result.errcode != 0) {
+                    sp.alert(result.message);
+                    return;
+                }
+                sp.alertSuccess("稽核信息删除成功", function () {
+                    location.reload();
+                });
+            });
+        });
+
+        // 修改稽核信息
+        $(document).on("click", ".audit-update", function () {
+            let that = $(this), id = that.attr("rid"), tr = that.parent().parent();
+            let flow_need = $("td:eq(5)", tr), discount_deduct = $("td:eq(10)", tr);
+            if (that.attr("rvalue") == "1") { // 如果是修改, 则转换为提交
+                that.attr("rvalue", "2");
+                that.html("确认");
+
+                let flow_need_now = flow_need.text(), discount_deduct_now = discount_deduct.text(); // 当前所需流水 - 当前优惠扣除
+                flow_need.html("<input type='text' style='width:88px;display:block;' class='layui-input' placeholder='请输入稽核所需流水' value='" + flow_need_now + "' />");
+                discount_deduct.html("<input type='text' style='width:68px;display:block;' class='layui-input' placeholder='请输入稽核优惠扣除' value='" + discount_deduct_now + "' />");
+                return;
+            }
+
+            if (!id) {
+                sp.alert("无法获取用户编号信息");
+                return;
+            }
+            let flow_need_new = $("input:first", flow_need).val(), flow_need_old = flow_need.attr("rvalue");
+            let discount_deduct_new = $("input:first", discount_deduct).val(), discount_deduct_old = discount_deduct.attr("rvalue");
+            if (!flow_need_new || !flow_need_old || !discount_deduct_new || !discount_deduct_old) {
+                sp.alert("无法获取修后后的稽核相关信息");
+                return;
+            }
+            if (isNaN(flow_need_new) || isNaN(flow_need_old) || isNaN(discount_deduct_new) || isNaN(discount_deduct_old)) {
+                sp.alert("输入数据格式有误")
+                return;
+            }
+
+            flow_need_old = parseFloat(flow_need_old).toFixed(2), discount_deduct_old = parseFloat(discount_deduct_old).toFixed(2);
+            flow_need_new = parseFloat(flow_need_new).toFixed(2), discount_deduct_new = parseFloat(discount_deduct_new).toFixed(2);
+            if (flow_need_new == flow_need_old && discount_deduct_new == discount_deduct_old) {
+                sp.alert("稽核相关信息的值没有变动");
+                flow_need.text(flow_need_old);
+                discount_deduct.text(discount_deduct_old);
+                that.attr("rvalue", "1");
+                that.html("修改");
+                return;
+            }
+
+            let url = "/user_audits/update?id=" + id + "&user_id={{userID}}";
+            let icon = {icon: 7, title: "修改稽核"};
+            let message = "你确定要修改此条稽核记录么?<br /><br />" +
+                (flow_need_new != flow_need_old ? "所需流水将由 " + flow_need_old + " 改为 <span class='red'>" + flow_need_new + "</span><br />" : "") +
+                (discount_deduct_new != discount_deduct_old ? "优惠扣除将由 " + discount_deduct_old + " 改为 <span class='red'>" + discount_deduct_new + "</span><br />" : "") +
+                "<br /><span class='red'>警告: 此项操作将影响用户提款费用计算!";
+            layui.layer.confirm(message, icon, function () {
+                let data = {
+                    id: id,
+                    flow_old: flow_need_old,
+                    flow: flow_need_new,
+                    time: (new Date()).getMilliseconds(),
+                    user_id: "{{userID}}",
+                    discount: discount_deduct_old,
+                    discount_deduct: discount_deduct_new
+                }
+                $.post(url, data, function (result) {
+                    if (result.errcode != 0) {
+                        sp.alert(result.message);
+                        return;
+                    }
+                    sp.alertSuccess("稽核信息修改成功", function () {
+                        location.reload();
+                    });
+                });
+            });
+        });
+
+    });
+</script>
+{% endblock body %}

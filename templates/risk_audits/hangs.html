@@ -1,0 +1,150 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col width="120" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="130" />
+                        <col width="120" />
+                        <col />
+                        <col width="80" />
+                        <col width="105" />
+                        <col width="130" />
+                        <col withd="150" />
+                        <col width="130" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>订单编号</th>
+                        <th>会员账号</th>
+                        <th>会员等级</th>
+                        <th>提款金额</th>
+                        <th>行政费用</th>
+                        <th>申请时间</th>
+                        <th>会员标签</th>
+                        <th>银行卡信息</th>
+                        <th>最后存款</th>
+                        <th>系统审核结果</th>
+                        <th>挂起时间</th>
+                        <th>挂起原因</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="syslist"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="layui-bg-green" />
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item" >
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="bill_no" placeholder="请输入订单编号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">申请时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请选择状态" autocomplete="off" readonly="readonly"  id="risk-list" class="layui-input sp-form-date">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">提款姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="bank_real_name" placeholder="请输入提款姓名" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">提款金额</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="money" placeholder="请输入提款金额" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <input type="hidden" name="type" value="2">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员等级</label>
+                            <div class="layui-input-inline">
+                                <select name="vip">
+                                    <option value="">请选择VIP等级</option>
+                                    {%for v in vipLevels %}
+                                    <option value="{{v.Id}}">{{v.Name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" type="button" lay-submit lay-filter="risk-list-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col width="120" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="130" />
+                        <col width="120" />
+                        <col />
+                        <col width="80" />
+                        <col width="105" />
+                        <col width="130" />
+                        <col width="150" />
+                        <col width="50" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>订单编号</th>
+                        <th>会员账号</th>
+                        <th>会员等级</th>
+                        <th>提款金额</th>
+                        <th>行政费用</th>
+                        <th>申请时间</th>
+                        <th>会员标签</th>
+                        <th>银行卡信息</th>
+                        <th>最后存款</th>
+                        <th>系统审核结果</th>
+                        <th>挂起时间</th>
+                        <th>挂起原因</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="hand-tbody" id="hand-tbody" loaded="loaded">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

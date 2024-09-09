@@ -1,0 +1,109 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">所属代理</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="top_name" placeholder="请输入所属代理" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员等级</label>
+                            <div class="layui-input-inline">
+                                <select name="vip">
+                                    <option></option>
+                                    <option value="1">VIP0</option>
+                                    <option value="2">VIP1</option>
+                                    <option value="3">VIP2</option>
+                                    <option value="4">VIP3</option>
+                                    <option value="5">VIP4</option>
+                                    <option value="6">VIP5</option>
+                                    <option value="7">VIP6</option>
+                                    <option value="8">VIP7</option>
+                                    <option value="9">VIP8</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员标签</label>
+                            <div class="layui-input-inline">
+                                <select name="label">
+                                    <option></option>
+                                    {%for v in tags%}
+                                    <option value="{{v.category_id}}|{{v.id}}">{{v.name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">操作时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="off" autocomplete="off" readonly="readonly" id="created" class="layui-input sp-form-date">
+
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="150" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="165" />
+                        <col width="200" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员/代理账号</th>
+                            <th>所属代理</th>
+                            <th>会员等级</th>
+                            <th>会员标签</th>
+                            <th>输赢调整</th>
+                            <th>操作人</th>
+                            <th>操作时间</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%include "_adjust.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

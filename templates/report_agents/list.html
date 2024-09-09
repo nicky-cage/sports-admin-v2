@@ -1,0 +1,120 @@
+{% extends "../layouts/base.html" %} {% block body %}
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" class="layui-input sp-form-datetime" placeholder="" name="created" id="created_report_users" style="width: 300px" />
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-left: 150px">
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-normal sp-set-datetime" bind_to="created_report_users" period="today">本日</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary sp-set-datetime" bind_to="created_report_users" period="yesterday">昨天</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary sp-set-datetime" bind_to="created_report_users" period="this_week">本周</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary sp-set-datetime" bind_to="created_report_users" period="last_week">上周</button>
+                            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm sp-set-datetime" bind_to="created_report_users" period="this_month">本月</button>
+                            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm sp-set-datetime" bind_to="created_report_users" period="last_month">上月</button>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <!--<div class="layui-inline">
+                            <label class="layui-form-label">代理账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入所属代理账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理类型</label>
+                            <div class="layui-input-inline">
+                                <select name="label">
+                                    <option value=""></option>
+                                    <option value="0">普通代理</option>
+                                    <option value="1">官方代理</option>
+                                </select>
+                            </div>
+                        </div>-->
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{STATIC_URL}}/js/date-range-util.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}/js/date-set.js"></script>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="160" />
+                        <!--<col width="100">-->
+                        <col />
+                        <!--<col width="100">-->
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>统计日期</th>
+                            <!--<th>代理编号</th>-->
+                            <th>代理账号</th>
+                            <!--<th>代理类型</th>-->
+                            <th>注册人数</th>
+                            <th>活跃人数</th>
+                            <th>存款人数</th>
+                            <th>首存人数</th>
+                            <th>提款人数</th>
+                            <th>存款金额</th>
+                            <th>首存金额</th>
+                            <th>提款金额</th>
+                            <th>有效投注</th>
+                            <th>总输赢</th>
+                            <th>红利</th>
+                            <th>反水</th>
+                            <th>输赢调整</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/report_agents" loaded="loaded">
+                        {% include "_list.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

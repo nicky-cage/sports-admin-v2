@@ -1,0 +1,85 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/user_bets/save_do">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 120px;">场馆名称</label>
+        <div class="layui-input-inline">
+            <select name="game_venus" id="game_venus" lay-verify="required" lay-search="">
+                {% for r in rows %}
+                <option value="{{r.Code}}">{{r.Name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 120px;">补单时间区间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="replenishment_time" id="replenishment_time" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" style="width: 330px;" id="created_replenishment" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-inline" style="margin-left: 125px;margin-bottom: 10px;margin-top: 10px;width: 300px;">
+            <button class="layui-btn" id="submit-button" lay-submit  lay-filter="submit_data">确定</button>
+            <button class="layui-btn layui-btn-primary sp-btn-cancel">取消</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate','jquery'], function() {
+        let $ = layui.jquery;
+        let form = layui.form;
+        let laydate = layui.laydate;
+        form.on('submit(submit_data)', function(data) {
+            layer.confirm("您确定要手动补单吗？\n" +
+                "\n" +
+                "如果频繁使用手动补单，将会造成服务器压力过大而崩溃，请谨慎操作", {icon: 3}, function(index) {
+                let game_venus=$("#game_venus").val();
+                let replenishment_time=$("#replenishment_time").val();
+                let sub={"game_venus":game_venus,"replenishment_time":replenishment_time};
+                $(".layui-layer-btn0").addClass("layui-btn-disabled").attr('disabled', 'disabled').html("正在处理");
+                /*sp.post("/user_bets/save_do", sub, function(result) {
+                    if (result.errcode === 0) {
+                        layui.layer.msg("操作成功", {icon: 1, timeout: 1000}, function() {
+                            let index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                            parent.layer.close(index);
+                        });
+                    }else{
+                        layui.layer.msg("操作失败", {icon: 1, timeout: 1000}, function() {
+                            let index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                            parent.layer.close(index);
+                        });
+                    }
+                });*/
+                $.ajax({
+                    url:"/user_bets/save_do",
+                    type:"post",
+                    data:JSON.stringify(sub),
+                    success:function(result){
+                        $(".layui-layer-btn0").removeClass("layui-btn-disabled").removeAttr('disabled').html("确定");
+                        if (result.errcode === 0) {
+                            layui.layer.msg(result.message, {icon: 1, timeout: 1000}, function() {
+                                let index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                                parent.layer.close(index);
+                            });
+                        }else{
+                            layui.layer.msg(result.message, {icon: 5, timeout: 1000}, function() {
+                                let index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                                parent.layer.close(index);
+                            });
+                        }
+                    },error:function(){
+                        $(".layui-layer-btn0").removeClass("layui-btn-disabled").removeAttr('disabled').html("确定");
+                        layui.layer.msg("提交异常", {icon: 5, timeout: 1000}, function() {
+                            let index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                            parent.layer.close(index);
+                        });
+                    }
+                });
+            });
+            return false;
+        });
+    });
+</script>
+{% endblock body %}

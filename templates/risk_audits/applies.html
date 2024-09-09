@@ -1,0 +1,389 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/created", 4) -%}
+                <button area="500px,440px" class="layui-btn sp-open-link layui-btn-danger" data-type="add" title="风控条件设置" url="/risk_audits/created">风控条件设置</button>
+                {%endif -%}
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/export", 4) -%}
+                <button class="layui-btn layuiadmin-btn-list sp-export-excel" data-type="export" url="/risk_audits/export">导出EXecl</button>
+                {%endif -%}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="130" />
+                        <col width="120" />
+                        <col />
+                        <col width="80" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="130" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>订单编号</th>
+                            <th>会员账号</th>
+                            <th>会员等级</th>
+                            <th>提款金额</th>
+                            <th>行政费用</th>
+                            <th>实需出款</th>
+                            <th>申请时间</th>
+                            <th>会员标签</th>
+                            <th>银行卡信息</th>
+                            <th>最后存款</th>
+                            <th>稽核</th>
+                            <th>系统审核结果</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sys" id="sp-loaded-table" loaded="loaded" style="text-align: center" url="/risk_audits">
+                        {%include "_applies.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="layui-bg-green" />
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单编号</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" name="bill_no" placeholder="请输入订单编号" type="text" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" name="username" placeholder="请输入会员账号" type="text" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">申请时间</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input sp-form-date" id="withdraw-created" name="created" placeholder="请选择状态" readonly="readonly" type="text" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">提款姓名</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" name="bank_real_name" placeholder="请输入提款姓名" type="text" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">提款金额</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" name="money" placeholder="请输入提款金额" type="text" />
+                            </div>
+                        </div>
+                        <input name="type" type="hidden" value="1" />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员等级</label>
+                            <div class="layui-input-inline">
+                                <select name="vip">
+                                    <option value="">请选择VIP等级</option>
+                                    {%for v in vipLevels %}
+                                    <option value="{{v.Id}}">{{v.Name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">提款类型</label>
+                            <div class="layui-input-inline">
+                                <select name="wallet_id">
+                                    <option value="">请选择提款类型</option>
+                                    <option value="1">银行卡提款</option>
+                                    <option value="2">虚拟币提款</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-filter="risk-search" lay-submit type="button">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn layuiadmin-btn-list layui-btn-danger" lay-filter="LAY-app-contlist-search" lay-submit>
+                                <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <form class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">自动刷新</label>
+                            <div class="layui-input-inline" id="auto-refresh">
+                                <input lay-filter="auto-timer" lay-skin="switch" lay-text="开启|关闭" name="auto_refresh" title="是" type="checkbox" value="1" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">刷新间隔</label>
+                            <div class="layui-input-inline">
+                                <select id="refresh-interval" lay-filter="auto-seconds" name="refresh_interval" style="width:180px">
+                                    <option value="5">05  秒</option>
+                                    <option value="10">10  秒</option>
+                                    <option value="15">15  秒</option>
+                                    <option value="20">20  秒</option>
+                                    <option value="25">25  秒</option>
+                                    <option value="30">30  秒</option>
+                                    <option value="35">35  秒</option>
+                                    <option value="40">40  秒</option>
+                                    <option value="45">45  秒</option>
+                                    <option value="50">50  秒</option>
+                                    <option value="55">55  秒</option>
+                                    <option value="60">60  秒</option>
+                                    <option value="120">120 秒</option>
+                                    <option value="180">180 秒</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="130" />
+                        <col width="120" />
+                        <col />
+                        <col width="80" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="130" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>订单编号</th>
+                            <th>会员账号</th>
+                            <th>会员等级</th>
+                            <th>提款金额</th>
+                            <th>行政费用</th>
+                            <th>实需出款</th>
+                            <th>申请时间</th>
+                            <th>会员标签</th>
+                            <th>银行卡信息</th>
+                            <th>最后存款</th>
+                            <th>稽核</th>
+                            <th>系统审核结果</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="to risk_audits_list" id="sp-loaded-table2" loaded="loaded" url="/risk_audits/receive?type=1"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+layui.use(['form', 'jquery', 'layer'], function() {
+
+    let $ = layui.$, layer = layui.layer, form = layui.form;
+    let riskAuditList = $(".risk_audits_list:first");
+    let refreshTimer = null; // 刷新定时器
+    let fetchData_1 = function() { // 待审核列表 - 自动刷新获取数据
+        riskAuditList.empty();
+        if (refreshTimer != null) { // 只要自动刷新才显示以下界面
+            layer.open({
+                title:false,
+                content:  '<div style="width:100%;text-align:center;">正在刷新待审核提款列表 ...</div>',
+                btn:false,
+                time:700,
+                closeBtn:0,
+            });
+        }
+        $.get("/risk_audits/receive", {"type": 1, "created": $("#withdraw-created").val()}, function(res) {
+            riskAuditList.append(res);
+            sp.loadPager('sp-loaded-table2');
+            $("#sp-loaded-table2").attr("loaded", "loaded"); // 防止自动安分页进行刷新
+            sp.parseMoney();
+        });
+        sp.parseMoney();
+    };
+    let fetchData_2 = function() { //
+        $.get("/risk_audits/receive", {"type": 2}, function(res) {
+            $(".hand-tbody:first").empty();
+            $(".hand-tbody:first").append(res);
+            sp.loadPager('hand-tbody');
+            $("#hand-tbody").attr("loaded", "loaded"); // 防止自动安分页进行刷新
+            sp.parseMoney();
+        });
+        sp.parseMoney();
+    };
+    fetchData_1();
+    let autoRefresh = function() { // 检测并开启自动刷新功能
+        if (refreshTimer != null) {
+            clearInterval(refreshTimer); // 先停止原来的计时器
+        }
+        let interval = $("#refresh-interval").val(); // 自动刷新间隔时间
+        refreshTimer = setInterval(function() {
+            fetchData_1();
+        }, interval * 1000);
+    };
+    form.on("switch(auto-timer)", function(data) {
+        let checked = data.elem.checked;
+        if (checked) { // 如果选定是要自动刷新
+            autoRefresh();
+        } else if (refreshTimer != null) {
+            clearInterval(refreshTimer);
+        }
+    });
+    form.on("select(auto-seconds)", function(data) {
+        autoRefresh();
+    });
+
+    // 待审核列表 - 领取
+    $(".to").on("click",".rece", function() {
+        let id = $(this).attr("id"),  user = $(this).attr("username");
+        let bill = $(this).attr("bill_no"), vip = $(this).attr("vip"), lastMoney = $(this).attr("last_money");
+        let ts = $(this), arr = {"id":id,"username":user,"bill_no":bill};
+        let re = function() { // 将底部数据列表当中的数据, 点击领取之后, 附加到上部数据当中
+            let html = '<tr>';
+            for (let i = 1;i <= 11; i++) {
+                html += '<td>' + ts.parent().parent().find("td:nth-child(" + i + ")").html() + '</td>';
+            }
+            html += '<td>-</td>';
+            html += '<td><button class="layui-btn layuiadmin-btn-list  sp-open-link" url="/risk_audits/detail" title="审核通过" area="700px,480px" rid="'+
+                    id+'&last_money='+lastMoney+'&vip='+vip+'&sys_result=-" data-type="add">通过</button>\n' +
+                ' <button class="layui-btn layuiadmin-btn-list layui-btn-danger  sp-open-link" url="/risk_audits/refuse" title="拒绝"  area="700px,490px"  rid="'+
+                    id+'&last_money='+lastMoney+'&vip='+vip+'&sys_result=-"  data-type="add">拒绝</button>\n' +
+                ' <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-open-link"  url="/risk_audits/hand_up" title="审核挂起"  area="700px,490px" rid="'+
+                    id+'" data-type="add">挂起</button>\n' +
+                '</td>' +
+            '</tr>';
+            $(".sys").prepend(html);
+            ts.parent().parent().remove();
+            // account();
+        };
+        $.ajax({ // 保存领取
+            url:"/risk_audits/receive_save",
+            type:"post",
+            data:JSON.stringify(arr),
+            success:function(data) {
+                re();
+                layer.open({
+                    title: false,
+                    content: '<div style="width:100%;text-align:center;"><b>' + data.data + '</b></div>',
+                    time: 1000,
+                    btn: false,
+                    closeBtn: 0
+                });
+            }
+        });
+    });
+    // 待审核列表 - 搜索
+    form.on("submit(risk-search)", function(data) { // 提交搜索
+        fetchData_1();
+    });
+
+    // 审核挂起列表 - 领取
+    $(".hand-tbody").on("click", ".rece", function(){
+        let id = $(this).attr("id");
+        let user = $(this).attr("username");
+        let bill = $(this).attr("bill_no");
+        let ts = $(this);
+        let vip = $(this).attr("vip");
+        let lastMoney = $(this).attr("last_money");
+        let arr = {"id": id, "username": user, "bill_no": bill};
+        function re() {
+            let html = '';
+            html = html + '<tr>';
+            for (let i = 1; i <= 12; i++) {
+                html = html+'<td>' + ts.parent().parent().find("td:nth-child("+i+")").html() + '</td>'
+            }
+            html = html + '<td>' +
+                '<button class="layui-btn sp-open-link" url="/risk_audits/detail" title="审核通过" area="700px,470px" ' +
+                    'rid="'+id+'&last_money='+lastMoney+'&vip='+vip+'&sys_result=-" tab="1" data-type="add">通过</button>\n' +
+                '<button class="layui-btn layui-btn-danger sp-open-link" url="/risk_audits/refuse" title="拒绝"  area="700px,490px" ' +
+                    'rid="'+id+'&last_money='+lastMoney+'&vip='+vip+'&sys_result=-"  tab="1" data-type="add">拒绝</button>\n' +
+                '<button class="layui-btn layui-btn-danger sp-open-link"  url="/risk_audits/hand_up" title="审核挂起"  area="700px,470px" ' +
+                    'rid="'+id+'"  tab="1" data-type="add">挂起</button>\n' +
+                '</td>';
+            html = html + '</tr>';
+            $(".syslist").prepend(html);
+            ts.parent().parent().remove();
+        }
+
+        $.ajax({
+            url:"/risk_audits/receive_save",
+            type:"post",
+            data:JSON.stringify(arr),
+            success:function(data){
+                re();
+                layer.open({
+                    title: false,
+                    content: '<div style="width:100%;text-align:center;"><b>' + data.data + '</b></div>',
+                    time: 1000,
+                    btn: false,
+                    closeBtn: 0
+                });
+            }
+        });
+    });
+
+    // 更新稽核信息
+    $(document).on('click', '.audit-sync', function() { 
+        let that = $(this), url = that.attr("url"), message = "确定要刷新此提款申请稽核信息么?<br />" + 
+            "<span style='color: red'>如果刷新稽核信息: </span><br />" +
+            "1. 重新计算用户此次提款申请的稽核记录<br />" + 
+            "2. 重新计算此次提款所需流水/行政费用<br />";
+        sp.confirm(message, function() { 
+            sp.get(url, function(result) { 
+                if (result.errcode != 0) { 
+                    sp.alert(result.message);
+                    return
+                }
+                let tr = that.parent().parent(), 
+                    withdrawCost = $(".withdraw_cost:first", tr), 
+                    actualMoney = $(".actual_money:first", tr),
+                    data = result.data;
+                withdrawCost.html(data.withdraw_cost);
+                actualMoney.html(data.actual_money);
+                sp.alertSuccess("操作成功", function() { 
+                    layer.closeAll();
+                });
+            });
+        });
+    });
+
+    // 审核挂起列表 - 搜索
+    form.on("submit(risk-list-search)", function(data) { // 提交搜索
+        fetchData_2();
+    });
+});
+</script>

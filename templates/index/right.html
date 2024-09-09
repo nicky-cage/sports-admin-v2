@@ -1,0 +1,101 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md8">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md6">{%include "_right_shorts.html"%}</div>
+            <div class="layui-col-md6">{%include "_right_items.html"%}</div>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">数据概览</div>
+                    <div class="layui-card-body">
+                        <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
+                            <div carousel-item id="LAY-index-dataview">
+                                <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md4">
+        <div class="layui-card" style="margin-bottom: 10px">
+            <div class="layui-card-header">登录信息</div>
+            <div class="layui-card-body layui-text">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="180" />
+                        <col />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td>用户编号/名称/昵称</td>
+                            <td>{{admin.Id}} / {{admin.Name}} / {{row.Nickname}}</td>
+                        </tr>
+                        <tr>
+                            <td>用户角色/权限</td>
+                            <td>{{role.id}} / {{role.name}}</td>
+                        </tr>
+                        <tr>
+                            <td>账号注册时间</td>
+                            <td>{{row.Created|datetime}}</td>
+                        </tr>
+                        <tr>
+                            <td>最后登录时间</td>
+                            <td>{{row.LastLogin|datetime}}</td>
+                        </tr>
+                        <tr>
+                            <td>最后登录IP</td>
+                            <td>{{row.LastIp}} - {{row.LastIp|ip_area}}</td>
+                        </tr>
+                        <tr>
+                            <td>登录次数总计</td>
+                            <td>{{row.LoginCount}}</td>
+                        </tr>
+                        <tr>
+                            <td>当前IP地址</td>
+                            <td><span id="play-audio">Real:</span>{{currentIP}} - {{currentIP|ip_area}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="layui-card-header">昨日效果报告</div>
+            <div class="layui-card-body layadmin-takerates">
+                <div class="layui-progress" lay-showPercent="yes">
+                    <h3>转化率（新人存款: {{deposit_count}} / 新人注册: {{reg_count}} ) <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>）</h3>
+                    <div class="layui-progress-bar" lay-percent="{{trans_rate}}%"></div>
+                </div>
+                <div class="layui-progress" lay-showPercent="yes">
+                    <h3>
+                        提存率（提款金额: {{withdraw_total|stringformat:'%.2f'}} / 存款金额: {{deposit_total|stringformat:'%.2f'}} )
+                        <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）
+                    </h3>
+                    <div class="layui-progress-bar" lay-percent="{{dw_rate}}%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="layui-card-header">实时监控</div>
+            <div class="layui-card-body layadmin-takerates">
+                <div class="layui-progress" lay-showPercent="yes">
+                    <h3 id="cpu-info">CPU使用率</h3>
+                    <div class="layui-progress-bar" lay-percent="50%" id="cpu-avg"></div>
+                </div>
+                <div class="layui-progress" lay-showPercent="yes">
+                    <h3 id="mem-info">内存占用率</h3>
+                    <div class="layui-progress-bar layui-bg-red" lay-percent="50%" id="mem-avg"></div>
+                </div>
+            </div>
+            <audio id="audioPlay" src="{{STATIC_URL}}/receive_money.mp3" hidden="true"></audio>
+        </div>
+    </div>
+</div>
+<input id="user_id" value="{{userID}}" type="hidden" />
+<script src="{{STATIC_URL}}/js/index/right.js"></script>
+{% endblock body %}

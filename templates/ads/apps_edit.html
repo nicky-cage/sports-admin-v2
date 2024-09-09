@@ -1,0 +1,92 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/ads/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">投放平台</label>
+        <div class="layui-input-inline">
+            <select name="platform_type" lay-verify="required">
+                <option value="">请选择</option>
+                <option value="0" {% if r.PlatformType == 0%} selected {%endif%}>全站APP</option>
+                <option value="1" {% if r.PlatformType == 1%} selected {%endif%}>体育APP</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">启动页标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Title}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">链接类型</label>
+        <div class="layui-input-inline">
+            <select name="url_type" lay-verify="required">
+                <option value="0" {% if r.UrlType == 0%} selected {%endif%}>无链接</option>
+                <option value="1" {% if r.UrlType == 1%} selected {%endif%}>站内</option>
+                <option value="2" {% if r.UrlType == 2%} selected {%endif%}>站外</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">详情链接</label>
+        <div class="layui-input-inline">
+            <input type="text" name="url" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Url}}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">Android启动图</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <div class="layui-upload">
+                <button type="button" name="image_android" class="layui-btn sp-file-upload-list" img="{{r.ImageAndroid}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+            </div>
+            <span style="color: red;">.jpg/.png/.jpeg格式,尺寸1440*2560,小于5M</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">IOS启动图</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <div class="layui-upload">
+                <button type="button" name="image_ios" class="layui-btn sp-file-upload-list" img="{{r.ImageIos}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+            </div>
+            <span style="color: red;">.jpg/.png/.jpeg格式,尺寸1440*2560,小于5M</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">iphone x启动图</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <div class="layui-upload">
+                <button type="button" name="image_iosx" class="layui-btn sp-file-upload-list" img="{{r.ImageIosx}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+            </div>
+            <span style="color: red;">.jpg/.png/.jpeg格式,尺寸1440*2560,小于5M</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">展示时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime-ss" style="width: 330px;" id="created_apps_edit"/>
+        </div>
+    </div>
+    <input type="hidden" name="method" value="{{method}}">
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.use(['form','laydate','jquery','upload'], function() {
+        let $ = layui.jquery, laydate = layui.laydate, method = $("input[name='method']").val();
+        if (method == "create") {
+            laydate.render({
+                elem: "#created_apps_edit",
+                type: 'datetime', 
+                range: true,
+                value: sp.utils.getCurrentDate() + ' 00:00:00 - ' + sp.utils.getCurrentDate() + ' 23:59:59'
+            });
+        } else if (method=="update") {
+            laydate.render({
+                elem: "#created_apps_edit",
+                type: 'datetime',
+                range: true,
+                value: '{{r.TimeStart|datetime}} - {{r.TimeEnd|datetime}}'
+            });
+        }
+    });
+</script>
+{% endblock body %}

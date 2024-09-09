@@ -1,0 +1,24 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/permission_ips/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" >授权IP</label>
+        <div class="layui-input-inline">
+            <input type="text" name="ip" lay-verify="required" placeholder="请输入精准授权IP地址" autocomplete="off" class="layui-input" value="{{r.Ip}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <textarea name="remark" placeholder="如有需要经填写，不超过50个字" class="layui-textarea" style="width: 300px; height: 200px;">{{r.Remark}}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >谷歌验证</label>
+        <div class="layui-input-inline">
+            <input type="text" name="google_code" lay-verify="required" placeholder="请输入google验证密码" autocomplete="off" class="layui-input" />
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

@@ -1,0 +1,73 @@
+# app名称, 主文件夹名称, 如game-api、backend-api等
+# 此项主要关联日志文件名、配置项
+# 编译之后默认的二进制程序名称
+app_name = "integrated-admin"
+
+# 总的平台名称 - 需要与 platform.name 一致
+platform_integrated = "yobet_new_platform"
+
+# 默认平台识别号
+# 如果不设平台标识号时,所有数据会默认进入到这个平台当中
+# 如果指定平台标识号, 则依据平台标识号进入到指定的平台当中
+# 默认为单平台模式
+# 多平台模式下, 简单个修改获取平台名称的函数, 即可转变为多平台模式
+platform_default = "yobet_new_dev"
+
+# 平台设定
+[platform]
+# 总的平台名称, 一般请勿改动
+name = "yobet_new_platform"
+# 数据库主机地址
+host = "156.227.26.69"
+# 数据库名称
+database = "yobet_new_platforms"
+# 数据库登录名称
+user = "mysqlDev"
+# 数据库密码
+password = "g53bfA!63b2s0"
+# 端口
+port = 3310
+#设置debug模式
+debug = true
+custom_debug = 1
+internal_ip_list = ""
+
+# 日志
+[log]
+# 写日志的文件夹
+path = "/data/web/integrated/logs"
+
+# 上传文件配置
+[upload]
+# 保存文件的物量路径
+save_path = "/data/web/integrated/upload"
+# 处理后返回的url前缀
+url_path = "/uploads/"
+
+# ip数据库相关配置,本地路径
+[ip]
+db_path = "ipip_v4.ipdb"
+db_path_v6 = "/home/ai/work/sports/common/ipip_v6.ipdb"
+
+#常用配置选项
+[config]
+static_url = "http://shipu-develop-static.dixao.com/"
+
+[elastic]
+url = http://156.227.26.69:9200
+#url = http://127.0.0.1:9200
+es_platform_name = "shipu"
+
+[kafka]
+#多个以,分开
+broker_list_str=127.0.0.1:9190
+partition_num=5
+#user_wagers 投注记录主题
+#user_report 会员报表主题
+#user_reg  会员注册主题
+#多个以,分开  查看consts.KafkaTopicSlice
+topic_list_str=user_wagers,user_report,user_reg
+#kafka的版本号V2_0_0_0
+version=V2_0_0_0
+
+

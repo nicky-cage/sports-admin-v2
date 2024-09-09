@@ -1,0 +1,18 @@
+app_name = "integrated-admin"
+
+[paths]
+configname=shipu_backend
+#elasticsearch的日志记录
+elasticsearchpath = "/data/backend/logs/"
+
+[platform]
+custom_debug = 1
+
+[service]
+#记得带:
+port = ":8818"
+
+[sys]
+# 开发模式: develop
+# 生产模式: release
+run_mode = "develop"

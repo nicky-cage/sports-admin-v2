@@ -1,0 +1,29 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-card-body">
+    <table class="layui-table">
+        <colgroup>
+            <col width="50" />
+            <col width="150" />
+            <col width="50" />
+        </colgroup>
+        <thead>
+        <tr>
+            <th>序号</th>
+            <th>风控条件</th>
+            <th>是否命中</th>
+        </tr>
+        </thead>
+        <tbody>
+        {%for k,r in rows%}
+        <tr>
+            <th>{{k}}</th>
+            {%for key,v in checktype%}
+            {%if k==key%}<th>{{v}}</th>{%endif%}
+            {%endfor%}
+            <th style="color:red;">{%if r%}命中{%endif%}</th>
+        </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+{% endblock body %}

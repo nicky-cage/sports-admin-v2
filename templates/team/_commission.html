@@ -1,0 +1,42 @@
+{% for r in res %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td name="username">{{r.username}}</td>
+    <td name="top_name">{{r.top_name}}</td>
+    <td name="lower_num">{{r.lower_num}}</td>
+    <td name="active_num">{{r.active_num}}</td>
+    <td name="deposit">{% if r.deposits=="" %}0{%else%}{{r.deposits}}{%endif%}</td>
+    <td name="withdraws">{% if r.withdraws==0.00%}0{%else%}{{r.withdraws}}{%endif%}</td>
+    <td name="final_win_lose">{% if r.final== "-0"%}0{%else%}{{r.final}}{%endif%}</td>
+    <td name="game_venue_cost">{% if r.game_cost==" "%}0{%else%}{{r.game_cost}}{%endif%}</td>
+    <td name="dividends">{% if r.dividends==""%}0{%else%}{{r.dividends}}{%endif%}</td>
+    <td name="rebate">{% if r.rebate==""%}0{%else%}{{r.rebate}}{%endif%}</td>
+    <td name="net_profit">{% if r.only_profit==0.00%}0{%else%}{{r.only_profit}}{%endif%}</td>
+    <td name="rate">{{r.rate}}</td>
+    <td name="money">{% if r.money=="0.00"%}0{%else%}{{r.money}}{%endif%}</td>
+    <td>
+
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-open-link" url="commission_team_detail"  area="1000px,500px"
+        title="团队详情" rid="{{r.user_id}}&username={{r.username}}&top_name={{r.top_name}}&lower_num={{r.lower_num}}&active_num={{r.active_num}}
+       &deposit={{r.deposits}}&withdraws={{r.withdraws}}&final={{r.final}}&game_cost={{r.game_cost}}
+        &dividends={{r.dividends}}&rebate={{ r.rebate}}&net_profit={{r.only_profit}}&money={{r.money}}
+&start_time={{r.start_time}}&end_time={{r.end_time}}" data-type="add">详细</button>
+
+
+    </td>
+</tr>
+{%endfor%}
+<tr >
+    <td colspan="2">小计：</td>
+    <td>{{totalAccount.Num}}</td>
+    <td>{{totalAccount.ActiveNum}}</td>
+    <td>{{totalAccount.Deposits|stringformat:"%.2f"}}</td>
+    <td>{{totalAccount.Withdraws|stringformat:"%.2f"}}</td>
+    <td>{{totalAccount.Final|stringformat:"%.2f"}}</td>
+    <td>{{totalAccount.GameCost|stringformat:"%.2f"}}</td>
+    <td>{{totalAccount.Dividends|stringformat:"%.2f"}}</td>
+    <td>{{totalAccount.Rebate|stringformat:"%.2f"}}</td>
+    <td>{{totalAccount.Profit|stringformat:"%.2f"}}</td>
+    <td></td>
+    <td>{{totalAccount.Money|stringformat:"%.2f"}}</td>
+    <td></td>
+</tr>

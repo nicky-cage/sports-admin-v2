@@ -1,0 +1,224 @@
+<script>
+layui.use(['form', 'jquery', 'layer'], function() {
+
+    let $ = layui.$, layer = layui.layer, form = layui.form;
+    let flowText = function(flow) { // 转换所缺流水文本信息
+        if (flow <= 0) {
+            return "<span style='color: green'>0.00</span>";
+        }
+        return "<span style='color: red'>" + flow.toFixed(2) + "</span>";
+    };
+    let timestampToTime = function (timestamp) { // 转换时间戳为时间
+        let date = timestamp.length == 10 ? new Date(parseInt(timestamp)*1000) : new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        let Y = date.getFullYear() + '-';
+        let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        let D = (date.getDate() < 10 ? '0'+date.getDate() : date.getDate()) + ' ';
+        let h = (date.getHours() < 10 ? '0'+date.getHours() : date.getHours()) + ':';
+        let m = (date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()) + ':';
+        let s = (date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds());
+        return Y + M + D + h + m + s;
+    };
+    let account = function() { // 对于金额相关信息进行统计
+        let num = $(".sys tr").length;
+        let count = 0;
+        for (let a = 1; a < num; a++) {
+            count = count + parseInt($(".sys tr:nth-child(" + a + ") td:nth-child(4)").text());
+        }
+        $(".sys tr:nth-child(" + num + ") td:nth-child(4)").html(count.toFixed(2));
+    };
+    let dataPush = function(data) { // 将从服务器获取的数据附加到数据表格当中 - 默认获取
+        $.each(data.data,function(i, item){
+            let html = '<tr total="'+item.total+'">' +
+                '<td>'+ item.bill_no+'</td>' +
+                '<td>'+ item.username+'</td>' +
+                '<td>VIP'+(parseInt(item.vip)-1)+'</td>' +
+                '<td>'+ parseFloat(item.money).toFixed(2) +'</td>' +
+                '<td>'+ parseFloat(item.withdraw_cost).toFixed(2) +'</td>' +
+                '<td>'+ parseFloat(item.money - item.withdraw_cost).toFixed(2) + '</td>' +
+                // '<td>'+ item.actual_money+'</td>' +
+                '<td>'+ timestampToTime(item.created)+'</td>' +
+                '<td>' + item.user_label + '</td>' +
+                '<td>'+ item.bank_name+'/'+item.bank_realname+'/'+item.bank_card+'</td>' +
+                '<td>'+item.last_money+'</td>' +
+                '<td><button class="layui-btn sp-open-link">查看</button></td>' +
+                //'<td>' + item.flow_total + '</td>' +
+                //'<td>' + item.flow_current + '</td>' +
+                // '<td>' + flowText(item.flow_total - item.flow_current) + '</td>' +
+                '<td>-</td>' +
+                '<td><button class="layui-btn layuiadmin-btn-list rece" data-type="add" id="'+item.id+'" username="'+item.username+'" bill_no="'+
+                    item.bill_no+'" vip="'+(parseInt(item.vip)-1)+'" last_money="'+item.last_money+'">领取</button></td>' +
+                '</tr>';
+            $(".to").append(html)
+        });
+    };
+    let searchData = function (data) { // 获取当前长度，对比获取的长度， 做截取。 // 搜索数据
+        $.each(data.data,function(i, item){
+            if (i < 15) {
+                let html='<tr total="'+item.total+'">' +
+                    '<td>' + item.bill_no+'</td>' +
+                    '<td>' + item.username+'</td>' +
+                    '<td>VIP' + (parseInt(item.vip)-1)+'</td>' +
+                    '<td>' + parseFloat(item.money).toFixed(2) +'</td>' +
+                    '<td>' + item.withdraw_cost + '</td>' +
+                    '<td>' + parseFloat(item.money - item.withdraw_cost).toFixed(2) + '</td>' +
+                    // '<td>' + item.transaction_fee+'</td>' +
+                    // '<td>' + item.actual_money+'</td>' +
+                    '<td>' + timestampToTime(item.created)+'</td>' +
+                    '<td>' + item.user_label + '</td>' +
+                    '<td>' + item.bank_name + '/'+item.bank_realname+'/'+item.bank_card + '</td>' +
+                    '<td>' + item.last_money + '</td>' +
+                    '<td><button class="layui-btn sp-open-link">查看</button></td>' +
+                    // '<td>' + item.flow_total + '</td>' +
+                    //'<td>' + item.flow_current + '</td>' +
+                    //'<td>' + flowText(item.flow_total - item.flow_current) + '</td>' +
+                    '<td>-</td>' +
+                    '<td><button class="layui-btn layuiadmin-btn-list rece" data-type="add" id="' + item.id + '" username="' + item.username + '" bill_no="' +
+                        item.bill_no + '" vip="' + (parseInt(item.vip)-1) + '" last_money="' + item.last_money + '">领取</button></td>' +
+                    '</tr>';
+                $(".to").append(html)
+            }
+        });
+    };
+    let getData = function() { // 得到数据 - 待领取数据
+        $.ajax({
+            url: "/risk_audits/receive",
+            type: "get",
+            data:{"type": 1,"created":$("input[name='created']").val()},
+            success:function(data) {
+                dataPush(data);
+            }
+        })
+        setTimeout(xunH, 20000);
+    };
+    let dataX = function (data){ // 获取当前长度，对比获取的长度， 做截取。 // 刷新待领取数据列表
+        let num = $(".to tr").length;
+        $.each(data.data,function(i,item){
+            if (i+1+num < 16 && i < 15) {
+                //total="'+item.total+'"
+                let html = '<tr >' +
+                    '<td>' + item.bill_no+'</td>' +
+                    '<td>' + item.username+'</td>' +
+                    '<td>VIP'+(parseInt(item.vip)-1)+'</td>' +
+                    '<td>' + parseFloat(item.money).toFixed(2) + '</td>' +
+                    '<td>' + parseFloat(item.withdraw_cost).toFixed(2) + '</td>' +
+                    '<td>' + parseFloat(item.money - item.withdraw_cost).toFixed(2) + '</td>' +
+                    // '<td>' + item.transaction_fee+'</td>' +
+                    // '<td>' + item.actual_money+'</td>' +
+                    '<td>' + timestampToTime(item.created) + '</td>' +
+                    '<td>' + item.user_label + '</td>' +
+                    '<td>' + item.bank_name + '/' + item.bank_realname + '/' + item.bank_card + '</td>' +
+                    '<td><button class="layui-btn sp-open-link">查看</button></td>' +
+                    //'<td>' + item.flow_total + '</td>' +
+                    //'<td>' + item.flow_current + '</td>' +
+                    '<td>' + flowText(item.flow_total - item.flow_current) + '</td>' +
+                    '<td>-</td>' +
+                    '<td><button class="layui-btn layuiadmin-btn-list rece" data-type="add" id="' + item.id + '" username="' + item.username + '" bill_no="' +
+                    item.bill_no + '" vip="' + (parseInt(item.vip)-1) + '" last_money="' + item.last_money + '">领取</button></td>' +
+                    '</tr>';
+                $(".to").append(html)
+            }
+        });
+    };
+    let getX = function() { // 获取非现有订单号之外的所有数据(未领取)
+        let num = $(".to tr").length;
+        if (num <= 15) { //获取bill_no
+            let arr = {};
+            for (let i = 2; i <= num + 1; i++){
+                arr[i] = $(".to tr:nth-child("+i+") td:nth-child(1)").html();
+            }
+            $.ajax({
+                url:"/risk_audits/receive",
+                type:"get",
+                data:{"type":1, "created":$("input[name='created']").val(),"list": JSON.stringify(arr)},
+                success:function(data) {
+                    dataX(data);
+                }
+            });
+        }
+    };
+    let xunH = function () { // 询?
+        getX()
+        setTimeout(xunH, 20000)
+    };
+
+    // 自动审核
+    $(document).on("click", ".autosys", function() {
+        $(".autosys").html("系统审核中...");
+        $(".human").html("人工审核");
+        layer.open({
+            title: false,
+            content: '<div style="width:100%;text-align:center;"><b>系统审核</b></div>',
+            btn: false,
+            time: 700,
+            closeBtn: 0
+        }); //系统进行自动审核
+    });
+
+    // 人工审核
+    $(document).on("click", ".human", function() {
+        $(".human").html("人工审核中...");
+        $(".autosys").html("系统审核");
+        layer.open({
+            title:false,
+            content:  '<div style="width:100%;text-align:center;"><b>人工审核</b></div>',
+            btn:false,
+            time:700,
+            closeBtn:0,
+        });
+        $(".to tr").remove();
+        getData(); //将数据插入
+    });
+
+    // 点击 "领取" - 增加到上面待审核列表当中
+    $(".to").on("click",".rece", function() {
+        let id = $(this).attr("id"),  user = $(this).attr("username");
+        let bill = $(this).attr("bill_no"), vip = $(this).attr("vip"), lastMoney = $(this).attr("last_money");
+        let ts = $(this), arr = {"id":id,"username":user,"bill_no":bill};
+        let re = function() { // 将底部数据列表当中的数据, 点击领取之后, 附加到上部数据当中
+            let html = '<tr>';
+            for (let i = 1;i <= 13; i++) {
+                html += '<td>' + ts.parent().parent().find("td:nth-child(" + i + ")").html() + '</td>';
+            }
+            html += '<td>-</td>';
+            html += '<td><button class="layui-btn layuiadmin-btn-list  sp-open-link" url="/risk_audits/detail" title="审核通过" area="700px,480px" rid="'+
+                    id+'&last_money='+lastMoney+'&vip='+vip+'&sys_result=-" data-type="add">通过</button>\n' +
+                ' <button class="layui-btn layuiadmin-btn-list layui-btn-danger  sp-open-link" url="/risk_audits/refuse" title="拒绝"  area="700px,490px"  rid="'+
+                    id+'&last_money='+lastMoney+'&vip='+vip+'&sys_result=-"  data-type="add">拒绝</button>\n' +
+                ' <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-open-link"  url="/risk_audits/hand_up" title="审核挂起"  area="700px,490px" rid="'+
+                    id+'" data-type="add">挂起</button>\n' +
+                '</td>' +
+            '</tr>';
+            $(".sys").prepend(html);
+            ts.parent().parent().remove();
+            account();
+        };
+        $.ajax({ // 保存领取
+            url:"/risk_audits/receive_save",
+            type:"post",
+            data:JSON.stringify(arr),
+            success:function(data) {
+                re();
+                layer.open({
+                    title: false,
+                    content: '<div style="width:100%;text-align:center;"><b>' + data.data + '</b></div>',
+                    time: 1000,
+                    btn: false,
+                    closeBtn: 0
+                });
+            }
+        });
+    });
+
+    form.on("submit(risk-search)", function(data) { // 提交搜索
+        $.ajax({
+            url:"/risk_audits/receive",
+            type:"get",
+            data:data.field,
+            success:function(data){
+                $(".to tr").remove();
+                searchData(data);
+            }
+        })
+    });
+});
+</script>

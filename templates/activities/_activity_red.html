@@ -1,0 +1,410 @@
+<input type="hidden" value="{{red.Id}}" name="red_id" id="red_id" />
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>活动标题</label>
+        <div class="layui-input-inline">
+            <input name="title" id="title" autocomplete="off" class="layui-input" placeholder="请输入红包雨活动标题" style="width: 330px;" value="{{red.Title}}" />
+        </div>
+    </div>
+</div>
+<!--
+<div class=" layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>活动时间</label>
+    <div class="layui-input-inline">
+        <input type="text" name="activity_range_start" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" value="" style="width: 330px;" id="red_envelope_start_end" readonly="readonly" />
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>抢红包时间</label>
+    <table class="layui-table" style="width:400px;">
+        <thead>
+            <tr>
+                <th width="300">抢红包时间段</th>
+                <th width="100">操作</th>
+            </tr>
+        </thead>
+        <tbody id="grab-times-table">
+            {%if red.GrabTimes != ""%}
+            {%for r in red.GrabTimeRows -%}
+            <tr>
+                <td>
+                    <input type="text" autocomplete="off" class="layui-input" style="float: left; width:100px; margin-left: 30px;" placeholder="请输入开始时间" value="{{r.Start}}" />
+                    <span style="margin-left: 15px; float: left;">~</span>
+                    <input type="text" autocomplete="off" class="layui-input" style="float: left; width:100px; margin-left: 15px;" placeholder="请输入结束时间" value="{{r.End}}" />
+                </td>
+                <td><button type="button" class="layui-btn layui-btn-danger red_period_del">删除</button></td>
+            </tr>
+            {%endfor -%}
+            {%else -%}
+            <tr>
+                <td>
+                    <input type="text" autocomplete="off" class="layui-input" style="float: left; width:100px; margin-left: 30px;" placeholder="请输入开始时间" />
+                    <span style="margin-left: 15px; float: left;">~</span>
+                    <input type="text" autocomplete="off" class="layui-input" style="float: left; width:100px; margin-left: 15px;" placeholder="请输入结束时间" />
+                </td>
+                <td><button type="button" class="layui-btn layui-btn-danger red_envelope_del">删除</button></td>
+            </tr>
+            {%endif -%}
+        </tbody>
+    </table>
+</div>
+
+<div class=" layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">&nbsp;</span></label>
+    <div class="layui-input-inline">
+        <button class="layui-btn" id="red_period_add" type="button">添加抢红包时间段</button>
+    </div>
+</div>
+-->
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>抢红包条件</label>
+    <table class="layui-table" style="width:800px;">
+        <thead>
+            <tr>
+                <th width="150">当天存款金额</th>
+                <th width="150">抢红包次数</th>
+                <th width="150">流水倍数</th>
+                <th width="150">投注场馆限制</th>
+                <th width="100">领取方式</th>
+                <th width="100">操作</th>
+            </tr>
+        </thead>
+        <tbody id="grab-conds-table">
+            {%if red.GrabConds != ""%}
+            {%for r in red.GrabCondRows %}
+            <tr>
+                <td><input class="layui-input" placeholder="请输入当天存款金额" value="{{r.DepositMoney|stringformat:"%.0f"}}" /></td>
+                <td><input class="layui-input" placeholder="请输入可抢红包次数" value="{{r.GrabCount}}" /></td>
+                <td><input class="layui-input" placeholder="请输入所需流水倍数" value="{{r.FlowMultiple}}" /></td>
+                <td>不限</td>
+                <td>自动到账</td>
+                <td><button type="button" class="layui-btn layui-btn-danger red_cond_del">删除</button></td>
+            </tr>
+            {%endfor -%}
+            {%else -%}
+            <tr>
+                <td><input class="layui-input" placeholder="请输入当天存款金额" /></td>
+                <td><input class="layui-input" placeholder="请输入可抢红包次数" /></td>
+                <td><input class="layui-input" placeholder="请输入所需流水倍数" /></td>
+                <td>不限</td>
+                <td>自动到账</td>
+                <td><button type="button" class="layui-btn layui-btn-danger red_cond_del">删除</button></td>
+            </tr>
+            {%endif -%}
+        </tbody>
+    </table>
+</div>
+
+<div class=" layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">&nbsp;</span></label>
+    <div class="layui-input-inline">
+        <button class="layui-btn" id="red_cond_add" type="button">添加抢红包条件</button>
+    </div>
+</div>
+
+<!--<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>领取方式</label>
+    <div class="layui-input-block">
+        <input type="radio" name="receive_type" value="1" title="普通领取" checked />
+        <input type="radio" name="receive_type" value="2" title="阶梯领取" />
+    </div>
+</div>-->
+
+<!--<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>有效投注额</label>
+    <div class="layui-input-inline">
+        <input type="text" name="valid_money" autocomplete="off" class="layui-input" placeholder="请输入有效投注金额" />
+    </div>
+</div>-->
+
+<!--<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>有效投注场馆限制</label>
+    <div class="layui-input-inline">
+        <select name="game_type">
+            <option></option>
+            <option value="1">会员有效投注</option>
+            <option value="2">体育有效投注</option>
+            <option value="3">真人有效投注</option>
+            <option value="4">电竞有效投注</option>
+            <option value="5">电子有效投注</option>
+            <option value="6">棋牌有效投注</option>
+            <option value="7">彩票有效投注</option>
+            <option value="8">捕鱼有效投注</option>
+        </select>
+    </div>
+</div>-->
+
+<!--<div class="layui-form-item">
+    <label class="layui-form-label" style="width:120px"><span style="color: red">*</span>充值金额</label>
+    <div class="layui-input-inline">
+        <input type="text" name="deposit_money" autocomplete="off" class="layui-input" placeholder="请输入充值金额" />
+    </div>
+</div>-->
+
+<!--<div class="layui-form-item">
+    <label class="layui-form-label" style="width:120px"><span style="color: red">*</span>领取数量</label>
+    <div class="layui-input-inline">
+        <input type="text" name="receive_nums" autocomplete="off" class="layui-input" placeholder="请输入红包领取数量" />
+    </div>
+</div>-->
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width:120px"><span style="color: red">*</span>红包类型</label>
+    <div class="layui-input-block">
+        <input type="radio" name="money_type" value="1" title="随机红包金额" {%if red.MoneyType==1%}checked{%endif%} />
+        <input type="radio" name="money_type" value="2" title="固定红包金额" {%if red.MoneyType==2%}checked{%endif%} />
+    </div>
+</div>
+<!--
+<div class="layui-form-item" id="red_amount">
+    <label class="layui-form-label" style="width:120px"><span style="color: red">*</span>红包总额</label>
+    <div class="layui-input-inline">
+        <input type="text" name="money" autocomplete="off" class="layui-input" placeholder="请输入红包金额" value="{{red.Money}}" id="money" />
+    </div>
+</div>
+-->
+<div class="layui-form-item" id="red_amount">
+    <label class="layui-form-label" style="width:120px"><span style="color: red">*</span>红包数量</label>
+    <div class="layui-input-inline">
+        <input type="text" name="count_total" autocomplete="off" class="layui-input" placeholder="请输入红包数量" value="{{red.CountTotal}}" id="count_total" />
+    </div>
+</div>
+
+<div class="layui-form-item" id="red_amount">
+    <label class="layui-form-label" style="width:120px"><span style="color: red">*</span>单个红包最大金额</label>
+    <div class="layui-input-inline">
+        <input type="text" name="max_money" autocomplete="off" class="layui-input" placeholder="请输入单个红包最大金额" value="{{red.MaxMoney|stringformat:"%.0f"}}" id="max_money" />
+    </div>
+</div>
+
+<div class="layui-form-item" id="red_amount">
+    <label class="layui-form-label" style="width:120px"><span style="color: red">*</span>单个红包最小金额</label>
+    <div class="layui-input-inline">
+        <input type="text" name="min_money" autocomplete="off" class="layui-input" placeholder="请输入单个红包最小金额" value="{{red.MinMoney|stringformat:"%.0f"}}" id="min_money" />
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width:120px"><span style="color: red">*</span>洗码量倍数</label>
+    <div class="layui-input-inline">
+        <input type="text" name="wash_multiple" autocomplete="off" class="layui-input" placeholder="请输入洗码量倍数" value="{{red.WashMultiple}}" id="wash_multiple" />
+    </div>
+</div>
+</div>
+<div class="layui-form-item" style="width: 100%">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">*</span>榜单设置</label>
+    <div class="layui-input-inline">
+        <input type="radio" name="red_list_settings" lay-filter="list_settings" value="1" title="手动" {%if red.ListSettings==1-%} checked {%endif-%} />
+        <input type="radio" name="red_list_settings" lay-filter="list_settings" value="2" title="自动" {%if red.ListSettings==2-%} checked {%endif-%} />
+    </div>
+</div>
+<div class="layui-form-item turntable_user_list" style="width: 100%">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">&nbsp;</span></label>
+    <div class="layui-input-inline" style="width: 84%;">
+        <div class="layui-input-inline" style="width: 800px;">
+            <table class="layui-table con-table" id="red-con-table3">
+                <thead>
+                <tr>
+                    <th width="60">排序</th>
+                    <th width="240">奖项名称</th>
+                    <th width="200">奖励</th>
+                    <th width="200">时间</th>
+                    <th width="100">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%for r in red.RankingListRows -%}
+                <tr>
+                    <td><input class="inputVaule layui-input sort" placeholder="请输入榜单排序" value="{{r.Sort}}" /></td>
+                    <td><input class="inputVaule layui-input title" placeholder="请输入榜单标题/获奖名称" value="{{r.Name}}" /></td>
+                    <td><input class="inputVaule layui-input reward" placeholder="请输入榜单用户获得奖励" value="{{r.Draw}}" /></td>
+                    <td><input class="inputVaule layui-input time" placeholder="请选择时间" value="{{r.Time}}" /></td>
+                    <td><button type="button" class="newTr3 layui-btn layui-btn-danger">删除</button></td>
+                </tr>
+                {%endfor-%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="layui-form-item turntable_user_list">
+    <label class="layui-form-label" style="width: 120px;"> <span style="color: red">&nbsp;</span></label>
+    <div class="layui-inline">
+        <button type="button" class="layui-btn" id="add_red_reward_list" lay-filter="addBtn">添加榜单</button>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width:120px"><span style="color: red">*</span>是否前端展示</label>
+    <div class="layui-input-block">
+        <input type="radio" name="status" value="2" title="是" {%if red.Status==2%}checked{%endif-%} />
+        <input type="radio" name="status" value="1" title="不是" {%if red.Status==1%}checked{%endif-%} />
+    </div>
+</div>
+
+<!--
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width:120px"><span style="color: red">*</span>展示时间</label>
+    <div class="layui-input-inline">
+        <input type="text" name="show_start_time" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" style="width: 330px;" id="red_envelopo_show_start" readonly="readonly" />
+    </div>
+</div>
+-->
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px; margin-top: 10px;">规则说明</label>
+    <div class="layui-input-inline" style="width: 750px; height: 400px;">
+        <div class="layui-tab layui-tab-brief ">
+            <ul class="layui-tab-title">
+                <li class="layui-this">电脑端</li>
+                <li>移动端</li>
+            </ul>
+            <div class="layui-tab-content" style="padding-left: 0px;">
+                {% import "../_elements/rich_text.html" rich_text %}
+                <div class="layui-tab-item layui-show">
+                    {{ rich_text("editor_red_pc", "content_red_pc") }}
+                </div>
+                <div class="layui-tab-item" style="display: none;">
+                    {{ rich_text("editor_red_mobile", "content_red_mobile") }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class=" layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">&nbsp;</span></label>
+    <div class="layui-input-inline">
+        <button class="layui-btn"  type="button" lay-submit lay-filter="submit-red">保存活动</button>
+    </div>
+</div>
+
+<div hidden="hidden" id="rcont_red">{{r.Content}}</div>
+<script>
+    layui.use(['form', 'jquery', 'layer'], function () {
+
+        let $ = layui.jquery, form = layui.form;
+
+        // 添加红包时间段
+        $(document).on("click", "#red_period_add", function () {
+            let tr_last = $("tr:last", $("#grab-times-table"));
+            let tr_new = $("<tr>" + tr_last.html() + "</tr>");
+            tr_last.after(tr_new);
+        });
+        // 删除红包
+        $(document).on("click", ".red_period_del", function () {
+            if ($("tr", $("#grab-times-table")).length < 2) {
+                sp.alert('无法删除最后一行');
+                return;
+            }
+            $(this).parent().parent().remove();
+        });
+
+        // 添加红包条件
+        $(document).on("click", "#red_cond_add", function () {
+            let tr_last = $("tr:last", $("#grab-conds-table"));
+            let tr_new = $("<tr>" + tr_last.html() + "</tr>");
+            tr_last.after(tr_new);
+        });
+        $(document).on("click", ".red_cond_del", function () {
+            if ($("tr", $("#grab-conds-table")).length < 2) {
+                sp.alert("无法删除最后一行");
+                return;
+            }
+            $(this).parent().parent().remove();
+        });
+
+        //let editor = createRichText('#editor_red', 'content_red');
+        //editor.txt.html($("#rcont_red").text()) //将内容写入富文本中
+        form.render();
+        form.on("radio(red_list_settings)", function (data) {
+            if (data.value == "1") {  // 手动
+                $(".turntable_user_list").each(function () {
+                    $(this).show();
+                });
+            } else {  // 自动
+                $(".turntable_user_list").each(function () {
+                    $(this).hide();
+                });
+            }
+        });
+        $('#add_red_reward_list').click(function () {
+            var html = `<tr>
+                            <td><input type="text" class="inputVaule layui-input sort" placeholder="请输入榜单排序" /></td>
+                            <td><input type="text" class="inputVaule layui-input title" placeholder="请输入榜单标题/获奖名称" /></td>
+                            <td><input type="text" class="inputVaule layui-input reward" placeholder="请输入榜单用户获得奖励" /></td>
+                            <td><input type="text" class="inputVaule layui-input time" placeholder="请选择时间" /></td>
+                            <td><button type="button" class="newTr3 layui-btn layui-btn-danger">删除</button></td>
+                        </tr>`;
+            $("#red-con-table3 > tbody").append(html)
+            form.render();
+        });
+        // -- 删除榜单
+        $(document).on('click', '.newTr3', function () {
+            if ($("tr", $("#red-con-table3")).length < 2) {
+                sp.alert("已经是最后一行了");
+                return;
+            }
+            $(this).parent().parent().remove();
+        });
+        form.on("submit(submit-red)", function () {
+            let data = {
+                id: parseInt($("#red_id").val()),
+                money: parseFloat($("#money").val()),
+               // activity_range_start: parseInt(Date.parse($("#red_envelope_start_end").val().split(" - ")[0].replace(/-/g, '/')) / 1000),
+              //  activity_range_start: parseInt(Date.parse($("#red_envelope_start_end").val().split(" - ")[0].replace(/-/g, '/')) / 1000),
+                max_money: parseFloat($("#max_money").val()),
+                min_money: parseFloat($("#min_money").val()),
+                list_settings: parseInt($("input[name='red_list_settings']:checked").val()),
+                money_type:parseInt($("input[name='money_type']:checked").val()),
+                count_total: parseInt($("#count_total").val()),
+                status: parseInt($("input[name='status']:checked").val()),
+                title: $("#title").val(),
+                wash_multiple: parseInt($("#wash_multiple").val()),
+                // grab_time_rows: function () {
+                //     let rows = [];
+                //     $("tr", $("#grab-times-table")).each(function () {
+                //         let that = $(this);
+                //         rows.push({
+                //             start: $("input:first", that).val(),
+                //             end: $("input:eq(1)", that).val()
+                //         });
+                //     });
+                //     return rows;
+                // }(),
+                grab_cond_rows: function () {
+                    let rows = [];
+                    $("tr", $("#grab-conds-table")).each(function () {
+                        let that = $(this);
+                        rows.push({
+                            deposit_money: parseFloat($("input:first", that).val()),
+                            grab_count: parseInt($("input:eq(1)", that).val()),
+                            flow_multiple: parseInt($("input:eq(2)", that).val())
+                        });
+                    });
+                    return rows;
+                }(),
+                ranking_list_rows: function () {
+                    let tbody = $("tbody:first", $("#red-con-table3")), arr = [];
+                    $("tr", tbody).each(function () {
+                        let that = $(this), sort = $(".sort:first", that), title = $(".title:first", that), reward = $(".reward:first", that), time = $(".time:first", that);
+                        arr.push({
+                            sort: parseInt(sort.val()),
+                            name: title.val(),
+                            draw: reward.val(),
+                            time: time.val()
+                        });
+                    });
+                    return arr;
+                }()
+            };
+            $.post("/activities/red_envelope_rain_save", { data: JSON.stringify(data) }, function (result) {
+                if (result.errcode == 0) {
+                    layui.layer.msg("更新成功", { icon: 1 });
+                    return;
+                }
+                layui.layer.msg(result.message, { icon: 2 });
+            });
+        });
+    });
+</script>

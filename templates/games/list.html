@@ -1,0 +1,89 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="2">
+                <div class="layui-form layui-card-header layui-form-item layuiadmin-card-header-auto">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">游戏场馆</label>
+                        <div class="layui-input-inline">
+                            <select name="game_code">
+                                <option value="">请选择游戏场馆</option>
+                                <option value="PT">PT</option>
+                                <option value="MG">MG</option>
+                                <option value="BBIN">BBIN</option>
+                                <option value="AG">AG</option>
+                                <option value="JDB">JDB</option>
+                                <option value="CQ9">CQ9</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-inline">
+                            <select name="is_online">
+                                <option value="">全部</option>
+                                <option value="2">上线</option>
+                                <option value="1">下线</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">游戏英文</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="en_name" placeholder="请输入游戏名称" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">游戏中文</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="cn_name" placeholder="请输入游戏名称" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn" lay-submit lay-filter="sp-form-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                        <button class="layui-btn sp-form-reset" type="button">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="200" />
+                        <col width="200" />
+                        <col width="150" />
+                        <col width="120" />
+                        <col width="150" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col width="80" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>游戏英文名称</th>
+                            <th>游戏中文名称</th>
+                            <th>游戏场馆</th>
+                            <th>场馆类型</th>
+                            <th>展示类型</th>
+                            <th>排序</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

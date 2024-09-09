@@ -1,0 +1,18 @@
+{%for r in rows%}
+<tr>
+    <td>{{r.GameName}}</td>
+    <td>{{r.GameType|game_venue_type}}</td>
+    <td>{{r.BetNums}}</td>
+    <td>{{r.NetMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.BetMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.ValidMoney|stringformat:"%.2f"}}</td>
+</tr>
+{%endfor%}
+<tr>
+    <td>总计</td>
+    <td></td>
+    <td></td>
+    <td>{{totalNetMoney|stringformat:"%.2f"}}</td>
+    <td>{{totalBetMoney|stringformat:"%.2f"}}</td>
+    <td>{{totalValidMoney|stringformat:"%.2f"}}</td>
+</tr>

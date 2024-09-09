@@ -1,0 +1,14 @@
+<div class="layui-row" style="overflow: auto;">
+    <div class="layui-col-md12">
+        <div class="layui-tab" lay-filter="sp-lazy-load">
+            <ul class="layui-tab-title">
+                <li class="layui-this" style="padding: 0px 15px; margin: 0px;">存款稽核</li>
+                <li style="padding: 0px 15px; margin: 0px;">优惠稽核</li>
+            </ul>
+            <div class="layui-tab-content" style="padding: 15px 0px;">
+                <div class="layui-tab-item layui-show" style="overflow: auto;" >{% include "audit_deposit.html" %}</div>
+                <div class="layui-tab-item sp-tab-body" url="/audit_dividend?id={{id}}"></div>
+            </div>
+        </div>
+    </div>
+</div>

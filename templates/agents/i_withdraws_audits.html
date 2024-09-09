@@ -1,0 +1,104 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="user_id" placeholder="请输入代理编号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入代理账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <!--
+                    <div class="layui-inline">
+                        <label class="layui-form-label">代理类型</label>
+                        <div class="layui-input-inline">
+                            <select name="agent_type">
+                                <option value=""></option>
+                                <option value="0">普通代理</option>
+                                <option value="1">官方代理</option>
+                                <option value="3">招商代理</option>
+                            </select>
+                        </div>
+                    </div>
+                    -->
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="bill_no" placeholder="请输入订单编号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">申请时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="off" autocomplete="off" readonly="readonly" id="created" class="layui-input sp-form-date" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">批量通过</button>
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">批量拒绝</button>
+                </div>
+            </div>
+            -->
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="150" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="80" />
+                        <col width="130" />
+                        <col width="300" />
+                        <col />
+                        <col width="180" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>订单编号</th>
+                            <th>代理编号</th>
+                            <th>代理账号</th>
+                            <th>上线</th>
+                            <th>提款金额</th>
+                            <th>申请时间</th>
+                            <th>银行卡信息</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/agents/withdraws">
+                        {%include "_withdraws.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

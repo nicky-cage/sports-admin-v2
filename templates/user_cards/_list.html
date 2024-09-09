@@ -1,0 +1,20 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.id}}</td>
+    <td>{{r.user_name}}</td>
+    <td>{{r.real_name}}</td>
+    <td>
+        {%if r.name=="其他银行"%} {{r.bank_name}} {%else%} {{r.name}} {%endif%}
+    </td>
+    <td>{{r.card_number}}</td>
+    <td>{{r.p_name}}|{{r.c_name}}|{{r.d_name}}|{{r.address}}</td>
+    <td>{{r.created|time_type_chang}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_cards/update", 4) -%}
+        <button class="layui-btn edit layui-btn-green sp-open-link" url="/user_cards/update?user_id={{r.user_id}}" rid="{{r.id}}" area="600px,600px" title="编辑银行卡">编辑</button>
+        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_cards/delete", 4) -%}
+        <button class="layui-btn delete layui-btn-danger sp-btn-delete" url="/user_cards/delete?user_id={{r.user_id}}" rid="{{r.id}}" tab="0">删除</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

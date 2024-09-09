@@ -1,0 +1,75 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/ad_matches/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">赛事名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Title}}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">比赛时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="match_date" lay-verify="required" id="match_date" placeholder="" autocomplete="off" class="layui-input" format="single" value="{{r.MatchDate|datetime}}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">主队名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="team_first" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.TeamFirst}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;"> 主队队标</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <button type="button" name="team_first_icon" class="layui-btn sp-file-upload" img="{{r.TeamFirstIcon}}"><i class="layui-icon">&#xe67c;</i>上传图片</button><br />
+            <span style="color: red;">.jpg/.png/.jpeg格式,尺寸1440*2560,小于5M</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">客队名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="team_second" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.TeamSecond}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;"> 客队队标</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <button type="button" name="team_second_icon" class="layui-btn sp-file-upload" img="{{r.TeamSecondIcon}}"><i class="layui-icon">&#xe67c;</i>上传图片</button><br />
+            <span style="color: red;">.jpg/.png/.jpeg格式,尺寸1440*2560,小于5M</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">展示时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime-ss" style="width: 330px;" id="created_matches_edit"/>
+        </div>
+    </div>
+    <input type="hidden" name="method" value="{{method}}">
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate','jquery','upload'], function() {
+        let $ = layui.jquery;
+        let laydate = layui.laydate;
+        let method=$("input[name='method']").val();
+        if(method=="create"){
+            laydate.render({
+                elem: "#created_matches_edit"
+                ,type: 'datetime'
+                ,range: true
+                ,value: sp.utils.getCurrentDate() + ' 00:00:00 - ' + sp.utils.getCurrentDate() + ' 23:59:59'
+            });
+        }else if(method=="update"){
+            laydate.render({
+                elem: "#created_matches_edit"
+                ,type: 'datetime'
+                ,range: true
+                ,value: '{{r.TimeStart|datetime}} - {{r.TimeEnd|datetime}}'
+            });
+        }
+    });
+</script>
+{% endblock body %}

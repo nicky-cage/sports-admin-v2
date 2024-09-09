@@ -1,0 +1,96 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<style type="text/css">
+    .layui-input-inline span { height: 12px; line-height: 12px;}
+</style>
+<form class="layui-form" method="post" action="/admin_roles/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name"  autocomplete="off" class="layui-input" placeholder="请输入角色名称" value="{{r.Name}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色权限</label>
+        <div class="layui-input-inline" style="height: 500px; width: 380px; overflow: auto;">
+            <div id="menu-tree"></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <input type="text" name="remark" value="{{r.Remark}}"  autocomplete="off" class="layui-input" placeholder="请输入角色相关备注" style="width: 380px;" />
+        </div>
+    </div>
+    {{block.Super|safe}}
+    <input type="hidden" name="menu_ids" value="{{r.MenuIds}}" id="menu_ids" />
+</form>
+<script>
+    layui.use(['tree', 'layer', 'util', 'jquery', 'form'], function() {
+        let tree = layui.tree, layer = layui.layer, util = layui.util, $ = layui.jquery, form = layui.form;
+        let data = [
+            {%for v1 in menus -%}
+        {% if forloop.Counter > 1%},{%endif%}{title: '{{v1.Name}}', id: {{v1.Id}}, field: 'menu_{{v1.Id}}', checked: true, spread: true, children: [
+            {%for v2 in v1.Children -%}
+            {% if forloop.Counter > 1%},{%endif%}{title: '{{v2.Name}}', id: {{v2.Id}}, field: 'menu_{{v2.Id}}', checked:true, spread: true, children: [
+                {%for v3 in v2.Children -%}
+                {% if forloop.Counter > 1%},{%endif%}{title: '{{v3.Name}}', id: {{v3.Id}}, field: '', children: [
+                    {% for v4 in v3.Children -%}
+                    {% if forloop.Counter > 1%},{%endif%}{title: '{{v4.Name}}', id: {{v4.Id}}, field: '', children: [
+                        {%for v5 in v4.Children -%}
+                        {% if forloop.Counter > 1%},{%endif%}{title: '{{v5.Name}}', id: {{v5.Id}}, field: '', children: [
+                            {% for v6 in v5.Children -%}
+                            {% if forloop.Counter > 1%},{%endif%}{title: '{{v6.Name}}', id: {{v6.Id}}, field: ''}
+                            {%endfor-%}
+                        ]}
+                        {%endfor -%}
+                    ]}
+                    {%endfor -%}
+                ]}
+                {%endfor -%}
+            ]}
+            {%endfor -%}
+        ]}
+        {%endfor -%}
+    ];
+
+        let txtMenuIds = $("#menu_ids");
+        (function() { // 对于多级菜单处理
+            let menu_id = "#menu-tree";
+            tree.render({ //渲染各个节点
+                elem: menu_id,
+                data: data,
+                id: 'menu-tree',
+                showCheckbox: true,  //是否显示复选框
+                click: function (obj) { }
+            });
+
+            let menu_ids = []; //所有菜单编号
+            let setIds = function(menus) { //设置所有编号
+                if (menus.length > 0) {
+                    for (let i = 0; i < menus.length; i++) {
+                        let menu = menus[i];
+                        if (menu.checked) {
+                            menu_ids.push(menu.id);
+                        }
+                        if (menu.children && menu.children.length > 0) {
+                            setIds(menu.children);
+                        }
+                    }
+                }
+
+                txtMenuIds.val(menu_ids.toString());
+            };
+            setIds(tree.getChecked('menu-tree')); //初始化菜单
+
+            form.on("checkbox()", function(data) {
+                txtMenuIds.val(""); //清空所有
+                menu_ids = []; //清空所有列表项
+                let menus = tree.getChecked('menu-tree');
+
+                setIds(menus);
+            });
+        })();
+    });
+</script>
+{%endblock%}

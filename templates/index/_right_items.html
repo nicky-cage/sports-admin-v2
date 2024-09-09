@@ -1,0 +1,35 @@
+<div class="layui-card">
+    <div class="layui-card-header">待办事项</div>
+    <div class="layui-card-body">
+        <div class="layui-carousel layadmin-carousel layadmin-backlog">
+            <div carousel-item>
+                <ul class="layui-row layui-col-space10">
+                    <li class="layui-col-xs6" id="user-deposit-count">
+                        <a lay-href="/user_deposits" class="layadmin-backlog-body" lay-text="存款管理" id="user-deposits">
+                            <h3>待审存款</h3>
+                            <p><cite>{{f.UserDeposit + f.UserDepositVirtual}}</cite></p>
+                        </a>
+                    </li>
+                    <li class="layui-col-xs6" id="user-withdraw-count">
+                        <a lay-href="/risk_audits" class="layadmin-backlog-body" lay-text="提款审核" id="user-withdraws">
+                            <h3>待审提款<span class="layui-badge">会员</span></h3>
+                            <p><cite>{{f.UserWithdraw + f.UserWithdrawVirtual}}</cite></p>
+                        </a>
+                    </li>
+                    <li class="layui-col-xs6" id="agent-apply-count">
+                        <a lay-href="/agents" class="layadmin-backlog-body" lay-text="代理列表">
+                            <h3>代理申请</h3>
+                            <p><cite>{{f.AgentApply}}</cite></p>
+                        </a>
+                    </li>
+                    <li class="layui-col-xs6" id="agent-withdraw-count">
+                        <a lay-href="/agent_withdraws" class="layadmin-backlog-body" lay-text="代理提款">
+                            <h3>待审提款<span class="layui-badge layui-bg-blue">代理</span></h3>
+                            <p><cite>{{f.AgentWithdraw}}</cite></p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

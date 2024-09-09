@@ -1,0 +1,29 @@
+{% for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td >{{r.Month}}</td>
+    <td >{{r.Id}}</td>
+    <td >{{r.Username}}</td>
+    <td>{%if r.Type==1%}官方代理{%elif r.Type==0 %}普通代理{%elif r.Type==3 %}招商代理{%else%}总代{%endif%}</td>
+    <td >{{r.TopName}}</td>
+    <td >{{r.LowerNum}}</td>
+    <td>{{r.ActiveNum}}</td>
+    <td>{{r.Deposit|stringformat:"%.2f"}}</td>
+    <td>{{r.Withdraws|stringformat:"%.2f"}}</td>
+    <td >{{r.FinalWinLose|stringformat:"%.2f"}}</td>
+    <td>{{r.GameVenueCost|stringformat:"%.2f"}}</td>
+    <td>{{r.DepositsCost|stringformat:"%.2f"}}</td>
+    <td >{{r.Dividends|stringformat:"%.2f"}}</td>
+    <td >{{r.Rebate|stringformat:"%.2f"}}</td>
+    <td>{{r.NegativeProfitStatistics|stringformat:"%.2f"}}</td>
+    <td >{{r.WinLoseAdjust|stringformat:"%.2f"}}</td>
+    <td >{{r.NetProfit|stringformat:"%.2f"}}</td>
+    <td >{{r.WashedWin|stringformat:"%.2f"}}</td>
+    <td >{{r.Rate}}</td>
+    <td >{{r.Money|stringformat:"%.2f"}}</td>
+    <td >{% if r.CommissionAdjust==0.00%}{{r.Money|stringformat:"%.2f"}}{%else%}{{r.CommissionAdjust|stringformat:"%.2f"}}{%endif%}</td>
+    <td>{{r.RiskAdmin}}</td>
+    <td>{{r.RiskProcessAt|datetime}}</td>
+    <td>{{r.Remark}}</td>
+</tr>
+{%endfor%}

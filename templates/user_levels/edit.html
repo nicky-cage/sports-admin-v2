@@ -1,0 +1,213 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">累计投注积分</label>
+        <div class="layui-input-inline">
+            <input type="text" name="upgrade_deposit" lay-verify="number" placeholder="体育电竞有效投注1元=2分,其他游戏有效投注1元=1分"
+                autocomplete="off" class="layui-input" value="{{r.UpgradeDeposit}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">每月保级积分</label>
+        <div class="layui-input-inline">
+            <input type="text" name="hold_stream" lay-verify="number" placeholder="体育电竞有效投注1元=2分,其他游戏有效投注1元=1分"
+                autocomplete="off" class="layui-input" value="{{r.HoldStream}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">存送优惠</label>
+        <div style="width:800px;">
+            <table>
+                <colgroup>
+                    <col width="80" />
+                    <col width="80" />
+                    <col width="80" />
+                    <col width="80" />
+                    <col width="120" />
+                </colgroup>
+                <tr>
+                    <th>存送比例</th>
+                    <th>最低转账</th>
+                    <th>彩金上限</th>
+                    <th>流水倍数</th>
+                    <th>申请周期</th>
+                </tr>
+                <tr>
+                    <th>
+                        <input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"
+                            name="deposit_delivery_rate" value="{{r.DepositDeliveryRate|percentage_change|stringformat:'%.2f' }}" />
+                            <span style="position:absolute;">%</span>
+                    </th>
+                    <th>
+                        <input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;margin-left:20px;"
+                            name="min_transfer" value="{{r.MinTransfer}}" />
+                    </th>
+                    <th>
+                        <input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"
+                            name="max_dividend" value="{{r.MaxDividend}}" />
+                    </th>
+                    <th>
+                        <input type="text" style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:70px;height:30px;"
+                            name="flow_multiple" value="{{r.FlowMultiple}}" />
+                    </th>
+                    <th>
+                        <select name="application_cycle">
+                            <option></option>
+                            <option value="0" {%if r.ApplicationCycle==0%}selected{%endif%}>仅一次</option>
+                            <option value="1" {%if r.ApplicationCycle==1%}selected{%endif%}>月/次</option>
+                            <option value="2" {%if r.ApplicationCycle==2%}selected{%endif%}>周/次</option>
+                        </select>
+                    </th>
+                </tr>
+            </table>
+            <div style="width:800px;height:28px; padding: 10px 0px;">
+                <div style="float:left"> 存送优惠参与场馆</div>
+                <div style="float:left;margin-left:10px;"><input name="venue_all_chose" value="{{r.VenueAllChose}}"
+                        type="checkbox" title="全选" id="level-all" lay-filter="level-all" {%if r.VenueAllChose==2 -%}checked{%endif%}></div>
+            </div>
+            <div style="margin-left:105px;" id="level-venues">
+                {%for r in res%}
+                <input type="checkbox" title="{{r.Name}}" value="{{r.Id}}" code="{{r.Code}}" venuetype="{{r.VenueType}}" style="float:left;">
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">晋级礼金</label>
+        <div class="layui-input-inline">
+            <input type="text" name="upgrade_bonus" lay-verify="number" placeholder="只有首次晋级才有，降级后晋级不能获得"
+                autocomplete="off" class="layui-input" value="{{r.UpgradeBonus|floatformat:0}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">每日总次数</label>
+        <div class="layui-input-inline">
+            <input type="text" name="day_withdraw_count" lay-verify="number" placeholder="只有首次晋级才有，降级后晋级不能获得"
+                autocomplete="off" class="layui-input" value="{{r.DayWithdrawCount|floatformat:0}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">每日总限额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="day_withdraw_total" lay-verify="number" placeholder="只有首次晋级才有，降级后晋级不能获得"
+                autocomplete="off" class="layui-input" value="{{r.DayWithdrawTotal|floatformat:0}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">月俸禄</label>
+        <div class="layui-input-inline">
+            <input type="text" name="month_bonus" lay-verify="number" placeholder="需要完成上月保级积分，下个月1号才可以领取，上月新晋账号可直接领取"
+                autocomplete="off" class="layui-input" value="{{r.MonthBonus|floatformat:2}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px; margin-top: 10px;">专属经理</label>
+        <div class="layui-input-inline">
+            <input type="radio" value="1" name="manager" {%if r.Manager=="1" %}checked{%endif%} title="无">
+            <input type="radio" value="2" name="manager" {%if r.Manager=="2" %}checked{%endif%} title="有">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px; margin-top: 10px;">VIP奢华游</label>
+        <div class="layui-input-inline">
+            <input type="radio" value="1" name="luxurious" {%if r.Luxurious==1%}checked{%endif%} title="无">
+            <input type="radio" value="2" name="luxurious" {%if r.Luxurious==2%}checked{%endif%} title="有">
+        </div>
+    </div>
+    <input type="hidden" name="code_list" value="{{r.CodeList}}">
+</form>
+<div class="layui-layout-admin" style="z-index:99;">
+    <input type="hidden" value="{{r.Id}}" name="id" />
+    <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+        <button type="button" class="layui-btn" id="user-level-submit">立即提交</button>
+        <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取消操作</button>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'form', 'layer'], function () {
+        let $ = layui.$;
+        let form = layui.form;
+        $("#user-level-submit").click(function () {
+            upgrade_deposit = $("input[name='upgrade_deposit']").val();
+            hold_stream = $("input[name='hold_stream']").val();
+            deposit_delivery_rate = parseInt($("input[name='deposit_delivery_rate']").val());
+            deposit_delivery_rate = deposit_delivery_rate / 100;
+            min_transfer = $("input[name='min_transfer']").val();
+            max_dividend = $("input[name='max_dividend']").val();
+            flow_multiple = $("input[name='flow_multiple']").val();
+            application_cycle = $("select[name='application_cycle']").val();
+            manager = $("input[name='manager']:checked").val();
+            luxurious = $("input[name='luxurious']:checked").val();
+            month_bonus = $("input[name='month_bonus']").val();
+            upgrade_bonus = $("input[name='upgrade_bonus']").val();
+            day_withdraw_count = $("input[name='day_withdraw_count']").val();
+            day_withdraw_total = $("input[name='day_withdraw_total']").val();
+            chose = $("#level-all").attr("value");
+            id = $("input[name='id']").val();
+            let venues = '';
+            let code_list = '';
+            if (manager == undefined) {
+                manager = 1;
+            }
+            if (luxurious == undefined) {
+                luxurious = 1;
+            }
+            //venues
+            $("#level-venues input[type='checkbox']:checked").each(function (index, element) {
+                code_list = code_list + $(this).attr("value") + ",";
+                venues = venues + $(this).attr("code") + "-" + $(this).attr("venuetype") + ",";
+            })
+            venues = venues.substring(0, venues.length - 1);
+            code_list = code_list.substring(0, code_list.length - 1);
+            $.ajax({
+                url: "/user_levels/save",
+                type: "post",
+                data: JSON.stringify({
+                    "id": id, "upgrade_deposit": upgrade_deposit, "hold_stream": hold_stream, "deposit_delivery_rate": deposit_delivery_rate,
+                    "min_transfer": min_transfer, "max_dividend": max_dividend, "flow_multiple": flow_multiple, "application_cycle": application_cycle, "manager": manager, "luxurious": luxurious,
+                    "venues": venues, "month_bonus": month_bonus, "upgrade_bonus": upgrade_bonus, "venue_all_chose": chose, "code_list": code_list, "day_withdraw_total": day_withdraw_total, "day_withdraw_count": day_withdraw_count
+                }),
+                success: function (data) {
+                    if (data.errcode == 0) {
+                        layui.layer.msg("修改成功", { icon: 1, timeout: 1300 }, function () {
+                            parent.location.reload()
+                        })
+                    } else {
+                        layui.layer.msg("修改失败", { icon: 2, timeout: 1300 })
+                    }
+                }
+            })
+        });
+        let i = $("#level-all").attr("value");
+        form.on('checkbox(level-all)', function (data) {
+            if (i % 2 == 0) {
+                $("#level-venues input[type='checkbox']").each(function (index, element) {
+                    $(this).prop("checked", false);
+                    $("#level-all").attr("value", 1)
+                })
+            } else {
+                $("#level-venues input[type='checkbox']").each(function (index, element) {
+                    $(this).prop("checked", true);
+                    $("#level-all").attr("value", 2)
+                })
+            }
+            i++;
+            form.render()
+        });
+        $(function () {
+            let venues = $("input[name='code_list']").val();
+            arr = venues.split(",");
+            arrlen = arr.length
+            for (let a = 0; a < arrlen; a++) {
+                $("#level-venues input[type='checkbox']").each(function (index, element) {
+                    if ($(this).attr('value') == arr[a]) {
+                        $(this).prop("checked", true)
+                    }
+                })
+            }
+            form.render()
+        })
+    })
+</script>
+{% endblock body %}

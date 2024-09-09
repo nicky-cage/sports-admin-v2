@@ -1,0 +1,98 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/user_cards/save?user_id={{r.UserId}}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员账号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="user_name" lay-verify="required" placeholder="请输入会员账号" autocomplete="off" class="layui-input" value="{{r.UserName}}" />
+        </div>
+    </div>
+    <div class="layui-inline" style="margin-bottom: 10px;">
+        <label class="layui-form-label">开户地址</label>
+        <div class="layui-input-inline">
+            <div class="layui-inline" style="width: 150px;">
+                <select name="province_id" lay-filter="provinces" id="provinces" value="{{r.ProvinceId}}">
+                    <option value="">请选择省份</option>
+                </select>
+            </div>
+            <div class="layui-inline" style="width: 100px;">
+                <select name="city_id" lay-filter="cities" id="cities" value="{{r.CityId}}">
+                    <option value="">请选择城市</option>
+                </select>
+            </div>
+            <div class="layui-inline" style="width: 100px;">
+                <select name="district_id" id="districts" value="{{r.DistrictId}}">
+                    <option value="">请选择县/区</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item ">
+        <label class="layui-form-label">地址信息</label>
+        <div class="layui-input-inline">
+            <input type="text" name="address" lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input" value="{{r.Address}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开户银行</label>
+        <div class="layui-input-inline">
+            <select name="bank_id" lay-verify="required" lay-search="">
+                <option></option>
+                {% for b in banks -%}
+                <option value="{{b.Id}}" {%if b.Id == r.BankId%}selected="selected"{%endif%}>{{b.Name}}</option>
+                {% endfor -%}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">支行名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="branch_name" lay-verify="required" placeholder="请输入支行名称" autocomplete="off" class="layui-input" value="{{r.BranchName}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开户姓名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="real_name" lay-verify="required" placeholder="请输入开户姓名" autocomplete="off" class="layui-input" value="{{r.RealName}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">银行卡号</label>
+        <div class="layui-input-inline">
+            <input type="text" name="card_number" lay-verify="required" placeholder="请输入银行卡号" autocomplete="off" class="layui-input" value="{{r.CardNumber}}" />
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+<script src="{{STATIC_URL}}/js/region.js"></script>
+<script>
+    layui.use(['form', 'jquery', 'layer'],function() {
+        let $ = layui.$, form = layui.form, layer = layui.layer;
+        $("input[name='user_name']").blur(function() {
+            let name = $("input[name='user_name']").val()
+            $.ajax({
+                url:"/user_cards/detail",
+                type:"get",
+                data:{"user_name":name},
+                success:function(data) {
+                    if (data.errcode == 0) {
+                        $("input[name=real_name]").val(data.data)
+                    }
+                }
+            });
+        });
+
+        $("input[name='real_name']").blur(function() {
+            let reg = /^[\u4e00-\u9fa5][\u4e00-\u9fa5]{1,10}$/;
+            let name = $("input[name='real_name']").val()
+            if (!reg.test(name)) {
+                layer.open({
+                    title:"温馨提示",
+                    content:"开户姓名不正确",
+                })
+                return false;
+            }
+        });
+    });
+</script>
+{% endblock body %}

@@ -1,0 +1,67 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-fluid">
+    <!-- 搜索框 -->
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <form class="layui-form" method="post" action="/deposit_discounts/save_do" lay-filter="component-form-element">
+                    <div class="layui-card-header" style="color: blue;">基本信息</div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label" style="width: 90px;margin-top: 10px;">推荐支付</label>
+                            <div class="layui-input-inline">
+                                <input type="radio" name="recommend" lay-filter="layChoose" {% if r.Recommend == 1%}checked {%endif%} value="1" title="否" />
+                                <input type="radio" name="recommend" lay-filter="layChoose" {% if r.Recommend == 2%}checked {%endif%} value="2" title="是" />
+                            </div>
+                        </div>
+
+                    <div class="layui-card-header" style="color: blue;">优惠设置</div>
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card">
+                                <table class="layui-table">
+                                    <colgroup>
+                                        <col width="100">
+                                        <col width="130">
+                                        <col width="150">
+                                        <col width="120">
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                    <tr style="color: black;">
+                                        <th>会员等级</th>
+                                        <th>优惠百分比(%)</th>
+                                        <th>每日最高优惠(元)</th>
+                                        <th>流水倍数(元)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for p in info -%}
+                                    {% if p.Vip != "VIP9" && p.Vip != "VIP10" -%}
+                                    <tr>
+                                        <td>{{p.Vip}}<input type="hidden" name="{{p.Vip}}*VIP" value="{{p.Vip}}" /></td>
+                                        <td><input type="text" name="{{p.Vip}}*ratio" lay-verify="required" value="{{p.Ratio}}" placeholder="请输入优惠百分比" autocomplete="off" class="layui-input" /></td>
+                                        <td><input type="text" name="{{p.Vip}}*day_max_discount" lay-verify="required" value="{{p.DayMaxDiscount}}" placeholder="请输入每日最高优惠" autocomplete="off" class="layui-input" /></td>
+                                        <td><input type="text" name="{{p.Vip}}*multiple" lay-verify="required" value="{{p.Multiple}}" placeholder="请输入流水倍数" autocomplete="off" class="layui-input" /></td>
+                                    </tr>
+                                    {% endif -%}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="hidden" value="{{r.Id}}" name="id" />
+                        <div class="layui-input-inline" style="margin-left: 200px;margin-bottom: 10px;margin-top: 10px;width: 300px;">
+                            <button class="layui-btn" lay-submit lay-filter="sp-save">提交</button>
+                            <button class="layui-btn layui-btn-primary sp-btn-cancel">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

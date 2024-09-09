@@ -1,0 +1,90 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="5">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">变化时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" class="layui-input sp-form-datetime" placeholder="开始 到 结束" id="test5" style="width: 300px;" readonly="readonly">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">操作人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="admin" placeholder="请输入操作人" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">调整类型</label>
+                            <div class="layui-input-inline">
+                                <select name="adjust_type">
+                                    <option value="">请选择标签</option>
+                                    <option value="0">保级</option>
+                                    <option value="1">升级</option>
+                                    <option value="2">降级</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150">
+                        <col width="120">
+                        <col width="120">
+                        <col width="150">
+                        <col width="150">
+                        <col width="80">
+                        <col width="120">
+                        <col width="130">
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>会员账号</th>
+                            <th>累计存款(元)</th>
+                            <th>累计流水(元)</th>
+                            <th>调整前等级</th>
+                            <th>调整后等级</th>
+                            <th>调整类型</th>
+                            <th>操作人</th>
+                            <th>变化时间</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/user_level_changes">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

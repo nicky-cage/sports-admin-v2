@@ -1,0 +1,24 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.Vip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>{{r.Available|stringformat:"%.2f"}}</td>
+    <td>{{r.Realname}}</td>
+    <td>{{r.TopName}}</td>
+    <td class="sp-label">{{r.Phone}}/{{r.Email}}</td>
+    <td class="sp-label">{{r.RegisterIp}} &nbsp; <span style="color:blue">{{r.RegisterIp|ip_area}}</span></td>
+    <td class="sp-label">{{r.LastLoginIp}} &nbsp; <span style="color:blue">{{r.LastLoginIp|ip_area}}</span></td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{%if r.Status == 1 %}<span style="color: red;">停用</span>{%else%}<span style="color: green;">启用中</span>{%endif%}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_account_sets/top_money", 4) -%}
+            {%if r.Status == 2 && r.Id > 2000%}
+                <button class="layui-btn layuiadmin-btn-list top" uid="{{r.Id}}" data-type="add">上分</button>
+            {%else -%} -
+            {%endif%}
+        {%endif -%}
+        <!--<button class="layui-btn layuiadmin-btn-list layui-btn-danger down"  data-type="add">下分</button>-->
+    </td>
+</tr>
+{% endfor %}

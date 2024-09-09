@@ -1,0 +1,75 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="4">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">IP地址</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="login_ip" placeholder="请输入IP地址" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">登录时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="off" autocomplete="off" readonly="readonly" id="dd" class="layui-input sp-form-date">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="200" />
+                        <col width="120" />
+                        <col width="200" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col />
+                        <col width="130" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员/代理</th>
+                            <th>登录IP</th>
+                            <th>地址</th>
+                            <th>终端</th>
+                            <th>设备编号</th>
+                            <th>登录时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%include "_logins.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,182 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<div style="width:350px;position:relative;margin-right:25px;height:500px;">
+<div class="layui-form-item">
+    <label class="layui-form-label"> 会员账号</label>
+    <div class="layui-input-block">
+        <input type="text"   name="username" value="" placeholder="多账号用,隔开"  autocomplete="off" class="layui-input">
+    </div>
+    <input type="hidden" name="id" value="{{id}}">
+    <input type="hidden" name="agent_name" value="{{username}}">
+    <input type="hidden" name="before_agent" value="">
+    <span style="position:relative;right:-110px;">当前有<span name="num" style="color:#ff0000;"></span>个会员</span>
+</div>
+    <div style="position:absolute;top:5px;right:-100px;">
+    <button class="layui-btn layui-btn-normal"  id="user-check">检查</button>
+    </div>
+    <div  style="width:500px;margin:20px 50px;">
+        <table class="layui-table" id="check" lay-skin="nob">
+            <tr id="tb" style="display: none;">
+                <td><input type="checkbox" id="all-user-choice"></td>
+                <td>会员账号</td>
+                <td>转代前上级代理账号</td>
+                <td>转代后上级代理账号</td>
+                <td>备注</td>
+            </tr>
+            <tbody id="user-add"></tbody>
+        </table>
+    </div>
+    <div class="layui-layout-admin" style="z-index:99;">
+        <div class="layui-input-block layui-footer" style="margin-left: 400px; left: 0px;">
+            <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel"  lay-filter="cancel">取消</button>
+            <button type="button" class="layui-btn user-sub">确定</button>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form', 'jquery', 'layer'], function() {
+        let $ = layui.$
+        let layer = layui.layer;
+
+        $(function(){
+            let b=1;
+            $("#user-check").click(function(){
+                $("#user-add").children("tr").remove()
+                let str = $("input[name='username']").val();
+                if (str==""){
+                    layer.open({
+                        title:"温馨提示",
+                        content:"请不要输入空白内容",
+                    })
+                    return
+                }
+                let arr = str.split(',');
+                let num = Object.keys(arr).length;
+                $("span[name='num']").html(num);
+                $("#tb").css("display",'');
+                let i=0;
+                var array={};
+                getHandler(arr,i,num,array);
+
+            });
+
+           function getHandler(arr,i,num,array){
+               if ( i >= num ) {
+                   return false;
+               }
+
+                $.ajax({
+                   url:"/agents/detail",
+                   type:"get",
+                   data:{"username":arr[i]},
+                   success:function(data){
+                       let name="{{username}}";
+                       if (data.errcode == 0){
+                          let v=data.data;
+                           let html = '';
+                           html = html +'<tr>';
+                           if(v["top_name"]!=name){
+                               html = html + '<td><input type="checkbox"></td>';
+                           }else{
+                               html = html + '<td></td>';
+                           }
+                           html = html + '<td name="user">'+v["username"]+'</td>';
+                           html = html + '<td>'+v["top_name"]+'</td>';
+                           html = html + '<td>{{username}}</td>';
+                           if(v["top_name"]==name){
+                               html = html + '<td>已经是代理的下线会员</td>';
+                           }else{
+                               html = html +'<td><input type="text" name="remark" placeholder="转代"></td>';
+                           }
+                           html = html +'</tr>';
+                           $("input[name='before_agent']").val(v["top_name"]);
+                           $("#user-add").append(html)
+                       }else{
+                           layui.layer.msg(data.message,{icon:2})
+                       }
+                   },
+
+               });
+
+               i++;
+               getHandler(arr,i,num,array)
+           }
+
+            $("#all-user-choice").click(function(){
+                if (b == 1){
+                    $("#user-add tr").each(function(){
+                        $("#user-add tr td input[type='checkbox']").prop("checked", true);
+                    })
+                }else{
+                    $("#user-add tr").each(function(){
+                        $("#user-add tr td input[type='checkbox']").removeAttr("checked");
+                    })
+                }
+                if (b == 2){
+                    b = 0;
+                }
+                b++;
+            })
+
+            $(".user-sub").click(function(){
+                //获取选中的name
+                let num = $("#user-add tr").length;
+                let id =$("input[name='id']").val();
+                let name=$("input[name='agent_name']").val();
+                let remark=$("input[name='remark']").val();
+                let beforeName=$("input[name='before_agent']").val();
+                if (num==0){
+                    layer.open({
+                        title:"温馨提示",
+                        content:"请选择会员",
+                        time:1000,
+                    })
+                    return false;
+                }
+                let str="";
+                for(let b=0;b<num;b++) {
+                    var a = $("#user-add tr:nth-child(" + (b+1)+ ") td input[type='checkbox']").prop("checked");
+
+                    if (a == true) {
+                        let temp=$("#user-add tr:nth-child(" + (b+1) + ") td[name='user']").html();
+                            str=str+temp+",";
+                    }
+                }
+                str= str.substring(0,str.length-1);
+                    if (str==""){
+                        layer.open({
+                            title:"温馨提示",
+                            content:"请选择会员",
+                            time:800,
+                        })
+                        return false;
+                    }
+                    $.ajax({
+                        url:"/agents/lower_add",
+                        type:"post",
+                        data:JSON.stringify({"username":str,"top_id":id,"top_name":name,"remark":remark,"before_agent":beforeName}),
+                        success:function(data){
+                            if (data.errcode==0){
+                                layer.open({
+                                    title:"温馨提示",
+                                    content:"添加成功",
+                                });
+                                setTimeout(function(){ window.location.reload()},1000)
+                            }else{
+                                layer.open({
+                                    title:"温馨提示",
+                                    content:data.message
+                                })
+                            }
+                        }
+                    })
+
+            })
+
+        })
+
+    })
+</script>
+{% endblock body %}

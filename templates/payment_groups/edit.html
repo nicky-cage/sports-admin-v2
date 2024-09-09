@@ -1,0 +1,65 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/payment_groups/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">分组名称</label>
+        <div class="layui-input-inline">
+            <input name="name" lay-verify="required" placeholder="请输入分组名称" autocomplete="off" class="layui-input" value="{{r.Name}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">分组等级</label>
+        <div class="layui-input-inline">
+            <input name="level" lay-verify="required" placeholder="请输入分组等级" autocomplete="off" class="layui-input" value="{{r.Level}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">分组类型</label>
+        <div class="layui-input-inline">
+            <select name=type" lay-filter="type" >
+                <option value="0">特殊组</option>
+                {% if r.Type == 1 -%}
+                <option value="1" selected="selected">晋级组</option>
+                {% endif -%}
+            </select>
+        </div>
+    </div>
+    <!--<div class="layui-form-item">
+        <label class="layui-form-label form-label">每日最大提款次数</label>
+        <div class="layui-input-inline">
+            <input name="max_withdraw" lay-verify="required" placeholder="请输入每日最大提款次数" autocomplete="off" class="layui-input" value="{{r.MaxWithdraw}}" />
+        </div>
+    </div>-->
+    <div class="layui-form-item" id="upgrade_amount-div" style="{%if r.Type == 0 -%}display: none;{%endif-%}">
+        <label class="layui-form-label form-label">累积存款晋级额度</label>
+        <div class="layui-input-inline">
+            <input name="upgrade_amount" lay-verify="required" placeholder="请输入累积存款晋级额度" autocomplete="off" class="layui-input" value="{{r.UpgradeAmount}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">备注</label>
+        <div class="layui-input-inline">
+            <input name="remark" placeholder="请输入备注" autocomplete="off" class="layui-input" value="{{r.Remark}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label form-label">支付渠道</label>
+        <div class="layui-input-inline" style="width: 450px; overflow: auto; padding: 0px 0px 5px 0px;">
+            <div class="sp-form-checkbox-list" name="channels" value="{{r.Channels}}" items="{{channels}}" />
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.use(['jquery', 'form'], function() {
+        let $ = layui.jquery, form = layui.form, upgrade_amount = $("#upgrade_amount-div");
+        form.on("select(type)", function(data) {
+            if (data.value == "1") {
+                upgrade_amount.show();
+            } else {
+                upgrade_amount.hide();
+            }
+        });
+    });
+</script>
+{% endblock body %}

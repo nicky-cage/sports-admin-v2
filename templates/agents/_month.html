@@ -1,0 +1,31 @@
+{% for k,r in res %}
+<tr>
+    <td>{{r.id}}</td>
+    <td name="month">{{r.month}}</td>
+    <td name="user_id">{{r.id}}</td>
+    <td name="username">{{r.username}}</td>
+    <td name="type" value="1">{%if r.type=="1"%}普通代理{%else%}官方代理{%endif%}</td>
+    <td name="top_name">{{r.top_name}}</td>
+    <td name="lower_num">{{r.lower_num}}</td>
+    <td name="available" style="display:none;">{{r.available}}"></td>
+    <td name="frozen" style="display:none;">{{r.frozen}}"></td>
+    <td name="active_num">{{r.active_num}}</td>
+    <td name="deposit">{{r.deposit}}</td>
+    <td name="withdraws">{{r.withdraws}}</td>
+    <td name="final_win_lose">{{r.final_win_lose}}</td>
+    <td name="game_venue_cost">{{r.game_venue_cost}}</td>
+    <td name="dividends">{{r.dividends}}</td>
+    <td name="rebate">{{r.rebate}}</td>
+    <td name="win_lose_adjust">111</td>
+    <td name="net_profit">{{r.net_profit}}</td>
+    <td name="last_balance">{{r.last_balance}}</td>
+    <td name="washed_win">{{r.washed_win}}</td>
+    <td name="rate">{{r.rate}}</td>
+    <td name="commission_adjust">{{r.commission_adjust}}</td>
+    <td name="money">{{r.money}}</td>
+    <td name="balance">{{r.balance}}</td>
+    <td name="remark">{{r.remark}}</td>
+    <td></td>
+</tr>
+{%endfor%}
+

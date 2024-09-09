@@ -1,0 +1,33 @@
+{% for r in rows %}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.BankRealname}}</td>
+    <td>{{r.BankName}}</td>
+    <td>{{r.BankCode}}</td>
+    <td>{{r.BankAddress}}</td>
+    <td style="word-break: break-all; cursor: pointer;" class="sp-alert" text="{{r.Vips}}">{{r.Vips|truncatechars:22}}</td>
+    <td>{{r.TotalUsedMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.DayMoneyLimit|stringformat:"%.2f"}}</td>
+    <td>{{r.DayUsedMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.MinMoneyLimit|stringformat:"%.2f"}}</td>
+    <td>{{r.MaxMoneyLimit|stringformat:"%.2f"}}</td>
+    <td>{{r.DayTimesLimit}}</td>
+    <td>{{r.DayUseTimes}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/receive_bank_cards/state", 4) -%}
+        <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|停用" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.Status}}" url="/receive_bank_cards/state" rid="{{r.Id}}" />
+        {%else -%} {{r.Status|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>{{r.Fee|stringformat:'%.2f'}}</td>
+    <td>{{r.Remark}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/receive_bank_cards/update", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/receive_bank_cards/update" area="800px,750px" tab="0" data-type="add">修改</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/receive_bank_cards/delete", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete" tab="0" url="/receive_bank_cards/delete">删除</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

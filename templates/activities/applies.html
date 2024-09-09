@@ -1,0 +1,226 @@
+<!-- 搜索框 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="1">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">申请时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="created" class="layui-input sp-form-date" id="created_div_audits">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">订单号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="bill_no" placeholder="请输入订单号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">会员账号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">钱包类型</label>
+                        <div class="layui-input-inline">
+                            <select name="money_type">
+                                <option value="">全部</option>
+                                <option value="1">中心钱包</option>
+                                <option value="2">场馆钱包</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">红利类型</label>
+                        <div class="layui-input-inline">
+                            <select name="type">
+                                <option value="">全部</option>
+                                <option value="1">反水红利</option>
+                                <option value="2">生日礼金</option>
+                                <option value="3">VIP晋级</option>
+                                <option value="4">VIP每月红包</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">是否需流水</label>
+                        <div class="layui-input-inline">
+                            <select name="flow_limit">
+                                <option value="">全部</option>
+                                <option value="1">否</option>
+                                <option value="2">是</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">申请人</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="applicant" placeholder="请输入申请人" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="layui-card-body">
+    <div>
+        <button class="layui-btn layui-btn-normal batch_agree">批量通过</button>
+        <button class="layui-btn layui-btn-danger batch_refuse">批量拒绝</button>
+    </div>
+</div>
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" name="id_all" value="all" lay-filter="layAllChoose"  lay-skin="primary"></th>
+                        <th>序号</th>
+                        <th>订单号</th>
+                        <th>会员账号</th>
+                        <th>钱包类型</th>
+                        <th>红利类型</th>
+                        <th>是否需流水</th>
+                        <th>流水倍数(倍)</th>
+                        <th>操作金额(元)</th>
+                        <th>申请人</th>
+                        <th>申请时间</th>
+                        <th>申请备注</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate'], function() {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+        let get_user_info = function(that) { //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $("td:eq(1)", tr).text();
+            return {id: id};
+        };
+        $("input:checkbox[name='id_all']").click(function() {
+            if (this.checked) {
+                $("input[name='id']:checkbox").each(function() {
+                    $(this).prop("checked", true);
+                })
+            } else {   //反之 取消全选
+                $("input[name='id']:checkbox").each(function() {
+                    $(this).prop("checked", false);
+                })
+            }
+        });
+        $(document).off("click", ".agree");
+        $(document).on("click", ".agree", function() {
+            let info = get_user_info($(this));
+
+            layer.open({
+                type: 2,
+                area: ['500px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                title: "审核通过",
+                content: "/dividend_audits/edit_view?id="+info.id+"&type=agree"
+            });
+        });
+        $(document).off("click", ".refuse");
+        $(document).on("click", ".refuse", function() {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['500px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                title: "审核不通过",
+                content: "/dividend_audits/edit_view?id="+info.id+"&type=refuse"
+            });
+        });
+        $(document).off("click", ".batch_agree");
+        $(document).on("click", ".batch_agree", function() {
+            let arr = new Array();
+            $("input:checkbox[name='id']:checked").each(function(i){
+                arr[i] = $(this).val();
+            });
+            let ids=arr.join(",");
+
+            if(ids==""){
+                layui.layer.msg("请选择订单", {icon: 2});
+                return false;
+            }
+            layer.open({
+                type: 2,
+                area: ['500px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                title: "批量审核通过",
+                content: "/dividend_audits/edit_view?id="+ids+"&type=batch_agree"
+            });
+        });
+        $(document).off("click", ".batch_refuse");
+        $(document).on("click", ".batch_refuse", function() {
+            let arr = new Array();
+            $("input:checkbox[name='id']:checked").each(function(i){
+                arr[i] = $(this).val();
+            });
+            let ids=arr.join(",");
+            if(ids==""){
+                layui.layer.msg("请选择订单", {icon: 2});
+                return false;
+            }
+            layer.open({
+                type: 2,
+                area: ['500px', '400px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade:0.4,
+                title: "批量审核不通过",
+                content: "/dividend_audits/edit_view?id="+ids+"&type=batch_refuse"
+            });
+        });
+    });
+</script>

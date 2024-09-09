@@ -1,0 +1,35 @@
+{% extends "../layouts/base.html" -%}
+{% block body -%}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="sp-lazy-load">
+                    <ul class="layui-tab-title">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits", 4) -%}
+                        <li class="layui-this">待审核列表</li>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/hand_up/list", 4) -%}
+                        <li>审核挂起列表</li>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/history", 4) -%}
+                        <li>历史记录列表</li>
+                        {%endif -%}
+                    </ul>
+                    <div class="layui-tab-content">
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits", 4) -%}
+                        <div class="layui-tab-item layui-show" url="/risk_audits">{% include "applies.html" -%}</div>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/hand_up/list", 4) -%}
+                        <div class="layui-tab-item" url="/risk_audits/hand_up/list">{% include "hangs.html" -%}</div>
+                        {%endif -%}
+                        {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/history", 4) -%}
+                        <div class="layui-tab-item" url="/risk_audits/history">{% include "history.html" -%}</div>
+                        {%endif -%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body -%}

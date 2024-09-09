@@ -1,0 +1,109 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layui-form-item layuiadmin-card-header-auto">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">菜单名称</label>
+                        <div class="layui-input-inline">
+                            <input name="menu_name" placeholder="请输入菜单名称" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">后台用户</label>
+                        <div class="layui-input-inline">
+                            <input name="admin_name" placeholder="请输入后台用户名称" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">操作对象</label>
+                        <div class="layui-input-inline">
+                            <input name="user_name" placeholder="请输入前台用户名称" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">IP地址</label>
+                        <div class="layui-input-inline">
+                            <input name="ip" placeholder="请输入IP地址" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="layui-inline">
+                        <label class="layui-form-label">操作KEY</label>
+                        <div class="layui-input-inline">
+                            <input name="operatioin_key" placeholder="请输入KEY" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">请求方法</label>
+                        <div class="layui-input-inline">
+                            <select name="method">
+                                <option value="">请选择请求方法</option>
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">请求时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="user-register" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                        <button class="layui-btn sp-form-reset" type="button">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="60" />
+                        <col width="90" />
+                        <col width="120" />
+                        <col width="150" />
+                        <col width="50" />
+                        <col width="180" />
+                        <col width="40" />
+                        <col width="65" />
+                        <col width="230" />
+                        <col width="250" />
+                        <col />
+                        <col width="120" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>菜单编号</th>
+                        <th>菜单/模块</th>
+                        <th>后台用户编号/名称</th>
+                        <th>操作对象编号/名称</th>
+                        <th>方法</th>
+                        <th>请求路径</th>
+                        <th>级别</th>
+                        <th>类型</th>
+                        <th>KEY</th>
+                        <th>操作IP/地区</th>
+                        <th>请求数据</th>
+                        <th>请求时间</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/access_logs">{% include "_list.html" %}</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

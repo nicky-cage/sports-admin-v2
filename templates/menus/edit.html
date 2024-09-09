@@ -1,0 +1,88 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/menus/save">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="margin-top: 5px;">上级菜单</label>
+        <div class="layui-input-inline">
+            <div class="layui-inline" style="width: 180px;"><span class="sp-text">{{r.ParentId}} (菜单序号, 不可修改)</span></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input" value="{{r.Name}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单级别</label>
+        <div class="layui-input-inline">
+            <select name="level" lay-verify="required" lay-search="">
+                <option value="">请选择菜单级别</option>
+                {%for k in menuLevelIds%}
+                <option value="{{k}}" {%if r.Level == k%}selected{%endif%}>{{k}} - {{k|menu_level_type}}</option>
+                {%endfor%}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">链接地址</label>
+        <div class="layui-input-inline">
+            <input type="text" name="url" lay-verify="required" placeholder="请输入链接地址" autocomplete="off" class="layui-input" value="{{r.Url}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否显示</label>
+        <div class="layui-input-inline">
+            <select name="is_view" lay-verify="required" lay-search="">
+                <option value="1">是</option>
+                <option value="0" {%if r.IsView == 0%}selected{%endif%}>否</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">访问日志</label>
+        <div class="layui-input-inline">
+            <select name="enable_log" lay-verify="required" lay-search="">
+                <option value="1">是</option>
+                <option value="0" {%if r.EnableLog == 0%}selected{%endif%}>否</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">日志级别</label>
+        <div class="layui-input-inline">
+            <select name="log_level" lay-verify="required" lay-search="">
+                <option value="1">低</option>
+                <option value="2" {%if r.LogLevel == 2%}selected{%endif%}>中</option>
+                <option value="3" {%if r.LogLevel == 3%}selected{%endif%}>高</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">日志类型</label>
+        <div class="layui-input-inline">
+            <select name="log_type" lay-verify="required" lay-search="">
+                <option value="1">添加</option>
+                <option value="2" {%if r.LogType == 2%}selected{%endif%}>修改</option>
+                <option value="3" {%if r.LogType == 3%}selected{%endif%}>删除</option>
+                <option value="4" {%if r.LogType == 4%}selected{%endif%}>数据列表</option>
+                <option value="5" {%if r.LogType == 5%}selected{%endif%}>数据详情</option>
+                <option value="9" {%if r.LogType == 9%}selected{%endif%}>其他</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">图标样式</label>
+        <div class="layui-input-inline">
+            <input type="text" name="icon" lay-verify="required" placeholder="请输入图标样式" autocomplete="off" class="layui-input" value="{{r.Icon}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <input type="text" name="remark" lay-verify="required" style="width: 380px;" placeholder="请输入相关备注" autocomplete="off" class="layui-input" value="{{r.Remark}}" />
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

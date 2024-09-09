@@ -1,0 +1,53 @@
+{% if rows -%}
+{% for r in rows %}
+<tr {%if forloop.Counter==1 -%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.BillNo}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/detail", 4) -%}
+        <a href="javascript:void(0)" class="sp-open-link agents" rid="{{r.UserId}}" url="/users/detail" area="98%,98%">{{r.Username}}</a>
+        {%else -%}{{r.Username}}
+        {%endif -%}
+    </td>
+    <td>{{r.Vip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>
+        {{r.Money|stringformat:"%.2f"}} <br />
+        <button class="layui-btn layui-btn-primary" style="background-color: mediumpurple; color: white;">
+            {{r.VirtualCoin|stringformat:'%.2f'}} U
+        </button>
+    </td>
+    <td>{%if r.WithdrawCost > 0 -%}<span style="color: red">{{r.WithdrawCost|stringformat:"%.2f"}}</span>
+        {%else -%}{{r.WithdrawCost|stringformat:"%.2f"}}
+        {%endif -%}
+    </td>
+    {% set actual_money = r.Money - r.WithdrawCost %}
+    <td>{{actual_money|stringformat:"%.2f"}}</td>
+    <td>{{r.Label|platform_wrap:PLATFORM|user_labels|safe}}
+    <td>{{r.BankRealname}}/{{r.BankName}}<br />{{r.BankCard}}/{{r.BankAddress}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.RiskProcessAt}}</td>
+    <td>{{r.RiskAdmin}}</td>
+    <td>{%if r.Status == 1 %}处理中{%elif r.Status == 2 %}成功{%else%}失败{%endif%}</td>
+    <td>
+        {%if r.Status == 1 %}
+        <button class="layui-btn layuiadmin-btn-list success" data-type="add" uid="{{r.UserId}}">成功</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger failure" data-type="add" uid="{{r.UserId}}">失败</button>
+        {%endif%}
+    </td>
+</tr>
+{% endfor %}
+<tr>
+    <td colspan="4"><span style="color: red;">小计 (当前页面)</span></td>
+    <td><span style="color: red;">{{subtotal_apply|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red;">{{subtotal_cost|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red;">{{subtotal_actual|stringformat:"%.2f"}}</span></td>
+    <td colspan="7"></td>
+</tr>
+<tr>
+    <td colspan="4"><span style="color: red;">总计</span></td>
+    <td><span style="color: red;">{{total_apply|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red;">{{total_cost|stringformat:"%.2f"}}</span></td>
+    <td><span style="color: red;">{{total_actual|stringformat:"%.2f"}}</span></td>
+    <td colspan="7"></td>
+</tr>
+{% endif -%}

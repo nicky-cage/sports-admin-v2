@@ -1,0 +1,121 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="2">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">申请时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" class="layui-input sp-form-datetime" placeholder="开始 到 结束" id="created_user_dividends" style="width:330px;">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="bill_no" placeholder="请输入订单号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">红利类型</label>
+                            <div class="layui-input-inline">
+                                <select name="type">
+                                    <option value="">全部</option>
+                                    {%for k, v in dividendTypes%}
+                                    <option value="{{k}}">{{v}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">是否需流水</label>
+                            <div class="layui-input-inline">
+                                <select name="flow_limit">
+                                    <option value="">全部</option>
+                                    <option value="1">否</option>
+                                    <option value="2">是</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">操作人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="reviewer" placeholder="请输入操作人" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="state">
+                                    <option value="">全部</option>
+                                    <option value="1">审核中</option>
+                                    <option value="2">成功</option>
+                                    <option value="3">失败</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150">
+                        <col width="100">
+                        <col width="100">
+                        <col width="80">
+                        <col width="80">
+                        <col width="80">
+                        <col width="80">
+                        <col width="105">
+                        <col width="105">
+                        <col width="130">
+                        <col width="130">
+                        <col width="80">
+                        <col />
+                        <col width="80">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>会员账号</th>
+                            <th>会员等级</th>
+                            <th>红利类型</th>
+                            <th>发放方式</th>
+                            <th>派发平台</th>
+                            <th>需要流水</th>
+                            <th>流水倍数(倍)</th>
+                            <th>红利金额(元)</th>
+                            <th>申请时间</th>
+                            <th>发放时间</th>
+                            <th>操作人</th>
+                            <th>审核备注</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/user_changes"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

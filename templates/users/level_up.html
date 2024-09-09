@@ -1,0 +1,26 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/users/level_up_save?id={{userID}}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员等级</label>
+        <div class="layui-input-inline">
+            <select name="vip" class="layui-select">
+                {%for v in levels -%}
+                <option value="{{v.Id}}" {%if currentVIP == v.Id -%}selected="selected"{%endif-%}>{{v.Name}}</option>
+                {%endfor%}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">&nbsp;</label>
+        <div class="layui-input-inline red" style="width: 300px;">
+            <strong>***  警告  ***</strong><br />
+            1. 此操作仅限于修改用户VIP级别 <br />
+            2. 此操作不会赠送/减少任何VIP升级/降级相关礼金 <br />
+            3. 此操作将修改用户数据, 请情重使用 <br />
+            <strong>***  警告  ***</strong><br />
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

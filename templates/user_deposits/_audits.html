@@ -1,0 +1,29 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.OrderNo}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.Vip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.ArriveMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.Discount|stringformat:"%.2f"}}</td>
+    <td>{{r.Label|platform_wrap:PLATFORM|user_labels|safe}}</td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.Applicant}}</td>
+    <td>
+        <button class="layui-btn layuiadmin-btn-list agree" uid="{{r.UserId}}" data-type="add">通过</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger refuse" uid="{{r.UserId}}" data-type="add">拒绝</button>
+    </td>
+</tr>
+{% endfor %}
+<tr>
+    <td colspan="4"><span style="color: red">小计(当前页)</span></td>
+    <td><span style="color: red">{{page_sum_money|stringformat:"%.2f"}}</span></td>
+    <td colspan="7"></td>
+</tr>
+<tr>
+    <td colspan="4"><span style="color: red">总计</span></td>
+    <td><span style="color: red">{{sum_money|stringformat:"%.2f"}}</span></td>
+    <td colspan="7"></td>
+</tr>

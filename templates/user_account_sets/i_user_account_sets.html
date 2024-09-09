@@ -1,0 +1,135 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="140" />
+                        <col width="100" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col />
+                        <col width="240" />
+                        <col width="240" />
+                        <col width="125" />
+                        <col width="80" />
+                        <col width="60" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员账号</th>
+                            <th>会员等级</th>
+                            <th>中心钱包余额(元)</th>
+                            <th>真实姓名</th>
+                            <th>所属代理</th>
+                            <th>手机/QQ/邮箱/微信</th>
+                            <th>注册IP/地区</th>
+                            <th>最后登录IP/地区</th>
+                            <th>注册日期</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/user_account_sets" loaded="loaded">
+                        {% include "_user_account_sets.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let $ = layui.$;
+        let form = layui.form;
+        let element = layui.element;
+        let layer = layui.layer;
+        let laydate = layui.laydate;
+        let get_user_info = function (that) {
+            //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $('td:eq(0)', tr).text();
+            return { id: id };
+        };
+
+        // 上分
+        $(document).off('click', '.top');
+        $(document).on('click', '.top', function () {
+            let info = get_user_info($(this)),
+                that = $(this),
+                uid = that.attr('uid');
+            layer.open({
+                type: 2,
+                area: ['600px', '560px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade: 0.4,
+                title: '上分',
+                content: '/user_account_sets/top_money?id=' + info.id + '&uid=' + uid,
+            });
+        });
+
+        // 下分
+        $(document).off('click', '.down');
+        $(document).on('click', '.down', function () {
+            let info = get_user_info($(this)),
+                that = $(this),
+                uid = that.attr('uid');
+            layer.open({
+                type: 2,
+                area: ['600px', '500px'],
+                fix: false, //不固定
+                maxmin: true,
+                shadeClose: true,
+                shade: 0.4,
+                title: '下分',
+                content: '/user_account_sets/down_money?id=' + info.id + '&uid=' + uid,
+            });
+        });
+    });
+
+    function getCurrDate() {
+        var date = new Date();
+        var sep = '-';
+        var year = date.getFullYear(); //获取完整的年份(4位)
+        var month = date.getMonth() + 1; //获取当前月份(0-11,0代表1月)
+        var day = date.getDate(); //获取当前日
+        if (month <= 9) {
+            month = '0' + month;
+        }
+        if (day <= 9) {
+            day = '0' + day;
+        }
+        var currentdate = year + sep + month + sep + day;
+        return currentdate;
+    }
+</script>

@@ -1,0 +1,53 @@
+{%for r in rows %}
+<tr  {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.id}}</td>
+    <td>{{r.username}}</td>
+    <td>{{r.trans_before_agent}}</td>
+    <td>{{r.top_name}}</td>
+    <td name="deposits">{{r.deposits}}</td>
+    <td name="withdraws">{{r.withdraws}}</td>
+    <td name="valid">{{r.valid_money}}</td>
+    <td name="win">{{r.net_money}}</td>
+    <td name="account">{{r.trans_agent_money}}</td>
+    <td>{{r.transform_agent|time_type_chang}}</td>
+    <td>{{r.trans_agent_admin}}</td>
+    <td>{{r.remark}}</td>
+</tr>
+{%endfor%}
+
+
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form', 'jquery', 'layer'],function() {
+        let $ = layui.$;
+        $(function () {
+            let num = $(".transfer tr").length;
+            let deposits=null;
+            let withdraws=null;
+            let  valid=null;
+            let win=null;
+            let account=null;
+            for (let i = 1; i <= num; i++) {
+                deposits=deposits+ toFix($(".transfer tr:nth-child(" + i + ") td[name='deposits']").html());
+                withdraws=withdraws+toFix($(".transfer tr:nth-child(" + i + ") td[name='withdraws']").html()) ;
+                valid=valid+toFix($(".transfer tr:nth-child(" + i + ") td[name='valid']").html()) ;
+                win=win+toFix( $(".transfer tr:nth-child(" + i + ") td[name='win']").html());
+                account=account+toFix($(".transfer tr:nth-child(" + i + ") td[name='account']").html())  ;
+            }
+            $("th[name='de']").html(deposits);
+            $("th[name='di']").html(withdraws);
+            $("th[name='vi']").html(valid);
+            $("th[name='wi']").html(win);
+            $("th[name='ai']").html(account);
+
+
+        })
+
+        function toFix(num){
+            let m = Math.pow(10, 2);
+            let temp =parseInt(num * m, 10) / m;
+            return temp;
+        }
+    })
+</script>

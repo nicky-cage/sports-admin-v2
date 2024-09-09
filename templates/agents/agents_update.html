@@ -1,0 +1,143 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="" method="post" action="/agents/save">
+    <div class="layui-form-item layui-row">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">代理账号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="username" lay-verify="required" value="{{r.username}}" disabled  autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 手机账号 </label>
+            <div class="layui-input-inline">
+                <input type="text" name="phone" value="{{r.phone}}" lay-verify="member"  autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item row">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> QQ</label>
+            <div class="layui-input-inline">
+                <input type="text"  name="qq" value="{{r.qq}}" lay-verify="member" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 真实姓名</label>
+            <div class="layui-input-inline">
+                <input type="text"  name="realname" value="{{r.realname}}" lay-verify="required"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 邮箱地址</label>
+            <div class="layui-input-inline">
+                <input type="text"   name="email" value="{{r.email}}" lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 代理类型</label>
+            <div class="layui-input-inline">
+                <select name="agent_type" lay-verify="required">
+                    <option></option>
+                    <option value="0"  {%if r.agent_type =="0"%}selected{%endif%}>普通代理</option>
+                    <option value="1" {%if r.agent_type =="1"%}selected{%endif%}>官方代理</option>
+                    <option value="3" {%if r.agent_type =="3"%}selected{%endif%}>招商代理</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 最后登录IP</label>
+            <div class="layui-input-inline">
+                <input type="text"  name="last_login_ip" value="{{r.last_login_ip}}"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label"> 注册登录IP</label>
+            <div class="layui-input-inline">
+                <input type="text"   value="{{r.register_ip}}"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg6 commission-rate" style="display:none;">
+            <label class="layui-form-label">占成比例%</label>
+            <div class="layui-input-inline">
+                <input type="text"  name="rate" value="{{rate|stringformat:"%.2f" }}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-col-lg6">
+            <label class="layui-form-label">合营代码</label>
+            <div class="layui-input-inline">
+                <input type="text"  name="partner_code" value="{{r.partner_code}}"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg12">
+            <label class="layui-form-label"> 佣金方案</label>
+            <div class="layui-input-inline">
+                <select name="agent_commission" lay-verify="required" lay-filter="commission_choice">
+                    <option></option>
+                    {%for v in agent_commission%}
+                    <option value="{{v.agent_commission}}-{{v.type}}"   {%if r.agent_commission == v.agent_commission%}selected{%endif%} >{{v.agent_commission}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg12">
+            <label class="layui-form-label"> 专属链接</label>
+            <div class="layui-input-inline" style="width: 475px">
+                <input type="text"  name="user_only_link" value="{{r.user_only_link}}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-form-item">
+        <div class="layui-col-lg12">
+            <label class="layui-form-label"> 推广链接</label>
+            <div class="layui-input-inline" style="width: 475px;">
+                <input type="text"  name="user_link" value="{{r.user_link}}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="type" value="{{types}}">
+    <div class="layui-layout-admin" style="z-index:99;">
+        <input type="hidden" value="{{r.id}}" name="id" />
+        <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="sp-save">立即提交</button>
+            <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use(['form', 'jquery', 'layer'], function() {
+        let $ = layui.$, layer = layui.layer, form = layui.form;
+        let type= $("input[name='type']").val();
+        if (type == 2) {
+            $(".commission-rate").css("display",'block')
+        }
+        let arrs = $("select[name='agent_commission']:selected").val();
+        let rates = $("input[name='rate']").val();
+        form.on('select(commission_choice)', function(data) {
+            let arr = data.value.split("-")
+            if (arr[1] == 2) {
+                $(".commission-rate").css("display",'block');
+                $("input[name='type']").val(2);
+                if (arrs == data.value) {
+                    $("input[name='rate']").val(rates);
+                } else {
+                    $("input[name='rate']").val("");
+                }
+            } else {
+                $("input[name='type']").val(1);
+                $(".commission-rate").css("display",'none');
+            }
+        });
+    });
+</script>
+{% endblock body %}

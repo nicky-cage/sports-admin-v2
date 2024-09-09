@@ -1,0 +1,68 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">投注时间</label>
+                            <div class="layui-input-inline" style="width: 300px">
+                                <input type="text" class="layui-input sp-form-datetime" name="created" placeholder="开始 到 结束" id="created_count_by_venues" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="200" />
+                        <col width="200" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>游戏场馆</th>
+                            <th>注单总数</th>
+                            <th>玩家总数</th>
+                            <th>热度</th>
+                            <th>投注总额</th>
+                            <th>有效投注总额</th>
+                            <th>输赢总计</th>
+                            <th>返水总额</th>
+                            <th>最后同步时间 / PAST</th>
+                            <th>最后更新时间 / 秒差</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/user_bets/count_by_venues"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

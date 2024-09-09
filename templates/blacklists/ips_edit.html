@@ -1,0 +1,25 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/blocked_ips/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">IP地址</label>
+        <div class="layui-input-inline">
+            <input type="text" name="ip" lay-verify="required" placeholder="请输入IP地址" autocomplete="off" class="layui-input" value="{{r.Ip}}" style="width: 300px;" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >备注</label>
+        <div class="layui-input-inline">
+            <textarea name="remark" placeholder="请输入备注" class="layui-textarea" style="width: 300px;">{{r.Remark}}</textarea> 
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >&nbsp;</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" name="disabled_all" title="同时禁用该IP登录过的会员账号" lay-skin="primary" {%if r.DisabledAll == 1%}checked{%endif%} value="1" />
+        </div>
+    </div>
+    <input type="hidden" name="usernames" value="{{r.UserNames}}" />
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

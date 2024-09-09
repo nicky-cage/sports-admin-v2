@@ -1,0 +1,120 @@
+{% if rows -%}
+{%for r in rows -%}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td><input type="checkbox" value="{{r.Id}}" class="user_ids" style="margin-top: 5px;" /></td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/detail", 4) -%}
+            <a href="javascript:void(0)" class="sp-open-link agents" rid="{{r.Id}}" url="/users/detail" area="98%,98%">{{r.Username}}</a>
+        {%else -%}{{r.Username}}
+        {%endif -%}
+    </td>
+    <td>
+        {%if r.Available == 0.0 -%}<span style="color: grey">0.00</span>
+        {%else -%}<span style="color: green">{{r.Available|stringformat:"%.2f"}}</span>
+        {%endif-%}
+    </td>
+    <td>
+        {%if r.AvailableTotal == 0.0 -%}<span style="color: grey">0.00</span>
+        {%else -%}<span style="color: green">{{r.AvailableTotal|stringformat:"%.2f"}}</span>
+        {%endif-%}
+    </td>
+    <td>
+        {% set totalMoney = r.AvailableTotal + r.Available -%}
+        {%if totalMoney  == 0.0 -%}<span style="color: grey">0.00</span>
+        {%else -%}<span style="color: green">{{totalMoney|stringformat:"%.2f"}}</span>
+        {%endif-%}
+    </td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/level_up", 4) -%}
+        <a href="javascript:void(0)" class="user-level-ups" rid="{{r.Id}}" rvip="{{r.Vip}}" rusername="{{r.Username}}">{{r.Vip|platform_wrap:PLATFORM|user_level}}</a>
+        {%else -%}{{r.Vip|platform_wrap:PLATFORM|user_level}}
+        {%endif -%}
+    </td>
+    <td>
+        {{r.RealName}}
+        {%if r.Username == "sys_test_agent" || r.Username == "sys_official_agent" -%}
+        {%else -%}
+            {%for rName, cot in realNameArr -%}
+                {%if rName != "" && rName == r.RealName-%}
+                    (<a href="#" class="sp-open-link" {%if cot >= 2 -%}style="color: red"{%endif-%} url="/users/used_ips?realname={{r.RealName}}" area="1200px, 720px" rid="{{r.Id}}" title="IP/姓名记录">{{cot}}</a>) 
+                {%endif -%}
+            {%endfor -%}
+        {%endif -%}
+    </td>
+    <td>
+        {%if r.IsAgent == 1 %}<span class="green">是</span>{%else%}<span class="red">否</span>{%endif%} |
+        {%if r.TopName == "sys_test_agent" || r.TopName == "sys_official_agent" -%}{{r.TopName}}
+        {%else -%}<a href="javascript:void(0)" class="sp-open-link green" rid="{{r.TopId}}" url="/users/tree_users" area="98%,98%">{{r.TopName}}</a>
+        {%endif -%}
+    </td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/show_im", 6) -%}
+            {%if r.Username == "sys_test_agent" || r.Username == "sys_official_agent" -%}-
+            {%else -%}
+            <span style="cursor: pointer" class="link-show-info" rid="{{r.Id}}" rtype="im_phone">查看</span> |
+            <span style="cursor: pointer" class="link-show-info" rid="{{r.Id}}" rtype="im_email">查看</span> |
+            <span style="cursor: pointer" class="link-show-info" rid="{{r.Id}}" rtype="im_qq">查看</span> |
+            <span style="cursor: pointer" class="link-show-info" rid="{{r.Id}}" rtype="im_wechat">查看</span>
+            {%endif -%}
+        {%else -%} -
+        {%endif -%}
+    </td>
+    <td class="sp-label">
+        {{r. RegisterIp}}
+        <br /><span style="color:blue">{{r.RegisterIp|ip_area}}</span>
+        {%if r.Username == "sys_test_agent" || r.Username == "sys_official_agent" -%}
+        {%else -%}
+            {%for ip, c in registerArr -%}
+            {%if ip != "" && ip == r.RegisterIp -%}
+                (<a href="#" class="sp-open-link" url="/users/used_ips?ip={{r.RegisterIp}}" {%if c >= 2 -%}style="color: red"{%endif-%} area="98%, 98%" rid="{{r.Id}}" title="IP/姓名记录">{{c}}</a>)
+            {%endif -%}
+            {%endfor -%}
+        {%endif -%}
+    </td>
+    <td class="sp-label">
+        {{r.LastLoginIp}}
+        <br /><span style="color:blue">{{r.LastLoginIp|ip_area}}</span>
+        {%if r.Username == "sys_test_agent" || r.Username == "sys_official_agent" -%}
+        {%else -%}
+            {%for ip, c in lastLoginArr -%}
+            {%if ip != "" && ip == r.LastLoginIp -%} 
+                (<a href="#" class="sp-open-link" url="/users/used_ips?ip={{r.LastLoginIp}}" {%if c >= 2 -%}style="color: red"{%endif-%} area="98%, 98%" rid="{{r.Id}}" title="IP/姓名记录">{{c}}</a>)
+            {%endif -%}
+            {%endfor -%}
+        {%endif -%}
+    </td>
+    <td>{%if r.Online%}<span style="color: green">是</span>{%else%}<span style="color: red">否</span>{%endif%}</td>
+    <td>{%if r.Created != 0 %}{{r.Created|datetime}}{%else%}{{r.LastLoginAt|datetime}}{%endif%}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/state", 4) -%}
+        <input type="checkbox" name="status" lay-skin="switch" lay-text="正常|禁用" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.Status}}" url="/users/state" rid="{{r.Id}}" />
+        {%else -%}
+        {{r.Status|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>{{r.Label|platform_wrap:PLATFORM|user_labels|safe}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/detail", 4) -%}
+            <button class="layui-btn sp-open-link agents layui-btn-normal" rid="{{r.Id}}" url="/users/detail" area="98%,98%">详情</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/update", 4) -%}
+        <button class="layui-btn sp-open-link" rid="{{r.Id}}" area="960px,680px" url="/users/update">编辑</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/password", 4) -%}
+            {%if r.Username == "sys_test_agent" || r.Username == "sys_official_agent" -%}
+            {%else -%}<button class="layui-btn sp-open-link layui-btn-danger" url="/users/password" area="600px,280px" rid="{{r.Id}}" title="修改密码 (会员账号: {{r.Username}})">密码</button>
+            {%endif -%}
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/withdraw_password", 4) -%}
+            {%if r.Username == "sys_test_agent" || r.Username == "sys_official_agent" -%}
+            {%else -%}<button class="layui-btn  layui-btn-danger" id="reset_withdraw_password" rid="{{r.Id}}">资密</button>
+            {%endif -%}
+        {%endif -%}
+    </td>
+</tr>
+{%endfor -%}
+<tr>
+    <td colspan="4">在线人数: {{onlineCount}}</td>
+    <td colspan="12"></td>
+</tr>
+{%endif -%}

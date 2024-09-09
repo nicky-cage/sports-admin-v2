@@ -1,0 +1,24 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Ename}}</td>
+    <td>{{r.Name}}</td>
+    <td>{{r.VenueType|game_venue_type}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>{{r.Sort}}</td>
+    <td>
+        <button class="layui-btn layui-btn-normal">{%if r.Maintain==2%}维护{%else%}{%if r.IsOnline==1%}正常{%else%}下线{%endif%}{%endif%}</button>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/game_venues/state", 4) -%}
+            <a href="#" class="sp-open-link" url="/game_venues/state" title="场馆状态设置" area="600px,600px" rid="{{r.Id}}">修改</a>
+        {%endif -%}
+    </td>
+    <td>{%if r.Wallet==1%}在线{%else%}下线{%endif%}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/game_venues/update", 4) -%}
+        <button class="layui-btn  layui-btn-green sp-open-link" url="/game_venues/update" area="800px,400px" tab="0">编辑</button>
+        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/game_maintains_log", 4) -%}
+        <button class="layui-btn  layui-btn-green sp-open-link" title="操作日志" area="800px,600px" rid="{{r.Id}}" url="/game_maintains_log" >操作日志</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

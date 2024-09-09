@@ -1,0 +1,75 @@
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="margin-bottom: 62px">
+                <form class="layui-form" method="post" action="" id="withdraw-form-rmb">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label form-label" style="width: 150px">单次最小提款额(元)</label>
+                        <div class="layui-input-inline">
+                            <input
+                                type="text"
+                                name="min_withdraw"
+                                lay-verify="required"
+                                placeholder="请输入最小提款额"
+                                autocomplete="off"
+                                class="layui-input"
+                                value="{{min_withdraw|stringformat:'%.2f'}}"
+                            />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label form-label" style="width: 150px">单次最大提款额(元)</label>
+                        <div class="layui-input-inline">
+                            <input
+                                type="text"
+                                name="max_withdraw"
+                                lay-verify="required"
+                                placeholder="请输入最大提款额"
+                                autocomplete="off"
+                                class="layui-input"
+                                value="{{max_withdraw|stringformat:'%.2f'}}"
+                            />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label form-label" style="width: 150px">单日最大提款金额(元)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="max_withdraw_day" placeholder="请输入单日最大提款金额" autocomplete="off" class="layui-input" value="{{max_withdraw_day|stringformat:'%.2f'}}" />
+                        </div>
+                    </div>
+                    <div class="layui-layout-admin" style="z-index: 99">
+                        <label class="layui-form-label form-label" style="width: 150px">&nbsp;</label>
+                        <div class="layui-input-block" style="margin-left: 0px; left: 0px">
+                            <button type="button" class="layui-btn" id="save-withdraw-rmb">保存修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'layer'], function () {
+        let $ = layui.jquery,
+            layer = layui.layer;
+
+        // 保存钱包信息
+        $(document).on('click', '#save-withdraw-rmb', function () {
+            let data = (function () {
+                let sArr = $('#withdraw-form-rmb').serializeArray();
+                let obj = {};
+                $.map(sArr, function (n, i) {
+                    obj[n['name']] = n['value'];
+                });
+                return obj;
+            })();
+            $.post('/user_withdraws/save_config', data, function (result) {
+                if (result.errcode == 0) {
+                    sp.alertSuccess('保存数据成功');
+                } else {
+                    sp.alert(result.message);
+                }
+            });
+        });
+    });
+</script>

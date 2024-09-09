@@ -1,0 +1,37 @@
+{% for r in res %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td><input type="checkbox" name="choice{{r.user_id}}" value="{{r.user_id}}"></td>
+    <td name="user_id">{{r.user_id}}</td>
+    <td name="month">{{r.month}}</td>
+    <td name="agent_code">{{r.user_id}}</td>
+    <td name="username">{{r.username}}</td>
+    <td name="type" value="{{r.type}}">{%if r.agent_type=="1"%}官方代理{%elif r.agent_type=="0" %}普通代理{%elif r.agent_type=="3" %}招商代理{%else%}总代{%endif%}</td>
+    <td name="top_name">{{r.top_name}}</td>
+    <td name="lower_num">{{r.lower_num}}</td>
+    <td name="active_num">{{r.active_num}}</td>
+    <td name="deposit">{% if r.deposits=="" %}0{%else%}{{r.deposits}}{%endif%}</td>
+    <td name="withdraws">{% if r.withdraws==0.00%}0{%else%}{{r.withdraws}}{%endif%}</td>
+    <td name="final_win_lose">{% if r.final== "-0"%}0{%else%}{{r.final}}{%endif%}</td>
+    <td name="game_venue_cost">{% if r.game_cost==" "%}0{%else%}{{r.game_cost}}{%endif%}</td>
+    <td name="deposits_cost">{% if r.deposits_cost==" "%}0{%else%}{{r.deposits_cost}}{%endif%}</td>
+    <td name="dividends">{% if r.dividends==""%}0{%else%}{{r.dividends}}{%endif%}</td>
+    <td name="rebate">{% if r.rebate==""%}0{%else%}{{r.rebate}}{%endif%}</td>
+    <td name="win_lose_adjust">{% if r.reset==0.00%}0{%else%}{{r.reset}}{%endif%}</td>
+    <td name="net_profit">{% if r.only_profit==0.00%}0{%else%}{{r.only_profit}}{%endif%}</td>
+    <td name="rate">{{r.rate}}</td>
+    <td name="money">{% if r.money=="0.00"%}0{%else%}{{r.money}}{%endif%}</td>
+    <td name="commission_adjust">{% if r.commission_adjust==""%}{{r.Money}}{%else%}{{r.commission_adjust}}{%endif%}</td>
+    <td name="remark">{{r.remark}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/commissions/grant", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list grant"  id="{{r.user_id}}" data-type="add">发放</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/commissions/adjustment", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-open-link" url="/agents/commissions/adjustment"  area="500px,400px"
+                title="佣金调整" rid="{{r.user_id}}&money={{r.money}}" data-type="add">调整</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-open-link" url="/agents/commissions"  area="1000px,700px"
+                title="代理下级佣金详情" rid="&top_name={{r.username}}" data-type="add">詳情</button>
+        {%endif -%}
+    </td>
+</tr>
+{%endfor%}

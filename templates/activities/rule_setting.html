@@ -1,0 +1,175 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/user_invites/save_do">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px; margin-top: 10px;">活动时间</label>
+        <div class="layui-input-block">
+            <input type="radio" name="time_type" lay-filter="time_type" value="1" {% if r.TimeType == 1%} checked {%endif%} title="长期有效" />
+            <input type="radio" name="time_type" lay-filter="time_type" value="2" {% if r.TimeType == 2%} checked {%endif%} title="指定时间" />
+        </div>
+    </div>
+    <div class="layui-form-item time_st" {% if r.TimeType == 1%}style="display: none"{%endif%}>
+        <label class="layui-form-label" style="width: 100px;">开始时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="time_start" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" id="time_start" value="{{r.TimeStart|datetime}}" readonly="readonly" />
+        </div>
+    </div>
+    <div class="layui-form-item time_en" {% if r.TimeType == 1%}style="display: none"{%endif%}>
+        <label class="layui-form-label" style="width: 100px;">结束时间</label>
+        <div class="layui-input-inline">
+            <input type="text" name="time_end" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" id="time_end" value="{{r.TimeEnd|datetime}}" readonly="readonly" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">首存金额(元)</label>
+        <div class="layui-input-inline" style="width: 300px;">
+            <input type="text" name="deposit_amount" lay-verify="required" placeholder="元:1000|2000|3000" autocomplete="off" class="layui-input" value="{{r.DepositAmount}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">赠送红利(元)</label>
+        <div class="layui-input-inline" style="width: 300px;">
+            <input type="text" name="gift_bonus" lay-verify="required" placeholder="元:5|10|12" autocomplete="off" class="layui-input" value="{{r.GiftBonus}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px; margin-top: 10px;">再次邀请</label>
+        <div class="layui-input-block">
+            <input type="radio" name="invite_again" value="1" {% if r.InviteAgain != 2%} checked {%endif%} title="关闭" />
+            <input type="radio" name="invite_again" value="2" {% if r.InviteAgain == 2%} checked {%endif%} title="开启" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">邀请间隔(小时)</label>
+        <div class="layui-input-inline" style="width: 100px;">
+            <input type="text" name="interval" lay-verify="required" placeholder="小时:2" autocomplete="off" class="layui-input" value="{{r.Interval}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px; margin-top: 4px;">活动素材</label>
+        <div class="layui-input-inline" style="width: 300px;">
+            <button type="button" name="activity_img" class="layui-btn sp-file-upload" img="{{r.ActivityImg}}"><i class="layui-icon">&#xe67c;</i>上传图片</button><br />
+            <span style="color: red;">.jpg/.png/.jpeg格式,尺寸1440*2560,小于5M</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">活动规则</label>
+        <div class="layui-input-inline" style="width: 400px;">
+            <!--<textarea class="layui-textarea" id="activity_rule" name="activity_rule" style="">{{r.ActivityRule}}</textarea>-->
+            <div id="editor" style="width: 700px;height:330px;"></div>
+        </div>
+    </div>
+    <input type="hidden" name="activity_rule" id="content">
+    <input type="hidden" name="img" id="img" value="">
+    <script src="{{STATIC_URL}}/wangEditor/release/wangEditor.min.js"></script>
+    <div hidden="hidden" id="rcont">{{r.ActivityRule}}</div>
+    <div class="layui-form-item">
+        <input type="hidden" value="{{r.Id}}" name="id" />
+        <div class="layui-input-inline" style="margin-left: 125px;margin-bottom: 10px;margin-top: 10px;width: 300px;">
+            <button class="layui-btn" lay-submit lay-filter="sp-save">提交</button>
+            <button class="layui-btn layui-btn-primary sp-btn-cancel">取消</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate','jquery','layedit'], function() {
+        let $ = layui.jquery;
+        let form = layui.form;
+        let laydate = layui.laydate;
+        laydate.render({
+            elem: '#time_start'
+            ,type: 'datetime'
+            ,value: '{{r.TimeStart|datetime|default:"2020-08-30 00:00:00"}}'
+        });
+        laydate.render({
+            elem: '#time_end'
+            ,type: 'datetime'
+            ,value: '{{r.TimeEnd|datetime|default:"2020-08-30 00:00:00"}}'
+        });
+        form.on('radio(time_type)', function(data){
+
+            if(data.value==1){
+                $(".time_st").hide();
+                $("input[name='time_start']").removeAttr("lay-verify");
+                $(".time_en").hide();
+                $("input[name='time_end']").removeAttr("lay-verify");
+            }else{
+                $(".time_st").show();
+                $("input[name='time_start']").attr("lay-verify","required");
+                $(".time_en").show();
+                $("input[name='time_end']").attr("lay-verify","required");
+            }
+            form.render();
+        });
+
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        editor.customConfig.zIndex = false;
+        editor.customConfig.uploadImgShowBase64 = true
+        var cont =document.getElementById('content');
+        editor.customConfig.onchange = function (html) {
+            cont.value= html
+        };
+        editor.customConfig.uploadImgServer = '/upload';
+        editor.customConfig.uploadFileName = 'file';
+        editor.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                // 图片上传并返回结果，但图片插入错误时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                if(result.errcode==0){
+
+                    editor.txt.append('<img src="'+result.data.path+'">');
+                    if(document.getElementById('img').value==''){
+                        document.getElementById('img').value=result.data.path
+                    }else{
+                        var i= document.getElementById('img').value
+                        document.getElementById('img').value=i+","+result.data.path
+                    }
+                    layer.open({
+                        title:'',
+                        content:'上传成功',
+                        btn:[],
+                        time:500,
+                    })
+                }else{
+                    layer.open({
+                        title:'',
+                        content:'上传失败',
+                        btn:[],
+                        time:500,
+                    })
+                }
+            },
+            error: function (xhr, editor) {
+                // 图片上传出错时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                layer.open({
+                    title:'',
+                    content:'上传错误',
+                    btn:[],
+                    time:500,
+                })
+            },
+            timeout: function (xhr, editor) {
+                // 图片上传超时时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                // editor.customConfig.uploadImgTimeout = 3000
+                layer.open({
+                    title:'',
+                    content:'上传超时',
+                    btn:[],
+                    time:500,
+                })
+            },
+        };
+        editor.customConfig.customAlert = function (info) {
+            // info 是需要提示的内容，默认为空就好
+        };
+        editor.create()
+        editor.txt.html($("#rcont").text()) //将内容写入富文本中
+
+    });
+</script>
+{% endblock body %}

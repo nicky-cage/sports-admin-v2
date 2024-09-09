@@ -1,0 +1,15 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.UserVip}}</td>
+    <td>{{r.DayMaxWater|stringformat:"%.2f"}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/commission_levels/setup", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list setup" data-type="add">设置</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/commission_levels/details", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list details" data-type="add">详情</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

@@ -1,0 +1,29 @@
+{%for r in rows%}
+<tr  {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.id}}</td>
+    <td>{{r.user_name}}</td>
+    <td>VIP{{r.vip}}</td>
+    <td>{{r.top_name}}</td>
+    <td>{{r.title}}</td>
+    <td>{{r.activity_type|activity_type}}</td>
+    <td>{{r.game_code|activity_game_type}}</td>
+    <td>{{r.money}}</td>
+    <td>{{r.award}}</td>
+    <td>{{r.flow_need}}</td>
+    <td>{{r.flow_multiple}}</td>
+    <td>{{r.flow_finished|safe}}</td>
+    <td>{{r.info}}</td>
+    <td>{{r.created|time_type_chang}}</td>
+    <td>{{r.updated}}</td>
+    <td>
+        {%if r.status == "2" || r.status == "3"-%} <span style="color: orange">已完成</span>
+        {%else%}<span>未完成</span>{%endif%}
+    </td>
+</tr>
+{%endfor%}
+<tr>
+    <td colspan="7">总计</td>
+    <td>{{money}}</td>
+    <td>{{award_total}}</td>
+    <td colspan="7"></td>
+</tr>

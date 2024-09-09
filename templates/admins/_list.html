@@ -1,0 +1,38 @@
+{% for r in rows %}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Name}}</td>
+    <td>{{r.Nickname}}</td>
+    <td>{{r.Mail}}</td>
+    <td>{{r.RoleName}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.LastLogin|datetime}}</td>
+    <td style="word-break:break-word; cursor: pointer;" class="sp-alert" text="{{r.AllowIps}}">{{r.AllowIps|truncatechars:20}}</td>
+    <td>{{r.LastIp}} / <span style="color: blue">{{r.LastIp|ip_area}}</span></td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/admins/kick", 4) -%}
+            {%if r.IsOnline%}<button class="layui-btn layui-bg-orange sp-btn-confirm" pid="{{r.Id}}" pname="{{r.Name}}" type="button">踢掉</button>{%endif%}
+        {%else -%}
+            {%if r.IsOnline%}<span style="color: green">在线</span>{%endif -%}
+        {%endif -%}
+    </td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/admins/state", 4) -%}
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="正常|禁用" class="sp-btn-state" values="2|1" lay-filter="sta" value="{{r.State}}" url="/admins/state" rid="{{r.Id}}" />
+        {%else -%}
+        {{r.State|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/admins/google_code", 4) -%}
+        <input type="checkbox" name="google_code" lay-skin="switch" lay-text="启用|禁用" class="sp-btn-state" values="2|1" lay-filter="sta" value="{{r.GoogleCode}}" url="/admins/google_code" rid="{{r.Id}}" />
+        {%else -%} -
+        {%endif -%}
+    </td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/admins/update", 4) -%}
+        <button class="layui-btn sp-open-link" url="/admins/update" type="button" area="600px,600px">编辑</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

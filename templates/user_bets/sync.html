@@ -1,0 +1,88 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">选择日期</label>
+                            <div class="layui-input-inline" style="width: 200px">
+                                <input type="text" class="layui-input sp-form-date" name="created" placeholder="开始 到 结束" id="sync_dates" readonly="readonly" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn sync_query" type="button">对比查询</button>
+                            {%if ADMIN.RoleId == 78 -%}
+                            <button class="layui-btn sync_bets" type="button">同步数据</button>
+                            <button class="layui-btn verify_bets" type="button">校对数据</button>
+                            {%endif -%}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let $ = layui.$,
+            form = layui.form,
+            laydate = layui.laydate;
+
+        // -- 同步数据
+        $(document).off('click', '.sync_bets');
+        $(document).on('click', '.sync_bets', function () {
+            let dates = $('#sync_dates').val();
+            sp.confirm('你确定要同步订单么? <br />此操作可能比较费时, 请慎重使用', function () {
+                sp.get('/user_bets/sync?created=' + dates, function (result) {
+                    if (result.errcode != 0) {
+                        sp.alert(result.message ? result.message : '同步数据出错');
+                        return;
+                    }
+                    sp.alertSuccess('同步成功 ' + result.data + ' 条数据');
+                });
+            });
+        });
+
+        // -- 校对数据
+        $(document).off('click', '.verify_bets');
+        $(document).on('click', '.verify_bets', function () {
+            let dates = $('#sync_dates').val();
+            sp.confirm('你确定要校对订单么? <br />此操作可能比较费时, 请慎重使用', function () {
+                sp.get('/user_bets/verify?created=' + dates, function (result) {
+                    if (result.errcode != 0) {
+                        sp.alert(result.message ? result.message : '校对数据出错');
+                        return;
+                    }
+                    sp.alertSuccess(result.message ? result.message : '校对成功');
+                });
+            });
+        });
+
+        // -- 同步查询
+        $(document).off('click', '.sync_query');
+        $(document).on('click', '.sync_query', function () {
+            let dates = $('#sync_dates').val();
+            sp.get('/user_bets/sync?count=1&query_created=' + dates, function (result) {
+                if (result.errcode != 0) {
+                    sp.alert(result.message ? result.message : '查询数据出错');
+                    return;
+                }
+                let content =
+                    '查询区间: <br />' +
+                    result.data.date_area +
+                    '<br /><br />' +
+                    'ElasticSearch 记录总数: ' +
+                    result.data.total_es +
+                    '<br />Postgresql 记录总数: ' +
+                    result.data.total_pg +
+                    '<br /><br />' +
+                    (result.data.total_es == result.data.total_pg
+                        ? '<span style="color:green">两者数据一致, 无需进行数据同步</span>'
+                        : '<span style="color:red">两者数据不一致, 请进行数据同步</span>');
+                sp.alertSuccess(content);
+            });
+        });
+    });
+</script>

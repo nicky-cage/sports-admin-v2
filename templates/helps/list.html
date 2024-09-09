@@ -1,0 +1,47 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-row">
+                    <div class="layui-col-md2">{% include "../help_categories/list.html" -%}</div>
+                    <div class="layui-col-md10">
+                        <div style="padding-bottom: 10px">
+                            {%if is_granted(PLATFORM, ADMIN.RoleId, "/helps/create", 4) -%}
+                            <button class="layui-btn sp-open-link" url="/helps/create" tab="0" area="900px,600px">新增帮助文章</button>
+                            {%endif -%}
+                        </div>
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="80" />
+                                <col />
+                                <col width="100" />
+                                <col width="100" />
+                                <col width="90" />
+                                <col width="120" />
+                                <col width="130" />
+                                <col width="80" />
+                                <col width="160" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>标题</th>
+                                    <th>关联场景</th>
+                                    <th>支持端</th>
+                                    <th>内容方式</th>
+                                    <th>编辑人</th>
+                                    <th>编辑时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody class="help-content">
+                                {% include "_list.html" %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

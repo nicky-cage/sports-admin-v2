@@ -1,0 +1,33 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Title}}</td>
+    <td>{{r.DeviceType|device_type}}</td>
+    <td>
+        {% if r.BannerType==1 %}
+        首页
+        {% else %}
+        运营
+        {% endif %}
+    </td>
+    <td>{{r.Url}}</td>
+    <td>{%if r.Image != ""%}<div class="sp-show-image" url="{{r.Image}}">点击查看</div>{%endif%}</td>
+    <td>{{r.TimeStart|datetime}} ~ {{r.TimeEnd|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/ad_carousels/state", 4) -%}
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="正常|禁用" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.State}}" url="/ad_carousels/state" rid="{{r.Id}}" />
+        {%else -%} {{r.State|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>{{r.Sort}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/ad_carousels/update", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/ad_carousels/update" area="700px,600px" tab="1" data-type="add">编辑</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/ad_carousels/delete", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete" tab="1" url="/ad_carousels/delete" data-type="add">删除</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

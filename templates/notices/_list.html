@@ -1,0 +1,27 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Title}}</td>
+    <td class="sp-alert" text="{{r.Contents}}" style="cursor: pointer;">{{r.Contents|truncatechars:40}}</td>
+    <td>{{r.PlatformTypes}}</td>
+    <td>{{r.StartAt|datetime}}</td>
+    <td>{{r.EndAt|datetime}}</td>
+    <td>{% if r.Type == 1%}普通{% elif r.Type == 2 %}特殊{% else %}财务{% endif %}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/notices/update", 4) -%}
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="启用|停用" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.State}}" url="/notices/state" rid="{{r.Id}}" />
+        {%else -%} {{r.State|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>{{r.Sort}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/notices/update", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/notices/update" area="900px,630px" tab="0" data-type="add">编辑</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/notices/delete", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete" tab="0" url="/notices/delete">删除</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

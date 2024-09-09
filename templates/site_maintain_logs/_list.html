@@ -1,0 +1,10 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.AdminName}}</td>
+    <td>{{r.TimeStart|datetime}} ~ {{r.TimeEnd|datetime}}</td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{%if r.State == 0 %}维护{%else%}正常{%endif%}</td>
+</tr>
+{% endfor %}

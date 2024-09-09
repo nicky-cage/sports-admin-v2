@@ -1,0 +1,173 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td rowspan="{{r.ChannelList|rowspan_count_channel}}">{{r.Name}}</td>
+    <td rowspan="{{r.ChannelList|rowspan_count_channel}}">{{r.Code}}</td>
+    <td colspan="7" style="font-weight: bold; background-color: #eeeeee;">PC通道</td>
+    <td rowspan="{{r.ChannelList|rowspan_count_channel}}">{{r.Remark}}</td>
+    <td rowspan="{{r.ChannelList|rowspan_count_channel}}">
+        <input type="checkbox" name="is_online" lay-skin="switch" lay-text="启用|停用" class="sp-btn-state"
+               values="2|1" lay-filter="state" value="{{r.IsOnline}}" url="/payment_channels/state" rid="{{r.Id}}" />
+    </td>
+    <td rowspan="{{r.ChannelList|rowspan_count_channel}}">{{r.Weight}}</td>
+    <td rowspan="{{r.ChannelList|rowspan_count_channel}}">
+        <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/payment_channels/edit" area="90%,92%" tab="0" data-type="add" rid="{{r.Id}}">修改</button>
+    </td>
+</tr>
+{%if r.ChannelList.Ebank.ClientPc.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Ebank.Name}}</td>
+    <td>{{r.ChannelList.Ebank.ClientPc.Status}}</td>
+    <td>{{r.ChannelList.Ebank.ClientPc.MinMoneyLimit|truncatechars:32}}</td>
+    <td>{{r.ChannelList.Ebank.ClientPc.MaxMoneyLimit|truncatechars:32}}</td>
+    <td>{{r.ChannelList.Ebank.clientPc.DayMax}}</td>
+    <td>{{r.ChannelList.Ebank.clientPc.Fare}}</td>
+    <td>{{r.ChannelList.Ebank.ClientPc.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Alipay.ClientPc.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Alipay.Name}}</td>
+    <td>{{r.ChannelList.Alipay.ClientPc.Status}}</td>
+    <td>{{r.ChannelList.Alipay.ClientPc.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Alipay.ClientPc.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Alipay.ClientPc.DayMax}}</td>
+    <td>{{r.ChannelList.Alipay.ClientPc.Fare}}</td>
+    <td>{{r.ChannelList.Alipay.ClientPc.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Weixin.ClientPc.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Weixin.Name}}</td>
+    <td>{{r.ChannelList.Weixin.ClientPc.Status}}</td>
+    <td>{{r.ChannelList.Weixin.ClientPc.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Weixin.ClientPc.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Weixin.ClientPc.DayMax}}</td>
+    <td>{{r.ChannelList.Weixin.ClientPc.Fare}}</td>
+    <td>{{r.ChannelList.Weixin.ClientPc.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Qqpay.ClientPc.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Qqpay.Name}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientPc.Status}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientPc.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientPc.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientPc.DayMax}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientPc.Fare}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientPc.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Quickpay.ClientPc.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Quickpay.Name}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientPc.Status}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientPc.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientPc.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientPc.DayMax}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientPc.Fare}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientPc.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Jdpay.ClientPc.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Jdpay.Name}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientPc.Status}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientPc.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientPc.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientPc.DayMax}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientPc.Fare}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientPc.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Unionpay.ClientPc.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Unionpay.Name}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientPc.Status}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientPc.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientPc.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientPc.DayMax}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientPc.Fare}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientPc.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+<tr>
+    <td colspan="7" style="font-weight: bold; background-color: lightgrey">APP通道</td>
+</tr>
+{%if r.ChannelList.Ebank.ClientApp.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Ebank.Name}}</td>
+    <td>{{r.ChannelList.Ebank.ClientApp.Status}}</td>
+    <td>{{r.ChannelList.Ebank.ClientApp.MinMoneyLimit|truncatechars:32}}</td>
+    <td>{{r.ChannelList.Ebank.ClientApp.MaxMoneyLimit|truncatechars:32}}</td>
+    <td>{{r.ChannelList.Ebank.ClientApp.DayMax}}</td>
+    <td>{{r.ChannelList.Ebank.ClientApp.Fare}}</td>
+    <td>{{r.ChannelList.Ebank.ClientApp.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Alipay.ClientApp.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Alipay.Name}}</td>
+    <td>{{r.ChannelList.Alipay.ClientApp.Status}}</td>
+    <td>{{r.ChannelList.Alipay.ClientApp.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Alipay.ClientApp.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Alipay.ClientApp.DayMax}}</td>
+    <td>{{r.ChannelList.Alipay.ClientApp.Fare}}</td>
+    <td>{{r.ChannelList.Alipay.ClientApp.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Weixin.ClientApp.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Weixin.Name}}</td>
+    <td>{{r.ChannelList.Weixin.ClientApp.Status}}</td>
+    <td>{{r.ChannelList.Weixin.ClientApp.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Weixin.ClientApp.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Weixin.ClientApp.DayMax}}</td>
+    <td>{{r.ChannelList.Weixin.ClientApp.Fare}}</td>
+    <td>{{r.ChannelList.Weixin.ClientApp.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Qqpay.ClientApp.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Qqpay.Name}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientApp.Status}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientApp.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientApp.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientApp.DayMax}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientApp.Fare}}</td>
+    <td>{{r.ChannelList.Qqpay.ClientApp.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Quickpay.ClientApp.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Quickpay.Name}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientApp.Status}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientApp.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientApp.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientApp.DayMax}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientApp.Fare}}</td>
+    <td>{{r.ChannelList.Quickpay.ClientApp.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Jdpay.ClientApp.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Jdpay.Name}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientApp.Status}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientApp.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientApp.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientApp.DayMax}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientApp.Fare}}</td>
+    <td>{{r.ChannelList.Jdpay.ClientApp.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{%if r.ChannelList.Unionpay.ClientApp.Status == "开启" %}
+<tr>
+    <td>{{r.ChannelList.Unionpay.Name}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientApp.Status}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientApp.MinMoneyLimit}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientApp.MaxMoneyLimit}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientApp.DayMax}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientApp.Fare}}</td>
+    <td>{{r.ChannelList.Unionpay.ClientApp.VipList|channel_vip}}</td>
+</tr>
+{%endif %}
+{% endfor %}

@@ -1,0 +1,121 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理编号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="id" placeholder="请输入代理编号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入代理账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">代理类型</label>
+                            <div class="layui-input-inline">
+                                <select name="agent_type">
+                                    <option value=""></option>
+                                    <option value="0">普通代理</option>
+                                    <option value="1">官方代理</option>
+                                    <option value="3">招商代理</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">上级代理</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="top_name" placeholder="请输入上级代理账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">统计日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请选择状态" autocomplete="off" readonly="readonly" id="created" class="layui-input sp-form-date" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">佣金方案</label>
+                            <div class="layui-input-inline">
+                                <select name="agent_commission">
+                                    <option></option>
+                                    {%for r in agent_commission%}
+                                    <option value="{{r.agent_commission}}">{{r.agent_commission}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/agents/create", 4) -%}
+                <button class="layui-btn sp-open-link" url="/agents/create" area="900px,600px" title="新增代理">新增代理</button>
+                {%endif -%}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="120" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="60" />
+                        <col width="130" />
+                        <col width="160" />
+                        <col />
+                        <col width="160" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>代理编号</th>
+                            <th>代理账号</th>
+                            <th>真实姓名</th>
+                            <th>代理类型</th>
+                            <th>上线</th>
+                            <th>注册人数</th>
+                            <th>活跃人数</th>
+                            <th>存款金额</th>
+                            <th>提款金额</th>
+                            <th>总输赢</th>
+                            <th>状态</th>
+                            <th>转代时间</th>
+                            <th>绑定域名</th>
+                            <th>佣金方案</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/agents" style="text-align: center">
+                        {% include "_index.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<script>
+    layui.use(['form', 'jquery'], function() {
+
+        let $ = layui.$,  form = layui.form;
+        let element_show = function(that) {
+            that.show();
+            $("input", that).attr("lay-verify", "required");
+            $("select", that).attr("lay-verify", "required");
+        };
+        let element_hide = function(that) {
+            that.hide();
+            $("input", that).removeAttr("lay-verify");
+            $("select", that).removeAttr("lay-verify");
+        };
+        let show_activity_special = function() { // 专题活动
+            $(".div_for_special").each(function() { element_show($(this)); });
+            $(".div_for_general").each(function() { element_hide($(this)); });
+            form.render();
+        };
+        let show_activity_general = function(join_type) { // 常规活动
+            $(".div_for_special").each(function() { element_hide($(this)); });
+            $(".div_for_general").each(function() { element_show($(this)); });
+            if (join_type == "2") {
+                $(".div_for_general_1").each(function () { element_hide($(this)); });
+            }
+            form.render();
+        };
+        let E = window.wangEditor, editors = [], create_editor = function(element_id, img_id, html_id) {
+            let editor = new E('#' + element_id);
+            editor.customConfig.zIndex = false;
+            editor.customConfig.uploadImgShowBase64 = true
+            let cont = document.getElementById(element_id);
+            editor.customConfig.onchange = function (html) {
+                cont.value = html
+            };
+            editor.customConfig.uploadImgServer = '/upload';
+            editor.customConfig.uploadFileName = 'file';
+            editor.customConfig.uploadImgHooks = {
+                fail: function (xhr, editor, result) { // 图片上传并返回结果，但图片插入错误时触发
+                    if (result.errcode == 0) {
+                        editor.txt.append('<img src="' + result.data.path + '">');
+                        if (document.getElementById(img_id).value == '') {
+                            document.getElementById(img_id).value = result.data.path;
+                        } else {
+                            let i = document.getElementById(img_id).value
+                            document.getElementById(img_id).value = i + "," + result.data.path;
+                        }
+                        layer.open({ title:'', content:'上传成功', btn:[], time:500 });
+                    } else {
+                        layer.open({ title:'', content:'上传失败', btn:[], time:500 });
+                    }
+                },
+                error: function (xhr, editor) {
+                    layer.open({ title:'', content:'上传错误', btn:[], time:500 });
+                },
+                timeout: function (xhr, editor) {
+                    layer.open({ title:'', content:'上传超时', btn:[], time:500 });
+                },
+            };
+            editor.customConfig.customAlert = function (info) { };
+            editor.create()
+            editor.txt.html($("#" + html_id).text()) // 将内容写入富文本中
+            editors.push(editor);
+        };
+
+        $(document).ready(function() { // 场馆已经勾选
+            let v = $("input[name='gameCodeListStr']").val();
+            if (!v) {
+                return;
+            }
+            let vArr = v.split(",");
+            for (let i in vArr) {
+                $("input[rel='"+vArr[i]+"']").prop("checked", true);
+            }
+            form.render();
+        });
+
+        let content_form = $("input[name='content_form']").val(); // 活动内容形式
+        if (content_form == "1") { //专题
+            show_activity_special();
+        } else { //常规活动
+            let join_type = $("input[name='join_type']").val(); // 参与方式
+            show_activity_general(join_type);
+        }
+        form.on('radio(content_form_type)', function(data) { // 内容形式
+            let form_type = data.value;
+            if (form_type == "1") { //专题
+                show_activity_special();
+                return;
+            }
+            let join_type = $("#join_type").val(); // 参与方式
+            show_activity_general(join_type);
+        });
+        form.on('select(join_type)', function(data) { // 活动类型
+            let join_type = data.value; // 参与方式
+            show_activity_general(join_type);
+        });
+
+        create_editor('editor_one', 'imgOne', 'rcontOne'); // 创建编辑器
+        create_editor('editor_two', 'imgTwo', 'rcontTwo'); // 创建编辑器
+
+        // 自动展开不同内容形式
+        (function() {
+            let content_type = "{{activity.ContentForm}}";
+            if (content_type != "2") {
+                show_activity_special();
+                return;
+            }
+            show_activity_general("{{activity.JoinType}}");
+        })()
+    });
+</script>

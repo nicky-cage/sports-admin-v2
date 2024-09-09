@@ -1,0 +1,18 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.PlatformId|platform_type}}</td>
+    <td>{{r.TimeStart|datetime}} ~ {{r.TimeEnd|datetime}}</td>
+    <td>{{r.AdminName}}</td>
+    <td>{%if r.State == 1%}维护{%else%}正常{%endif%}</td>
+    <td>{{r.Remark}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/site_maintains/update", 4) -%}
+            <button class="layui-btn sp-open-link" url="/site_maintains/update" area="600px,600px" tab="1">维护设置</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/site_maintains_log", 4) -%}
+            <button class="layui-btn sp-open-link" url="/site_maintains_log" area="85%,85%">操作日志</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

@@ -1,0 +1,45 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <strong>备注信息</strong>
+                &nbsp; | &nbsp;
+                <button type="button" class="layui-btn sp-open-link" rid="0&uid={{user.Id}}" area="600px,400px" url="/user_notes/create">修改备注</button>
+            </div>
+            <div class="layui-card-body" style="padding: 0px">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col />
+                        <col width="150" />
+                        <col width="130" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>备注内容</th>
+                        <th>操作人</th>
+                        <th>操作时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%for note in notes -%}
+                    <tr>
+                        <td>{{note.Id}}</td>
+                        <td>
+                            {%if forloop.Counter == 1-%}
+                            <div class="layui-badge">{{note.Remark}}</div>
+                            {%else-%}
+                            <div style="color: #aaa; text-decoration: line-through">{{note.Remark}}</div>
+                            {%endif-%}
+                        </td>
+                        <td>{{note.AdminName}}</td>
+                        <td>{{note.Created|datetime}}</td>
+                    </tr>
+                    {%endfor -%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,140 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/user_feedback/Save">
+    <div class="layui-form-item ">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block" style="width:200px">
+            <input type="text" disabled name="username" lay-verify="" placeholder="" autocomplete="off" class="layui-input" value="{{r.Username}}" />
+
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">玩家评论</label>
+        <div class="layui-input-block" style="width:300px">
+            <textarea name="contents" disabled placeholder="请输入内容" class="layui-textarea">{{r.Contents}}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">回复</label>
+        <div class="layui-input-block" style="width:300px">
+            <div id="editor" style="width: 700px;height:330px;"></div>
+        </div>
+    </div>
+    <input type="hidden" name="reply" id="reply">
+    <input type="hidden" name="img" id="img" value="">
+    <script src="{{STATIC_URL}}/wangEditor/release/wangEditor.min.js"></script>
+    <div hidden="hidden" id="rcont">{{r.Reply}}</div>
+    <input type="hidden" name="admin" value="{{admin}}">
+</form>
+<div class="layui-layout-admin" style="z-index:99;">
+    <input type="hidden" value="{{r.Id}}" name="id" />
+    <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+        <button type="submit" class="layui-btn fe-sb" >立即提交</button>
+        <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form', 'jquery', 'layer'],function() {
+        let $ = layui.$;
+        let layer = layui.layer;
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+
+        editor.customConfig.zIndex = false;
+
+        editor.customConfig.uploadImgShowBase64 = true
+        var cont =document.getElementById('reply');
+        editor.customConfig.onchange = function (html) {
+            cont.value= html
+        };
+        editor.customConfig.uploadImgServer = '/upload';
+        editor.customConfig.uploadFileName = 'file';
+
+        editor.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                // 图片上传并返回结果，但图片插入错误时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                if(result.errcode==0){
+
+                    editor.txt.append('<img src="'+result.data.path+'">');
+                    if(document.getElementById('img').value==''){
+                        document.getElementById('img').value=result.data.path
+                    }else{
+                        var i= document.getElementById('img').value
+                        document.getElementById('img').value=i+","+result.data.path
+                    }
+                    layer.open({
+                        title:'',
+                        content:'上传成功',
+                        btn:[],
+                        time:500,
+                    })
+                }else{
+                    layer.open({
+                        title:'',
+                        content:'上传失败',
+                        btn:[],
+                        time:500,
+                    })
+                }
+            },
+            error: function (xhr, editor) {
+                // 图片上传出错时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                layer.open({
+                    title:'',
+                    content:'上传错误',
+                    btn:[],
+                    time:500,
+                })
+            },
+            timeout: function (xhr, editor) {
+                // 图片上传超时时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                // editor.customConfig.uploadImgTimeout = 3000
+                layer.open({
+                    title:'',
+                    content:'上传超时',
+                    btn:[],
+                    time:500,
+                })
+            },
+        };
+        editor.customConfig.customAlert = function (info) {
+            //  info 是需要提示的内容，默认为空就好
+        };
+
+        editor.create()
+        editor.txt.html($("#rcont").text()) //将内容写入富文本中
+
+        $(".fe-sb").click(function(){
+            //let c=$("textarea[name='reply']").val()
+            let c=$("input[name='reply']").val()
+            let id=$("input[name='id']").val()
+            let admin=$("input[name='admin']").val()
+            $.ajax({
+                url:"/user_feedback/Save",
+                type:"post",
+                data:JSON.stringify({"id":id,"reply":c,"status":2,"admin":admin}),
+                success:function(data){
+                    if (data.errcode==0){
+                        layer.msg("回复成功",{icon:1,time:1300},function(){
+                            sp.loadTab(2,$(parent.document), function () {
+                                sp.closeWin();
+                            })
+                        })
+                    }else{
+                        layer.open({
+                            title:"温馨提示",
+                            content:"程序错误",
+                        })
+                    }
+                }
+            })
+
+        })
+    })
+</script>
+{% endblock body %}

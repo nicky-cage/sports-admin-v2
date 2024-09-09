@@ -1,0 +1,47 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px;">
+                <!-- <table class="layui-table">
+                    <tr>
+                        <th  style="text-align: left;"><span>存款111金额</span></th>
+                        <th  style="text-align: left;"><span>所需流水</span></th>
+                        <th  style="text-align: left;" ><span>有效投注</span></th>
+                        <th colspan="4"  style="text-align: left;">稽核状态<span style="color:red;">不通过</span>
+                            <button class="layui-btn sp-open-link" url="/audit_deposit/create" area="400px,380px" rid="{{id}}" tab="1">调整状态</button>
+                            <button class="layui-btn sp-open-link" url="/audit_logs?type=1" area="600px,480px" tab="1" rid="{{id}}">操作日志</button>
+                        </th>
+                    </tr>
+                </table> -->
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="200" />
+                        <col width="200" />
+                        <col width="165" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col width="200" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>时间</th>
+                        <th>存款金额</th>
+                        <th>流水倍数</th>
+                        <th>所需流水</th>
+                        <th>有效投注</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%include "_audit_deposit.html"%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,151 @@
+<!-- 搜索框 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="2">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">申请时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" class="layui-input sp-form-date" id="created_div_audits_hrs">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">审核时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="updated" class="layui-input sp-form-date" id="updated_div_audits_hrs">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="bill_no" placeholder="请输入订单号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">钱包类型</label>
+                            <div class="layui-input-inline">
+                                <select name="money_type">
+                                    <option value="">全部</option>
+                                    <option value="1">中心钱包</option>
+                                    <option value="2">场馆钱包</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">红利类型</label>
+                            <div class="layui-input-inline">
+                                <select name="type">
+                                    <option value="">全部</option>
+                                    <option value="1">反水红利</option>
+                                    <option value="2">生日礼金</option>
+                                    <option value="3">VIP晋级</option>
+                                    <option value="4">VIP每月红包</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">是否需流水</label>
+                            <div class="layui-input-inline">
+                                <select name="flow_limit">
+                                    <option value="">全部</option>
+                                    <option value="1">否</option>
+                                    <option value="2">是</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">申请人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="applicant" placeholder="请输入申请人" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">审核人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="reviewer" placeholder="请输入申请人" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60">
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>订单编号</th>
+                            <th>会员账号</th>
+                            <th>钱包类型</th>
+                            <th>红利类型</th>
+                            <th>是否需流水</th>
+                            <th>流水金额要求</th>
+                            <th>流水倍数</th>
+                            <th>操作前余额</th>
+                            <th>操作金额</th>
+                            <th>操作后余额</th>
+                            <th>申请人</th>
+                            <th>申请时间</th>
+                            <th>申请备注</th>
+                            <th>审核人</th>
+                            <th>审核时间</th>
+                            <th>审核备注</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form', 'laydate'], function () {
+        let form = layui.form;
+    });
+</script>

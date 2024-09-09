@@ -1,0 +1,13 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Title}}</td>
+    <td>{{r.Name}}</td>
+    <td>{{r.Remark}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/parameters", 4) -%}
+        <button class="layui-btn sp-open-link" tab="2" rid="{{r.Id}}" area="85%,85%" title="参数设置" url="/parameters">参数设置</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

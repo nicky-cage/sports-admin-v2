@@ -1,0 +1,64 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/parameters/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width:100px;">参数组名称</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <select name="group_id">
+                <option></option>
+                {%for r in rows %}
+                     <option value="{{r.id}}">{{r.title}}</option>
+                {%endfor%}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >参数名称</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input name="title" class="layui-input" value="" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >Key</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input name="name" class="layui-input" value="" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >Value</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input name="value" class="layui-input" value="" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >数据类型</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <select name="value_type" >
+                <option></option>
+                <option value="string">String</option>
+                <option value="int">Int</option>
+                <option value="float64">Float64</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >排序</label>
+        <div class="layui-input-inline" style="width:200px;">
+            <input name="sort" class="layui-input" value="" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"  >备注</label>
+        <div class="layui-input-inline" style="width:100px;">
+            <textarea name="remark" placeholder="请填写备注" class="layui-textarea" style="width:250px; height: 150px;">{{r.Remark}}</textarea>
+        </div>
+    </div>
+    <div class="layui-layout-admin" style="z-index:99;">
+
+        <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="sp-save">立即提交</button>
+            <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+        </div>
+    </div>
+</form>
+{% endblock body %}

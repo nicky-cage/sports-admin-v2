@@ -1,0 +1,105 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="4">
+                <div class="layui-inline">
+                    <label class="layui-form-label">订单状态</label>
+                    <div class="layui-input-inline">
+                        <select name="status">
+                            <option></option>
+                            <option value="2">成功</option>
+                            <option value="3">失败</option>
+                            <option value="1">待处理</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">支付方式</label>
+                    <div class="layui-input-inline">
+                        <select name="channel_type">
+                            <option></option>
+                            <option value="0">银行转账</option>
+                            <option value="1">网银转账</option>
+                            <option value="2">支付宝</option>
+                            <option value="3">微信</option>
+                            <option value="4">QQ钱包</option>
+                            <option value="5">快捷支付</option>
+                            <option value="6">京东钱包</option>
+                            <option value="7">银联扫码</option>
+                            <option value="8">虚拟币</option>
+                            <option value="9">云闪付</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">存款类型</label>
+                    <div class="layui-input-inline">
+                        <select name="type">
+                            <option></option>
+                            <option value="1">在线存款</option>
+                            <option value="2">离线存款</option>
+                            <option value="3">代客充值</option>
+                            <option value="4">虚拟币存款</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">订单时间</label>
+                    <div class="layui-input-inline" style="width: 190px;">
+                        <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="s" />
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="{{id}}" />
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px;  min-height: 560px;">
+                <table class="layui-table sp-tab-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="90" />
+                        <col width="100" />
+                        <col />
+                        <col width="130" />
+                        <col width="160" />
+                        <col width="60" />
+                        <col />
+                        <col width="90" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>订单号码</th>
+                            <th>订单金额(元)</th>
+                            <th>到账金额(元)</th>
+                            <th>上分金额(元)</th>
+                            <th>存款优惠(元)</th>
+                            <th>支付方式</th>
+                            <th>汇款人姓名</th>
+                            <th>商户/卡号/钱包</th>
+                            <th>订单时间</th>
+                            <th>关联注单查询</th>
+                            <th>状态</th>
+                            <th>审核备注</th>
+                            <th>操作人</th>
+                        </tr>
+                    </thead>
+                    <tbody url="/user_detail/deposits?id={{id}}" id="sp-loaded-table-desposits">{%include "_detail_deposits.html"%}</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

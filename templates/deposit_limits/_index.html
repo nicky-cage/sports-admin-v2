@@ -1,0 +1,11 @@
+{%for r in rows%}
+<tr>
+    <td>{{r.Id}}</td>
+    <td>Vip{{r.Level}}</td>
+    <td>{{r.RemindLimit}}</td>
+    <td>{{r.FrozenLimit}}</td>
+    <td>支付宝{{r.AlipayRemind}} 微信{{r.WechatRemind}} 网银{{r.OnlineBankRemind}}</td>
+    <td>支付宝{{r.AlipayFrozen}} 微信{{r.WechatFrozen}} 网银{{r.OnlineBankFrozen}}</td>
+    <td></td>
+</tr>
+{%endfor%}

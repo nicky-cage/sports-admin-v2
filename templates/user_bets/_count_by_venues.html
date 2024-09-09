@@ -1,0 +1,19 @@
+{% for r in rows %}
+<tr>
+    <td>{{r.GameCode}}</td>
+    <td>{{r.TotalCount}}</td>
+    <td>{{r.TotalUser}}</td>
+    <td>{{r.Hot|stringformat:'%.2f'}}%</td>
+    <td>{{r.TotalBet|stringformat:'%.2f'}}</td>
+    <td>{{r.TotalValid|stringformat:'%.2f'}}</td>
+    <td>
+        {%if r.TotalWin > 0 %}<span style="color: red">{{r.TotalWin|stringformat:'%.2f'}}</span> {%elif r.TotalWin < 0 -%}<span style="color: green">{{r.TotalWin|stringformat:'%.2f'}}</span>
+        {%else -%}{{r.TotalWin|stringformat:'%.2f'}} {%endif -%}
+    </td>
+    <td>{{r.TotalRebate|stringformat:'%.2f'}}</td>
+    {% set pastTime = currentTime - r.LastCreated -%}
+    <td>{{r.LastCreated|datetime}} / <span style="color: red">{{pastTime|past_time}}</span></td>
+    {% set theTimeout = r.LastUpdated - r.LastCreated -%}
+    <td>{{r.LastUpdated|datetime}} / <span style="color: red">{{theTimeout|past_time}}</span></td>
+</tr>
+{% endfor %}

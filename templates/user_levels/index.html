@@ -1,0 +1,91 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="120" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="55" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th rowspan="2">序号</th>
+                            <th rowspan="2">会员等级</th>
+                            <th rowspan="2">累计投注积分</th>
+                            <th rowspan="2">每月保底积分</th>
+                            <th colspan="6">存送优惠</th>
+                            <th colspan="2">取款限制</th>
+                            <th rowspan="2">晋级礼金</th>
+                            <th rowspan="2">月俸禄</th>
+                            <th rowspan="2">专属经理</th>
+                            <th rowspan="2">VIP奢华游</th>
+                            <th rowspan="2">操作</th>
+                        </tr>
+                        <tr>
+                            <th>存送比例</th>
+                            <th>最低转账</th>
+                            <th>彩金上限</th>
+                            <th>流水倍数</th>
+                            <th>申请周期</th>
+                            <th>指定场馆</th>
+                            <th>每日总次数</th>
+                            <th>每日总限额</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% if rows -%}
+                        {% for r in rows -%}
+                        <tr>
+                            <td>{{r.Id}}</td>
+                            <td>{{r.Name}}</td>
+                            <td>{{r.UpgradeDeposit}}</td>
+                            <td>{{r.HoldStream}}</td>
+                            <td>{{r.DepositDeliveryRate|percentage_change|stringformat:"%.2f"}}%</td>
+                            <td>{{r.MinTransfer}}</td>
+                            <td>{{r.MaxDividend}}</td>
+                            <td>{{r.FlowMultiple}}</td>
+                            <td>{% if r.ApplicationCycle==0%}仅一次{%elif r.ApplicationCycle==1%}月/次{%else%}周/次{%endif%}
+                            </td>
+                            {% set gameVenues = r.CodeList|platform_wrap:PLATFORM|game_venues_lower %}
+                            <td style="cursor: pointer" class="sp-alert" text="{{gameVenues}}">
+                                {{gameVenues|truncatechars:36}}</td>
+                            <td>{{r.DayWithdrawCount}}</td>
+                            <td>{{r.DayWithdrawTotal|stringformat:'%.0f'}}</td>
+                            <td>{{r.UpgradeBonus|stringformat:'%.0f'}}</td>
+                            <td>{{r.MonthBonus|stringformat:'%.0f'}}</td>
+                            <td>{%if r.Manager=="2"%}有{%else%}-{%endif%}</td>
+                            <td>{%if r.Luxurious==1%}-{%else%}有{%endif%}</td>
+                            <td>
+                                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_levels/update", 4) -%}
+                                <button class="layui-btn edit layui-btn-green sp-open-link" url="/user_levels/update"
+                                    area="900px,800px" title="{{r.Name}}设置">设置</button>
+                                {%endif -%}
+                            </td>
+                        </tr>
+                        {% endfor -%}
+                        {% endif -%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

@@ -1,0 +1,38 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<style>
+    pre { font-size: 12px; }
+</style>
+<form class="layui-form" method="post" style="margin-bottom: 50px;">
+    <div class="layui-form-item">
+        <div id="menu-tree"></div>
+    </div>
+    <hr class="layui-border-cyan">
+    <div class="layui-form-item" style="padding-left: 12px;">
+        用户总数: {{total_user}} &nbsp; &nbsp; | &nbsp;&nbsp;
+        存款总数: {{total_deposit|stringformat: '%.2f'}} &nbsp; &nbsp; | &nbsp;&nbsp;
+        提款总数: {{total_withdraw|stringformat:'%.2f'}}
+    </div>
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.use(['tree', 'layer', 'util', 'jquery', 'form'], function() {
+        let tree = layui.tree, layer = layui.layer;
+        let data = JSON.parse('{{json_users|safe}}');
+        tree.render({
+            elem: "#menu-tree",
+            data: data,
+            click: function(obj) {
+                let row = obj.data, url = row.href + row.id;
+                layer.open({
+                    type: 2,
+                    area: ["98%", "98%"],
+                    shade: 0.5,
+                    title: "用户详情",
+                    content: url,
+                });
+            }
+        });
+    });
+</script>
+{%endblock%}

@@ -1,0 +1,118 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="1">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">转账时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" class="layui-input sp-form-datetime" placeholder="开始 到 结束" id="created_user_tranfers" style="width: 330px;">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">转账类型</label>
+                            <div class="layui-input-inline">
+                                <select name="transfer_type">
+                                    <option value="">全部</option>
+                                    <option value="1">转入游戏</option>
+                                    <option value="2">转出游戏</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">转出账户</label>
+                            <div class="layui-input-inline">
+                                <select name="transfer_out_account" rel="">
+                                    <option value="">全部</option>
+                                    {% for k,r in venue %}
+                                    <option value="{{r.Code}}">{{r.Code}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">转入账户</label>
+                            <div class="layui-input-inline">
+                                <select name="transfer_in_account" rel="">
+                                    <option value="">全部</option>
+                                    {% for k,r in venue %}
+                                    <option value="{{r.Code}}">{{r.Code}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option value="">全部</option>
+                                    <option value="1">未处理</option>
+                                    <option value="2">成功</option>
+                                    <option value="3">失败</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" id="user_transfers_id" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60">
+                        <col width="120">
+                        <col width="100">
+                        <col width="150">
+                        <col width="150">
+                        <col width="100">
+                        <col />
+                        <col width="130">
+                        <col width="80">
+                        <col width="100">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员账号</th>
+                            <th>转账类型</th>
+                            <th>转出账户</th>
+                            <th>转入账户</th>
+                            <th>转账金额(元)</th>
+                            <th>第三方流水号</th>
+                            <th>转账时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/user_transfers"> </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

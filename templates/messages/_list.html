@@ -1,0 +1,30 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Title}}</td>
+    <td>{{r.Contents}}</td>
+    <td>{% if r.Type==0 %}通知{% else %}活动{% endif %}</td>
+    <td>{% if r.SendType==1 %}全体会员{% else %}指定会员{% endif %}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/messages/state", 4) -%}
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="启用|停用" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.State}}" url="/messages/state" rid="{{r.Id}}" />
+        {%else -%}{{r.State|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/messages/top", 4) -%}
+        <input type="checkbox" name="is_top" lay-skin="switch" lay-text="置顶|取消置顶" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.IsTop}}" url="/messages/top" rid="{{r.Id}}" />
+        {%else -%}{{r.IsTop|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>{{r.Created|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/messages/update", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list sp-open-link" area="900px,630px" tab="1" url="/messages/update" >编辑</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/messages/delete", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete" tab="1" url="/messages/delete">删除</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

@@ -1,0 +1,100 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">银行卡</label>
+                            <div class="layui-input-inline">
+                                <select name="bank_name">
+                                    <option value="">请全部银行卡</option>
+                                    {% for bank in banks -%}
+                                    <option value="{{bank.Name}}">{{bank.Name}}</option>
+                                    {% endfor -%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option value="">全部状态</option>
+                                    <option value="2">启用</option>
+                                    <option value="1">停用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/receive_bank_cards/create", 4) -%}
+                    <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/receive_bank_cards/create" area="800px,750px" tab="0" data-type="add">新增银行卡</button>
+                    {%endif -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="90" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="150" />
+                        <col width="140" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col />
+                        <col width="90" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>开户人姓名</th>
+                            <th>开户银行</th>
+                            <th>银行编码</th>
+                            <th>开户地址</th>
+                            <th>开放会员等级</th>
+                            <th>累计使用金额</th>
+                            <th>日限金额</th>
+                            <th>当日已用金额</th>
+                            <th>最小存款</th>
+                            <th>最大存款</th>
+                            <th>日限次数</th>
+                            <th>当日已用次数</th>
+                            <th>状态</th>
+                            <th>费率</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/receive_bank_cards">
+                        {% include "_list.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

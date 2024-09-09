@@ -1,0 +1,36 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Date}}</td>
+    <td>{{r.RegisteredNumber}}</td>
+    <td>{{r.FirstDepositNumber}}</td>
+
+    <td>{{r.DepositsNumber}}</td>
+    <td>{{r.WithdrawalsNumber}}</td>
+    <td>{{r.OnlineDepositNum}}</td>
+    <td>{{r.OffLineDepositNum}}</td>
+    <td>{{r.HumanDepositNum}}</td>
+    <td>{{r.HumanWithdrawNum}}</td>
+    <td>{{r.DepositAmount|stringformat:"%.2f"}}</td>
+    <td>{{r.OnlineDepositMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.HumanDepositMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.OfflineDepositMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.VirtualDeposit|stringformat:"%.2f"}}</td>
+
+    <td>{{r.HumanWithdrawMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.WithdrawalAmount|stringformat:"%.2f"}}</td>
+    <td>{{r.VirtualWithdraw|stringformat:"%.2f"}}</td>
+
+    <td>{{r.DepositOffer|stringformat:"%.2f"}}</td>
+    <td>{{r.BetNumber}}</td>
+    <td>{{r.ValidBet|stringformat:"%.2f"}}</td>
+    <td>{{r.TotalBet|stringformat:"%.2f"}}</td>
+
+    <td>{{r.CompanyWinsLoses|stringformat:"%.2f"}}</td>
+
+    <td>{{r.DividendMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.RebateMoney|stringformat:"%.2f"}}</td>
+    <td>{{r.DepositDiscount|stringformat:"%.2f"}}</td>
+    <td>{{r.AgentCommission|stringformat:"%.2f"}}</td>
+    <td>{{r.CompanyIncome|stringformat:"%.2f"}}</td>
+</tr>
+{% endfor %}

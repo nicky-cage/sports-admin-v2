@@ -1,0 +1,73 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <form class="layui-form" lay-filter="" method="post" tbody="5">
+            <div class="layui-form">
+                <div class="layui-inline">
+                    <label class="layui-form-label">订单状态</label>
+                    <div class="layui-input-inline">
+                        <select name="status">
+                            <option></option>
+                            <option value="2">成功</option>
+                            <option value="3">失败</option>
+                            <option value="1">待处理</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label" >申请时间</label>
+                    <div class="layui-input-inline" style="width: 190px;">
+                        <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="created_depsits" />
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="{{id}}">
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px; min-height: 560px;">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col />
+                        <col />
+                        <col width="130" />
+                        <col width="150" />
+                        <col width="120" />
+                        <col width="130" />
+                        <col width="120" />
+                        <col />
+                        <col width="80" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>订单号码</th>
+                        <th>提款金额</th>
+                        <th>行政费用</th>
+                        <th>开户银行/卡号</th>
+                        <th>开户姓名/地址</th>
+                        <th>申请时间</th>
+                        <th>风控审核完成时间</th>
+                        <th>风控操作人</th>
+                        <th>出款完成时间</th>
+                        <th>财务操作人</th>
+                        <th>财务审核备注</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody url="/user_detail/withdraws" id="sp-loaded-table_withdraws">{%include "_detail_withdraws.html"%}</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

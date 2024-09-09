@@ -1,0 +1,181 @@
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body" style="padding: 15px;">
+            <form class="layui-form" method="post">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">网站名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="site_name" lay-verify="title" autocomplete="off" placeholder="请输入后台名称" class="layui-input" value="{{r.SiteName}}" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">网站标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="site_title" lay-verify="required" placeholder="请输入网站标题" autocomplete="off" class="layui-input" value="{{r.SiteTitle}}" />
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">LOGO设置</label>
+                    <div class="layui-input-block">
+                        <div class="layui-row">
+                            <div class="layui-col-md3" >
+                                <div class="layui-card">
+                                    <div class="layui-card-header">站点LOGO</div>
+                                    <div class="layui-card-body">
+                                        <div class="layui-upload">
+                                            <button type="button" class="layui-btn sp-file-upload" name="logo_site" img="{{r.LogoSite}}" ><i class="layui-icon">&#xe67c;</i>上传图片</button>
+                                        </div>
+                                        <blockquote class="layui-elem-quote">格式：.jpg .jpeg .png 尺寸30x30，大小不超过1M.</blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md3" >
+                                <div class="layui-card">
+                                    <div class="layui-card-header">网站LOGO</div>
+                                    <div class="layui-card-body">
+                                        <div class="layui-upload">
+                                            <button type="button" class="layui-btn sp-file-upload" name="logo_web" img="{{r.LogoSite}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+                                        </div>
+                                        <blockquote class="layui-elem-quote">格式：.jpg .jpeg .png 尺寸141x59，大小不超过1M.</blockquote>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="layui-col-md3" >
+                                <div class="layui-card">
+                                    <div class="layui-card-header">网页标题LOGO</div>
+                                    <div class="layui-card-body">
+                                        <div class="layui-upload">
+                                            <button type="button" class="layui-btn sp-file-upload" name="logo_title" img="{{r.LogoTitle}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+                                        </div>
+                                        <blockquote class="layui-elem-quote">格式：.jpg .jpeg .png 尺寸32x32，大小不超过1M.</blockquote>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="layui-col-md3" >
+                                <div class="layui-card">
+                                    <div class="layui-card-header">移动端LOGO</div>
+                                    <div class="layui-card-body">
+                                        <div class="layui-upload">
+                                            <button type="button" class="layui-btn sp-file-upload" name="logo_app" img="{{r.LogoApp}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+                                        </div>
+                                        <blockquote class="layui-elem-quote">格式：.jpg .jpeg .png 尺寸30*30，大小不超过1M.</blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">域名信息</label>
+                    <div class="layui-input-block">
+                        <div class="layui-row">
+                            <div class="layui-col-md4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">PC主域名</div>
+                                    <div class="layui-card-body">
+                                        <input type="text" name="domain_pc" lay-verify="title" autocomplete="off" placeholder="请输入PC主域名" class="layui-input" value="{{r.DomainPC}}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">综合站APP主域名</div>
+                                    <div class="layui-card-body">
+                                        <input type="text" name="domain_app" lay-verify="title" autocomplete="off" placeholder="请输入综合站APP主域名" class="layui-input" value="{{r.DomainApp}}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">体育APP主域名</div>
+                                    <div class="layui-card-body">
+                                        <input type="text" name="domain_app_phy" lay-verify="title" autocomplete="off" placeholder="请输入体育APP主域名" class="layui-input" value="{{r.DomainAppPhy}}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-md4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">H5主域名</div>
+                                    <div class="layui-card-body">
+                                        <input type="text" name="domain_h5" lay-verify="title" autocomplete="off" placeholder="请输入H5主域名" class="layui-input" value="{{r.DomainH5}}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">代理PC主域名</div>
+                                    <div class="layui-card-body">
+                                        <input type="text" name="domain_agent_pc" lay-verify="title" autocomplete="off" placeholder="请输入代理PC主域名" class="layui-input" value="{{r.DomainAgentPC}}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">代理APP主域名</div>
+                                    <div class="layui-card-body">
+                                        <input type="text" name="domain_agent_app" lay-verify="title" autocomplete="off" placeholder="请输入代理APP主域名" class="layui-input" value="{{r.DomainAgentApp}}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">联系信息</label>
+                    <div class="layui-input-block">
+                        <div class="layui-row">
+                            <div class="layui-col-md4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">代理QQ</div>
+                                    <div class="layui-card-body">
+                                        <input type="text" name="agent_qq" lay-verify="title" autocomplete="off" placeholder="请输入代理QQ" class="layui-input" value="{{r.AgentQQ}}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">代理SKYPE</div>
+                                    <div class="layui-card-body">
+                                        <input type="text" name="agent_skype" lay-verify="title" autocomplete="off" placeholder="请输入代理Skype" class="layui-input" value="{{r.AgentSkype}}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md4">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">代理Sugram</div>
+                                    <div class="layui-card-body">
+                                        <input type="text" name="agent_sugram" lay-verify="title" autocomplete="off" placeholder="请输入代理Sugram" class="layui-input" value="{{r.AgentSugram}}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-layout-admin">
+                    <div class="layui-input-block">
+                        <div class="layui-footer" style="left: 0;">
+                            <button class="layui-btn" lay-submit="" lay-filter="save-config">立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                        <input type="hidden" name="id" value="{{r.Id}}" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+layui.use(['form', 'layer', 'upload', 'jquery'], function(data) {
+    let form = layui.form, layer = layui.layer, $ = layui.jquery;
+    form.on("submit(save-config)", function(data) {
+        sp.post("/configs/save", data.field, function(res) {
+            layer.msg('配置保存成功', {icon: 1, timeout: 2000});
+        });
+        return false;
+    });
+});
+</script>

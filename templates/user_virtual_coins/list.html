@@ -1,0 +1,67 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="1" method="post">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户名称</label>
+                            <div class="layui-input-inline">
+                                <input name="user_name" placeholder="请输入用户名称" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">货币地址</label>
+                            <div class="layui-input-inline">
+                                <input name="wallet_address" type="text" placeholder="请输入货币地址" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/user_virtual_coins/create" area="700px,450px" tab="0" data-type="add">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="150" />
+                        <col width="300" />
+                        <col />
+                        <col width="130" />
+                        <col width="120" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>用户名称</th>
+                            <th>币种</th>
+                            <th>协议类型</th>
+                            <th>地址</th>
+                            <th>备注</th>
+                            <th>添加时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table"  url="/user_virtual_coins">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

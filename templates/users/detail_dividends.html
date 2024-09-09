@@ -1,0 +1,86 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <form class="layui-form" lay-filter="" method="post" tbody="6">
+            <div class="layui-form">
+                <div class="layui-inline">
+                    <label class="layui-form-label">红利类型</label>
+                    <div class="layui-input-inline">
+                        <select name="type">
+                            <option></option>
+                            <option value="1">返水红利 - 1</option>
+                            <option value="2">生日礼金 - 2</option>
+                            <option value="3">晋级礼金 - 3</option>
+                            <option value="4">每月俸禄 - 4</option>
+                            <option value="5">存款红利 - 5</option>
+                            <option value="6">邀请好友 - 6</option>
+                            <option value="7">礼物折现 - 7</option>
+                            <option value="8">特殊红利 - 8</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">订单状态</label>
+                    <div class="layui-input-inline">
+                        <select name="state">
+                            <option></option>
+                            <option value="1">处理中</option>
+                            <option value="2">成功</option>
+                            <option value="3">失败</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="{{id}}">
+                <div class="layui-inline">
+                    <label class="layui-form-label" >发放时间</label>
+                    <div class="layui-input-inline" style="width: 190px">
+                        <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="divi" />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px; min-height: 560px;">
+                <table class="layui-table sp-tab-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="165" />
+                        <col width="100" />
+                        <col />
+                        <col width="80" />
+                        <col width="165" />
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>订单编号</th>
+                        <th>红利类型</th>
+                        <th>红利金额(元)</th>
+                        <th>是否需要流水</th>
+                        <th>流水倍数(倍)</th>
+                        <th>申请时间</th>
+                        <th>发放类型</th>
+                        <th>备注</th>
+                        <th>状态</th>
+                        <th>发放时间</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sp-loaded-devidens" url="/user_detail/dividends?id={{id}}">{%include "_detail_dividends.html" -%}</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

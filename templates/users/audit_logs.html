@@ -1,0 +1,42 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<table class="layui-table">
+    <colgroup>
+        <col width="100" />
+        <col width="100" />
+        <col width="100" />
+        <col width="100" />
+    </colgroup>
+    <thead>
+    <tr>
+        <th>操作时间</th>
+        <th>操作人</th>
+        <th>备注</th>
+        <th>操作信息</th>
+
+    </tr>
+    </thead>
+    <tbody id="audit">
+    {%for r in rows%}
+
+    <tr>
+        <td>{{r.Created|datetime}}</td>
+        <td>{{r.Admin}}</td>
+        <td>{{r.Remark}}</td>
+        <td name="content">{{r.OperationInfo}}</td>
+    </tr>
+    {%endfor%}
+    </tbody>
+</table>
+<script>
+    layui.use(['jquery'],function(){
+        let $=layui.$;
+        $(function(){
+           let num= $("#audit tr").length;
+           for (let i=1;i<=num;i++){
+               $("#audit tr:nth-child("+i+") td[name='content']").html($("#audit tr:nth-child("+i+") td[name='content']").text())
+           }
+        })
+    })
+</script>
+{% endblock body %}

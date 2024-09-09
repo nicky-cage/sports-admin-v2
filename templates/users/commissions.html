@@ -1,0 +1,20 @@
+<div class="layui-row" style="overflow: auto">
+    <div class="layui-col-md12">
+        <div class="layui-tab" lay-filter="sp-lazy-load">
+            <ul class="layui-tab-title">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/commission_accounts", 5) -%}
+                <li class="layui-this" style="padding: 0px 15px; margin: 0px">账户信息</li>
+                {%endif -%}{%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/commission_withdraws", 6) -%}
+                <li style="padding: 0px 15px; margin: 0px">提款信息</li>
+                {%endif -%}
+            </ul>
+            <div class="layui-tab-content" style="padding: 15px 0px">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/commission_accounts", 5) -%}
+                <div class="layui-tab-item layui-show" style="overflow: auto">{% include "commission_account.html" %}</div>
+                {%endif -%}{%if is_granted(PLATFORM, ADMIN.RoleId, "/user_detail/commission_withdraws", 6) -%}
+                <div class="layui-tab-item sp-tab-body" url="/user_detail/commission_withdraws?id={{id}}" style="height: 550px; overflow: auto"></div>
+                {%endif -%}
+            </div>
+        </div>
+    </div>
+</div>

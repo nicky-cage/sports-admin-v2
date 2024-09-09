@@ -1,0 +1,45 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/recommend_nickname/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">昵称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="nickname" lay-verify="required" placeholder="请输入昵称" autocomplete="off" class="layui-input" value="{{r.Name}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">自定义标签</label>
+        <div class="layui-input-inline">
+            <input type="text" name="label" lay-verify="required" placeholder="请输入自定义标签" autocomplete="off" class="layui-input" value="{{r.Title}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">个人介绍</label>
+        <div class="layui-input-inline">
+            <input type="text" name="personal_introduction" lay-verify="required" placeholder="请输入自定义标签" autocomplete="off" class="layui-input" value="{{r.Title}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >头像设置</label>
+        <div class="layui-input-inline">
+            <div class="layui-upload">
+                <button type="button" class="layui-btn sp-file-upload" name="top_url" ><i class="layui-icon">&#xe67c;</i>上传图片</button>
+            </div>
+            <blockquote class="layui-elem-quote">格式：.jpg .jpeg .png 尺寸30x30，大小不超过300k.</blockquote>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">是否大神推荐</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="sort" value="1" title="不是">
+            <input type="radio" name="sort" value="2" title="是">
+        </div>
+    </div>
+    <div class="layui-layout-admin" style="z-index:99;">
+        <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+            <button type="button" class="layui-btn" lay-submit lay-filter="sp-save" id="sp-submit">立即提交</button>
+            <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+        </div>
+    </div>
+</form>
+{% endblock body %}

@@ -1,0 +1,66 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="component-form-element" method="post"  action="/users/add">
+    <div class="layui-form-item">
+            <label class="layui-form-label">会员账号</label>
+            <div class="layui-input-inline">
+                <input name="username" lay-verify="required" placeholder="请输入会员名称" autocomplete="off" class="layui-input"  />
+            </div>
+        </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户姓名</label>
+        <div class="layui-input-inline">
+            <input name="realname" lay-verify="required" placeholder="请输入用户姓名" autocomplete="off" class="layui-input"  />
+        </div>
+    </div>
+    <div class="layui-form-item">
+            <label class="layui-form-label">用户密码</label>
+            <div class="layui-input-inline">
+                <input name="password" type="password"  lay-verify="required" placeholder="请输入用户密码" autocomplete="off" class="layui-input"  />
+            </div>
+    </div>
+    <div class="layui-form-item">
+            <label class="layui-form-label">确认密码</label>
+            <div class="layui-input-inline">
+                <input name="re_password" type="password" lay-verify="required" placeholder="请确认密码" autocomplete="off" class="layui-input" />
+            </div>
+        </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">取款密码</label>
+        <div class="layui-input-inline">
+            <input name="withdraw_password" type="password" lay-verify="required" placeholder="请输入取款密码" autocomplete="off" class="layui-input" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号</label>
+        <div class="layui-input-inline">
+            <input name="phone" type="text" lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input" />
+        </div>
+    </div>
+
+    <input name="top_name" type="hidden" value="sys_test_agent" />
+    <input name="register_url" type="hidden" value="" />
+    <div class="layui-form-item">
+            <label class="layui-form-label">选择总代</label>
+            <div class="layui-input-inline">
+                <select name="top_id" lay-verify="required">
+                    <option></option>
+                    <option value="1000" selected>sys_test_agent</option>
+                </select>
+            </div>
+        </div>
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form', 'jquery', 'layer'],function() {
+        let $ = layui.$;
+        $(function(){
+            url=window.location.href;
+            $("input[name='register_url']").val(url)
+        })
+    })
+    </script>
+{% endblock body %}

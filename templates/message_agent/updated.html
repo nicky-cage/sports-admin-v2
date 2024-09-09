@@ -1,0 +1,140 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/message_agent/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择发放代理</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="radio" name="send_type" lay-filter="layChoose" {% if r.SendType == 1%}checked {%endif%} value="1" title="所有代理" />
+            <input type="radio" name="send_type" lay-filter="layChoose" {% if r.SendType == 2%}checked {%endif%} value="2" title="指定代理" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">会员</label>
+        <div class="layui-input-inline">
+            <textarea name="send_target" placeholder="请输入用户名，多个用户名用英文逗号分隔" class="layui-textarea usernames" style="width: 300px;">{{r.SendTarget}}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{r.Title}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">消息类型</label>
+        <div class="layui-input-inline">
+            <select name="type">
+                <option value="0" {% if r.Type == 0%}selected {%endif%}>通知</option>
+                <option value="1" {% if r.Type == 1%}selected {%endif%}>活动</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >内容</label>
+        <div class="layui-input-inline">
+            <div id="editor" style="width: 700px;height:330px;"></div>
+        </div>
+    </div>
+    <input type="hidden" name="is_agent" value="2">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-top: 17px;">图标</label>
+        <div class="layui-input-inline radio-images" style="width: 450px; padding-top: 10px; padding-bottom: 10px;">
+            <input type="radio" name="img_url" value="/notices/icon/1.png" title="" {%if r.ImgUrl == "/notices/icon/1.png" || r.ImgUrl == "" %}checked{%endif%} /><img src="{{STATIC_URL}}/notices/icon/1.png" style="margin-right: 10px;" />
+            <input type="radio" name="img_url" value="/notices/icon/2.png" title="" {%if r.ImgUrl == "/notices/icon/2.png" %}checked{%endif%} /><img src="{{STATIC_URL}}/notices/icon/2.png" style="margin-right: 10px;" />
+            <input type="radio" name="img_url" value="/notices/icon/3.png" title="" {%if r.ImgUrl == "/notices/icon/3.png" %}checked{%endif%} /><img src="{{STATIC_URL}}/notices/icon/3.png" style="margin-right: 10px;" />
+            <input type="radio" name="img_url" value="/notices/icon/4.png" title="" {%if r.ImgUrl == "/notices/icon/4.png" %}checked{%endif%} /><img src="{{STATIC_URL}}/notices/icon/4.png" style="margin-right: 10px;" />
+            <input type="radio" name="img_url" value="/notices/icon/5.png" title="" {%if r.ImgUrl == "/notices/icon/5.png" %}checked{%endif%} /><img src="{{STATIC_URL}}/notices/icon/5.png" style="margin-right: 10px;" />
+        </div>
+    </div>
+    <input type="hidden" name="contents" id="content">
+    <input type="hidden" name="img" id="img" value="">
+    <script src="{{STATIC_URL}}/wangEditor/release/wangEditor.min.js"></script>
+    <div hidden="hidden" id="rcont">{{r.Contents}}</div>
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['form'], function () {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+        let E = window.wangEditor;
+        let editor = new E('#editor');
+        editor.customConfig.zIndex = false;
+        editor.customConfig.uploadImgShowBase64 = true
+        let cont = document.getElementById('content');
+        editor.customConfig.onchange = function (html) {
+            cont.value = html
+        };
+        editor.customConfig.uploadImgServer = '/upload';
+        editor.customConfig.uploadFileName = 'file';
+        editor.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                // 图片上传并返回结果，但图片插入错误时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                if (result.errcode == 0) {
+                    editor.txt.append('<img src="' + result.data.path + '">');
+                    if (document.getElementById('img').value == '') {
+                        document.getElementById('img').value = result.data.path
+                    } else {
+                        var i = document.getElementById('img').value
+                        document.getElementById('img').value = i + "," + result.data.path
+                    }
+                    layer.open({
+                        title: '',
+                        content: '上传成功',
+                        btn: [],
+                        time: 500,
+                    })
+                } else {
+                    layer.open({
+                        title: '',
+                        content: '上传失败',
+                        btn: [],
+                        time: 500,
+                    })
+                }
+            },
+            error: function (xhr, editor) {
+                layer.open({
+                    title: '',
+                    content: '上传错误',
+                    btn: [],
+                    time: 500,
+                })
+            },
+            timeout: function (xhr, editor) {
+                layer.open({
+                    title: '',
+                    content: '上传超时',
+                    btn: [],
+                    time: 500,
+                })
+            },
+        };
+        editor.customConfig.customAlert = function (info) {
+            // info 是需要提示的内容，默认为空就好
+        };
+        editor.create()
+        editor.txt.html($("#rcont").text()) //将内容写入富文本中
+        form.on('radio(layChoose)', function (data) {
+            if (data.value == "1") {
+                $("textarea[name='send_target']").addClass("layui-radio-disbaled layui-disabled").attr("disabled", true);
+            } else {
+                $("textarea[name='send_target']").removeClass("layui-radio-disbaled layui-disabled").attr("disabled", false);
+            }
+            form.render();
+        });
+        $(function () {
+            let send_type = $("input[name='send_type']:checked").val();
+            if (send_type == "1") {
+                $("textarea[name='send_target']").addClass("layui-radio-disbaled layui-disabled").attr("disabled", true);
+            }
+        })
+    });
+</script>
+{% endblock body %}

@@ -1,0 +1,38 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.MenuId}}</td>
+    <td>{{r.MenuName}}</td>
+    <td> {{r.AdminId}} / {{r.AdminName}} </td>
+    <td>
+        {%if r.UserId > 0 -%}{{r.UserId}} / {{r.UserName}}
+        {%else -%}-
+        {%endif -%}
+    </td>
+    <td>{{r.Method}}</td>
+    <td>{{r.Path}}</td>
+    <td>
+        {%if r.LogLevel == 0%}无
+        {%elif r.LogLevel == 1%}<span style="color: green">低</span>
+        {%elif r.LogLevel == 2%}<span style="color: red">中</span>
+        {%elif r.LogLevel == 3%}<span style="color: orange; font-weight: bold;">高</span>
+        {%else%}{{r.LogLevel}}
+        {%endif%}
+    </td>
+    <td>
+        {%if r.LogType == 0%}无
+        {%elif r.LogType == 1%}添加
+        {%elif r.LogType == 2%}修改
+        {%elif r.LogType == 3%}删除
+        {%elif r.LogType == 4%}数据列表
+        {%elif r.LogType == 5%}数据详情
+        {%elif r.LogType == 9%}其他
+        {%else%}未知 {{r.LogType}}
+        {%endif%}
+    </td>
+    <td>{{r.OperationKey}}</td>
+    <td>{{r.Ip}} / <span style="color: blue">{{r.Ip|ip_area}}</span></td>
+    <td style="word-break: break-all; cursor: pointer;" class="sp-alert" text="{{r.Data}}">{{r.Data|truncatechars:30}}</td>
+    <td>{{r.Created|datetime}}</td>
+</tr>
+{% endfor %}

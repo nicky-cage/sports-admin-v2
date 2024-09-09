@@ -1,0 +1,169 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<style type="text/css">
+    .layui-form-checkbox[lay-skin=primary] i {
+        margin-top: -15px;
+    }
+</style>
+
+<!-- 搜索框 -->
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="margin-top: 5px;">时间</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="created" class="layui-input sp-form-datetime" placeholder="" id="created_game" style="width: 300px;">
+                            </div>
+                        </div>
+                        <div class="layui-inline" style="margin-left: 150px;">
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-normal sp-set-datetime" bind_to="created_game" period="today">本日</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary sp-set-datetime" bind_to="created_game" period="yesterday">昨天</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary sp-set-datetime" bind_to="created_game" period="this_week">本周</button>
+                            <button type="button" class="layui-btn layui-btn-sm layui-btn-primary sp-set-datetime" bind_to="created_game" period="last_week">上周</button>
+                            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm sp-set-datetime" bind_to="created_game" period="this_month">本月</button>
+                            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm sp-set-datetime" bind_to="created_game" period="last_month">上月</button>
+                        </div>
+                        <br>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="margin-top: 5px;">体育场馆:</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="sport_all" lay-filter="sport_all" checked lay-skin="primary" title="全选">
+                                <input type="checkbox" name="sport[]" lay-filter="sport[]" checked value="IM_1" lay-skin="primary" title="IM">
+                                <input type="checkbox" name="sport[]" lay-filter="sport[]" checked value="BTI_1" lay-skin="primary" title="BTI">
+                                <input type="checkbox" name="sport[]" lay-filter="sport[]" checked value="SABA_1" lay-skin="primary" title="SABA">
+                                <input type="checkbox" name="sport[]" lay-filter="sport[]" checked value="XJ188_1" lay-skin="primary" title="XJ188">
+                                <input type="checkbox" name="sport[]" lay-filter="sport[]" checked value="BAOLI_1" lay-skin="primary" title="BAOLI_1">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="margin-top: 5px;">真人场馆:</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="realPerson_all" lay-filter="realPerson_all" checked lay-skin="primary" title="全选">
+                                <input type="checkbox" name="realPerson[]" lay-filter="realPerson[]" checked value="AG_3" lay-skin="primary" title="AG">
+                                <input type="checkbox" name="realPerson[]" lay-filter="realPerson[]" checked value="EBET_3" lay-skin="primary" title="EBET">
+                                <input type="checkbox" name="realPerson[]" lay-filter="realPerson[]" checked value="BG_3" lay-skin="primary" title="BG">
+                                <input type="checkbox" name="realPerson[]" lay-filter="realPerson[]" checked value="BBIN_3" lay-skin="primary" title="BBIN">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="margin-top: 5px;">彩票场馆:</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="lottery_all" lay-filter="lottery_all" checked lay-skin="primary" title="全选">
+                                <input type="checkbox" name="lottery[]" lay-filter="lottery[]" checked value="SG_6" lay-skin="primary" title="SG">
+                                <input type="checkbox" name="lottery[]" lay-filter="lottery[]" checked value="LB_6" lay-skin="primary" title="LB">
+                                <input type="checkbox" name="lottery[]" lay-filter="lottery[]" checked value="VR_6" lay-skin="primary" title="VR">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="margin-top: 5px;">棋牌场馆:</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="chess_all" lay-filter="chess_all" checked lay-skin="primary" title="全选">
+                                <input type="checkbox" name="chess[]" lay-filter="chess[]" checked value="KY_7" lay-skin="primary" title="KY">
+                                <input type="checkbox" name="chess[]" lay-filter="chess[]" checked value="LEG_7" lay-skin="primary" title="LEG">
+                                <input type="checkbox" name="chess[]" lay-filter="chess[]" checked value="VG_7" lay-skin="primary" title="VG">
+                                <input type="checkbox" name="chess[]" lay-filter="chess[]" checked value="DT_7" lay-skin="primary" title="DT">
+                                <input type="checkbox" name="chess[]" lay-filter="chess[]" checked value="HL_7" lay-skin="primary" title="HL">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="margin-top: 5px;">电竞场馆:</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="game_all" lay-filter="game_all" checked lay-skin="primary" title="全选">
+                                <input type="checkbox" name="game[]" lay-filter="game[]" checked value="IM_2" lay-skin="primary" title="IM">
+                                <input type="checkbox" name="game[]" lay-filter="game[]" checked value="AVIA_2" lay-skin="primary" title="FY">
+                                <input type="checkbox" name="game[]" lay-filter="game[]" checked value="LEIHUO_2" lay-skin="primary" title="LH">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="margin-top: 5px;">电子场馆:</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="electronic_all" lay-filter="electronic_all" checked lay-skin="primary" title="全选">
+                                <input type="checkbox" name="electronic[]" lay-filter="electronic[]" checked value="PT_4" lay-skin="primary" title="PT">
+                                <input type="checkbox" name="electronic[]" lay-filter="electronic[]" checked value="JDB_4" lay-skin="primary" title="JDB">
+                                 <input type="checkbox" name="electronic[]" lay-filter="electronic[]" checked value="CQ9_4" lay-skin="primary" title="CQ9">
+                                <input type="checkbox" name="electronic[]" lay-filter="electronic[]" checked value="AG_4" lay-skin="primary" title="AG">
+                                <input type="checkbox" name="electronic[]" lay-filter="electronic[]" checked value="BBIN_4" lay-skin="primary" title="BBIN">
+                                <input type="checkbox" name="electronic[]" lay-filter="electronic[]" checked value="MG_4" lay-skin="primary" title="MG">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">捕鱼场馆:</label>
+                            <div class="layui-input-block">
+                                <input type="checkbox" name="fishing_all" lay-filter="fishing_all" checked lay-skin="primary" title="全选">
+                                <!-- <input type="checkbox" name="fishing[]" lay-filter="fishing[]" checked value="FG_5" lay-skin="primary" title="FG">-->
+                                <input type="checkbox" name="fishing[]" lay-filter="fishing[]" checked value="JDB_5" lay-skin="primary" title="JDB">
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                    <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{STATIC_URL}}/js/date-range-util.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}/js/date-set.js"></script>
+
+<!-- 数据表格 -->
+<div>
+    <table>
+        <tbody id="sp-loaded-table" url="/report_games"></tbody>
+    </table>
+</div>
+
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['form', 'laydate'], function () {
+        let $ = layui.$
+        let form = layui.form;
+        let laydate = layui.laydate;
+        form.on('checkbox(sport_all)', function (data) {
+            let bol = data.elem.checked;
+            $(':checkbox[lay-filter="sport[]"]').prop("checked", bol);
+            form.render('checkbox');
+        });
+        form.on('checkbox(realPerson_all)', function (data) {
+            let bol = data.elem.checked;
+            $(':checkbox[lay-filter="realPerson[]"]').prop("checked", bol);
+            form.render('checkbox');
+        });
+        form.on('checkbox(lottery_all)', function (data) {
+            let bol = data.elem.checked;
+            $(':checkbox[lay-filter="lottery[]"]').prop("checked", bol);
+            form.render('checkbox');
+        });
+        form.on('checkbox(chess_all)', function (data) {
+            let bol = data.elem.checked;
+            $(':checkbox[lay-filter="chess[]"]').prop("checked", bol);
+            form.render('checkbox');
+        });
+        form.on('checkbox(game_all)', function (data) {
+            let bol = data.elem.checked;
+            $(':checkbox[lay-filter="game[]"]').prop("checked", bol);
+            form.render('checkbox');
+        });
+        form.on('checkbox(electronic_all)', function (data) {
+            let bol = data.elem.checked;
+            $(':checkbox[lay-filter="electronic[]"]').prop("checked", bol);
+            form.render('checkbox');
+        });
+        form.on('checkbox(fishing_all)', function (data) {
+            let bol = data.elem.checked;
+            $(':checkbox[lay-filter="fishing[]"]').prop("checked", bol);
+            form.render('checkbox');
+        })
+    });
+</script>
+{% endblock body %}

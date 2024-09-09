@@ -1,0 +1,44 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form" method="post" action="/dividend_audits/agree" lay-filter="component-form-element">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">备注</label>
+                            <div class="layui-input-inline">
+                                <textarea name="reviewer_remark" lay-verify="required" style="height: 200px;" placeholder="如有需要经填写，不超过100个字" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <input type="hidden" value="{{r.id}}" name="id" />
+                            <div class="layui-input-inline" style="margin-left: 110px;">
+                                <button class="layui-btn" lay-submit lay-filter="sp-save">提交</button>
+                                <button class="layui-btn layui-btn-primary sp-btn-cancel">取消</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['form'], function() {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+        $(document).on("click", ".cancel", function() {
+            let index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+            parent.layer.close(index);
+        });
+    });
+</script>
+{% endblock body %}

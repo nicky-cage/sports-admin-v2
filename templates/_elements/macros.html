@@ -1,0 +1,20 @@
+{# 单选框 #}
+{% macro radios(items, name, value=0) -%}
+    {% for k, v in items %}
+        <input type="radio" name="{{name}}" value="{{k}}"  title="{{v}}" {% if v == value -%}checked{% endif -%}  />
+    {% endfor %}
+{% endmacro -%}
+
+{# 多选框 #}
+{% macro checkboxes(items, name, value="") -%}
+    {% for k, v in items %}
+        <input type="checkbox" name="{{name}}_[]" value="{{k}}" lay-filter="sp-form-checkbox-list" lay-skin="primary" title="{{v}}" {% if has_value(value, v) %}checked{% endif %} />
+    {% endfor %}
+    <input type="hidden" value="{{value}}" name="{{name}}" />
+    <script>
+        layui.use(['jquery', 'form'], function() {
+            let $ = layui.jquery, form = layui.form;
+            form.on('checkbox(sp-form-checkbox-list)', function(data) {});
+        });
+    </script>
+{% endmacro %}

@@ -1,0 +1,104 @@
+{% if rows -%}
+{% for r in rows -%}
+<tr {%if forloop.Counter==1 -%}total="{{total}}" {%endif%}>
+    <td>{{r.UserDeposit.Id}}</td>
+    <td>{%if r.UserDeposit.Type == 1 %}<div class="order-no" style="color: blue;cursor: pointer;">{{r.UserDeposit.OrderNo}}</div>{%else-%}{{r.UserDeposit.OrderNo}}{%endif-%}</td>
+    <td>{{r.UserDeposit.Username}}</td>
+    <td>
+        {%if r.Type == 4 -%}{{ r.UserDeposit.UserWalletAddress}}
+        {%else -%} {{r.UserDeposit.DepositName}}
+        {%endif -%}
+    </td>
+    <td>{{r.Vip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>
+        {{r.UserDeposit.Money|stringformat:'%.2f'}}
+        {%if r.UserDeposit.VirtualCoin > 0 -%}
+            <span class="layui-badge">{{r.VirtualCoin|stringformat:'%.2f'}}U</span>
+        {%endif -%}
+    </td>
+    <td>{{r.UserDeposit.ArriveMoney|stringformat:'%.2f'}}</td>
+    <td>{{r.UserDeposit.TopMoney|stringformat:'%.2f'}}</td>
+    <td>{{r.UserDeposit.Discount|stringformat:'%.2f'}}</td>
+    <td>{{r.User.Label|platform_wrap:PLATFORM|user_labels|safe}}</td>
+    <td>{{r.UserDeposit.Created|datetime}}</td>
+    <td>{{r.UserDeposit.Updated|datetime}}</td>
+    {% if r.UserDeposit.Type == 1 -%}
+    <td>{{r.UserDeposit.PayCode|platform_wrap:PLATFORM|payment_name}} - {{r.UserDeposit.PayCode}}</td>
+    {% else -%}
+    {% if r.UserDeposit.AccountByName != ""%}<td class="sp-alert" style="word-break: break-all; cursor: pointer;" text="{{r.UserDeposit.AccountByName}}">{{r.UserDeposit.AccountByName|truncatechars:16}}</td>
+    {% else -%}<td></td> {%endif-%}
+    {% endif -%}
+    <td>{{r.UserDeposit.FinanceAdmin}}</td>
+    <td>
+        {%if r.UserDeposit.Status == 1 %}待确认
+        {%elif r.UserDeposit.Status == 2 %}<span style="color: green">成功</span>
+        {%else%}<span style="color: red">失败</span>
+        {%endif%}
+    </td>
+    <td>
+        {%if r.UserDeposit.Type == 2 || r.UserDeposit.Type == 4 %}
+            {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_deposit_hrs/mistake", 4) -%}
+                <button class="layui-btn layui-btn-danger mistake" type="button" uid="{{r.UserDeposit.UserId}}">纠误</button>
+            {%endif -%}
+        {%endif%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_deposit_logs", 4) -%}
+            <button area="960px,600px" class="layui-btn alog" rid="{{r.UserDeposit.OrderNo}}" tab="2" type="button" uid="{{r.UserDeposit.UserId}}" url="/user_deposit_logs">日志</button>
+        {%endif -%}
+    </td>
+</tr>
+{%endfor -%}
+<tr>
+    <td colspan="2"><span style="color: red;">小计(当前页面)</span></td>
+    <td colspan="3">
+        总计: <span style="color: red">{{page_total}} 笔</span> /
+        成功: <span style="color: red">{{page_success}} 笔</span> /
+        成功率: <span style="color: green">{{page_success_rate|stringformat:'%.2f'}}%</span>
+    </td>
+    <td><span style="color: red">{{page_money|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{page_success_arrived|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{page_success_up|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{page_success_discount|stringformat:'%.2f'}}</span></td>
+    <td colspan="7">
+        总计: <span>{{page_money|stringformat:'%.2f'}} 元 </span> /
+        成功: <span style="color: green">{{page_success_money|stringformat:'%.2f'}} 元 </span> /
+        优惠: <span style="color: green">{{page_success_discount|stringformat:'%.2f'}} 元 </span> /
+        成功率: <span style="color: green">{{page_success_money_rate|stringformat:'%.2f'}}%</span>
+    </td>
+</tr>
+<tr>
+    <td colspan="2"><span style="color: red">小计(本次查询)</span></td>
+    <td colspan="3">
+        总计: <span style="color: red">{{query_total}} 笔</span> /
+        成功: <span style="color: red">{{query_success}} 笔</span> /
+        成功率: <span style="color: green">{{query_success_rate|stringformat:'%.2f'}}%</span>
+    </td>
+    <td><span style="color: red">{{query_money|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{query_success_arrived|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{query_success_up|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{query_success_discount|stringformat:'%.2f'}}</span></td>
+    <td colspan="7">
+        总计: <span>{{query_money|stringformat:'%.2f'}} 元 </span> /
+        成功: <span style="color: green">{{query_success_money|stringformat:'%.2f'}} 元 </span> /
+        优惠: <span style="color: green">{{query_success_discount|stringformat:'%.2f'}} 元 </span> /
+        成功率: <span style="color: green">{{query_success_money_rate|stringformat:'%.2f'}}%</span>
+    </td>
+</tr>
+<tr>
+    <td colspan="2"><span style="color: red">总计</span></td>
+    <td colspan="3">
+        总计: <span style="color: red">{{total_record}} 笔</span> /
+        成功: <span style="color: red">{{total_success}} 笔</span> /
+        成功率: <span style="color: green">{{total_success_rate|stringformat:'%.2f'}}%</span>
+    </td>
+    <td><span style="color: red">{{total_money|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{total_success_arrived|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{total_success_up|stringformat:'%.2f'}}</span></td>
+    <td><span style="color: red">{{total_success_discount|stringformat:'%.2f'}}</span></td>
+    <td colspan="7">
+        总计: <span>{{total_money|stringformat:'%.2f'}} 元 </span> /
+        成功: <span style="color: green">{{total_success_money|stringformat:'%.2f'}} 元 </span> /
+        优惠: <span style="color: green">{{total_success_discount|stringformat:'%.2f'}} 元 </span> /
+        成功率: <span style="color: green">{{total_success_money_rate|stringformat:'%.2f'}}%</span>
+    </td>
+</tr>
+{%endif -%}

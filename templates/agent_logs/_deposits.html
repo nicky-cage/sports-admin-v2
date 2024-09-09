@@ -1,0 +1,34 @@
+{%for r in rows%}
+<tr  {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.id}}</td>
+    <td>{{r.order_no}}</td>
+    <td>{{r.username}}</td>
+    <td>{{r.top_name}}</td>
+    <td>{{r.arrive_money}}</td>
+    <td>{{r.discount}}</td>
+    <td>{{r.channel_type|string_chang_int|channel_type}}</td>
+    <td>{{r.username}}</td>
+    <td>{{r.confirm_at|time_type_chang}}</td>
+    <td>{%if r.status =="2"%}成功{%else%}失败{%endif%}</td>
+</tr>
+{%endfor%}
+<script>
+    layui.use(['form', 'jquery', 'layer'],function() {
+        let $ = layui.$;
+        let dl=$(".deposits_tbody tr").length;
+        let dd=null;
+        let dc=null;
+        for(let i=1;i<=dl;i++){
+            dd=dd+toFix($(".deposits_tbody tr:nth-child("+i+") td:nth-child(5)").html());
+            dc=dc+toFix($(".deposits_tbody tr:nth-child("+i+") td:nth-child(6)").html());
+        }
+        $("th[name='dd']").html(dd);
+        $("th[name='dc']").html(dc);
+
+        function toFix(num) {
+            let m = Math.pow(10, 2);
+            let temp = parseInt(num * m, 10) / m;
+            return temp;
+        }
+    });
+</script>

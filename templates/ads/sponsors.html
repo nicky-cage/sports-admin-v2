@@ -1,0 +1,84 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="3">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">展示时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" style="width: 330px" id="created_sponsors" />
+                            </div>
+                        </div>
+                        <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">赞助标题</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="title" placeholder="请输入标题" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="state">
+                                    <option value="">全部</option>
+                                    <option value="2">启用</option>
+                                    <option value="1">停用</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search"><i class="layui-icon layui-icon-search layuiadmin-button-btn"></i></button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/ad_sponsors/create", 4) -%}
+                <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/ad_sponsors/create" area="700px,600px" tab="3" data-type="add">新增</button>
+                {%endif -%}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="200" />
+                        <col />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="300" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="145" />
+                        <col width="150" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>赞助标题</th>
+                            <th>详情链接</th>
+                            <th>赞助图片</th>
+                            <th>图标</th>
+                            <th>分享图片</th>
+                            <th>展示时间</th>
+                            <th>状态</th>
+                            <th>排序</th>
+                            <th>修改时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

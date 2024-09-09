@@ -1,0 +1,123 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="3">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">所属代理</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="top_name" placeholder="请输入所属代理" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">存款状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option></option>
+                                    <option value="2">成功</option>
+                                    <option value="3">失败</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">支付方式</label>
+                            <div class="layui-input-inline">
+                                <select name="channel_type">
+                                    <option></option>
+                                    <option value="0">银行转账</option>
+                                    <option value="1">网银转账</option>
+                                    <option value="2">支付宝</option>
+                                    <option value="3">微信</option>
+                                    <option value="4">QQ钱包</option>
+                                    <option value="5">快捷支付</option>
+                                    <option value="6">京东钱包</option>
+                                    <option value="7">银联扫码</option>
+                                    <option value="8">虚拟币</option>
+                                    <option value="9">云闪付</option>
+                                </select>
+                            </div>
+                        </div> <br />
+                        <div class="layui-inline">
+                            <label class="layui-form-label">存款时间</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="created" placeholder="off" autocomplete="off" readonly="readonly" id="crwe" class="layui-input sp-form-date">
+
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="200" />
+                        <col width="150" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col />
+                        <col width="165" />
+                        <col width="80" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>订单编号</th>
+                            <th>会员/代理</th>
+                            <th>所属代理</th>
+                            <th>存款金额</th>
+                            <th>赠送金额</th>
+                            <th>支付方式</th>
+                            <th>账号/卡号</th>
+                            <th>存款时间</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody class="deposits_tbody" name="221">
+                        {%include "_deposits.html"%}
+                    </tbody>
+                    <tr>
+                        <th>合计</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th name="dd"></th>
+                        <th name="dc"></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

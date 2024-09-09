@@ -1,0 +1,25 @@
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>允许访问</td>
+    <td>{{r.Ip}}</td>
+    <td style="color: blue">{{r.Ip|ip_area}}</td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/permission_ips/state", 4) -%}
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="正常|禁用" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.State}}" url="/permission_ips/state" rid="{{r.Id}}" />
+        {%else -%}
+        {{r.State|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/permission_ips/update", 4) -%}
+            <button class="layui-btn sp-open-link" url="/permission_ips/update" area="600px,450px">编辑</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/permission_ips/delete", 4) -%}
+            <button class="layui-btn sp-btn-delete layui-btn-danger" rid="{{r.Id}}" url="/permission_ips/delete">删除</button>
+        {%endif -%}
+    </td>
+</tr>
+{%endfor%}

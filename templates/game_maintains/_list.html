@@ -1,0 +1,22 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Ename}}</td>
+    <td>{{r.Name}}</td>
+
+    <td>{%if r.VenueState == 2 %}维护{%else%}正常{%endif%}</td>
+
+    <td>
+        {%if r.TimeStart > 0 %}{{r.TimeStart|datetime}}{%endif%} ~ {%if r.TimeEnd > 0 %}{{r.TimeEnd|datetime}}{%endif%}
+    </td>
+    <td>{{r.AdminName}}</td>
+
+    <td>{%if r.State == 2%}维护{%else%}正常{%endif%}</td>
+
+    <td>{{r.Remark}}</td>
+    <td>
+        <button class="layui-btn edit layui-btn-green sp-open-link" url="/game_maintains/update" area="800px,600px" title="编辑" tab="3">维护设置</button>
+        <button class="layui-btn edit layui-btn-green sp-open-link" url="/game_maintains_log" area="600px,500px" title="操作日志">操作日志</button>
+    </td>
+</tr>
+{% endfor %}

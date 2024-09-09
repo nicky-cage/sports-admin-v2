@@ -1,0 +1,34 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="80">
+                    <col width="120">
+                    <col width="310">
+                    <col />
+                    <col width="160">
+                    <col width="80">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>操作人</th>
+                    <th>维护时间</th>
+                    <th>维护原因</th>
+                    <th>操作时间</th>
+                    <th>状态</th>
+                </tr>
+                </thead>
+                <tbody id="sp-loaded-table" loaded="loaded" url="/site_maintains_log">
+                {% include "_list.html" %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

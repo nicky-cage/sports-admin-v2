@@ -1,0 +1,214 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="4">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">游戏账号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="playname" placeholder="请输入厅方账号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">厅方名称</label>
+                            <div class="layui-input-inline">
+                                <select name="game_code">
+                                    <option></option>
+                                    {%for k,v in game_venue%}
+                                    <option value="{{v.Code}}">{{v.Code}}</option>
+                                    {%endfor%}
+                                    <option value="IME">IME</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">场馆类型</label>
+                            <div class="layui-input-inline">
+                                <select name="game_type">
+                                    <option value="">请选择类型</option>
+                                    <option value="0">主平台</option>
+                                    <option value="1">体育</option>
+                                    <option value="2">电竞</option>
+                                    <option value="3">真人</option>
+                                    <option value="4">电游</option>
+                                    <option value="5">捕鱼</option>
+                                    <option value="6">彩票</option>
+                                    <option value="7">棋牌</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">投注单号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="bill_no" placeholder="请输入注单流水号" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">有效投注</label>
+                            <div class="layui-input-inline" style="width: 82px">
+                                <input type="text" name="money_min" placeholder="￥" autocomplete="off" class="layui-input" />
+                            </div>
+                            <div class="layui-form-mid">-</div>
+                            <div class="layui-input-inline" style="width: 82px">
+                                <input type="text" name="money_max" placeholder="￥" autocomplete="off" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option></option>
+                                    <option value="2">输</option>
+                                    <option value="1">赢</option>
+                                    <option value="3">平局</option>
+                                    <option value="4">无效注单</option>
+                                    <option value="5">提前结算-未结算</option>
+                                    <option value="6">提前结算-赢</option>
+                                    <option value="7">提前结算-输</option>
+                                    <option value="8">提前结算-平</option>
+                                    <option value="9">赢半</option>
+                                    <option value="9">输半</option>
+                                    <option value="0">未结算</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">投注时间</label>
+                            <div class="layui-input-inline" style="width: 300px">
+                                <input type="text" class="layui-input sp-form-datetime" name="created" placeholder="开始 到 结束" id="created_bets_v2" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" id="ignore-time-updated" style="cursor: pointer;"><del>结算时间</del></label>
+                            <div class="layui-input-inline" style="width: 300px; display: none;">
+                                <input type="text" class="layui-input sp-form-datetime" name="updated" placeholder="开始 到 结束" id="updated_bets_v2" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="ignore_updated" value="1" name="ignore_updated" />
+            </form>
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px">
+                    {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_bets/set_up", 4) -%}
+                    <button class="layui-btn layuiadmin-btn-list layui-btn-normal set_up-v2" data-type="add">手动补单</button>
+                    {%endif -%}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="90" />
+                        <col width="100" />
+                        <col width="90" />
+                        <col width="75" />
+                        <col width="75" />
+                        <col width="75" />
+                        <col width="150" />
+                        <col />
+                        <col width="80" />
+                        <col width="45" />
+                        <col width="85" />
+                        <col width="85" />
+                        <col width="85" />
+                        <col width="75" />
+                        <col width="55" />
+                        <col width="125" />
+                        <col width="125" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>会员账号</th>
+                            <th>上级代理</th>
+                            <th>游戏账号</th>
+                            <th>场馆名称</th>
+                            <th>场馆类型</th>
+                            <th>游戏名称</th>
+                            <th>流水号码</th>
+                            <th>游戏单号</th>
+                            <th>输赢情况</th>
+                            <th>详情</th>
+                            <th>下注金额(元)</th>
+                            <th>有效投注(元)</th>
+                            <th>返水金额(元)</th>
+                            <th>返水比例</th>
+                            <th>状态</th>
+                            <th>下注时间</th>
+                            <th>结算时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/user_bets">
+                        {%include "_list_v2.html" -%}
+                    </tbody>
+                </table>
+                <span style="color: red;">
+                    *** 注单完成时间以结算时间为准, 返水时间也以注单结算时间为依据 *** <br />
+                    *** 每天12点返水前1日注单, 如: 07月02日返水07月01日注单, 07月02日当天注单没有返水属正常, 07月03日会看到07月02日返水 ***
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let $ = layui.$;
+        let form = layui.form;
+        var laydate = layui.laydate;
+        let get_user_info = function (that) {
+            //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $('td:eq(0)', tr).text();
+            return { id: id };
+        };
+
+        // 手动补单
+        $(document).off('click', '.set_up-v2');
+        $(document).on('click', '.set_up-v2', function () {
+            layer.open({
+                type: 2,
+                area: ['600px', '600px'],
+                //fix: true, //不固定
+                shade: 0.5,
+                title: '手动补单',
+                content: '/user_bets/set_up',
+            });
+        });
+
+        // 不添加结算时间选项
+        let ignoreTimeUpdated = $('#ignore-time-updated'), timeUpdated = $('input:first', ignoreTimeUpdated.parent()).parent();
+        $(document).on('click', '#ignore-time-updated', function() {
+            let that = $(this), ignored = $('del', that).length > 0;
+            if (!ignored || ignored == '') {
+                that.html('<del>结算时间</del>');
+                timeUpdated.hide();
+                $('#ignore_updated').val('1');
+            } else {
+                that.html('结算时间');
+                timeUpdated.show();
+                $('#ignore_updated').val('0');
+            }
+        });
+    });
+</script>

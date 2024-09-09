@@ -1,0 +1,59 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/admins/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-inline">
+            <input name="name" id="admin-name" lay-verify="required" placeholder="请输入管理员名称" autocomplete="off" class="layui-input" value="{{r.Name}}" {%if r.Id !=0%}disabled{%endif%} />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称</label>
+        <div class="layui-input-inline">
+            <input name="nickname" lay-verify="required" placeholder="请输入用户昵称" autocomplete="off" class="layui-input" value="{{r.Nickname}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-inline">
+            <input name="mail" id="admin-mail" lay-verify="required" placeholder="请输入电子邮箱" autocomplete="off" class="layui-input" value="{{r.Mail}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-inline">
+            <select name="role_id" lay-verify="required" lay-search="">
+                <option value="">请选择角色</option>
+                {%for k, v in admin_roles %}
+                <option value="{{k}}" {%if r.RoleId==k%}selected{%endif%}>{{v.Name}}</option>
+                {%endfor%}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">访问IP</label>
+        <div class="layui-input-inline">
+            <textarea style="width: 380px" class="layui-textarea" name="allow_ips">{{r.AllowIps}}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">登录密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="password" {%if r.Id==0-%}lay-verify="required" {%endif-%} placeholder="请输入登录密码{%if r.Id != 0-%},如不修改请留空{%endif-%}" autocomplete="off" class="layui-input" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">重复密码</label>
+        <div class="layui-input-inline">
+            <input type="password" name="re_password" {%if r.Id==0-%}lay-verify="required" {%endif-%} placeholder="请输入重复密码{%if r.Id != 0 -%},如不修改请留空{%endif-%}" autocomplete="off" class="layui-input" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">谷歌验证</label>
+        <div class="layui-input-inline">
+            <input name="google_code" lay-verify="required" placeholder="请输入google验证密码" autocomplete="off" class="layui-input" />
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

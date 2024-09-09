@@ -1,0 +1,29 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Ename}}</td>
+    <td>{{r.WalletName}}</td>
+    <td>{{r.PlatformRate|percentage_change|stringformat:"%.0f"}}%</td>
+    <td>{{r.Id|platform_wrap:PLATFORM|venue_lower}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>{{r.Sort}}</td>
+    <td>
+        {%if r.Maintain == 2 -%}<button class="layui-btn layui-bg-black">已锁定</button>
+        {%else -%}
+            {%if r.IsOnline == 1 -%}<button class="layui-btn layui-bg-green">在线</button>
+            {%else -%}<button class="layui-btn layui-btn-danger">已下线</button>
+            {%endif -%}
+        {%endif -%}
+    </td>
+    <td>
+        {%if  r.Id!= 1%}
+            {%if is_granted(PLATFORM, ADMIN.RoleId, "/game_venues/update", 4) -%}
+                <button class="layui-btn  layui-btn-green sp-open-link" url="/game_venues/update" area="900px,600px" tab="0">编辑</button>
+            {%endif -%}
+            {%if is_granted(PLATFORM, ADMIN.RoleId, "/game_maintains_log", 4) -%}
+                <button class="layui-btn  layui-btn-green sp-open-link" title="操作日志" area="900px,600px" rid="{{r.Id}}" url="/game_maintains_log" >操作日志</button>
+            {%endif -%}
+        {%endif%}
+    </td>
+</tr>
+{% endfor %}

@@ -1,0 +1,30 @@
+{% if rows -%}
+{% for r in rows -%}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.Vip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>{%if r.Type == 1 %}上分{%else%}下分{%endif%}</td>
+    <td>{{r.Reason}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.BetTimes}}</td>
+    <td>{{r.ApplicantRemark}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.Applicant}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_account_audits/agree", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list agree" uid="{{r.UserId}}" data-type="add">同意</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_account_audits/refuse", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger refuse" uid="{{r.UserId}}" data-type="add">拒绝</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor -%}
+<tr>
+    <td colspan="6"><span style="color: red;">总计</span></td>
+    <td><span style="color: red;">{{sum_money|stringformat:"%.2f"}}</span></td>
+    <td colspan="5"></td>
+</tr>
+{% endif -%}

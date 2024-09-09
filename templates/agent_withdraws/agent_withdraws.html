@@ -1,0 +1,25 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="sp-lazy-load">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">提款中</li>
+                        <li>历史记录</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item  layui-show"  url="/agent_withdraws">
+                            {% include "i_agent_withdraws.html" %}
+                        </div>
+                        <div class="layui-tab-item" url="/agent_withdraw_hrs">
+                            {% include "history_records.html" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

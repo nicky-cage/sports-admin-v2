@@ -1,0 +1,51 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.Vip|platform_wrap:PLATFORM|user_level}}</td>
+    <td> {{r.Type|dividend_type}} </td>
+    <td>
+        {% if r.IsAutomatic == 1 %}手动发放
+        {% else %}自动发放
+        {% endif %}
+    </td>
+    <td> {%if r.MoneyType==1%}中心钱包{%else%}{{r.Venue}}{%endif%} </td>
+    <td>
+        {% if r.FlowLimit == 2 %}
+        {% set flowNeed = r.FlowMultiple * r.Money %}
+        {{flowNeed|stringformat:"%.2f"}}
+        {% else %}<span style="color: green">否</span>{% endif %}
+    </td>
+    <td>{{r.FlowMultiple}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>{{r.Reviewer}}</td>
+    <td>{{r.ReviewerRemark}}</td>
+    <td>
+        {% if r.State==1 %}
+        审核中
+        {% elif r.State==2 %}
+        <span style="color: green">成功</span>
+        {% else %}
+        <span style="color: red;">失败</span>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>{{total_dividends|stringformat:"%.2f"}}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>

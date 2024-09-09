@@ -1,0 +1,132 @@
+<style type="text/css">
+    .notify-disable {
+        color: #666666;
+        text-decoration: line-through;
+    }
+
+    .notify-badge {
+        width: 90%;
+        height: 23px;
+        line-height: 23px;
+        /* background-color: #1E9FFF;*/
+    }
+
+    .notify-badge span {
+        font-weight: bold;
+    }
+</style>
+<div class="layui-header">
+    <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item layadmin-flexible" lay-unselect>
+            <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+            </a>
+        </li>
+        <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;" layadmin-event="refresh" title="刷新">
+                <i class="layui-icon layui-icon-refresh-3"></i>
+            </a>
+        </li>
+        <!--
+        <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search.html?keywords=">
+        </li>-->
+    </ul>
+    <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+        <li class="layui-nav-item" lay-unselect style="margin-right: 10px; width: 100px;">
+            <a lay-href="/user_deposits" lay-text="存款管理">
+                <div class="layui-badge notify-badge layui-bg-green" style="margin-top:-10px;">离线存款
+                    ( <span style="color: orangered" id="notify-count-deposit">{{sta.UserDeposit}}</span> )
+                </div>
+            </a>
+        </li>
+        <li class="layui-nav-item" lay-unselect style="margin-right: 10px; width: 100px;">
+            <a lay-href="/user_deposit_coins" lay-text="代币存款">
+                <div class="layui-badge notify-badge layui-bg-green" style="margin-top:-10px;">代币存款
+                    ( <span style="color: orangered" id="notify-count-deposit-virtual">{{sta.UserDepositVirtual}}</span> )
+                </div>
+            </a>
+        </li>
+        <li class="layui-nav-item" lay-unselect style="margin-right: 10px; width: 100px;">
+            <a lay-href="/risk_audits" lay-text="提款审核">
+                <div class="layui-badge notify-badge" style="margin-top:-10px;">待审提款
+                    ( <span style="color:#ccbbdd" id="notify-count-withdraw">{{sta.UserWithdraw}}</span> )
+                </div>
+            </a>
+        </li>
+        <li class="layui-nav-item" lay-unselect style="margin-right: 10px; width: 100px;">
+            <a lay-href="/risk_audits" lay-text="提款审核">
+                <div class="layui-badge notify-badge" style="margin-top:-10px;">代币提款
+                    ( <span style="color:#ccbbdd" id="notify-count-withdraw-virtual">{{sta.UserWithdrawVirtual}}</span> )
+                </div>
+            </a>
+        </li>
+        <li class="layui-nav-item" lay-unselect style="margin-right: 25px; width: 100px;">
+            <a lay-href="/users" lay-text="会员列表">
+                <div class="layui-badge notify-badge layui-bg-blue" style="margin-top:-10px;">今日注册
+                    ( <span style="color: orange" id="notify-count-reg">{{sta.TodayReg}}</span> )
+                </div>
+            </a>
+        </li>
+        <li class="layui-nav-item" lay-unselect>
+            <a href="#" title="关闭/开启前台充值/提款消息提醒">
+                <i class="layui-icon layui-icon-notice" id="user-notify"></i>
+            </a>
+        </li>
+        <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="javascript:;" layadmin-event="theme">
+                <i class="layui-icon layui-icon-theme"></i>
+            </a>
+        </li>
+        <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="javascript:;" layadmin-event="note">
+                <i class="layui-icon layui-icon-note"></i>
+            </a>
+        </li>
+        <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="javascript:;" layadmin-event="fullscreen">
+                <i class="layui-icon layui-icon-screen-full"></i>
+            </a>
+        </li>
+        <li class="layui-nav-item" lay-unselect>
+            <a href="javascript:;">
+                <cite>{{admin.Name}}</cite>
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a lay-href="/index/profile">基本资料</a></dd>
+                <dd><a lay-href="/index/password">修改密码</a></dd>
+                <dd><a lay-href="/index/google_code">谷歌验证</a></dd>
+                <hr>
+                <dd id="index-logout" style="text-align: center;"><a href="javascript:;">退出</a></dd>
+            </dl>
+        </li>
+
+        <li class="layui-nav-item layui-hide-xs" lay-unselect>
+            <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
+        </li>
+        <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
+            <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
+        </li>
+    </ul>
+</div>
+<script>
+    layui.use(['jquery', 'layer'], function () {
+        let $ = layui.jquery, layer = layui.layer;
+        /** 退出系统 **/
+        $(document).on("click", "#index-logout", function () {
+            $.post("/index/logout", {}, function (res) {
+                if (res.errcode == 0) {
+                    layer.alert("已成功退出后台管理系统", { icon: 1 }, function () {
+                        top.location.href = "/";
+                    });
+                } else {
+                    layer.alert(res.message, { icon: 2 });
+                }
+            });
+        });
+
+        $(document).on("click", "#user-notify", function () {  // 切换通知显示状态
+            $(this).toggleClass("notify-disable");
+        });
+    });
+</script>

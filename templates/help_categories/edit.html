@@ -1,0 +1,27 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/help_categories/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">分类名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input" value="{{r.Name}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">分类标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="title" lay-verify="required" placeholder="请输入分类标题" autocomplete="off" class="layui-input" value="{{r.Title}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >分类图标</label>
+        <div class="layui-input-inline">
+            <div class="layui-upload">
+                <button type="button" class="layui-btn sp-file-upload" name="icon" img="{{r.Icon}}" ><i class="layui-icon">&#xe67c;</i>上传图片</button>
+            </div>
+            <blockquote class="layui-elem-quote">格式：.jpg .jpeg .png 尺寸30x30，大小不超过1M.</blockquote>
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

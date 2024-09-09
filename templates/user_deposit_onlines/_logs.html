@@ -1,0 +1,12 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.Operating}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.Result}}</td>
+    <td>{{r.Consuming}}</td>
+    <td>{{r.Operator}}</td>
+    <td>{{r.Remark}}</td>
+</tr>
+{% endfor %}

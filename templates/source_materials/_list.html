@@ -1,0 +1,25 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Title}}</td>
+    <td><span url="{{r.ImgUrl}}" class="sp-show-image feedback-img" style="color:red">查看图片</span></td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/source_materials/state", 4) -%}
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="正常|关闭" class="sp-btn-state"
+               values="2|1" lay-filter="state" value="{{r.State}}" url="/source_materials/state" rid="{{r.Id}}" />
+        {%else -%} {{ r.State|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>{{r.Sort}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/source_materials/updated", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/source_materials/updated" rid="{{r.Id}}" area="460px,600px" title="修改素材" tab="6" data-type="add">编辑</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/source_materials/deleted", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list layui-btn-danger  sp-btn-delete" url="/source_materials/deleted" tab="6" rid="{{r.Id}}" area="650px,500px"  >删除</button>
+        {%endif -%}
+    </td>
+
+</tr>
+{%endfor%}

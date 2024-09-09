@@ -1,0 +1,17 @@
+{%for r in rows%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.id}}</td>
+    <td>{{r.created}}</td>
+    <td>{{r.dividend_money }}</td>
+    <td>{{r.dividend_activity}}</td>
+    <td>-</td>
+    <td>{{r.multiple}}</td>
+    <td>{{r.need_flow}}</td>
+    <td>{{r.valid_flow}}</td>
+    <td>{%if r.status=="2"%}通过{%else%}不通过{%endif%}</td>
+    <td colspan="4"  style="text-align: left;">
+         <button class="layui-btn sp-open-link" url="/audit_deposit/create" area="800px,650px"  rid="{{id}}" tab="1">调整状态</button>
+        <button class="layui-btn sp-open-link" url="/audit_logs?type=2" area="800px,650px"  tab="1" rid="{{id}}">操作日志</button>
+    </td>
+</tr>
+{%endfor%}

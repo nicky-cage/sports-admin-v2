@@ -1,0 +1,46 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <form class="layui-form" lay-filter="" method="post" tbody="7">
+            <div class="layui-form">
+                <div class="layui-inline">
+                    <label class="layui-form-label" >发放时间</label>
+                    <div class="layui-input-inline" style="width: 190px;">
+                        <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date"  id="gfd" />
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="{{id}}">
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px; min-height: 560px;">
+                <table class="layui-table sp-tab-table">
+                    <colgroup>
+                        <col width="200"/>
+                        <col width="200" />
+                        <col width="135" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>会员等级</th>
+                        <th>返水金额</th>
+                        <th>发送时间</th>
+                        <th>发送类型</th>
+                    </tr>
+                    </thead>
+                    <tbody url="/user_detail/commissions?id={{id}}" id="sp-loaded-table-commssions">{%include "_detail_commissions.html"%}</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

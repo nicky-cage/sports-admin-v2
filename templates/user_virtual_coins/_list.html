@@ -1,0 +1,28 @@
+{% if rows -%}
+{% for r in rows -%}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/detail", 4) -%}
+        <a href="javascript:void(0)" class="sp-open-link agents" rid="{{r.UserId}}" url="/users/detail" area="98%,98%">{{r.Username}}</a>
+        {%else -%}{{r.Username}}
+        {%endif -%}
+    </td>
+    <td>USDT</td>
+    <td>{%if r.WalletType == 1%}USDT - ERC20
+        {%elif r.WalletType == 2-%}USDT - TRC20
+        {%else -%} 无法识别
+        {%endif -%}
+    </td>
+    <td>{{r.WalletAddress}}</td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>
+        <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/user_virtual_coins/update?user_id={{r.UserId}}"
+                area="700px,450px" tab="0" data-type="add">编辑</button>
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete" tab="0" rid="{{r.Id}}"
+                url="/user_virtual_coins/delete?user_id={{r.UserId}}" data-type="add">删除</button>
+    </td>
+</tr>
+{% endfor -%}
+{% endif -%}

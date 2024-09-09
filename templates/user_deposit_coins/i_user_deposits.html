@@ -1,0 +1,196 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                    <div class="layui-form-item">
+                        <div class="layui-inline" style="width: 395px">
+                            <label class="layui-form-label">订单时间</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input sp-form-datetime" id="created_deposits" name="created" placeholder="请选择时间" style="width: 330px" type="text"/>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单号码</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" name="bill_no" placeholder="请输入订单号" type="text"/>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员账号</label>
+                            <div class="layui-input-inline">
+                                <input autocomplete="off" class="layui-input" name="username" placeholder="请输入会员账号" type="text"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">存款状态</label>
+                            <div class="layui-input-inline">
+                                <select name="status">
+                                    <option value="">全部状态</option>
+                                    <option value="1">处理中</option>
+                                    <option value="2">成功</option>
+                                    <option value="3">失败</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">会员等级</label>
+                            <div class="layui-input-inline">
+                                <select name="vip">
+                                    <option value="">请选择VIP等级</option>
+                                    {%for v in vipLevels -%}
+                                    <option value="{{v.Id}}">{{v.Name}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label" style="width: 100px">收款钱包</label>
+                            <div class="layui-input-inline" style="width: 400px">
+                                <select name="account_by_name">
+                                    <option value="">请选择收款钱包</option>
+                                    {%for v in depositVirtuals-%}
+                                    <option value="USDT-{%if v.WalletType == 1 -%}ERC20{%else-%}TRC20{%endif-%}-{{v.WalletAddress}}">{{v.Name}}-USDT-{%if v.WalletType == 1 -%}ERC20{%else-%}TRC20{%endif-%}-{{v.WalletAddress}}</option>
+                                    {%endfor-%}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layuiadmin-btn-list" lay-filter="sp-form-search" lay-submit>
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                            <button class="layui-btn sp-form-reset" type="button">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="layui-card-body" style="padding-bottom:0px; margin-bottom:0px;">
+                <form class="layui-form">
+                    <div class="layui-form-item" style="padding-bottom:0px; margin-bottom:0px;">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">自动刷新</label>
+                            <div class="layui-input-inline" id="auto-refresh">
+                                <input  id="auto-timer" lay-filter="auto-timer" lay-skin="switch" lay-text="开启|关闭" name="auto_refresh" title="是" type="checkbox" value="1"/>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">刷新间隔</label>
+                            <div class="layui-input-inline">
+                                <select id="refresh-interval" lay-filter="auto-seconds" name="refresh_interval" style="width:180px">
+                                    <option value="5">05 秒</option>
+                                    <option value="10">10 秒</option>
+                                    <option value="15">15 秒</option>
+                                    <option value="20">20 秒</option>
+                                    <option value="25">25 秒</option>
+                                    <option value="30">30 秒</option>
+                                    <option value="35">35 秒</option>
+                                    <option value="40">40 秒</option>
+                                    <option value="45">45 秒</option>
+                                    <option value="50">50 秒</option>
+                                    <option value="55">55 秒</option>
+                                    <option value="60">60 秒</option>
+                                    <option value="120">120 秒</option>
+                                    <option value="180">180 秒</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button area="800px,600px" class="layui-btn layuiadmin-btn-list sp-open-link" tab="0"
+                                    url="/user_deposit_coin_matches/create">新增自动匹配订单</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60"/>
+                        <col width="130"/>
+                        <col width="95"/>
+                        <col width="300"/>
+                        <col width="100"/>
+                        <col width="130"/>
+                        <col width="80"/>
+                        <col width="200"/>
+                        <col width="200"/>
+                        <col/>
+                        <col width="130"/>
+                        <col width="50"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>订单编号</th>
+                        <th>会员账号</th>
+                        <th>存款钱包</th>
+                        <th>会员等级</th>
+                        <th>订单金额</th>
+                        <th>存款优惠</th>
+                        <th>收款信息</th>
+                        <th>交易ID</th>
+                        <th>会员标签</th>
+                        <th>订单时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="auto-refresh-table" id="sp-loaded-table" loaded="loaded" url="/user_deposit_coins">
+                        {% include "_user_deposits.html" -%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'layer'], function () {
+        let $ = layui.$, layer = layui.layer;
+
+        // 添加存款
+        $(document).off('click', '.set_up');
+        $(document).on('click', '.set_up', function () {
+            layer.open({
+                type: 2,
+                area: ['600px', '600px'],
+                //fix: true, //不固定
+                shade: 0.5,
+                title: '添加存款单',
+                content: '/user_deposits/add_silp',
+            });
+        });
+
+        // 订单信息
+        $(document).off('click', '.order-no');
+        $(document).on('click', '.order-no', function () {
+            let that = $(this),
+                order_no = that.html(),
+                user_id = that.attr('uid');
+            sp.post('/user_deposits/order_info?order_number=' + order_no + '&uid=' + user_id, {order_number: order_no}, function (result) {
+                if (result.errcode != 0) {
+                    sp.alert(result.message);
+                    return;
+                }
+                let order = result.data;
+                let message =
+                    '本地单号: ' + order.order_no + '<br />' +
+                    '外部单号: ' + order.trade_number + '<br />' +
+                    '订单金额: ' + order.amount.toFixed(2) + '<br />' +
+                    '实付金额: ' + order.amount_paid.toFixed(2) + '<br />' +
+                    '发起支付: ' + order.created + '<br />' +
+                    "订单状态: <span class='" + (order.status == '成功' ? 'green' : 'red') + "'>" + order.status + '</span><br />' +
+                    '最后通知: ' + order.notify_last + '<br />' +
+                    '通知次数: ' + order.notify_count + '<br />';
+                sp.alertSuccess(message);
+            });
+        });
+    });
+</script>
+{% include "../user_deposits/auto_refresh.html" -%}

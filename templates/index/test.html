@@ -1,0 +1,18 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<script>
+layui.use(['jquery', 'form'], function() { 
+    let form = layui.form, $ = layui.jquery;
+    let provinces = [
+        {}{% for p in provinces -%}, {id: {{p.Id}}, name: "{{p.Name}}", cities: [
+            {}{% for c in p.Cities -%}, {id: {{c.Id}}, name: "{{c.Name}}", districts: [{}{% for d in c.Districts -%}, {id: {{d.Id}}, name: "{{d.Name}}"}{% endfor %}]}{% endfor -%}
+        ]}
+        {% endfor -%}
+    ];
+    
+    form.on("select(provinces)", function(data) { 
+
+    });
+});
+</script>
+{% endblock body %}

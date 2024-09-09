@@ -1,0 +1,63 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Username}}</td>
+    <td>
+        {% if r.TransferType==1 %}
+        转入游戏
+        {% else %}
+        转出游戏
+        {% endif %}
+    </td>
+    <td>{{r.TransferOutAccount}}</td>
+    <td>{{r.TransferInAccount}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.GameBillNo}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>
+        {% if r.Status==1 %}
+        未处理
+        {% elif r.Status==2 %}
+        成功
+        {% else %}
+        失败
+        {% endif %}
+    </td>
+    <td>
+        {% if r.Status==1 %}
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger detection_status"  data-type="add">检查状态</button>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate','jquery'], function() {
+        let $ = layui.$;
+        let form = layui.form;
+        var laydate = layui.laydate;
+        let get_user_info = function(that) {
+            let tr = that.parent().parent();
+            let id = $("td:eq(0)", tr).text();
+            return {id: id};
+        };
+        //执行一个laydate实例
+        $(function(){
+            $(".detection_status").on('click',function(){
+                let info = get_user_info($(this));
+
+                sp.post("/user_transfers/check_transfer_status",{"id":info.id},function(result){
+                    if (result.data ==0) {
+                        layui.layer.msg("转账已成功", {icon: 1, timeout: 1000},function(){
+                           window.location.reload()
+                        })
+                    }else{
+                        layui.layer.msg("转账未处理")
+                    }
+                })
+            })
+        })
+    });
+</script>

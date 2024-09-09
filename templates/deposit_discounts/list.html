@@ -1,0 +1,135 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="120" />
+                        <col width="100" />
+                        <col width="120" />
+                        <col width="130" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="100" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>支付方式</th>
+                            <th>适用对象</th>
+                            <th>优惠比例(%)</th>
+                            <th>每日最高优惠(元)</th>
+                            <th>流水倍数</th>
+                            <th>活动状态</th>
+                            <th>推荐</th>
+                            <th>最后编辑时间</th>
+                            <th>编辑人</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in rows %}
+                        <tr>
+                            <td>{{p.Id}}</td>
+                            <td>{{p.PaymentType|payment_type}}</td>
+                            <td style="padding: 3px">
+                                <table style="width: 100%">
+                                    {% for r in p.OfferContent %}
+                                    <tr>
+                                        <td style="width: 150px">{{r.Vip}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                            <td>
+                                <table style="width: 100%">
+                                    {% for r in p.OfferContent %}
+                                    <tr>
+                                        <td style="width: 150px">{{r.Ratio}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                            <td>
+                                <table style="width: 100%">
+                                    {% for r in p.OfferContent %}
+                                    <tr>
+                                        <td style="width: 150px">{{r.DayMaxDiscount}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                            <td>
+                                <table style="width: 100%">
+                                    {% for r in p.OfferContent %}
+                                    <tr>
+                                        <td style="width: 150px">{{r.Multiple}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                            <td>
+                                {%if is_granted(PLATFORM, ADMIN.RoleId, "/deposit_discounts/state", 4) -%}
+                                <input
+                                    type="checkbox"
+                                    name="state"
+                                    lay-skin="switch"
+                                    lay-text="启用|停用"
+                                    class="sp-btn-state"
+                                    values="2|1"
+                                    lay-filter="state"
+                                    value="{{p.State}}"
+                                    url="/deposit_discounts/state"
+                                    rid="{{p.Id}}"
+                                />
+                                {%else -%} {{r.State|state_text|safe}} {%endif -%}
+                            </td>
+                            <td>{% if p.Recommend==1 %}否{% else %}是{% endif %}</td>
+                            <td>{{p.Updated|datetime}}</td>
+                            <td>{{p.Operator}}</td>
+                            <td>
+                                {%if is_granted(PLATFORM, ADMIN.RoleId, "/deposit_discounts/edit", 4) -%}
+                                <button class="layui-btn layuiadmin-btn-list edit" value="{{p.Id}}" data-type="add">设置</button>
+                                {%endif -%}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let $ = layui.$,
+            form = layui.form,
+            element = layui.element,
+            layer = layui.layer;
+        let get_user_info = function (that) {
+            //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $('td:eq(0)', tr).text();
+            return { id: id };
+        };
+
+        $(document).off('click', '.edit');
+        $(document).on('click', '.edit', function () {
+            let v = $(this).val();
+            layer.open({
+                type: 2,
+                area: ['600px', '500px'],
+                //fix: true, //不固定
+                shade: 0.5,
+                title: '存款优惠设置',
+                content: '/deposit_discounts/edit?id=' + v,
+            });
+        });
+    });
+</script>
+{% endblock body %}

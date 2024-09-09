@@ -1,0 +1,42 @@
+{% macro rich_text(editor_id, sync_id) export -%}
+<div id="{{editor_id}}" name="editor" lay-verify="editor" style="width: 700px; height:320px;"></div>
+<input type="hidden" name="content" id="{{sync_id}}" />
+<script>
+    (function (editor_id, sync_id) {
+        let E = window.wangEditor, layer = layui.layer;
+        let editor = new E('#' + editor_id);
+        editor.customConfig.zIndex = false;
+        editor.customConfig.uploadImgShowBase64 = true
+        let cont = document.getElementById(sync_id);
+        editor.customConfig.onchange = function (html) {
+            cont.value = html
+        };
+        editor.customConfig.uploadImgServer = '/upload';
+        editor.customConfig.uploadFileName = 'file';
+        editor.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) { // 图片上传并返回结果，但图片插入错误时触发
+                if (result.errcode == 0) {
+                    editor.txt.append('<img src="' + result.data.path + '">');
+                    if (document.getElementById('img').value == '') {
+                        document.getElementById('img').value = result.data.path;
+                    } else {
+                        let i = document.getElementById('img').value
+                        document.getElementById('img').value = i + "," + result.data.path;
+                    }
+                    layer.open({ title: '', content: '上传成功', btn: [], time: 500, });
+                } else {
+                    layer.open({ title: '', content: '上传失败', btn: [], time: 500, });
+                }
+            },
+            error: function (xhr, editor) { // 图片上传出错时触发
+                layer.open({ title: '', content: '上传错误', btn: [], time: 500, });
+            },
+            timeout: function (xhr, editor) { // 图片上传超时时触发
+                layer.open({ title: '', content: '上传超时', btn: [], time: 500, });
+            },
+        };
+        editor.customConfig.customAlert = function (info) {};
+        editor.create()
+    })("{{editor_id}}", "{{sync_id}}");
+</script>
+{% endmacro -%}

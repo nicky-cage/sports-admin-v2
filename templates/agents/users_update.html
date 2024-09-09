@@ -1,0 +1,35 @@
+
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<div style="margin:auto;width:400px;">
+    <form class="layui-form" lay-filter="component-form-element" method="post" action="/agents/users_save">
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 会员账号</label>
+            <div class="layui-input-block">
+                <input type="text" lay-verify="required" disabled name="username" value="{{r.Username}}"   autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <input type="hidden" name="agent_type" value="0">
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 转代理前账号</label>
+            <div class="layui-input-block">
+                <input type="text"  name="before_agent"  value="{{top_name}}" disabled autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 转代理后账号</label>
+            <div class="layui-input-block">
+                <input type="text"  lay-verify="required"  name="top_name" value=""  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"> 备注</label>
+            <div class="layui-input-block">
+                <input type="text"   name="remark" value="转代"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        {{block.Super|safe}}
+    </form>
+</div>
+
+{% endblock body %}

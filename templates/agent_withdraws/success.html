@@ -1,0 +1,210 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<script src="{{STATIC_URL}}/js/clipboard.min.js"></script>
+<form class="layui-form" method="post" action="/agent_withdraws/success_do" lay-filter="component-form-element">
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <table style="width: 100%">
+                <tr>
+                    <td width="50%">
+                        <div class="layui-card">
+                            <div class="layui-card-header" style="color: blue;">订单信息</div>
+                            <div class="layui-card-body">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 90px;">订单编号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="bill_no" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.bill_no}}" style="width: 150px; float: left;" />
+                                        <div style="color: blue; float: left;" class="copy_input" data-clipboard-text="{{r.bill_no}}">复制</div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 90px;">代理账号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="username" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.username}}" style="width: 150px; float: left;" />
+                                        <div style="color: blue; float: left;" class="copy_input" data-clipboard-text="{{r.username}}">复制</div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 90px;">代理类型</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="agent_type" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{%if r.agent_type == '0' %}普通代理{%elif r.agent_type == '1' %}官方代理{%else%}招商代理{%endif%}" style="width: 150px;" />
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 90px;">会员等级</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="vip" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="VIP{{r.vip-1}}" style="width: 150px; float: left;" />
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 90px;">提款金额</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="money" lay-verify="required" placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.money}}" style="width: 150px; float: left;" />
+                                        <div style="color: blue; float: left;" class="copy_input" data-clipboard-text="{{r.money}}">复制</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding-left: 5px;">
+                        <div class="layui-card">
+                            <div class="layui-card-header" style="color: blue;">提款银行卡信息</div>
+                            <div class="layui-card-body">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 90px;">银行名称</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="bank_name"  placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.bank_name}}" style="width: 150px; float: left;" />
+                                        <div style="color: blue; float: left;" class="copy_input" data-clipboard-text="{{r.bank_name}}">复制</div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 90px;">户名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="bank_realname"  placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.bank_realname}}" style="width: 150px; float: left;" />
+                                        <div style="color: blue; float: left;" class="copy_input" data-clipboard-text="{{r.bank_realname}}">复制</div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 90px;">银行卡号</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="bank_card"  placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.bank_card}}" style="width: 150px; float: left;" />
+                                        <div style="color: blue; float: left;" class="copy_input" data-clipboard-text="{{r.bank_card}}">复制</div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 90px;">支行</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="bank_branch_name"  placeholder="" autocomplete="off" disabled class="layui-input layui-disabled" value="{{r.bank_branch_name}}" style="width: 150px; float: left;" />
+                                        <div style="color: blue; float: left;" class="copy_input" data-clipboard-text="{{r.bank_branch_name}}">复制</div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label" style="width: 90px;">&nbsp;</label>
+                                    <div class="layui-input-inline">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="layui-row" style="margin-top: 10px;">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header" style="color: blue;">备注信息</div>
+                <div class="layui-tab layui-tab-brief" lay-filter="zhifu">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" rel="bank_card">银行卡出款</li>
+                        <li rel="dai_fu">代付出款</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <div class="layui-row layui-col-space15">
+                                <div class="layui-col-md12">
+                                    <div class="layui-card">
+                                        <table class="layui-table">
+                                            <colgroup>
+                                                <col width="250">
+                                                <col width="90">
+                                                <col width="90">
+                                                <col>
+                                            </colgroup>
+                                            <thead>
+                                            <tr>
+                                                <th>出款卡号</th>
+                                                <th>出款金额</th>
+                                                <th>手续费用</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td><input type="text" name="de_bank_card[]" lay-verify="required" placeholder="请输入出款卡号" value="" autocomplete="off" class="layui-input"></td>
+                                                <td><input type="text" name="de_money[]" lay-verify="required" placeholder="请输入出款金额" value="" autocomplete="off" class="layui-input"></td>
+                                                <td><input type="text" name="de_transaction_fee[]" lay-verify="required" placeholder="请输入手续费用" value="" autocomplete="off" class="layui-input"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <button class="layui-btn layui-btn-normal add_btn">添加银行卡</button>
+                                        <button class="layui-btn layui-btn-danger del_btn">删除银行卡</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div class="layui-row layui-col-space15">
+                                <div class="layui-col-md12">
+                                    <div class="layui-card">
+                                        <input type="checkbox" name="daifu" value="shipu_daifu" title="shipu代付" lay-skin="primary" checked>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form layuiadmin-card-header-auto">
+                    <div class="layui-form-item layui-form-text" style="margin-top: 10px;margin-left: 15px;">
+                        <label class="layui-form-label" >财务备注</label>
+                        <div class="layui-input-inline">
+                            <textarea name="remark" lay-verify="required" placeholder="请输入内容" class="layui-textarea">财务审核通过</textarea>
+                            <div style="color: red;margin-top: 10px;">重要信息,请谨慎操作</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <input type="hidden" value="{{r.id}}" name="id" />
+                    <input type="hidden" value="{{r.created}}" name="created" />
+                    <input type="hidden" value="1" name="bank_card_num">
+                    <input type="hidden" value="bank_card" name="pay_method">
+                    <div class="layui-input-inline" style="margin-left: 125px;margin-bottom: 10px;margin-top: 10px;width: 300px;">
+                        <button class="layui-btn" lay-submit lay-filter="sp-save">提交</button>
+                        <button class="layui-btn layui-btn-primary sp-btn-cancel">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use(['form','laydate'], function() {
+
+        let $ = layui.$, form = layui.form, element = layui.element, layer = layui.layer;
+
+        $(".add_btn").on('click',function () {
+            let add_tr='<tr><td><input type="text" name="de_bank_card[]" lay-verify="required" placeholder="请输入" value="" autocomplete="off" class="layui-input"></td> <td><input type="text" name="de_money[]" lay-verify="required" placeholder="请输入" value="" autocomplete="off" class="layui-input"></td> <td><input type="text" name="de_transaction_fee[]" lay-verify="required" placeholder="请输入" value="" autocomplete="off" class="layui-input"></td></tr>';
+            $("table").append(add_tr);//向table中追加tr
+            let num=parseInt($("input[name='bank_card_num']").val());
+            $("input[name='pay_method']").val(num+1);
+            return false;
+        });
+
+        $(".del_btn").on('click',function () {
+            let trNum=$("table tr").size();
+            if(trNum<=2){
+                layui.layer.msg("不能删除最后一行", {icon: 1, timeout: 1000}, function() {
+                });
+                return false;
+            }
+            $("table tr:last").remove();
+            let num=parseInt($("input[name='bank_card_num']").val());
+            $("input[name='pay_method']").val(num-1);
+            return false;
+        });
+
+        element.on('tab(zhifu)', function(data) {
+            if (data.index==0) {
+                $("input[name='pay_method']").val("bank_card");
+            } else if(data.index==1) {
+                $("input[name='pay_method']").val("dai_fu");
+            }
+        });
+
+        let clipboard = new ClipboardJS('.copy_input');
+        clipboard.on('success', function(e) {
+            e.clearSelection();
+            layer.msg("复制成功", {time: 1000});
+        });
+    });
+</script>
+{% endblock body %}

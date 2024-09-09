@@ -1,0 +1,28 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Title}}</td>
+    <td>{{r.PlatformType|app_platform_type}}</td>
+    <td>{{r.Url}}</td>
+    <!--<td>{%if r.ImageAndroid != ""%}<div class="sp-show-image" url="{{r.ImageAndroid}}">点击查看</div>{%endif%}</td>
+    <td>{%if r.ImageIos != ""%}<div class="sp-show-image" url="{{r.ImageIos}}">点击查看</div>{%endif%}</td>
+    <td>{%if r.ImageIosx != ""%}<div class="sp-show-image" url="{{r.ImageIosx}}">点击查看</div>{%endif%}</td>-->
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/ads/state", 4) -%}
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="正常|禁用" class="sp-btn-state"
+               values="2|1" lay-filter="state" value="{{r.State}}" url="/ads/state" rid="{{r.Id}}" />
+        {%else -%} {{r.State|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>{{r.TimeStart|datetime}} ~{{r.TimeEnd|datetime}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/ads/update", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/ads/update" area="700px,600px" tab="0" data-type="add">编辑</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/ads/delete", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete" tab="0" url="/ads/delete" data-type="add">删除</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

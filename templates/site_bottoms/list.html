@@ -1,0 +1,89 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="5">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">信息名称</label>
+                    <div class="layui-input-inline">
+                        <select name="bottom_type">
+                            <option value="">全部</option>
+                            {% for bk, bv in bottomTypes %}
+                            <option value="{{bk}}">{{bv}}</option>
+                            {% endfor %}
+                        </select>
+                        </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">信息类型</label>
+                    <div class="layui-input-inline">
+                        <select name="content_type">
+                            <option value="">全部</option>
+                            <option value="0"> 图片</option>
+                            <option value="1"> 图片 + 链接</option>
+                            <option value="2"> 文本</option>
+                            <option value="3"> 文本 + 链接</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn" lay-submit lay-filter="sp-form-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+                </div>
+            </div>
+        </form>
+            <div class="layui-card-body no-padding-lr">
+                <div style="padding-bottom: 10px;">
+                    <button class="layui-btn sp-open-link" url="/site_bottoms/create" area="700px,700px" tab="5">新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="150" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col />
+                        <col width="100" />
+                        <col width="120" />
+
+                        <col width="120" />
+
+                        <col width="170" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>信息名称</th>
+                        <th>信息类型</th>
+                        <th>名称</th>
+                        <th>排序</th>
+                        <th>图片</th>
+                        <th>内容</th>
+                        <th>链接类型</th>
+                        <th>链接地址</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

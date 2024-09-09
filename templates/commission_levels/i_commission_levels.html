@@ -1,0 +1,72 @@
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="70" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员等级</th>
+                            <th>每日最高返水</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" url="/commission_levels" loaded="loaded">
+                        {% include "_commission_levels.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'laydate', 'jquery'], function () {
+        let $ = layui.$;
+        let form = layui.form;
+        let element = layui.element;
+        let layer = layui.layer;
+        let get_user_info = function (that) {
+            //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $('td:eq(0)', tr).text();
+            let vip = $('td:eq(1)', tr).text();
+            return { id: id, vip: vip };
+        };
+
+        // 设置
+        $(document).off('click', '.setup');
+        $(document).on('click', '.setup', function () {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['800px', '500px'],
+                //fix: true, //不固定
+                shade: 0.5,
+                title: '返水设置',
+                content: '/commission_levels/setup?id=' + info.id + '&vip=' + info.vip,
+            });
+        });
+
+        // 详情
+        $(document).off('click', '.details');
+        $(document).on('click', '.details', function () {
+            let info = get_user_info($(this));
+            layer.open({
+                type: 2,
+                area: ['800px', '500px'],
+                //fix: true, //不固定
+                shade: 0.5,
+                title: '返水详情',
+                content: '/commission_levels/details?id=' + info.id + '&vip=' + info.vip,
+            });
+        });
+    });
+</script>

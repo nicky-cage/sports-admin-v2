@@ -1,0 +1,27 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/agent_domains/save" tab="1">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">代理用户名称</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" lay-verify="required" placeholder="请输入代理用户名称" autocomplete="off"
+                   class="layui-input" value="{{r.Username}}" {%if r.Id  > 0 -%}readonly="readonly"{%endif-%} />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">绑定域名</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="text" name="domain" lay-verify="required" placeholder="请输入域名" autocomplete="off"
+                   class="layui-input" value="{{r.Domain}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >备注</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="text" name="remark" lay-verify="required" placeholder="请输入备注" autocomplete="off"
+                   class="layui-input" value="{{r.Remark}}" />
+        </div>
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

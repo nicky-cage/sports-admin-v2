@@ -1,0 +1,44 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.ParentId}}</td>
+    <td>{{r.ParentId}}</td>
+    <td>{{r.Name}}</td>
+    <td>{{r.Level|menu_level_type}}</td>
+    <td>{{r.Url}}</td>
+    <td>{%if r.IsView == 1%}是{%else%}否{%endif%}</td>
+    <td>{{r.Icon}}</td>
+    <td>{%if r.State == 1%}<span style="color: green">启用</span>{%else%}禁用{%endif%}</td>
+    <td>
+        {%if r.EnableLog == 1%}<span style="color: green">开启</span>
+        {%else%}<span style="color: red">关闭</span>
+        {%endif%}
+    </td>
+    <td>
+        {%if r.LogLevel == 0%}无
+        {%elif r.LogLevel == 1%}<span style="color: green">低</span>
+        {%elif r.LogLevel == 2%}<span style="color: red">中</span>
+        {%elif r.LogLevel == 3%}<span style="color: orange; font-weight: bold;">高</span>
+        {%else%}未知 {{r.LogLevel}}
+        {%endif%}
+    </td>
+    <td>
+        {%if r.LogType == 0%}无
+        {%elif r.LogType == 1%}添加
+        {%elif r.LogType == 2%}修改
+        {%elif r.LogType == 3%}删除
+        {%elif r.LogType == 4%}数据列表
+        {%elif r.LogType == 5%}数据详情
+        {%elif r.LogType == 9%}其他
+        {%else%}未知 {{r.LogType}}
+        {%endif%}
+    </td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Sort}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/menus/update", 4) -%}
+            <button class="layui-btn sp-open-link" url="/menus/update" type="button" area="600px,600px">编辑</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

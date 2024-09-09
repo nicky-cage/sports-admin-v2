@@ -1,0 +1,98 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" action="/game_venues/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">场馆英文名称</label>
+        <div class="layui-input-inline">
+            <input name="ename" lay-verify="required" placeholder="" autocomplete="off"  class="layui-input " value="" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">场馆中文名称</label>
+        <div class="layui-input-inline">
+            <input name="name" lay-verify="required" placeholder="" autocomplete="off"  class="layui-input " value="" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label" style="width: 100px;">场馆code</label>
+
+        <div class="layui-input-inline">
+            <input name="code" lay-verify="required" placeholder="" autocomplete="off"  class="layui-input " value="" />
+        </div>
+    </div>
+
+    <p style="margin:0 0 5px 30px;">选择主平台是创建场馆钱包，选择其他是创建场馆游戏</p>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >所属场馆</label>
+        <div class="layui-input-inline">
+            <select name="pid"  lay-verify="required" lay-filter="p-g">
+                <option></option>
+                <option value="0"> 主平台</option>
+                {%for k,v in games%}
+                <option value="{{v.Id}}" >{{v.Name}}</option>
+                {%endfor%}
+            </select>
+        </div>
+
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >场馆类型</label>
+        <div class="layui-input-inline">
+            <select name="venue_type" >
+                <option></option>
+                <option value="0" >主平台</option>
+                <option value="1" >体育</option>
+                <option value="2">电竞</option>
+                <option value="3" >真人</option>
+                <option value="4" >电游</option>
+                <option value="5">捕鱼</option>
+                <option value="6" >彩票</option>
+                <option value="7" >棋牌</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="sort" lay-verify="number" placeholder="" autocomplete="off" class="layui-input" value="0" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;" >场馆平台费</label>
+        <div class="layui-input-inline">
+            <input type="text" name="platform_rate" lay-verify="number" placeholder="" autocomplete="off" class="layui-input" value="" />
+        </div>
+        <span>%</span>
+    </div>
+    <div class="layui-layout-admin" style="z-index:99;">
+        <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+            <button type="submit" class="layui-btn" lay-submit lay-filter="sp-save">立即提交</button>
+            <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate'], function() {
+        let $ = layui.$
+        let layer = layui.layer;
+        let form = layui.form;
+        form.on('select(p-g)',function(data){
+            if (data.value==0){
+                $("select[name='venue_type']").attr("disabled","disabled");
+                $("select[name='venue_type'] option:nth-child(2)").prop("selected","selected");
+                form.render('select')
+            }else{
+                $("select[name='venue_type']").attr("disabled",false);
+                $("select[name='venue_type'] option:nth-child(2)").attr("selected",false);
+                form.render('select')
+            }
+        })
+    })
+</script>
+{% endblock body %}

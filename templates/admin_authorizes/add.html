@@ -1,0 +1,47 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form" action="" lay-filter="component-form-element">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">授权对象</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="fullname" lay-verify="required" placeholder="请输入精准授权IP地址" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-inline">
+                            <textarea name="remark" placeholder="如有需要经填写，不超过50个字" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-inline" style="margin-left: 110px;">
+                            <button class="layui-btn" lay-submit lay-filter="component-form-element">提交</button>
+                            <button class="layui-btn layui-btn-primary cancel">取消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['form'], function() {
+        let $ = layui.$
+        let form = layui.form;
+        let element = layui.element
+        let layer = layui.layer;
+        $(document).on("click", ".cancel", function() {
+            let index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+            parent.layer.close(index);
+        });
+    });
+</script>
+{% endblock body %}

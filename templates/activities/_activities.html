@@ -1,0 +1,62 @@
+{% for r in rows %}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Title}}</td>
+    <td class="sp-alert" style="cursor: pointer;" text="{{r.WebTopicUrl}}">{{r.WebTopicUrl|truncatechars:30}}</td>
+    <td class="sp-alert" style="cursor: pointer;" text="{{r.MobileTopicUrl}}">{{r.MobileTopicUrl|truncatechars:30}}</td>
+    <td>
+        {% if r.ActivityType==1 %} 限时活动
+        {% elif r.ActivityType==2 %} 新人首存
+        {% elif r.ActivityType==3 %} 日常活动
+        {% elif r.ActivityType==4 %} 体育优惠
+        {% elif r.ActivityType==5 %} 高额返水
+        {% elif r.ActivityType==6 %} VIP特权
+        {% endif %}
+    </td>
+    <td>
+        {% if r.ContentForm==1 %} 专题内容
+        {% else %} <span style="color: red">常规内容</span>
+        {% endif %}
+    </td>
+    <td>{{r.StartAt|datetime}}-{{r.EndAt|datetime}}</td>
+    <td>{{r.ShowTimeStart|datetime}}-{{r.ShowTimeEnd|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities/state", 4) -%}
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="开启|关闭" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.State}}" url="/activities/state" rid="{{r.Id}}" />
+        {%else -%} {{r.State|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>{{r.Sort}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities/edit", 4) -%}
+            <button class="layui-btn layuiadmin-btn-list edit" tab="0" area="700px,700px">编辑</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/activities/delete", 4) -%}
+            <button class="layui-btn layui-btn-danger sp-btn-delete" url="/activities/delete" tab="0">删除</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}
+<script>
+    layui.use(['form', 'laydate'], function () {
+        let $ = layui.$;
+        let get_user_info = function (that) { //得到用户编号、信息
+            let tr = that.parent().parent();
+            let id = $("td:eq(0)", tr).text();
+            return { id: id };
+        };
+        // 编辑
+        $(".edit").on("click", function () {
+            let info = get_user_info($(this));
+            layer.open({
+                skin: "activity",
+                type: 2,
+                area: ['98%', '98%'],
+                shade: 0.5,
+                title: "编辑",
+                content: '/activities/edit?id=' + info.id
+            })
+        });
+    });
+</script>

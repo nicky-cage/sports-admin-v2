@@ -1,0 +1,112 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="2">
+            <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">订单编号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="bill_no" placeholder="请输入订单编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">会员账号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="username" placeholder="请输入会员账号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">添加时间</label>
+                        <div class="layui-input-inline" >
+                            <input type="text" name="created" placeholder="请选择状态" autocomplete="off" readonly="readonly"  id="creat" class="layui-input sp-form-date">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">提款姓名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="bank_real_name" placeholder="请输入提款姓名" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">提款金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="money" placeholder="请输入提款金额" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">会员等级</label>
+                        <div class="layui-input-inline">
+                            <select name="vip">
+                                <option value="">请选择VIP等级</option>
+                                {%for v in vipLevels %}
+                                <option value="{{v.Id}}">{{v.Name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="140" />
+                        <col width="100" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="70" />
+                        <col width="125" />
+                        <col width="120" />
+                        <col width="95" />
+                        <col />
+                        <col width="70" />
+                        <col width="105" />
+                        <col width="95" />
+                        <col width="100" />
+                        <col width="125" />
+                        <col width="50" />
+                        <col width="50" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>订单编号</th>
+                        <th>会员账号</th>
+                        <th>会员等级</th>
+                        <th>提款金额</th>
+                        <th>行政费用</th>
+                        <th>实需出款</th>
+                        <th>申请时间</th>
+                        <th>会员标签</th>
+                        <th>提款人姓名</th>
+                        <th>提款信息</th>
+                        <th>最后存款</th>
+                        <th>系统审核结果</th>
+                        <th>风控审核人</th>
+                        <th>风控备注</th>
+                        <th>风控审核时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/risk_audits/history">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

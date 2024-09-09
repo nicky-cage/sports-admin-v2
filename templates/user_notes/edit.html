@@ -1,0 +1,14 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/user_notes/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-inline">
+            <textarea name="remark" class="layui-textarea" style="width: 360px; height: 200px;" lay-verify="required" placeholder="请输入相关备注">{{r.Remark}}</textarea>
+        </div>
+        <input type="hidden" name="user_id" value="{{user_id}}" />
+        <input type="hidden" name="user_name" value="{{user_name}}" />
+    </div>
+    {{block.Super|safe}}
+</form>
+{% endblock body %}

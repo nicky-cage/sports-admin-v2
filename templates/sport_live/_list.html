@@ -1,0 +1,35 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td name="user_id">{{r.Username}}</td>
+    <td name="month">{{r.Nickname}}</td>
+
+    <td>
+        <button class="layui-btn layuiadmin-btn-list gag"  id="{{r.Username}}" value="{{r.Gag}}" data-type="add">{%if r.Gag==2%}禁言{%else%}解除禁言{%endif%}</button></td>
+</tr>
+{%endfor%}
+<script>
+    layui.use(['form','laydate'], function() {
+        let $ = layui.$;
+        $(".gag").click(function(e){
+            let t =$(this)
+           let value =  $(this).attr("value")
+            $.ajax({
+                url:"/sport_live/stop?id="+$(this).attr("id")+"&value="+value,
+                type:"get",
+                success:function(data){
+                    if(data.errcode==0){
+                        if (value==1){
+                            t.html("禁言")
+                            t.attr("value",2)
+                        }else{
+                            t.html("解除禁言")
+                            t.attr("value",1)
+                        }
+                        layui.layer.msg("操作成功", {icon: 1});
+
+                    }
+                }
+            })
+        })
+    })
+    </script>

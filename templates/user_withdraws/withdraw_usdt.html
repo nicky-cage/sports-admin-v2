@@ -1,0 +1,111 @@
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="margin-bottom: 62px">
+                <form class="layui-form" method="post" action="" id="withdraw-form-coin">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label form-label" style="width: 150px">汇率</label>
+                        <div class="layui-input-inline" style="width: 100px">
+                            <input type="text" name="withdraw_fixed_rate" id="exchange-rate-withdraw" lay-verify="required"
+                                placeholder="请输入汇率" autocomplete="off" class="layui-input"
+                                value="{%if withdraw_auto_rate == 2%}{{rate|stringformat:'%.2f'}}{%else-%}{{withdraw_fixed_rate|stringformat:'%.2f'}}{%endif-%}" />
+                            <button type="button" class="layui-btn layui-bg-orange" id="refresh-exchange-withdraw" style="margin-top: 5px">
+                                刷新汇率
+                                <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label form-label" style="width: 150px">自动获取汇率</label>
+                        <div class="layui-input-inline">
+                            <select name="withdraw_auto_rate">
+                                <option value="2">是</option>
+                                <option value="1" {%if withdraw_auto_rate == 1 -%}selected="selected"{%endif-%}>否</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label form-label" style="width: 150px">提款浮动汇率(元)</label>
+                        <div class="layui-input-inline" style="width: 100px">
+                            <input type="text" name="withdraw_rate_float" lay-verify="required" placeholder="请输入提款浮动汇率"
+                                autocomplete="off" class="layui-input" value="{{withdraw_rate_float|stringformat:'%.2f'}}" />
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label form-label" style="width: 150px">单次最小提款额(USDT)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="withdraw_usdt_min" id="min-money-limit" lay-verify="required" placeholder="请输入最小存款额" autocomplete="off" class="layui-input" value="{{withdraw_usdt_min|stringformat:'%.2f'}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label form-label" style="width: 150px">单次最大提款额(USDT)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="withdraw_usdt_max" id="max-money-limit" lay-verify="required" placeholder="请输入最大存款额" autocomplete="off" class="layui-input" value="{{withdraw_usdt_max|stringformat:'%.2f'}}" />
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label form-label" style="width: 150px">单日最大提款额(USDT)</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="withdraw_usdt_max_day" id="max-money-limit" lay-verify="required" placeholder="请输入最大存款额" autocomplete="off" class="layui-input" value="{{withdraw_usdt_max_day|stringformat:'%.2f'}}" />
+                        </div>
+                    </div>
+                    <div class="layui-layout-admin" style="z-index: 99">
+                        <label class="layui-form-label form-label" style="width: 150px">&nbsp;</label>
+                        <div class="layui-input-block" style="margin-left: 0px; left: 0px">
+                            <button type="button" class="layui-btn" id="save-withdraw-usdt">保存修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	layui.use(['jquery', 'layer'], function() {
+		let $ = layui.jquery, layer = layui.layer;
+
+		// 刷新汇率
+		let lastExchangeTime = 0;
+		let currentExchangeRate = 0;
+		$(document).on("click", "#refresh-exchange-withdraw", function() {
+			let currentTime = Date.parse(new Date());
+			let getMoney =  function(fromMoney) {
+				return Math.round(fromMoney * 100) / 100;
+			};
+			let setMoney = function() {
+				let newMoney = getMoney(currentExchangeRate);
+				$("#exchange-rate-withdraw").val(newMoney);
+				// $("#deposit-max-rmb").html(getMoney())
+			};
+			if (currentTime - lastExchangeTime < 3600) { // 1小时缓存
+				setMoney();
+				return;
+			}
+			$.get("/index/exchange", function(result) {
+				currentExchangeRate = result.data;
+				lastExchangeTime = currentTime;
+				setMoney();
+			});
+		});
+
+		// 保存钱包信息
+		$(document).on("click", "#save-withdraw-usdt", function() {
+			let data = (function() {
+				let sArr = $("#withdraw-form-coin").serializeArray();
+				let obj = {};
+				$.map(sArr, function(n, i){
+					obj[n['name']] = n['value'];
+				});
+				return obj;
+			})();
+			$.post("/user_withdraws/save_config", data, function(result) {
+				if (result.errcode == 0) {
+					sp.alertSuccess("保存数据成功");
+				} else {
+					sp.alert(result.message);
+				}
+			});
+		});
+	});
+</script>

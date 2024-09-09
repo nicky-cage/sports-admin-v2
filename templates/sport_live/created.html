@@ -1,0 +1,57 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" >
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">过滤词组</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" lay-verify="required" value="{{row.Name}}" placeholder="请输入过滤词组" autocomplete="off" class="layui-input"  style="width: 300px;" />
+        </div>
+    </div>
+    <div style="margin-top:5px;color: red;margin-left:100px;">通用匹配用 * 代替,例如www.*.com</div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >词组类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="type" value="1" title="词组匹配"  checked  >
+            <input type="radio" name="type" value="2" title="通用匹配" {%if row.Type==2%} checked {%endif%}>
+        </div>
+    </div>
+    </div>
+    <input type="hidden" name="id" value="{{row.Id}}">
+</form>
+<div class="layui-layout-admin com-sub" style="margin:-40px 150px;">
+    <div class="layui-input-block">
+        <button type="button" class="layui-btn  sport-live" style="width:100px;margin-left:-60px;">新增</button>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'layer'], function () {
+        let $ = layui.$, layer = layui.layer, form = layui.form;
+        let id = $("input[name='id']").val()
+        if (id != 0) {
+            $(".sport-live").html("修改")
+        }
+        $(".sport-live").click(function () {
+            let name = $("input[name='name']").val()
+            let type = $("input[name='type']:checked").val()
+            let list = {"name": name, "type": type, "id": id}
+            if (id != 0) {
+                list["method"] = "2"
+            } else {
+                list["method"] = "1"
+            }
+            $.ajax({
+                url: "/sport_live/manage/words_save",
+                type: "post",
+                data: JSON.stringify(list),
+                success: function (data) {
+                    if (data.errcode == 0) {
+                        layui.layer.msg("添加成功", {icon: 1, timeout: 1000}, function () {
+                            parent.location.reload()
+                        });
+                    }
+                },
+            })
+        })
+    })
+</script>
+{% endblock body %}

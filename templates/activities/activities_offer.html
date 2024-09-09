@@ -1,0 +1,218 @@
+<div class="layui-fluid">
+    <div class="layui-card no-shadow">
+        <div class="layui-card-body no-padding-lr">
+            <form class="layui-form" lay-filter="" method="post" tbody="0">
+                <div class="layui-form-item ">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">活动标题</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="title" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">钱包类型</label>
+                    <div class="layui-inline">
+                        <input type="radio" name="money_type" lay-filter="money_type" value="1" title="中心钱包" checked>
+                        <input type="radio" name="money_type" lay-filter="money_type" value="2" title="场馆钱包">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">操作类型</label>
+                    <div class="layui-inline">
+                        <input type="radio" name="operation_type" lay-filter="operation_type" value="1" title="批量发放">
+                        <input type="radio" name="operation_type" lay-filter="operation_type" value="2" title="单会员发放" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item file" style="display: none">
+                    <label class="layui-form-label">导入文件</label>
+                    <div class="layui-inline">
+                        <!--<a href="/dividend_managements/excel"><button type="button" class="layui-btn" id="excel_down"><i class="layui-icon"></i>下载模板</button></a>-->
+                        <a href="{{down_excel_url}}"><button type="button" class="layui-btn" id="excel_down"><i class="layui-icon"></i>下载模板</button></a>
+                        <button type="button" class="layui-btn sp-file-upload-my" id="excel_upload"><i class="layui-icon"></i>上传文件</button>
+                        <input type="hidden" name="upload_excel">
+                    </div>
+                </div>
+                <div class="layui-form-item user">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">会员账号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="usernames" autocomplete="off" class="layui-input" value="sys_test_agent">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item money">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="money"  autocomplete="off" class="layui-input" value="3">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">活动类型</label>
+                        <div class="layui-input-inline">
+                            <select name="type" lay-verify="required" lay-search="">
+                                <option value="">全部</option>
+                                <option value="1">限时活动</option>
+                                <option value="2">新人首存</option>
+                                <option value="3">日常活动</option>
+                                <option value="4">体育优惠</option>
+                                <option value="5">高额返水</option>
+                                <option value="6">VIP特权</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item venue" style="display: none">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">场馆</label>
+                        <div class="layui-input-inline">
+                            <select name="venue" lay-search="">
+                                <!--<option value="">全部</option>-->
+                                {%for r in game_venus%}
+                                <option value="{{r.Code}}">{{r.Name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">流水限制</label>
+                    <div class="layui-inline">
+                        <input type="radio" name="flow_limit" lay-filter="flow_limit" value="1" title="无需流水限制" checked>
+                        <input type="radio" name="flow_limit" lay-filter="flow_limit" value="2" title="需要流水限制">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">流水倍数</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="flow_multiple" autocomplete="off" class="layui-input layui-radio-disbaled layui-disabled" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-inline">
+                        <textarea name="applicant_remark" lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <input type="hidden" name="get_money_type" value="1">
+                    <div class="layui-input-inline" style="margin-left: 90px;">
+                        <button class="layui-btn" id="submit-button" lay-submit lay-filter="submit_data">立即提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','jquery','upload'], function() {
+        let form = layui.form;
+        let $ = layui.jquery;
+        let upload = layui.upload
+        form.on('radio(money_type)', function(data){
+            if(data.value==1){
+                $(".venue").hide();
+                $("input[name='venue']").removeAttr("lay-verify");
+                $("input[name='get_money_type']").val("1");
+            }else{
+                $(".venue").show();
+                $("input[name='venue']").attr("lay-verify","required");
+                $("input[name='get_money_type']").val("2");
+            }
+        });
+        form.on('radio(operation_type)', function(data){
+            if(data.value==1){
+                $(".file").show();
+                $(".user").hide();
+                $("input[name='usernames']").removeAttr("lay-verify");
+                $(".money").css('display','none').removeAttr("lay-verify");
+                $("input[name='money']").removeAttr("lay-verify");
+            }else{
+                $(".file").hide();
+                if($("input[name='get_money_type']").val()=="2"){
+                    $(".venue").show();
+                    $("select[name='venue']").removeAttr("lay-verify");
+                }
+                //$(".venue").hide();
+                //$("select[name='venue']").removeAttr("lay-verify");
+                $(".user").show();
+                $("input[name='usernames']").attr("lay-verify","required");
+                $(".money").show();
+                $("input[name='money']").attr("lay-verify","required");
+            }
+        });
+        form.on('radio(flow_limit)', function(data){
+            if(data.value==1){
+                $("input[name='flow_multiple']").removeAttr("lay-verify").addClass("layui-radio-disbaled layui-disabled").attr("disabled", true);
+            }else{
+                $("input[name='flow_multiple']").attr("lay-verify","required").removeClass("layui-radio-disbaled layui-disabled").attr("disabled", false);
+            }
+        });
+        form.on('submit(submit_data)', function(data) {
+            $("#submit-button").addClass("layui-btn-disabled").attr('disabled', 'disabled').html("正在处理");
+            /*sp.post("/dividend_managements/submit_do", data.field, function(result) {
+                if (result.errcode === 0) {
+                    $("#submit-button").removeClass("layui-btn-disabled").removeAttr('disabled');
+                    layui.layer.msg(result.message, {icon: 1, timeout: 1000}, function() {
+                        location.href = "/dividend_managements";
+                    });
+                }else{
+                    layui.layer.msg("提交失败", {icon: 1, timeout: 1000}, function() {
+                        location.href = "/dividend_managements";
+                    });
+                }
+            });*/
+            $.ajax({
+                url:"/activities_managements/submit_do",
+                type:"post",
+                data:JSON.stringify(data.field),
+                success:function(result){
+                    $("#submit-button").removeClass("layui-btn-disabled").removeAttr('disabled').html("立即提交");
+                    if (result.errcode === 0) {
+                        layui.layer.msg(result.message, {icon: 1, timeout: 1000}, function() {
+                            location.href = "/activities";
+                        });
+                    }else{
+                        layui.layer.msg(result.message, {icon: 5, timeout: 1000}, function() {
+                            //location.href = "/activities";
+                        });
+                    }
+                },error:function(){
+                    $("#submit-button").removeClass("layui-btn-disabled").removeAttr('disabled').html("立即提交");
+                    layui.layer.msg("提交异常", {icon: 5, timeout: 1000}, function() {
+                        //location.href = "/activities";
+                    });
+                }
+            });
+            return false;
+        });
+
+        let element_id = "excel_uploader";
+        upload.render({
+            elem: '#excel_upload', //绑定元素
+            url:  '{{upload_excel_file}}' + '/upload?field=' + element_id, //上传接口
+            accept: 'file',
+            done: function(res){
+
+                if (res.errcode != 0) {
+                    layui.layer.msg("上传失败:"+res.message, {icon: 1});
+                    return;
+                }
+                layui.layer.msg("上传成功", {icon: 1});
+                $("input[name='upload_excel']").attr("value",res.data.path);
+            },
+            error: function(){
+                //请求异常回调
+                layui.layer.msg("上传异常", {icon: 1});
+            }
+        });
+
+    });
+</script>

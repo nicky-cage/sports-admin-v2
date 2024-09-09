@@ -1,0 +1,20 @@
+{%for r in rows%}
+<tr  {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Username}}</td>
+	<td>{%if r.TransferType==1%}转入游戏{%else%}转出游戏{%endif%}</td>
+	<td>{{r.TransferOutAccount|platform_wrap:PLATFORM|game_venue}}</td>
+	<td>{{r.TransferInAccount|platform_wrap:PLATFORM|game_venue}}</td>
+	<td>{{r.Money|stringformat:"%.2f"}}</td>
+	<td>{%if r.Status==1%}处理中{%elif r.Status==2%}成功{%else%}失败{%endif%}</td>
+	<td>{{r.Created|datetime}}</td>
+</tr>
+{%endfor%}
+<tr>
+	<th>总计</th>
+	<th></th>
+	<th></th>
+	<th></th>
+	<th>{{transfers_money}}</th>
+	<th></th>
+	<th></th>
+</tr>

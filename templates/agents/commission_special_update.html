@@ -1,0 +1,70 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-form-item" style="width: 300px;position:relative;right:40px;">
+    <label class="layui-form-label" >方案名</label>
+    <div class="layui-input-inline">
+        <input type="text" name="agent_commission"  value="{{plan}}" placeholder="请输入方案名" autocomplete="off"
+               style="border-left-width:0px;border-top-width:0px;border-right-width:0px;width:200px;height:30px;" />
+    </div>
+</div>
+<form class="layui-form">
+    <div class="layui-form-item" >
+        <label class="layui-form-label" >默认占成比例</label>
+        <div class="layui-input-inline">
+            <input type="text" name="rate"  value="{{rate|stringformat:"%.2f"}}" placeholder="请输入占成比例%" style="width: 300px;height:20px;position:relative;top:-5px;">
+            <span style="position:relative;top:-45px;right:-310px;">%</span>
+        </div>
+    </div>
+    <input type="hidden" name="id" value="{{rows.id}}">
+</form>
+<p>说明：</p>
+<p>1、设置替换占成的比例，该比例用于没有单独设置占成的代理。如果要单独修改某个代理的固定占成，则在代理列表中选择对应的用户修改；</p>
+<p>2、选择固定分段模式后，名称变为固定分段模式</p>
+
+<div class="layui-layout-admin com-sub" style="margin:0 150px;">
+    <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+        <button type="button" class="layui-btn layui-btn-primary co-sa-sp" >保存</button>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'jquery', 'layer'], function() {
+        let $ = layui.$
+        $(".co-sa-sp").click(function(){
+            let plan=$("input[name='agent_commission']").val()
+            if (plan=="" || plan.length>10){
+                layer.open({
+                    title:"温馨提示",
+                    content:"请填写正确的方案名"
+                })
+                return false;
+            }
+            let arraylist={};
+            let rate=$("input[name='rate']").val()
+            let id =$("input[name='id']").val()
+            arraylist["mode"]=2;
+            arraylist["agent_commission"]=plan;
+            arraylist["rate"]=rate;
+            arraylist["id"]=id;
+            $.ajax({
+                url:"/agents/commissions/plan/save",
+                type:"post",
+                data:JSON.stringify(arraylist),
+                success:function(data) {
+                    if (data.errcode == 0) {
+                        layui.layer.msg("添加成功", {icon: 1, timeout: 1000}, function() {
+                            parent.location.reload()
+                        });
+                    } else {
+                        layer.open({
+                            title: "温馨提示",
+                            content: "添加失败",
+                        })
+                    }
+                }
+            })
+        })
+
+
+    })
+</script>
+{% endblock body %}

@@ -1,0 +1,45 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px">
+                <table class="layui-table" style="width: 30%">
+                    <colgroup>
+                        <col />
+                        <col width="100" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>佣金账户</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td name="balance">{{r}}</td>
+                            <td>
+                                <button class="layui-btn" id="btnRefresh" value="{{id}}"><i class="layui-icon layui-icon-refresh"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery'], function () {
+        let $ = layui.jquery;
+        $(document).on('click', '#btnRefresh', function () {
+            let that = $(this);
+            let userId = that.attr('value');
+            $.ajax({
+                url: '/user_detail/commission_account_async',
+                type: 'get',
+                data: { id: userId },
+                success: function (data) {
+                    $("td[name='balance']").html(data.data);
+                },
+            });
+        });
+    });
+</script>

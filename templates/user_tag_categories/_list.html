@@ -1,0 +1,14 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Name}}</td>
+    <td>{{r.Remark}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_tag_categories/update", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/user_tag_categories/update" area="700px,400px" tab="1">编辑</button>
+        {%endif -%} {%if is_granted(PLATFORM, ADMIN.RoleId, "/user_tag_categories/delete", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-btn-delete" tab="1" url="/user_tag_categories/delete">删除</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

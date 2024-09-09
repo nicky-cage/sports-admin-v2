@@ -1,0 +1,87 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="3">
+                <div class="layui-form layui-card-header layui-form-item layuiadmin-card-header-auto">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">场馆名称</label>
+                        <div class="layui-input-inline">
+
+                            <select name="venue_id">
+                                <option ></option>
+                                {% for k, v in game_venues %}
+                                <option value="{{k}}">{{v.Name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">维护状态</label>
+                        <div class="layui-input-inline">
+                            <select name="state">
+                                <option value="">全部</option>
+                                <option value="1">正常</option>
+                                <option value="2">维护</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col width="150" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="320" />
+                        <col width="120" />
+                        <col width="100" />
+                        <col />
+                        <col width="230" />
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>场馆英文名称</th>
+                        <th>场馆中文名称</th>
+                        <th>场馆状态</th>
+                        <th>维护时间</th>
+                        <th>操作人</th>
+                        <th>维护状态</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {%include "_list.html"%}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form','laydate'], function() {
+        let $ = layui.$
+        let element = layui.element
+        let layer = layui.layer;
+    });
+</script>

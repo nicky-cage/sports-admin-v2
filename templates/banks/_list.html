@@ -1,0 +1,20 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.Name}}</td>
+    <td>{{r.Code}}</td>
+    <td>{{r.Remark}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/banks/state", 4) -%}
+        <input type="checkbox" name="state" lay-skin="switch" lay-text="正常|禁用" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.State}}" url="/banks/state" rid="{{r.Id}}" />
+        {%else -%} {{r.State|state_text|safe}}
+        {%endif -%}
+    </td>
+    <td>{{r.Sort}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/banks/update", 4) -%}
+        <button class="layui-btn sp-open-link" url="/banks/update" tab="4" area="800px,700px" title="修改银行信息">编辑</button>
+        {%endif -%}
+    </td>
+</tr>
+{% endfor %}

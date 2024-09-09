@@ -1,0 +1,45 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-form layui-card-header layui-form-item layuiadmin-card-header-auto">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/source_materials/created", 4) -%}
+                <button class="layui-btn sp-open-link" title="添加素材" area="600px,600px" url="/source_materials/created" tab="6">新增素材</button>
+                {%endif -%}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col />
+                        <col width="100" />
+                        <col width="130" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="110" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>标题</th>
+                            <th>图片</th>
+                            <th>修改时间</th>
+                            <th>状态</th>
+                            <th>排序</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/source_materials">
+                        {% include "_list.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" method="post" tbody="2">
+                <!--<div class="layui-form layui-card-header layuiadmin-card-header-auto">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">赛事名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="title" placeholder="请输入赛事名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">比赛时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="match_date" placeholder="请输入比赛时间" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">主队名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="team_first" placeholder="请选择主队名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">客队名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="team_second" placeholder="请选择客队名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                        <button class="layui-btn layuiadmin-btn-list layui-btn-danger" lay-submit lay-filter="LAY-app-contlist-search">
+                            <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>-->
+            </form>
+            <div class="layui-card-body">
+                {%if is_granted(PLATFORM, ADMIN.RoleId, "/ad_matches/create", 4) -%}
+                <button class="layui-btn layuiadmin-btn-list sp-open-link" url="/ad_matches/create" area="700px,600px" tab="2" data-type="add">新增</button>
+                {%endif -%}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card no-shadow">
+            <div class="layui-card-body no-padding-lr">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="80" />
+                        <col />
+                        <col width="135" />
+                        <col width="140" />
+                        <col width="100" />
+                        <col width="140" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="270" />
+                        <col width="165" />
+                        <col width="150" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>赛事名称</th>
+                            <th>比赛时间</th>
+                            <th>主队名称</th>
+                            <th>主队队标</th>
+                            <th>客队名称</th>
+                            <th>客队队标</th>
+                            <th>状态</th>
+                            <th>展示时间</th>
+                            <th>修改时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

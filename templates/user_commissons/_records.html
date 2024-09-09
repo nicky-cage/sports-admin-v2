@@ -1,0 +1,18 @@
+{% for r in rows %}
+<tr {% if forloop.Counter == 1%}total="{{total}}"{%endif%}>
+    <td>{{r.Username}}</td>
+    <td>{{r.Vip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>
+        {%if r.IssueType == 1 %}自动发放{%else%}手动发放{%endif%}
+    </td>
+</tr>
+{% endfor %}
+<tr>
+    <td><span style="color: red">总计</span></td>
+    <td></td>
+    <td><span style="color: red">{{sum_money|stringformat:"%.2f"}}</span></td>
+    <td></td>
+    <td></td>
+</tr>

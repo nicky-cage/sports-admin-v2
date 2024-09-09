@@ -1,0 +1,272 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<script src="{{STATIC_URL}}/js/clipboard.min.js"></script>
+<form class="layui-form" lay-filter="component-form-element" method="post" action="/user_deposits/confirm_do?user_id={{r.UserId}}">
+    <div class="layui-row" style="margin-bottom: 10px;">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header" style="color: blue;">订单信息</div>
+                <div class="layui-card-body">
+                    <div class="layui-form-item layui-row">
+                        <div class="layui-col-lg6">
+                            <label class="layui-form-label" style="margin-top: 20px;">订单编号:</label>
+                            <div class="layui-input-inline sp-form-label" style="margin-top: 20px;">
+                                {{r.OrderNo}}
+                            </div>
+                        </div>
+                        <div class="layui-col-lg6">
+                            <label class="layui-form-label" style="margin-top: 20px;">会员账号:</label>
+                            <div class="layui-input-inline sp-form-label" style="margin-top: 20px;">
+                                <span style="float: left; height: 23px; margin-right: 10px;">{{r.Username}}</span>
+                                <div style="color: blue; float: left" class="copy_input" data-clipboard-text="{{r.Username}}">复制</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-row">
+                        <div class="layui-col-lg6">
+                            <label class="layui-form-label">存款姓名:</label>
+                            <div class="layui-input-inline sp-form-label" >
+                                <span style="float: left; height: 23px; margin-right: 10px;">{%if r.RealName !="" -%}{{r.RealName}}{%else-%}{{r.DepositName}}{%endif-%}</span>
+                                <div style="color: blue; float: left" class="copy_input" data-clipboard-text="{%if r.RealName !="" -%}{{r.RealName}}{%else-%}{{r.DepositName}}{%endif-%}">复制</div>
+                            </div>
+                        </div>
+                        <div class="layui-col-lg6">
+                            <label class="layui-form-label">存款类型:</label>
+                            <div class="layui-input-inline sp-form-label">
+                                {%if r.Type == 1 %} 在线存款 {%else%} 离线存款 {%endif%}
+                                {%if r.VirtualCoin > 0.0 -%}
+                                    <span class="layui-badge">虚拟货币 - USDT</span>
+                                {%endif-%}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-row">
+                        <div class="layui-col-lg6">
+                            <label class="layui-form-label">存款时间:</label>
+                            <div class="layui-input-inline sp-form-label"> {{r.Created|datetime}} </div>
+                        </div>
+                        <div class="layui-col-lg6">
+                            <label class="layui-form-label">订单金额:</label>
+                            <div class="layui-input-inline sp-form-label" style="width: 230px;">
+                                <span style="height: 23px; float: left; margin-right: 10px;">{{r.Money|stringformat:"%.2f"}}</span>
+                                <div style="color: blue; float: left" class="copy_input" data-clipboard-text="{{r.Money|stringformat:'%.2f'}}">复制</div>
+                                {%if r.VirtualCoin > 0.0%}
+                                    <span class="layui-badge" style="float: left; margin-left: 10px; margin-right: 10px;">{{r.VirtualCoin|stringformat:'%.4f'}}U</span>
+                                    <div style="color: blue; float: left" class="copy_input" data-clipboard-text="{{r.VirtualCoin|stringformat:'%.4f'}}">复制</div>
+                                {%endif -%}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-row">
+                        <div class="layui-col-lg6">
+                            <label class="layui-form-label">附言:</label>
+                            <div class="layui-input-inline sp-form-label">{{r.Comment}}</div>
+                        </div>
+                        <div class="layui-col-lg6">
+                            <label class="layui-form-label">优惠金额:</label>
+                            <div class="layui-input-inline sp-form-label">{{r.Discount|stringformat:"%.2f"}}</div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-row">
+                        {%if r.Type == 1 %}
+                        <div class="layui-col-lg12">
+                            <label class="layui-form-label">在线支付编码:</label>
+                            <div class="layui-input-inline sp-form-label">
+                                <input type="text" name="pay_code_s" style="width: 200px;" lay-verify="required" placeholder="" autocomplete="off" class="layui-input layui-disabled" disabled value="{{r.PayCode}}" />
+                            </div>
+                        </div>
+                        {%else%}
+                        <div class="layui-col-lg12">
+                            <label class="layui-form-label">收款{%if r.VirtualCoin > 0.0-%}钱包{%else-%}银行卡{%endif-%}:</label>
+                            <div class="layui-input-inline sp-form-label" style="width: 400px;"> {{r.AccountByName}}</div>
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {%if user_label %}
+    <div class="layui-row" style="margin-bottom: 10px;">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header" style="color: blue;">会员标签</div>
+                <div class="layui-card-body">
+                    <div class="layui-form-item layui-row">
+                        {{user_label|platform_wrap:PLATFORM|user_labels|safe}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header" style="color: blue;">审核信息</div>
+                {%if r.Type == 1 %}
+                <div class="layui-form-item" style="margin-top: 17px;">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: 120px;">在线支付编码</label>
+                        <div class="layui-input-inline">
+                            <select name="pay_code" lay-verify="required" lay-search="">
+                                {% for p in rs %}
+                                <option value="{{p.Code}}" {% if r.Code==p.Code%}selected {%endif%}>{{p.Code}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {%else%}
+                <div class="layui-form-item" style="margin-top: 10px;">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: 120px;">收款{%if r.VirtualCoin > 0.0-%}钱包{%else-%}银行卡{%endif-%}:</label>
+                        <div class="layui-input-inline" style="width: 285px;">
+                            <select name="account_by_name" lay-verify="required" lay-search="">
+                                {%if r.VirtualCoin > 0.0 -%}
+                                    {%for v in deposit_virtuals -%}
+                                        {% if v.WalletType == 1 -%}
+                                            {% set info = "USDT-ERC20-"|add:v.WalletAddress -%}
+                                            <option value="{{info}}" {% if r.AccountByName==info -%}selected="selected"{%endif -%}>USDT - ERC20 - {{v.Name}} - {{v.WalletAddress}}</option>
+                                        {% else -%}
+                                            {% set info = "USDT-TRC20-"|add:v.WalletAddress -%}
+                                            <option value="{{info}}" {% if r.AccountByName==info -%}selected="selected"{%endif -%}>USDT - TRC20 - {{v.Name}}   {{v.WalletAddress}}</option>
+                                        {% endif -%}
+                                    {%endfor -%}
+                                {%else -%}
+                                    {% for p in rows -%}
+                                        {%set info = p.BankName|add:"-"|add:p.BankRealname|add:"-"|add:p.BankCard -%}
+                                        <option value="{{info}}" {% if r.AccountByName==info -%}selected="selected"{%endif -%}>{{p.BankName}} - {{p.BankRealname}} - {{p.BankCard}}</option>
+                                    {%endfor -%}
+                                {%endif -%}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {%endif%}
+                <div class="layui-form-item layui-row">
+                    <div class="layui-col-lg6">
+                        <label class="layui-form-label" style="width:120px;">到账金额:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="arrive_money" readonly="readonly" lay-verify="required" placeholder="订单:{{r.Money|stringformat:'%.2f'}},请输入实际到账金额" value="{{r.Money|stringformat:'%.2f'}}" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-row" hidden>
+                    <div class="layui-col-lg6">
+                        <label class="layui-form-label" style="width: 120px;">确认金额:</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="confirm_money" readonly="readonly" lay-verify="required" placeholder="订单:{{r.Money|stringformat:'%.2f'}},请确认实际到账金额" value="{{r.Money|stringformat:'%.2f'}}" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-row">
+                    <div class="layui-col-lg6">
+                        <label class="layui-form-label" style="width: 120px;">财务备注:</label>
+                        <div class="layui-input-inline">
+                            <textarea name="remark" style="width: 300px;" placeholder="请输入备注内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-col-lg6"> </div>
+                </div>
+                <input type="hidden" value="{{r.OrderNo}}" name="order_no" />
+                <input type="hidden" value="{{r.Created}}" name="created" />
+                <input type="hidden" value="{{r.Id}}" name="id" />
+                <div class="layui-form-item layui-row">
+                    <div class="layui-col-lg6">
+                        <label class="layui-form-label" style="width: 120px;"> &nbsp; </label>
+                        <div class="layui-input-inline" style="width: 300px;">
+                            <button class="layui-btn" id="submit_success" lay-submit lay-filter="submit_success">存款成功</button>
+                            <button style="margin-left: 168px;" class="layui-btn layui-btn-danger" id="submit_failure"
+                                    lay-submit lay-filter="submit_failure">处理失败</button>
+                        </div>
+                    </div>
+                    <div class="layui-col-lg6"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script> //添加confirm
+    layui.use(['form', 'jquery'], function () {
+
+        let $ = layui.jquery, form = layui.form, element = layui.element, layer = layui.layer;
+
+        // 成功相关处理
+        form.on('submit(submit_success)', function (data) {
+            data.field.submit = "1";
+            layer.confirm("确认要通过该存款吗？",
+                { icon: 3, title: "确认审核" },
+                function () {
+                    layer.load(0);
+                    $("#submit_success").addClass("layui-btn-disabled").attr('disabled', 'disabled').html("正在处理");
+                    $.ajax({
+                        url: "/user_deposits/confirm_do?user_id={{r.UserId}}",
+                        type: "post",
+                        data: JSON.stringify(data.field),
+                        success: function (result) {
+                            $("#submit_success").removeClass("layui-btn-disabled").removeAttr('disabled').html("立即提交");
+                            if (result.errcode === 0) {
+                                layui.layer.msg(result.message, { icon: 1, timeout: 1000 }, function () {
+                                    sp.closeWin();
+                                    parent.location.reload(); // 刷新上级页面
+                                });
+                            } else {
+                                layui.layer.msg(result.message, { icon: 5, timeout: 1000 }, function () { });
+                            }
+                        }, error: function () {
+                            $("#submit_success").removeClass("layui-btn-disabled").removeAttr('disabled').html("立即提交");
+                            layui.layer.msg("提交异常", { icon: 5, timeout: 1000 }, function () { });
+                        }
+                    });
+                });
+            return false;
+        });
+
+        // 失败相关处理
+        form.on('submit(submit_failure)', function (data) {
+            data.field.submit = "2";
+            $("#submit_failure").addClass("layui-btn-disabled").attr('disabled', 'disabled').html("正在处理");
+            //data.field.submit = "1";
+            layer.confirm("拒绝该存款吗？",
+                { icon: 3, title: "确认审核" },
+                function () {
+                    layer.load();
+                    $.ajax({
+                        url: "/user_deposits/confirm_do?user_id={{r.UserId}}",
+                        type: "post",
+                        data: JSON.stringify(data.field),
+                        success: function (result) {
+                            $("#submit_failure").removeClass("layui-btn-disabled").removeAttr('disabled').html("立即提交");
+                            if (result.errcode === 0) {
+                                layui.layer.msg(result.message, { icon: 1, timeout: 1000 }, function () {
+                                    sp.closeWin();
+                                    parent.location.reload(); // 刷新上级页面
+                                });
+                            } else {
+                                layui.layer.msg(result.message, { icon: 5, timeout: 1000 }, function () {
+                                    sp.closeWin();
+                                    parent.location.reload(); // 刷新上级页面
+                                });
+                            }
+                        }, error: function () {
+                            $("#submit_failure").removeClass("layui-btn-disabled").removeAttr('disabled').html("立即提交");
+                            layui.layer.msg("提交异常", { icon: 5, timeout: 1000 }, function () {
+                                layer.closeAll();
+                            });
+                        }
+                    });
+                });
+            return false;
+        });
+
+        let clipboard = new ClipboardJS('.copy_input');
+        clipboard.on('success', function (e) {
+            e.clearSelection();
+            layer.msg('复制成功', { time: 1000 });
+        });
+    });
+</script>
+{% endblock body %}

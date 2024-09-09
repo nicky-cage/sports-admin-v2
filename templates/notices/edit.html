@@ -1,0 +1,187 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" method="post" action="/notices/save">
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="text" name="title" lay-verify="required" placeholder="请输入公告标题" autocomplete="off" class="layui-input" value="{{r.Title}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >内容</label>
+        <div class="layui-input-inline">
+            <div id="editor" style="width: 700px;height:330px;"></div>
+            
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >跳转链接</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <input type="text" name="jump_url" lay-verify="required" placeholder="请输入跳跳转链接" autocomplete="off" class="layui-input" value="{{r.JumpUrl}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">发送对象</label>
+        <div class="layui-input-block">
+            <input type="radio" name="user_type" value="0" {%if r.UserType == 0 %}checked{%endif%} title="会员">
+            <input type="radio" name="user_type" value="1" {%if r.UserType == 1 %}checked{%endif%} title="代理">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >平台</label>
+        <div class="layui-input-inline" style="width: 450px;">
+            <div class="sp-form-checkbox-list" name="platform_types"      value="{%if method=='update' %}{{r.PlatformTypes}}{%else%}1,2,3,4{%endif%}"    items="1|全站APP,3|WEB,4|H5" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型</label>
+        <div class="layui-input-inline" style="width: 380px;">
+            <div class="sp-form-radio-list" name="type" value="{{r.Type}}" items="1|普通,2|特殊,3|财务" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" >VIP等级</label>
+        <div class="layui-input-inline" style="width: 460px;">
+            <div class="sp-form-checkbox-list checked" name="vip_ids"  value="{%if method=='update' %}{{r.VipIds}}{%else%}1,2,3,4,5,6,7,8,9{%endif%}" items="1|VIP0,2|VIP1,3|VIP2,4|VIP3,5|VIP4,6|VIP5,7|VIP6,8|VIP7,9|VIP8" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-top: 17px;">图标</label>
+        <div class="layui-input-inline radio-images" style="width: 450px; padding-top: 10px; padding-bottom: 10px;">
+            <input type="radio" name="img_url" value="/notices/icon/1.png" title="" {%if r.ImgUrl == "/notices/icon/1.png" || r.ImgUrl == ""%}checked{%endif%} /><img src="{{STATIC_URL}}/notices/icon/1.png" style="margin-right: 10px;" />
+            <input type="radio" name="img_url" value="/notices/icon/2.png" title="" {%if r.ImgUrl == "/notices/icon/2.png"%}checked{%endif%} /><img src="{{STATIC_URL}}/notices/icon/2.png" style="margin-right: 10px;" />
+            <input type="radio" name="img_url" value="/notices/icon/3.png" title="" {%if r.ImgUrl == "/notices/icon/3.png"%}checked{%endif%} /><img src="{{STATIC_URL}}/notices/icon/3.png" style="margin-right: 10px;" />
+            <input type="radio" name="img_url" value="/notices/icon/4.png" title="" {%if r.ImgUrl == "/notices/icon/4.png"%}checked{%endif%} /><img src="{{STATIC_URL}}/notices/icon/4.png" style="margin-right: 10px;" />
+            <input type="radio" name="img_url" value="/notices/icon/5.png" title="" {%if r.ImgUrl == "/notices/icon/5.png"%}checked{%endif%} /><img src="{{STATIC_URL}}/notices/icon/5.png" style="margin-right: 10px;" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+
+        <div class="layui-col-md6">
+            <label class="layui-form-label">开始时间</label>
+            <div class="layui-input-inline">
+                <input name="start_at" lay-verify="required" id="start_at" placeholder="请选择开始时间" autocomplete="off" class="layui-input"  style="width: 160px;" />
+            </div>
+        </div>
+        <div class="layui-col-md6">
+            <label class="layui-form-label">结束时间</label>
+            <div class="layui-input-inline">
+                <input name="end_at" lay-verify="required" id="end_at" placeholder="请选择结束时间" autocomplete="off" class="layui-input"  style="width: 160px;" />
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="contents" id="content" value="{{r.Contents}}" >
+    <input type="hidden" name="img" id="img" value="">
+    <script src="{{STATIC_URL}}/wangEditor/release/wangEditor.min.js"></script>
+    <div hidden="hidden" id="rcont">{{r.Contents}}</div>
+    <input type="hidden" name="method" value="{{method}}">
+    {{block.Super|safe}}
+</form>
+<script>
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).use(['form', 'jquery', 'layer','laydate'], function() {
+        let $ = layui.$;
+        let layer = layui.layer;
+        let laydate = layui.laydate;
+        let method=$("input[name='method']").val();
+        if(method=="create"){
+            laydate.render({
+                elem: '#start_at'
+                ,type: 'datetime'
+                ,value:sp.utils.getCurrentDate()+' 00:00:00'
+            });
+            laydate.render({
+                elem: '#end_at'
+                ,type: 'datetime'
+                ,value:sp.utils.getCurrentDate()+' 23:59:59'
+            });
+
+        }else if(method=="update"){
+            laydate.render({
+                elem: '#start_at'
+                ,type: 'datetime'
+                ,value:'{{r.StartAt|datetime}}'
+            });
+            laydate.render({
+                elem: '#end_at'
+                ,type: 'datetime'
+                ,value:'{{r.EndAt|datetime}}'
+            });
+        }
+
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+
+        editor.customConfig.zIndex = false;
+
+        editor.customConfig.uploadImgShowBase64 = true
+        var cont =document.getElementById('content');
+        
+        editor.customConfig.onchange = function (html) {
+            cont.value= html
+        };
+        editor.customConfig.uploadImgServer = '/upload';
+        editor.customConfig.uploadFileName = 'file';
+
+        editor.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                // 图片上传并返回结果，但图片插入错误时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
+                if(result.errcode==0){
+
+                    editor.txt.append('<img src="'+result.data.path+'">');
+                    if(document.getElementById('img').value==''){
+                        document.getElementById('img').value=result.data.path
+                    }else{
+                        var i= document.getElementById('img').value
+                        document.getElementById('img').value=i+","+result.data.path
+                    }
+                    layer.open({
+                        title:'',
+                        content:'上传成功',
+                        btn:[],
+                        time:500,
+                    })
+                }else{
+                    layer.open({
+                        title:'',
+                        content:'上传失败',
+                        btn:[],
+                        time:500,
+                    })
+                }
+            },
+            error: function (xhr, editor) {
+                // 图片上传出错时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                layer.open({
+                    title:'',
+                    content:'上传错误',
+                    btn:[],
+                    time:500,
+                })
+            },
+            timeout: function (xhr, editor) {
+                // 图片上传超时时触发
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+                // editor.customConfig.uploadImgTimeout = 3000
+                layer.open({
+                    title:'',
+                    content:'上传超时',
+                    btn:[],
+                    time:500,
+                })
+            },
+        };
+        editor.customConfig.customAlert = function (info) {
+            // info 是需要提示的内容，默认为空就好
+        };
+
+        editor.create()
+        editor.txt.html($("#rcont").text()) //将内容写入富文本中
+
+    })
+
+</script>
+{% endblock body %}

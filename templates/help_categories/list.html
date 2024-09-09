@@ -1,0 +1,32 @@
+<div style="padding-bottom: 10px">
+    {%if is_granted(PLATFORM, ADMIN.RoleId, "/help_categories/create", 4) -%}
+    <button class="layui-btn sp-open-link" url="/help_categories/create" tab="0" area="600px,500px">新增分类</button>
+    {%endif -%}
+</div>
+<ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="component-nav-active" style="width: 86%">
+    <li class="layui-nav-item layui-nav-itemed" id="help-categories">
+        <a href="javascript:;">帮助中心</a>
+        {% for _, vc in help_categories %}
+        <dl class="layui-nav-child">
+            <dd><a href="javascript:;" id="categot{{vc.Id}}" value="{{vc.Id}}">{{vc.Name}}</a></dd>
+        </dl>
+        {% endfor %}
+    </li>
+</ul>
+<script>
+    layui.use(['jquery', 'layer', 'form'], function () {
+        let $ = layui.jquery,
+            form = layui.form;
+        let clickHandler = function () {
+            let category_id = $('.layui-this:first a:first', $('#help-categories')).attr('value'),
+                url = '/helps/check?category=' + category_id;
+            $('.help-content:first').load(url, function () {
+                sp.renderSwitch($('tbody:first'));
+            });
+        };
+
+        $(document).on('click', '#help-categories a', function () {
+            clickHandler();
+        });
+    });
+</script>

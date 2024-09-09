@@ -1,0 +1,106 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<form class="layui-form" lay-filter="component-form-element">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 150px;"><span style="color:orange">*</span>拒绝原因</label>
+        <div class="layui-input-inline" style="width: 250px;">
+            <select name="fail_type" lay-verify="required" lay-filter="fail_type">
+                <option value=""></option>
+                <option value="0">提款流水不足</option>
+                <option value="1">涉嫌洗钱</option>
+                <option value="2">软体投注嫌疑</option>
+                <option value="3">恶意套取公司优惠红利</option>
+                <option value="4">真人视讯洗频、刷广告</option>
+                <option value="5">游戏对冲</option>
+                <option value="6">新号刷概率</option>
+                <option value="7">IP地区多账号</option>
+                <option value="8">存款同姓名套利</option>
+                <option value="9">地区性同伙套利</option>
+                <option value="10">其他原因</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 150px;"><span style="color:orange">*</span>原因内容</label>
+        <div class="layui-input-inline" style="width: 250px;">
+            <textarea name="case_filure" lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 150px;"><span style="color:orange">*</span>站内信通知</label>
+        <div class="layui-input-inline" style="width: 250px;">
+            <input type="radio" name="message" value="1" title="是" checked>
+            <input type="radio" name="message" value="0" title="否">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 150px;">风控备注</label>
+        <div class="layui-input-inline" style="width: 250px;">
+            <textarea name="remark" required placeholder="" class="layui-textarea">风控审核拒绝</textarea>
+        </div>
+    </div>
+</form>
+<input type="hidden" name="id" value="{{id}}" />
+<input type="hidden" name="result" value="{{result}}" />
+<input type="hidden" name="vip" value="{{vip}}" />
+<input type="hidden" name="last_money" value="{{last_money}}" />
+
+<div class="layui-layout-admin" style="z-index:99;">
+    <div class="layui-input-block layui-footer" style="margin-left: 0px; left: 0px;">
+        <button type="button" class="layui-btn risk-refuse">立即提交</button>
+        <button type="button" class="layui-btn layui-btn-primary sp-btn-cancel" lay-filter="cancel">取&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消</button>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'layer'], function () {
+
+        let $ = layui.$, layer = layui.layer;
+
+        $(".risk-refuse").click(function () {
+            let that = $(this);
+            that.addClass("layui-btn-disabled"); // 禁用此按钮
+            let id = $("input[name='id']").val()
+            let filure = $("textarea[name='case_filure']").val()
+            let fail_type = $("select[name='fail_type'] option:selected").html()
+            let reason = fail_type + "|" + filure;
+            let remark = $("textarea[name='remark']").val()
+            let message = $("input[name='message']:checked").val()
+            let result = $("input[name='result']").val()
+            let vip = $("input[name='vip']").val()
+            let last_money = $("input[name='last_money']").val()
+            let arr = {
+                "id": id,
+                "type": "3",
+                "failure_reason": reason,
+                "remark": remark,
+                "message": message,
+                "sys_result": result,
+                "vip": vip,
+                "last_money": last_money
+            };
+            if (fail_type == '') {
+                layer.msg("拒绝原因不能为空", { icon: 2, time: 1300 })
+                return false;
+            }
+            if (filure == '') {
+                layer.msg("原因内容", { icon: 2, time: 1300 })
+                return false;
+            }
+            $.ajax({
+                url: "/risk_audits/saves",
+                type: "post",
+                data: JSON.stringify(arr),
+                success: function (data) {
+                    if (data.errcode == 0) {
+                        layer.msg("已经拒绝提款申请", { icon: 1, time: 1300 }, function () {
+                            parent.location.reload()
+                        })
+                        return
+                    }
+                    layer.msg(data.message, { icon: 2, time: 1300 })
+                }
+            })
+        })
+    })
+</script>
+{% endblock body %}

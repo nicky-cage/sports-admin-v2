@@ -1,0 +1,96 @@
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <form class="layui-form" lay-filter="" method="post" tbody="8">
+            <div class="layui-form">
+                <div class="layui-inline">
+                    <label class="layui-form-label">转账类型</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <select name="transfer_type">
+                            <option></option>
+                            <option value="1"> 转入游戏</option>
+                            <option value="2">转出游戏</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">转出账户</label>
+                    <div class="layui-input-inline">
+                        <select name="transfer_out_account">
+                            <option></option>
+                            {%for r in venue%}
+                            <option value="{{r.ename}}">{{r.name}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">转入账户</label>
+                    <div class="layui-input-inline">
+                        <select name="transfer_in_account">
+                            <option></option>
+                            {%for r in venue%}
+                            <option value="{{r.ename}}">{{r.name}}</option>
+                            {%endfor%}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline" style="margin-top: 5px;">
+                    <label class="layui-form-label" >状态</label>
+                    <div class="layui-input-inline" style="width: 100px;">
+                        <select name="status">
+                            <option></option>
+                            <option value="2">成功</option>
+                            <option value="3">失败</option>
+                            <option value="1">待处理</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label" >转账时间</label>
+                    <div class="layui-input-inline" style="width: 190px;">
+                        <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="created_transfer" />
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="{{id}}">
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body" style="padding: 0px; min-height: 560px;">
+                <table class="layui-table  sp-tab-table">
+                    <colgroup>
+                        <col width="150" />
+                        <col />
+                        <col width="200" />
+                        <col width="200" />
+                        <col width="150" />
+                        <col width="100" />
+                        <col width="165" />
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>会员账号</th>
+                        <th>转账类型</th>
+                        <th>转出账户</th>
+                        <th>转入账户</th>
+                        <th>转账金额</th>
+                        <th>状态</th>
+                        <th>转账时间</th>
+                    </tr>
+                    </thead>
+                    <tbody  url="/user_detail/transfers" id="sp-loaded-table-transfers" >{%include "_detail_transfers.html"%}</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,264 @@
+{% extends "../layouts/edit.html" %}
+{% block body %}
+<script src="{{STATIC_URL}}/wangEditor/release/wangEditor.min.js"></script>
+<form class="layui-form" method="post" action="/activities/save_do">
+    <div class="layui-card-header" style="color: blue;">基本信息</div>
+    <div class="layui-form-item" style="margin-top: 15px;">
+        <label class="layui-form-label" style="width: 100px;">活动类型</label>
+        <div class="layui-input-inline">
+            <select name="activity_type" lay-verify="required" lay-search="" readonly="readonly">
+                <option value="1" {%if activity.ActivityType == 1 %}selected="selected"{%endif%}>限时活动</option>
+                <option value="2" {%if activity.ActivityType == 2 %}selected="selected"{%endif%}>新人首存</option>
+                <option value="3" {%if activity.ActivityType == 3 %}selected="selected"{%endif%}>日常活动</option>
+                <option value="4" {%if activity.ActivityType == 4 %}selected="selected"{%endif%}>体育优惠</option>
+                <option value="5" {%if activity.ActivityType == 5 %}selected="selected"{%endif%}>高额返水</option>
+                <option value="6" {%if activity.ActivityType == 6 %}selected="selected"{%endif%}>VIP特权</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-card-header" style="color: blue;">配置信息</div>
+    <div class="layui-form-item" style="margin-top: 5px;">
+        <label class="layui-form-label" style="width: 100px;">内容形式</label>
+        <div class="layui-input-block">
+            <input type="radio" name="content_form" lay-filter="content_form_type" value="1"
+                   {%if activity.ContentForm != 2 -%}checked {%endif-%} title="专题内容" />
+            <input type="radio" name="content_form" lay-filter="content_form_type" value="2"
+                   {%if activity.ContentForm == 2 -%}checked {%endif-%} title="常规内容" />
+        </div>
+    </div>
+    <div class="layui-form-item div_for_general">
+        <label class="layui-form-label" style="width: 100px;">特殊优惠</label>
+        <div class="layui-input-block">
+            <input type="radio" name="special_offer" value="1" {%if activity.SpecialOffer != 2 %}checked{%endif%}
+                   title="否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" />
+            <input type="radio" name="special_offer" value="2" {%if activity.SpecialOffer == 2 %}checked{%endif%}
+                   title="是 (会员参与活动后, 系统加风控标签'特殊优惠', 提款需要人工审核)" />
+        </div>
+    </div>
+    <div class="layui-form-item join_type div_for_general" >
+        <label class="layui-form-label" style="width: 100px;">参与方式</label>
+        <div class="layui-input-inline">
+            <select name="join_type" lay-verify="required" lay-filter="join_type" lay-search="" id="join_type">
+                <option value="1">手动参与 (需要申请)</option>
+                <option value="2" {%if activity.JoinType == 2 -%}selected{%endif-%}>自动参与</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item game_code_list div_for_general div_for_general_1">
+        <label class="layui-form-label" style="width: 100px;" >活动场馆</label>
+        <div class="layui-input-inline" style="width: 1150px;">
+            {% for r in gameVenus %}
+            <input type="checkbox" name="game_code_list[]" rel="{{r.Id}}" value="{{r.Id}}"  lay-skin="primary" title="{{r.Name}}" />
+            {% endfor %}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">活动标题</label>
+        <div class="layui-input-inline" style="width: 640px;">
+            <input name="title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" id="title" value="{{activity.Title}}" />
+        </div>
+    </div>
+    <div class="layui-form-item web_topic_url div_for_special">
+        <label class="layui-form-label" style="width: 100px;">WEB专题链接</label>
+        <div class="layui-input-inline" style="width: 640px;">
+            <input name="web_topic_url" placeholder="" autocomplete="off" class="layui-input cla_for_special"
+                   id="web_topic_url" value="{{activity.WebTopicUrl}}" />
+        </div>
+    </div>
+    <div class="layui-form-item mobile_topic_url div_for_special">
+        <label class="layui-form-label" style="width: 100px;">移动端专题链接</label>
+        <div class="layui-input-inline" style="width: 640px;">
+            <input name="mobile_topic_url" placeholder="" autocomplete="off" class="layui-input cla_for_special"
+                   id="mobile_top_url" value="{{activity.MobileTopicUrl}}" />
+        </div>
+    </div>
+    <div class="layui-form-item application_cycle div_for_general div_for_general_1">
+        <label class="layui-form-label" style="width: 100px;">申请周期</label>
+        <div class="layui-input-inline">
+            <select name="application_cycle" lay-verify="required" lay-search="">
+                <option value="1">一次 (仅限一次)</option>
+                <option value="2" {%if activity.ApplicationCycle == 2 %}selected="selected"{%endif%}>次/周 (每周一次)</option>
+                <option value="3" {%if activity.ApplicationCycle == 3 %}selected="selected"{%endif%}>次/月 (每月一次)</option>
+                <option value="4" {%if activity.ApplicationCycle == 4 %}selected="selected"{%endif%}>次/年 (每年一次)</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item lowest_level div_for_general  div_for_general_1">
+        <label class="layui-form-label" style="width: 100px;">等级要求</label>
+        <div class="layui-input-inline">
+            <select name="lowest_level" lay-verify="required" lay-search="">
+                {%for r in vips -%}<option value="{{r.Id}}" {%if activity.LowestLevel == r.Id %}selected="selected"{%endif%}>{{r.Name}}</option>{%endfor -%}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">排序</label>
+        <div class="layui-input-inline">
+            <input name="sort" style="width: 80px;" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{{activity.Sort}}" />
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label" style="width: 100px;">活动图片</label>
+        <div class="layui-input-block">
+            <div class="layui-row">
+                <div class="layui-col-md3" >
+                    <div class="layui-card">
+                        <div class="layui-card-header">活动分享图(1张)</div>
+                        <div class="layui-card-body">
+                            <div class="layui-upload">
+                                <button type="button" class="layui-btn sp-file-upload" name="activity_pic"
+                                        img="{{activity.ActivityPic}}" ><i class="layui-icon">&#xe67c;</i>上传图片</button>
+                            </div>
+                            <blockquote class="layui-elem-quote">支持.jpg .png .jpeg格式，小于等于5M.</blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3" >
+                    <div class="layui-card">
+                        <div class="layui-card-header">WEB列表图(1张)</div>
+                        <div class="layui-card-body">
+                            <div class="layui-upload">
+                                <button type="button" class="layui-btn sp-file-upload" name="web_list_pic"
+                                        img="{{activity.WebListPic}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+                            </div>
+                            <blockquote class="layui-elem-quote">支持.jpg .png .jpeg格式，小于等于5M.</blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3" >
+                    <div class="layui-card">
+                        <div class="layui-card-header">APP/H5列表图(1张)</div>
+                        <div class="layui-card-body">
+                            <div class="layui-upload">
+                                <button type="button" class="layui-btn sp-file-upload" name="app_h5_list_pic"
+                                        img="{{activity.AppH5ListPic}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+                            </div>
+                            <blockquote class="layui-elem-quote">支持.jpg .png .jpeg格式，小于等于5M.</blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-input-block div_for_general">
+            <div class="layui-row">
+                <div class="layui-col-md3 web_main_pic">
+                    <div class="layui-card">
+                        <div class="layui-card-header">WEB端主图(1张)</div>
+                        <div class="layui-card-body">
+                            <div class="layui-upload">
+                                <button type="button" class="layui-btn sp-file-upload" name="web_main_pic"
+                                        img="{{activity.WebMainPic}}" ><i class="layui-icon">&#xe67c;</i>上传图片</button>
+                            </div>
+                            <blockquote class="layui-elem-quote">支持.jpg .png .jpeg格式，小于等于5M.</blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3 web_background_pic">
+                    <div class="layui-card">
+                        <div class="layui-card-header">WEB端背景图(1张)</div>
+                        <div class="layui-card-body">
+                            <div class="layui-upload">
+                                <button type="button" class="layui-btn sp-file-upload" name="web_background_pic"
+                                        img="{{activity.WebBackgroundPic}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+                            </div>
+                            <blockquote class="layui-elem-quote">支持.jpg .png .jpeg格式，小于等于5M.</blockquote>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md3 app_h5_main_pic" >
+                    <div class="layui-card">
+                        <div class="layui-card-header">APP/H5主图(1张)</div>
+                        <div class="layui-card-body">
+                            <div class="layui-upload">
+                                <button type="button" class="layui-btn sp-file-upload" name="app_h5_main_pic"
+                                        img="{{activity.AppH5MainPic}}"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+                            </div>
+                            <blockquote class="layui-elem-quote">支持.jpg .png .jpeg格式，小于等于5M.</blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">展示时间</label>
+        <div class="layui-input-inline">
+            <input name="activity_show_time" placeholder="请选择时间" autocomplete="off" readonly="readonly"
+                   class="layui-input sp-form-datetime" style="width: 330px;" id="created_activities_show_add"
+                   {%if activity.Id > 0 -%}rvalue="{{activity.ShowTimeStart|datetime}} - {{activity.ShowTimeEnd|datetime}}"{%endif -%} />
+        </div>
+    </div>
+    <div class="layui-form-item activity_time" >
+        <label class="layui-form-label" style="width: 100px;">活动时间</label>
+        <div class="layui-input-inline">
+            <input name="activity_time" placeholder="请选择时间" autocomplete="off" readonly="readonly"
+                   class="layui-input sp-form-datetime cla_for_special" style="width: 330px;" id="created_activities_add"
+                   {%if activity.Id > 0 -%}rvalue="{{activity.StartAt|datetime}} - {{activity.EndAt|datetime}}"{%endif -%} />
+        </div>
+    </div>
+    <div class="layui-form-item activity_amount div_for_general div_for_general_1">
+        <label class="layui-form-label" style="width: 100px;">活动金额</label>
+        <div class="layui-input-inline" style="width: 330px;">
+            <input name="activity_amount" lay-verify="required" placeholder="例:1000|2000|3000" autocomplete="off"
+                   class="layui-input" value="{{activity.ActivityAmount}}" />
+        </div>
+    </div>
+    <div class="layui-form-item give_rate div_for_general div_for_general_1">
+        <label class="layui-form-label" style="width: 100px;">赠送比例</label>
+        <div class="layui-input-inline" style="width: 330px;">
+            <input name="give_rate" lay-verify="required" placeholder="例:3|5|10" autocomplete="off" class="layui-input" value="{{activity.GiveRate}}" />
+        </div>
+    </div>
+    <div class="layui-form-item give_money_max div_for_general div_for_general_1">
+        <label class="layui-form-label" style="width: 100px;">赠送上限</label>
+        <div class="layui-input-inline" style="width: 330px;">
+            <input name="give_money_max" lay-verify="required" placeholder="例:100|200|300" autocomplete="off"
+                   class="layui-input" value="{{activity.GiveMoneyMax}}" />
+        </div>
+    </div>
+    <div class="layui-form-item run_water div_for_general div_for_general_1">
+        <label class="layui-form-label" style="width: 100px;">流水要求</label>
+        <div class="layui-input-inline" style="width: 330px;">
+            <input name="run_water" lay-verify="required" placeholder="例:2|5|30" autocomplete="off" class="layui-input" value="{{activity.RunWater}}" />
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px;">活动代码</label>
+        <div class="layui-input-inline">
+            <input name="code" style="width: 330px;" lay-verify="required" placeholder="请输入活动代码,此代码需要后台代码相匹配"
+                   autocomplete="off" class="layui-input" value='{%if activity.Code == ""-%}{{activity_code}}{%else-%}{{activity.Code}}{%endif-%}' />
+        </div>
+    </div>
+    <div class="layui-card-header div_for_general" style="color: blue;">内容详情</div>
+    <div class="layui-form-item details div_for_general" >
+        <label class="layui-form-label" style="width: 100px;">WEB端详情</label>
+        <div class="layui-input-inline">
+            <div id="editor_one" style="width: 700px;height:330px;"></div>
+        </div>
+    </div>
+    <div class="layui-form-item mobile_details div_for_general" >
+        <label class="layui-form-label" style="width: 100px;">移动端详情</label>
+        <div class="layui-input-inline">
+            <div id="editor_two" style="width: 700px;height:330px;"></div>
+        </div>
+    </div>
+    <input type="hidden" name="details" id="contentOne" value="{{activity.Details}}" />
+    <input type="hidden" name="imgOne" id="imgOne" value="" />
+    <div hidden="hidden" id="rcontOne">{{activity.Details}}</div>
+
+    <input type="hidden" name="mobile_details" id="contentTwo" value="{{activity.MobileDetails}}" />
+    <input type="hidden" name="imgTwo" id="imgTwo" value="" />
+    <div hidden="hidden" id="rcontTwo">{{activity.MobileDetails}}</div>
+
+    <div class="layui-form-item">
+        <input type="hidden" value="{{activity.Id}}" name="id" />
+        <input type="hidden" value="{{gameCodeListStr}}" name="gameCodeListStr" />
+        <input type="hidden" value="{%if activity.Id > 0 -%}edit{%else -%}add{%endif -%}" name="method" />
+        <div class="layui-input-inline" style="margin-left: 125px;margin-bottom: 10px;margin-top: 10px;width: 300px;">
+            <button class="layui-btn" lay-submit lay-filter="sp-save" style="margin-right: 20px;">保存活动</button>
+            <button class="layui-btn layui-btn-primary sp-btn-cancel">取消操作</button>
+        </div>
+    </div>
+</form>
+{% include "_activity_edit_js.html" %}
+{% endblock body %}

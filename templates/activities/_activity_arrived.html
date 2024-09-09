@@ -1,0 +1,233 @@
+<input type="hidden" name="arrived_id" id="arrived_id" autocomplete="off" class="layui-input" value="{{arrived.Id}}" />
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>活动标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="arrived_name" id="arrived_name" autocomplete="off" class="layui-input" placeholder="请输入会员签到活动标题" style="width: 330px;" value="{{arrived.Name}}" />
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>活动时间</label>
+    <div class="layui-input-inline">
+        <input type="text" name="arrived_start_end" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-datetime" style="width: 330px;" id="arrived_start_end" readonly="readonly" />
+    </div>
+</div>
+
+<!--
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>签到条件</label>
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="radio" name="arrived_type" lay-filter="arrived_type" value="1" title="有效投注" checked />
+            <input type="radio" name="arrived_type" lay-filter="arrived_type" value="2" title="充值" />
+        </div>
+    </div>
+</div>
+-->
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>有效投注金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="bet_money" id="bet_money" autocomplete="off" class="layui-input" placeholder="请输入有效投注金额" style="width: 150px;" value="{{arrived.BetMoney|stringformat:"%.0f"}}" />
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item" id="show_limit">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>有效投注场馆限制</label>
+    <div class="layui-input-inline">
+        <select name="effective_limit" lay-filter="effective_limit" id="effective_limit">
+            <option value="1">会员有效投注</option>
+            <option value="2">体育有效投注</option>
+            <option value="3">电竞有效投注</option>
+            <option value="4">电子有效投注</option>
+            <option value="5">真人有效投注</option>
+            <option value="6">棋牌有效投注</option>
+            <option value="7">彩票有效投注</option>
+            <option value="8">捕鱼有效投注</option>
+        </select>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>有效存款金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="deposit_money" id="deposit_money" autocomplete="off" class="layui-input" placeholder="请输入有效存款金额" style="width: 150px;" value="{{arrived.DepositMoney|stringformat:"%.0f"}}" />
+        </div>
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>补签有效投注金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="compensate_bet_money" id="deposit_money" autocomplete="off" class="layui-input" placeholder="请输入补签有效投注金额" style="width: 150px;" value="{{arrived.CompensateBetMoney|stringformat:"%.0f"}}" />
+        </div>
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>补签有效存款金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="compensate_deposit_money" id="deposit_money" autocomplete="off" class="layui-input" placeholder="请输入补签有效存款金额" style="width: 150px;" value="{{arrived.CompensateDepositMoney|stringformat:"%.0f"}}" />
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item" style="width: 100%;">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span>签到奖励</label>
+    <div class="layui-input-inline" style="width: auto; width: 84%;">
+        <table class="layui-table" id="arrived_conditions" style="width: 350px;">
+            <thead>
+                <tr>
+                    <th width="70">签到天数</th>
+                    <th>签到奖励</th>
+                    <th width="80">操作</th>
+                </tr>
+            </thead>
+            <tbody id="body-reward" class="body-reward">
+                {%if arrived.SignRewards == "" %}
+                <tr>
+                    <td day="1">第 1 天</td>
+                    <td><input type="text" class="layui-input" placeholder="请输入签到奖励金额" /></td>
+                    <td><button class="layui-btn layui-btn-danger del-sign-day" type="button">删除</button></td>
+                </tr>
+                {% else -%}
+                {% for d in arrived.SignRewardRows %}
+                <tr>
+                    <td day="{{d.Day}}">第 {{d.Day}} 天</td>
+                    <td><input type="text" class="layui-input" placeholder="请输入签到奖励金额" value="{{d.Reward|stringformat:"%.0f"}}" /></td>
+                    <td><button class="layui-btn layui-btn-danger del-sign-day" type="button">删除</button></td>
+                </tr>
+                {% endfor -%}
+                {% endif -%}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"><span style="color: red">&nbsp;</span></label>
+        <div class="layui-input-inline">
+            <button type="button" class="layui-btn" type="button" id="add-sign-days" lay-filter="add-sign-days">添加签到天数</button>
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span> 满签奖励金额</label>
+        <div class="layui-input-inline">
+            <input type="text" name="sign_finish_reward" id="sign_finish_reward" style="width: 150px;" autocomplete="off" class="layui-input" placeholder="请输入满签奖励金额" value="{{arrived.SignFinishReward|stringformat:"%.0f"}}" />
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label" style="width: 120px;"><span style="color: red">*</span> 洗码量倍数</label>
+        <div class="layui-input-inline">
+            <input type="text" name="wash_multiple" id="wash_multiple" style="width: 150px;" autocomplete="off" class="layui-input" placeholder="请输入洗码量倍数" value="{{arrived.WashMultiple}}" />
+        </div>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label" style="width: 120px; margin-top: 10px;">规则说明</label>
+    <div class="layui-input-inline" style="width: 750px; height: 400px;">
+        <div class="layui-tab layui-tab-brief ">
+            <ul class="layui-tab-title">
+                <li class="layui-this">电脑端</li>
+                <li>移动端</li>
+            </ul>
+            <div class="layui-tab-content" style="padding-left: 0px;">
+                {% import "../_elements/rich_text.html" rich_text %}
+                <div class="layui-tab-item layui-show">
+                    {{ rich_text("editor_arrived_pc", "content_arrived_pc") }}
+                </div>
+                <div class="layui-tab-item" style="display: none;">
+                    {{ rich_text("editor_arrived_mobile", "content_arrived_mobile") }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class=" layui-form-item">
+    <label class="layui-form-label" style="width: 120px;"><span style="color: red">&nbsp;</span></label>
+    <div class="layui-input-inline">
+        <button class="layui-btn" id="submit-arrived" lay-submit lay-filter="submit-arrived">保存活动</button>
+    </div>
+</div>
+
+<div hidden="hidden" id="rcont_arrived"></div>
+<script>
+    layui.use(['form', 'jquery', 'layer', 'laydate'], function () {
+
+        let form = layui.form, $ = layui.$, layer = layui.layer, laydate = layui.laydate, table = layui.table;
+
+        //let editor = createRichText('#editor_arrived', 'content_arrived');
+        //editor.txt.html($("#rcont_arrived").text()) //将内容写入富文本中
+        form.render();
+
+
+        // 增加签到奖励
+        $(document).on("click", "#add-sign-days", function () {
+            let tr_last = $("tr:last", $(".body-reward:first")), tr_length = $("tr", $(".body-reward:first")).length;
+            let tr_new = $("<tr>" + tr_last.html() + "</tr>");
+            let current_day = parseInt(tr_length) + 1;
+            $("td:first", tr_new).html("第 " + current_day + " 天").attr("day", current_day);
+            tr_last.after(tr_new);
+        });
+        $(document).on("click", ".del-sign-day", function () { // 删除当前行
+            let tr_length = $("tr", $(".body-reward:first")).length;
+            if (tr_length <= 1) {
+                sp.alert("已经是最后一行了");
+                return;
+            }
+            $(this).parent().parent().remove();
+        });
+
+        // 提交数据
+        form.on('submit(submit-arrived)', function () {
+            let data = {
+                id: parseInt($("#arrived_id").val()),
+                name: $("#arrived_name").val(),
+                arrived_start: (Date.parse($("#arrived_start_end").val().split(" - ")[0].replace(/-/g, '/')) / 1000),
+                arrived_end: (Date.parse($("#arrived_start_end").val().split(" - ")[1].replace(/-/g, '/')) / 1000),
+                bet_money: parseFloat($("#bet_money").val()),
+                deposit_money: parseFloat($("#deposit_money").val()),
+                wash_multiple: parseInt($("#wash_multiple").val()),
+                effective_limit: $("#effective_limit").val(),
+                sign_reward_rows: function () {
+                    let rows = [];
+                    $("tr", $(".body-reward:first")).each(function () {
+                        let that = $(this), day = $("td:first", that).attr("day"), reward = $("input:first", that).val();
+                        rows.push({
+                            day: parseInt(day),
+                            reward: parseFloat(reward)
+                        });
+                    });
+                    return rows;
+                }(),
+                sign_finish_reward: parseFloat($("#sign_finish_reward").val()),
+                compensate_deposit_money:parseFloat($("input[name='compensate_deposit_money']").val()),
+                compensate_bet_money:parseFloat($("input[name='compensate_bet_money']").val())
+                //content_pc: "",
+            };
+            $.post("/activities/arrived_do", { data: JSON.stringify(data) }, function (res) {
+                if (res.errcode == 0) {
+                    layui.layer.msg("更新成功", { icon: 1 });
+                    return;
+                }
+                layui.layer.msg(res.message, { icon: 2 });
+            });
+            return false;
+        })
+    })
+</script>

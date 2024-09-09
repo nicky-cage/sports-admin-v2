@@ -1,0 +1,28 @@
+{%for r in rows%}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.PlatformId|platform_name}}</td>
+    <td>{{r.Name}}</td>
+    <td>{{r.Code}}</td>
+    <td class="sp-alert" style="cursor: pointer;" text="{{r.Urls}}">{{r.Urls|truncatechars:30}}</td>
+    <td class="sp-alert" style="cursor: pointer;" text="{{r.AdminUrl}}">{{r.AdminUrl|truncatechars:30}}</td>
+    <td>
+    {%if is_granted(PLATFORM, ADMIN.RoleId, "/platform_sites/state", 4) -%}
+        <input type="checkbox" name="status" lay-skin="switch" lay-text="正常|禁用" class="sp-btn-state" values="2|1" lay-filter="state" value="{{r.Status}}" url="/platform_sites/state" rid="{{r.Id}}" />
+    {%else -%}
+        {{r.Status|state_text|safe}}
+    {%endif -%}
+    </td>
+    <td>{{r.Remark}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/platform_sites/update", 4) -%}
+            <button class="layui-btn sp-open-link" url="/platform_sites/update" area="900px,460px">编辑</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/platform_sites/config", 4) -%}
+            <button class="layui-btn layui-bg-red sp-open-link" url="/platform_sites/config" area="900px,550px">配置</button>
+        {%endif -%}
+    </td>
+</tr>
+{%endfor%}

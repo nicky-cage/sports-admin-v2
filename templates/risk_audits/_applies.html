@@ -1,0 +1,43 @@
+{%for r in rows%}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.bill_no}}</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/users/detail", 4) -%}
+        <a href="javascript:void(0)" class="sp-open-link agents" rid="{{r.user_id}}" url="/users/detail" area="98%,98%">{{r.username}}</a>
+        {%else -%}{{r.username}}
+        {%endif -%}
+    </td>
+    <td>VIP{{r.vip}}</td>
+    <td>{{r.money|float|stringformat:"%.2f"}}</td>
+    <td class="withdraw_cost">{{r.withdraw_cost|float|stringformat:"%.2f"}}</td>
+    {% set actual_money = r.money|float - r.withdraw_cost|float %}
+    <td class="actual_money">{{actual_money|float|stringformat:"%.2f"}}</td>
+    <td>{{r.created|time_type_chang}}</td>
+    <td>{{r.user_label|safe}}</td>
+    <td>{{r.bank_name}}/{{r.bank_realname}}/{{r.bank_card}}</td>
+    <td>{{r.last_money}}</td>
+    <td>
+        <button class="layui-btn audit-sync" url="/v2/user_audits/sync?id={{r.user_id}}&bill={{r.bill_no}}">刷新</button>
+        <button class="layui-btn sp-open-link" url="/v3/user_audits/detail?id={{r.user_id}}" area="98%,98%"
+            title="稽核详情 - {{r.username}} / {{r.user_id}}">查看</button>
+    </td>
+    <td>-</td>
+    <td>
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/detail", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list  sp-open-link" url="/risk_audits/detail" title="审核通过"
+            area="700px,480px" rid="{{r.id}}&vip={{r.vip}}&last_money={{r.last_money}}&sys_result=-"
+            data-type="add">通过</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/refuse", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger  sp-open-link" url="/risk_audits/refuse"
+            title="拒绝" area="700px,490px" rid="{{r.id}}&vip={{r.vip}}&last_money={{r.last_money}}&sys_result=-"
+            data-type="add">拒绝</button>
+        {%endif -%}
+        {%if is_granted(PLATFORM, ADMIN.RoleId, "/risk_audits/hand_up", 4) -%}
+        <button class="layui-btn layuiadmin-btn-list layui-btn-danger sp-open-link" url="/risk_audits/hand_up"
+            title="审核挂起" area="700px,490px" rid="{{r.id}}" data-type="add">挂起</button>
+        {%endif -%}
+    </td>
+</tr>
+{%endfor%}
+<script> sp.parseMoney(); </script>

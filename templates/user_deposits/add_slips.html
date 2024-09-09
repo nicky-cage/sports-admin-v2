@@ -1,0 +1,87 @@
+{% extends "../layouts/base.html" %} {% block body %}
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="component-form-element" method="post" action="/user_deposits/add_slip_save">
+                <input type="hidden" value="2" name="type" />
+                <div class="layui-form-item" style="padding-top: 20px">
+                    <label class="layui-form-label" style="width: 140px">会员账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 140px">用户名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" placeholder="" id="realName" autocomplete="off" disabled class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 140px">用户余额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" placeholder="" id="money" autocomplete="off" disabled class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 140px">存款金额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="money" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item account_by_name">
+                    <div class="layui-inline">
+                        <label class="layui-form-label" style="width: 140px">收款银行卡</label>
+                        <div class="layui-input-inline">
+                            <select name="account_by_name" lay-search="">
+                                <option value="">请选择收款银行卡</option>
+                                {% for r in rows %}
+                                <option value="{{r.BankCode}}-{{r.BankRealname}}-{{r.BankCard}}">{{r.BankCode}}-{{r.BankRealname}}-{{r.BankCard}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item deposit_name">
+                    <label class="layui-form-label" style="width: 140px">存款姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="deposit_name" placeholder="" autocomplete="off" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 140px">附言</label>
+                    <div class="layui-input-inline">
+                        <textarea name="comment" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-input-inline" style="margin-left: 145px; margin-bottom: 10px; margin-top: 10px; width: 300px">
+                    <button class="layui-btn" lay-submit lay-filter="sp-save">提交</button>
+                    <button class="layui-btn layui-btn-primary sp-btn-cancel">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form'], function () {
+        let $ = layui.$,
+            form = layui.form,
+            element = layui.element,
+            layer = layui.layer;
+        $("input[name='username']").blur(function () {
+            $.ajax({
+                url: '/user_deposits/user_info',
+                type: 'get',
+                data: { username: $("input[name='username']").val() },
+                success: function (data) {
+                    if (data.errcode === 0) {
+                        $('#realName').val(data.data['realname']);
+                        $('#money').val(data.data['money']);
+                    } else {
+                        layui.layer.msg(data.message, { icon: 2, time: 1500 });
+                    }
+                },
+            });
+        });
+    });
+</script>
+{% endblock body %}

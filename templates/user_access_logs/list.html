@@ -1,0 +1,103 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <form class="layui-form" lay-filter="" tbody="0">
+                <div class="layui-form layui-card-header layui-form-item layuiadmin-card-header-auto">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">用户名称</label>
+                        <div class="layui-input-inline">
+                            <input name="user_name" placeholder="请输入后台用户名称" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">IP地址</label>
+                        <div class="layui-input-inline">
+                            <input name="ip" placeholder="请输入IP地址" autocomplete="off" class="layui-input" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">请求方法</label>
+                        <div class="layui-input-inline">
+                            <select name="method">
+                                <option value="">请选择请求方法</option>
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">请求时间</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="created" placeholder="请选择时间" autocomplete="off" class="layui-input sp-form-date" id="user-register" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn layuiadmin-btn-list" lay-submit lay-filter="sp-form-search">
+                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                        </button>
+                        <button class="layui-btn sp-form-reset" type="button">重置</button>
+                    </div>
+                </div>
+            </form>
+            <!--<div class="layui-card-body">
+                <button class="layui-btn layuiadmin-btn-list" data-type="add">导出EXecl</button>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<!-- 数据表格 -->
+<div class="layui-row">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="60" />
+                        <col width="100" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="80" />
+                        <col width="100" />
+                        <col width="80" />
+                        <col width="120" />
+                        <col width="120" />
+                        <col width="80" />
+                        <col width="150" />
+                        <col width="230" />
+                        <col />
+                        <col width="125" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>操作用户</th>
+                            <th>目标用户</th>
+                            <th>模块</th>
+                            <th>操作类型</th>
+                            <th>风险级别</th>
+                            <th>操作描述</th>
+                            <th>状态</th>
+                            <th>域名</th>
+                            <th>注册域名</th>
+                            <th>注册类型</th>
+                            <th>请求路径</th>
+                            <th>操作IP/地区</th>
+                            <th>客户端</th>
+                            <th>请求时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sp-loaded-table" loaded="loaded" url="/user_access_logs">
+                        {% include "_list.html" %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

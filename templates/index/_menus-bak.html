@@ -1,0 +1,140 @@
+<div class="layui-side layui-side-menu">
+    <div class="layui-side-scroll">
+        <div class="layui-logo" lay-href="home/console.html">
+            <span>后台管理</span>
+        </div>
+        <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+            <li data-name="home" class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;" lay-tips="主页" lay-direction="2">
+                    <i class="layui-icon layui-icon-home"></i>
+                    <cite>快捷访问</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd data-name="console" class="layui-this"><a lay-href="/index/right">后台首页</a></dd>
+                </dl>
+            </li>
+            <li data-name="template" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="会员管理" lay-direction="2">
+                    <i class="layui-icon layui-icon-user"></i>
+                    <cite>会员管理</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="/users">会员列表</a></dd>
+                    <dd><a lay-href="/user_levels">会员等级</a></dd>
+                    <dd><a lay-href="/user_tags">会员标签</a></dd>
+                    <dd><a lay-href="/user_cards">会员绑卡</a></dd>
+                    <dd><a lay-href="/user_bets">投注管理</a></dd>
+                    <dd><a lay-href="/user_changes">记录管理</a></dd>
+                </dl>
+            </li>
+            <li data-name="template" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="页面" lay-direction="2">
+                    <i class="layui-icon layui-icon-rmb"></i>
+                    <cite>财务管理</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="/user_deposits">存款管理</a></dd>
+                    <dd><a lay-href="/user_withdraws">提款管理</a></dd>
+                    <dd><a lay-href="/agent_withdraws">代理提款</a></dd>
+                    <dd><a lay-href="/user_account_sets">手动上分</a></dd>
+                </dl>
+            </li>
+            <li data-name="template" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="运营管理" lay-direction="2">
+                    <i class="layui-icon layui-icon-component"></i>
+                    <cite>运营管理</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="/ads">广告管理</a></dd>
+                    <dd><a lay-href="/notices">内容管理</a></dd>
+                    <dd><a lay-href="/commission_levels">返水管理</a></dd>
+                    <dd><a lay-href="/dividend_managements">红利管理</a></dd>
+                    <dd><a lay-href="/activities">活动管理</a></dd>
+                    <dd><a lay-href="/deposit_discounts">存款优惠</a></dd>
+                </dl>
+            </li>
+            <li data-name="template" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="风控管理" lay-direction="2">
+                    <i class="layui-icon layui-icon-auz"></i>
+                    <cite>风控管理</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="/risk_audits">提款审核</a></dd>
+                    <dd><a lay-href="/black_lists">拉黑名单</a></dd>
+                    <dd><a lay-href="/user_login_logs">登录日志</a></dd>
+                </dl>
+            </li>
+            <li data-name="template" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="报表中心" lay-direction="2">
+                    <i class="layui-icon layui-icon-table"></i>
+                    <cite>报表中心</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="/report_operations">经营报表</a></dd>
+                    <dd><a lay-href="/report_games">游戏报表</a></dd>
+                    <dd><a lay-href="/report_agents">代理报表</a></dd>
+                    <dd><a lay-href="/report_users">会员报表</a></dd>
+                </dl>
+            </li>
+            <li data-name="template" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="站点管理" lay-direction="2">
+                    <i class="layui-icon layui-icon-util"></i>
+                    <cite>站点管理</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="/configs/update?id=1">站点设置</a></dd>
+                    <dd><a lay-href="/game_venues">场馆管理</a></dd>
+                </dl>
+            </li>
+            <li data-name="template" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="代理管理" lay-direction="2">
+                    <i class="layui-icon layui-icon-group"></i>
+                    <cite>代理管理</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="/agents">代理列表</a></dd>
+                    <dd><a lay-href="/agents/users">下线会员</a></dd>
+                    <dd><a lay-href="/agents/commissions">佣金管理</a></dd>
+                    <dd><a lay-href="/agents/withdraws">提款管理</a></dd>
+                    <dd><a lay-href="/agents/logs">记录查询</a></dd>
+                </dl>
+            </li>
+            <li data-name="template" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="系统管理" lay-direction="2">
+                    <i class="layui-icon layui-icon-windows"></i>
+                    <cite>系统管理</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a lay-href="/admins">系统账号</a></dd>
+                    <dd><a lay-href="/menus">菜单管理</a></dd>
+                    <dd><a lay-href="/admin_roles">角色管理</a></dd>
+                    <dd><a lay-href="/permission_ips">访问授权</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    let MAX_TAB_NUM = 8; //最大允许的tab数量
+    layui.config({
+        base: '{{STATIC_URL}}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'element', 'jquery'], function() {
+        let element = layui.element, $ = layui.jquery;
+        let tabs_container = "layadmin-layout-tabs"; //顶级tabs容器
+        element.on("nav", function(data) {
+            let tabs = $("div[lay-filter=" + tabs_container + "] li");
+            let over_count = tabs.length - MAX_TAB_NUM; //超出的tab的数量
+            if (over_count >= 0) {
+                for (let i = 0; i < over_count; i++) {
+                    let tab = tabs.eq(i + 1);
+                    let id = tab.attr("lay-id");
+                    if (id) {
+                        element.tabDelete(tabs_container, id);
+                    }
+                }
+            }
+        });
+    });
+</script>

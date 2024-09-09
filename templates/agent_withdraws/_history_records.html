@@ -1,0 +1,41 @@
+{% if rows -%}
+{% for r in rows %}
+<tr {% if forloop.Counter==1%}total="{{total}}" {%endif%}>
+    <td>{{r.Id}}</td>
+    <td>{{r.BillNo}}</td>
+    <td>{{r.Username}}</td>
+    <td>{{r.Vip|platform_wrap:PLATFORM|user_level}}</td>
+    <td>{{r.Money|stringformat:"%.2f"}}</td>
+    <td style="word-break: break-all">{{r.BankRealname}}/{{r.BankName}} <br />{{r.BankCard}}/{{r.BankAddress}}</td>
+    <td>{{r.Created|datetime}}</td>
+    <td>
+        {%if r.BusinessType == 0 %}否{%elif r.BusinessType == 1 %}是{%else%}未知{%endif%}
+    </td>
+    <td>{{r.RiskProcessAt}}</td>
+    <td>{{r.RiskAdmin}}</td>
+    <td>{%if r.Status == 1 %}处理中{%elif r.Status == 2 %}成功{%else%}失败{%endif%}</td>
+    <td>{{r.Updated|datetime}}</td>
+    <td>{{r.FinanceAdmin}}</td>
+    <td>
+        {%if r.BusinessType == 1 %}
+        shipu代付
+        {%else%}
+        {%endif%}
+    </td>
+    <td>{{r.CardNumber}}</td>
+    <td>
+        <button class="layui-btn layuiadmin-btn-list alog" url="/agent_withdraw_logs?bill_no={{r.BillNo}}" area="600px,500px" tab="0" data-type="add">日志</button>
+    </td>
+</tr>
+{% endfor %}
+<tr>
+    <td colspan="4"><span style="color: red;">小计(当前页)</span></td>
+    <td><span style="color: red;">{{page_sum_money|stringformat:"%.2f"}}</span></td>
+    <td colspan="11"></td>
+</tr>
+<tr>
+    <td colspan="4"><span style="color: red;">总计</span></td>
+    <td><span style="color: red;">{{sum_money|stringformat:"%.2f"}}</span></td>
+    <td colspan="11"></td>
+</tr>
+{% endif -%}

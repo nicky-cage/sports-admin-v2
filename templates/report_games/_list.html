@@ -1,0 +1,392 @@
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <strong>体育场馆</strong> <!--<button class="layui-btn layuiadmin-btn-list" data-type="add" style="margin-left: 20px;">导出Execl</button>-->
+            </div>
+            {% for r in sport %}
+            <div class="layui-inline">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="6">{{r.Name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>日期</td>
+                            <td style="width: 100px;">投注人数</td>
+                            <td style="width: 100px;">投注次数</td>
+                            <td style="width: 100px;">投注额</td>
+                            <td style="width: 100px;">公司输赢</td>
+                            <td style="width: 100px;">场馆费</td>
+                            <td style="width: 100px;">盈余比例</td>
+                        </tr>
+                        {% for p in r.List %}
+                        <tr>
+                            <td>{{p.Date}}</td>
+                            <td>{{p.BetNumber}}</td>
+                            <td>{{p.BetFrequency}}</td>
+                            <td>{{p.ValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{p.CompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{p.GameCost|stringformat:"%.2f"}}</td>
+                            <td>{{p.SurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>合计</td>
+                            <td>{{r.Page.PageBetNumber}}</td>
+                            <td>{{r.Page.PageBetFrequency}}</td>
+                            <td>{{r.Page.PageValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageCompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageGameCost|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageSurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <strong>真人场馆</strong> <!--<button class="layui-btn layuiadmin-btn-list" data-type="add" style="margin-left: 20px;">导出Execl</button>-->
+            </div>
+            {% for r in realPerson %}
+            <div class="layui-inline">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="6">{{r.Name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>日期</td>
+                            <td style="width: 100px;">投注人数</td>
+                            <td style="width: 100px;">投注次数</td>
+                            <td style="width: 100px;">投注额</td>
+                            <td style="width: 100px;">公司输赢</td>
+                            <td style="width: 100px;">场馆费</td>
+                            <td style="width: 100px;">盈余比例</td>
+                        </tr>
+                        {% for p in r.List %}
+                        <tr>
+                            <td>{{p.Date}}</td>
+                            <td>{{p.BetNumber}}</td>
+                            <td>{{p.BetFrequency}}</td>
+                            <td>{{p.ValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{p.CompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{p.GameCost|stringformat:"%.2f"}}</td>
+                            <td>{{p.SurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>合计</td>
+                            <td>{{r.Page.PageBetNumber}}</td>
+                            <td>{{r.Page.PageBetFrequency}}</td>
+                            <td>{{r.Page.PageValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageCompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageGameCost|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageSurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <strong>彩票场馆</strong> <!--<button class="layui-btn layuiadmin-btn-list" data-type="add" style="margin-left: 20px;">导出Execl</button>-->
+            </div>
+            {% for r in lottery %}
+            <div class="layui-inline">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="6">{{r.Name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>日期</td>
+                            <td style="width: 100px;">投注人数</td>
+                            <td style="width: 100px;">投注次数</td>
+                            <td style="width: 100px;">投注额</td>
+                            <td style="width: 100px;">公司输赢</td>
+                            <td style="width: 100px;">场馆费</td>
+                            <td style="width: 100px;">盈余比例</td>
+                        </tr>
+                        {% for p in r.List %}
+                        <tr>
+                            <td>{{p.Date}}</td>
+                            <td>{{p.BetNumber}}</td>
+                            <td>{{p.BetFrequency}}</td>
+                            <td>{{p.ValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{p.CompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{p.GameCost|stringformat:"%.2f"}}</td>
+                            <td>{{p.SurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>合计</td>
+                            <td>{{r.Page.PageBetNumber}}</td>
+                            <td>{{r.Page.PageBetFrequency}}</td>
+                            <td>{{r.Page.PageValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageCompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageGameCost|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageSurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <strong>电竞场馆</strong> <!--<button class="layui-btn layuiadmin-btn-list" data-type="add" style="margin-left: 20px;">导出Execl</button>-->
+            </div>
+            {% for r in game %}
+            <div class="layui-inline">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="6">{{r.Name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>日期</td>
+                            <td style="width: 100px;">投注人数</td>
+                            <td style="width: 100px;">投注次数</td>
+                            <td style="width: 100px;">投注额</td>
+                            <td style="width: 100px;">公司输赢</td>
+                            <td style="width: 100px;">场馆费</td>
+                            <td style="width: 100px;">盈余比例</td>
+                        </tr>
+                        {% for p in r.List %}
+                        <tr>
+                            <td>{{p.Date}}</td>
+                            <td>{{p.BetNumber}}</td>
+                            <td>{{p.BetFrequency}}</td>
+                            <td>{{p.ValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{p.CompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{p.GameCost|stringformat:"%.2f"}}</td>
+                            <td>{{p.SurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>合计</td>
+                            <td>{{r.Page.PageBetNumber}}</td>
+                            <td>{{r.Page.PageBetFrequency}}</td>
+                            <td>{{r.Page.PageValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageCompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageGameCost|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageSurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <strong>电子场馆</strong> <!--<button class="layui-btn layuiadmin-btn-list" data-type="add" style="margin-left: 20px;">导出Execl</button>-->
+            </div>
+            {% for r in electronic %}
+            <div class="layui-inline">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="6">{{r.Name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>日期</td>
+                            <td style="width: 100px;">投注人数</td>
+                            <td style="width: 100px;">投注次数</td>
+                            <td style="width: 100px;">投注额</td>
+                            <td style="width: 100px;">公司输赢</td>
+                            <td style="width: 100px;">场馆费</td>
+                            <td style="width: 100px;">盈余比例</td>
+                        </tr>
+                        {% for p in r.List %}
+                        <tr>
+                            <td>{{p.Date}}</td>
+                            <td>{{p.BetNumber}}</td>
+                            <td>{{p.BetFrequency}}</td>
+                            <td>{{p.ValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{p.CompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{p.GameCost|stringformat:"%.2f"}}</td>
+                            <td>{{p.SurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>合计</td>
+                            <td>{{r.Page.PageBetNumber}}</td>
+                            <td>{{r.Page.PageBetFrequency}}</td>
+                            <td>{{r.Page.PageValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageCompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageGameCost|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageSurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <strong>棋牌场馆</strong> <!--<button class="layui-btn layuiadmin-btn-list" data-type="add" style="margin-left: 20px;">导出Execl</button>-->
+            </div>
+            {% for r in chess %}
+            <div class="layui-inline">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="6">{{r.Name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>日期</td>
+                            <td style="width: 100px;">投注人数</td>
+                            <td style="width: 100px;">投注次数</td>
+                            <td style="width: 100px;">投注额</td>
+                            <td style="width: 100px;">公司输赢</td>
+                            <td style="width: 100px;">场馆费</td>
+                            <td style="width: 100px;">盈余比例</td>
+                        </tr>
+                        {% for p in r.List %}
+                        <tr>
+                            <td>{{p.Date}}</td>
+                            <td>{{p.BetNumber}}</td>
+                            <td>{{p.BetFrequency}}</td>
+                            <td>{{p.ValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{p.CompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{p.GameCost|stringformat:"%.2f"}}</td>
+                            <td>{{p.SurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>合计</td>
+                            <td>{{r.Page.PageBetNumber}}</td>
+                            <td>{{r.Page.PageBetFrequency}}</td>
+                            <td>{{r.Page.PageValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageCompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageGameCost|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageSurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <strong>捕鱼场馆</strong> <!--<button class="layui-btn layuiadmin-btn-list" data-type="add" style="margin-left: 20px;">导出Execl</button>-->
+            </div>
+            {% for r in fishing %}
+            <div class="layui-inline">
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="100">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="6">{{r.Name}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>日期</td>
+                            <td style="width: 100px;">投注人数</td>
+                            <td style="width: 100px;">投注次数</td>
+                            <td style="width: 100px;">投注额</td>
+                            <td style="width: 100px;">公司输赢</td>
+                            <td style="width: 100px;">场馆费</td>
+                            <td style="width: 100px;">盈余比例</td>
+                        </tr>
+                        {% for p in r.List %}
+                        <tr>
+                            <td>{{p.Date}}</td>
+                            <td>{{p.BetNumber}}</td>
+                            <td>{{p.BetFrequency}}</td>
+                            <td>{{p.ValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{p.CompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{p.GameCost|stringformat:"%.2f"}}</td>
+                            <td>{{p.SurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td>合计</td>
+                            <td>{{r.Page.PageBetNumber}}</td>
+                            <td>{{r.Page.PageBetFrequency}}</td>
+                            <td>{{r.Page.PageValidBet|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageCompanyWinsLoses|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageGameCost|stringformat:"%.2f"}}</td>
+                            <td>{{r.Page.PageSurplusRatio|stringformat:"%.2f"}}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

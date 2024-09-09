@@ -1,0 +1,114 @@
+{% extends "../layouts/base.html" %}
+{% block body %}
+<link rel="stylesheet" href="{{STATIC_URL}}/layuiadmin/style/login.css" media="all" />
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+    <div class="layadmin-user-login-main">
+        <div class="layadmin-user-login-box layadmin-user-login-header">
+            <h2>Add Administrator's IP</h2>
+            <p><span class="red">此项功能仅限紧急增加授权IP<br />严禁泄漏个人邮箱给外部人员</span></p>
+        </div>
+        <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+            <div class="layui-form-item">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-username" style="height: 28px; line-height: 28px;"></label>
+                <input name="username" id="username" lay-verify="required" placeholder="请输入管理员用户名称" class="layui-input" />
+            </div>
+            <div class="layui-form-item">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-password" style="height: 28px; line-height: 28px;"></label>
+                <input type="password" name="password" id="password" lay-verify="required" placeholder="请输入管理员登录密码" class="layui-input" />
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-row">
+                    <div class="layui-col-xs7">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" style="height: 28px; line-height: 28px;" for="LAY-user-login-vercode"></label>
+                        <input type="text" name="mail_code" id="mail_code" placeholder="请输入邮箱验证码" class="layui-input" />
+                    </div>
+                    <div class="layui-col-xs5">
+                        <div style="margin-left: 10px; padding-top: 2px;">
+                            <button class="layui-btn layui-btn-fluid" type="button" lay-filter="get_mail_code" id="button-mail">获取邮箱验证密码</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-row">
+                    <div class="layui-col-xs7">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-vercode" style="height: 28px; line-height: 28px;" for="LAY-user-login-vercode"></label>
+                        <input type="text" name="verify_code" id="verify_code" lay-verify="required" placeholder="请输入图形验证码" class="layui-input" />
+                        <input type="hidden" id="captchaID" name="captchaID" value="{{captchaID}}" />
+                    </div>
+                    <div class="layui-col-xs5">
+                        <div style="margin-left: 10px;">
+                            <img src="{{captcha}}" id="get-vercode" style="cursor: pointer;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login" id="button-login">提 交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'form', 'layer'], function () {
+
+        let form = layui.form, $ = layui.jquery, layer = layui.layer;
+        let refreshCaptcha = function () {
+            let that = $("#get-vercode");
+            $.post("/index/captcha", {}, function (result) {
+                if (result.errcode != 0 || !result.data || result.data.code != 1) {
+                    sp.alert("刷新验证码失败");
+                    return;
+                }
+                that.attr("src", result.data.data); // 设置图像
+                $("#captchaID").val(result.data.captchaId);
+            });
+        };
+
+        // 发送邮箱验证码
+        $(document).on("click", "#button-mail", function () {
+            if ($("#username").val() == "" || $("#password").val() == "") {
+                sp.alert("必须输入用户名称及用户密码")
+                return
+            }
+            let sendData = {
+                "username": $("#username").val(),
+                "password": $("#password").val(),
+                "time": (new Date()).getTime()
+            };
+            sp.post("/send_mail_code", sendData, function (result) {
+                if (result.errcode != 0) {
+                    ap.alert(result.message);
+                    return;
+                }
+                sp.alertSuccess("邮箱验证密码发送成功");
+            });
+        });
+
+        form.on('submit(login)', function (data) { // 登录后台管理系统
+            sp.post("/add_ip_save", data.field, function (result) {
+                if (result.errcode != 0) { // 如果登录成功
+                    sp.alert(result.message);
+                    return;
+                }
+                layui.layer.msg("新的IP绑定成功, 请在前台登录", { icon: 1, timeout: 1000 }, function () {
+                    location.href = "/index/main";
+                });
+            }, function () {
+                refreshCaptcha();
+            });
+        });
+
+        $(document).on("keyup", ".layui-input", function (evt) {  // 触发提交动作
+            if (evt.keyCode == 13) {
+                $("#button-login").trigger("click");
+            }
+        })
+
+        // 点击切换图片验证码
+        $(document).on("click", "#get-vercode", function () {
+            refreshCaptcha();
+        });
+    });
+</script>
+{% endblock body %}
